@@ -6,8 +6,8 @@ import { userService } from './services/user'
 // Pages
 import { HomePage } from './pages/HomePage'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
-import { CarIndex } from './pages/CarIndex'
-import { CarDetails } from './pages/CarDetails'
+import { StationIndex } from './pages/StationIndex'
+import { StationDetails } from './pages/StationDetails'
 import { ReviewIndex } from './pages/ReviewIndex'
 import { ChatApp } from './pages/Chat'
 import { AdminIndex } from './pages/AdminIndex'
@@ -36,8 +36,8 @@ export function RootCmp() {
                         <Route path="vision" element={<AboutVision />} />
                     </Route>
 
-                    <Route path="car" element={<CarIndex />} />
-                    <Route path="car/:carId" element={<CarDetails />} />
+                    <Route path="station" element={<StationIndex />} />
+                    <Route path="station/:stationId" element={<StationDetails />} />
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="review" element={<ReviewIndex />} />
                     <Route path="chat" element={<ChatApp />} />

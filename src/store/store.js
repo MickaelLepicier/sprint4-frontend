@@ -1,12 +1,12 @@
 import { legacy_createStore as createStore, combineReducers } from 'redux'
 
-import { carReducer } from './car/car.reducer'
+import { stationReducer } from './station/station.reducer'
 import { userReducer } from './user/user.reducer'
 import { reviewReducer } from './review/review.reducer'
 import { systemReducer } from './system/system.reducer'
 
 const rootReducer = combineReducers({
-    carModule: carReducer,
+    stationModule: stationReducer,
     userModule: userReducer,
     systemModule: systemReducer,
     reviewModule: reviewReducer,

@@ -1,5 +1,5 @@
-import { carService } from '../services/car'
-import { store } from '../store/store'
+import { carService } from '../../services/car'
+import { store } from '../store'
 import { ADD_CAR, REMOVE_CAR, SET_CARS, SET_CAR, UPDATE_CAR, ADD_CAR_MSG } from './car.reducer'
 
 export async function loadCars(filterBy) {

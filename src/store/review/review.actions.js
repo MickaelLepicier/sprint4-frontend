@@ -1,8 +1,8 @@
-import { reviewService } from '../services/review'
+import { reviewService } from '../../services/review'
 
-import { store } from '../store/store'
+import { store } from '../store'
 import { ADD_REVIEW, REMOVE_REVIEW, SET_REVIEWS } from './review.reducer'
-import { SET_SCORE } from './user.reducer'
+import { SET_SCORE } from '../user/user.reducer'
 
 export async function loadReviews() {
     try {

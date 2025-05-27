@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadCar, addCarMsg } from '../store/car.actions'
+import { loadCar, addCarMsg } from '../store/car/car.actions'
 
 
 export function CarDetails() {

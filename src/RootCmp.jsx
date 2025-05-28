@@ -8,6 +8,7 @@ import { HomePage } from './pages/HomePage'
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { StationIndex } from './pages/StationIndex'
 import { StationDetails } from './pages/StationDetails'
+import { GenreIndex } from './pages/GenreIndex'
 import { ReviewIndex } from './pages/ReviewIndex'
 import { ChatApp } from './pages/Chat'
 import { AdminIndex } from './pages/AdminIndex'
@@ -40,6 +41,8 @@ export function RootCmp() {
                     <Route path="station" element={<StationIndex />} />
                     <Route path="station/:stationId" element={<StationDetails />} />
                     <Route path="playlist/:stationId" element={<PlayList />} />
+                    <Route path="search" element={<GenreIndex />} />
+
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="review" element={<ReviewIndex />} />
                     <Route path="chat" element={<ChatApp />} />

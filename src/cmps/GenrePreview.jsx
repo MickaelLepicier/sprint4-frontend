@@ -1,6 +1,4 @@
-import genreImg from '../assets/img/genre.jpg'
-
-export function GenrePreview({ genreName, color, imgUrl = genreImg }) {
+export function GenrePreview({ genreName, color, imgUrl = '' }) {
     return (
         <div className="genre-preview" role="listitem">
             <a className="genre-link" href="#">

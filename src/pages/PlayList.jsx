@@ -30,7 +30,10 @@ export function PlayList() {
 
   return (
     <section className="station-play-list">
-      <header className="station-header"></header>
+      <header className="station-header">
+        <img src={station.imgUrl} alt="" />
+        <h1>{station.name}</h1>
+      </header>
       <div className="playlist-play-actions">
         <button>PLAY SECTION</button>
         <button>Compact</button>
@@ -48,12 +51,25 @@ export function PlayList() {
         </thead>
         <tbody>
           {songs.map((song, idx) => (
-            <tr key={song._id}>
-              <td>{idx + 1}</td>
-              <td>{song.title}</td>
+            <tr key={song._id} className="song-row">
+              <td className="song-play-idx">
+                <span className="song-idx">{idx + 1}</span>
+                <span className="play-icon">▶</span>
+              </td>
+              <td>
+                <div className="song-img-title">
+                  <img src={song.imgUrl} alt="img" style={{ width: 40 + 'px', height: 40 + 'px' }} />
+                  <p>{song.title}</p>
+                </div>
+              </td>
               <td>{station.name}</td>
               <td>{new Date(song.addedAt).toLocaleDateString()}</td>
-              <td>⏱️</td>
+
+              <td>
+                <button className="add-to-liked">+</button>
+                <span className="song-duration">⏱️ </span>
+                <button className="more-options">...</button>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -31,12 +31,13 @@ function getDefaultFilter() {
   }
 }
 
-// console.log('VITE_LOCAL:', VITE_LOCAL)
-
-const service = VITE_LOCAL === 'true' ? local : remote
+// const service = VITE_LOCAL.trim() === 'true' ? local : remote
+const service = VITE_LOCAL === 'true ' ? local : remote
+console.log('VITE_LOCAL:', VITE_LOCAL)
 export const stationService = { getEmptyStation, getDefaultFilter, ...service }
+console.log('VITE_LOCAL:', VITE_LOCAL)
 
 //* Easy access to this service from the dev tools console
 //* when using script - dev / dev:local
-
 if (DEV) window.stationService = stationService
+console.log('VITE_LOCAL:', VITE_LOCAL)

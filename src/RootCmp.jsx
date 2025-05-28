@@ -20,6 +20,7 @@ import { Signup } from './pages/Signup'
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
+import { PlayList } from './pages/PlayList'
 
 export function RootCmp() {
     return (
@@ -38,6 +39,7 @@ export function RootCmp() {
 
                     <Route path="station" element={<StationIndex />} />
                     <Route path="station/:stationId" element={<StationDetails />} />
+                    <Route path="playlist/:stationId" element={<PlayList />} />
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="review" element={<ReviewIndex />} />
                     <Route path="chat" element={<ChatApp />} />

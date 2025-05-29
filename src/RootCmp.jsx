@@ -23,8 +23,9 @@ import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
 import { PlayList } from './cmps/PlayList'
 export function RootCmp() {
+    const style = {padding: '8px'}
     return (
-        <div className="main-container">
+        <div className="main-container" style={style}>
             <AppHeader />
             <UserMsg />
 

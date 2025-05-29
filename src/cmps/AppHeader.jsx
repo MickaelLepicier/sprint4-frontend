@@ -1,21 +1,18 @@
-import { Link, NavLink } from 'react-router-dom'
-import { useNavigate } from 'react-router'
-import { useSelector } from 'react-redux'
-import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { logout } from '../store/user/user.actions'
-import { StationFilter } from './StationFilter'
 import { useState } from 'react'
+import { useNavigate, Link, NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-// TODOs:
-// scss- backgroundColor - #121212
-// scss - make the Home and the filter in the middle
-// add logo img
-// add functionality 
+import { logout } from '../store/user/user.actions'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
+import { AppLogo } from './svg/AppLogo'
+import { HomeIcon } from './svg/HomeIcon'
+import { SearchIcon } from './svg/SearchIcon'
+import { BrowseIcon } from './svg/BrowseIcon'
 
 export function AppHeader() {
     const user = useSelector(storeState => storeState.userModule.user)
-    const [filterBy, setFilterBy] = useState({txt:''}) // TODO instead of {txt:''}, getFilterDefault()
+    const [filterBy, setFilterBy] = useState({txt:''})
     const navigate = useNavigate()
 
     async function onLogout() {
@@ -32,41 +29,101 @@ export function AppHeader() {
         setFilterBy(filterBy)
     }
 
+    function onGoHome() {
+        navigate('/')
+    }
+
+    function onBrowseGenres() {
+        navigate('/search')
+    }
+
     return (
-        <header className="app-header main-container full">
-          
-            <nav className=''>
-                <NavLink to="/home" className="/logo">
-                <img src="../img/logo/logo.png" alt="Logo" className="logo-img" />  
-                </NavLink>
+        <header className="app-header full flex align-center">
+            {/* Left side: Logo and Home button */}
+            <div className="header-left flex align-center justify-center space-between">
+                <Link to="/" className="logo-link flex justify-center">
+                    <AppLogo />
+                </Link>
+            </div>
 
-                <NavLink to="/home">Home</NavLink>
-               
-               {/* Center Section: Filter */}
-                <StationFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy}/>
+            {/* Center: Search form */}
+            <div className="header-center flex">
+                <button onClick={onGoHome} className="home-btn flex align-center justify-center" aria-label="Home">
+                    <HomeIcon />
+                </button>
 
-                {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
+                <div className="search-form-container">
+                    <form className="search-form" role="search">
+                        <button className="search-btn" aria-label="Search">
+                            <SearchIcon />
+                        </button>
 
-                {!user && (
-                    <div className="user-info">
-                    <NavLink to="signup" className="signup-link">Sign up</NavLink>
-                    <NavLink to="login" className="login-link">Login</NavLink>
-                    </div>
-                    )}
+                        <input
+                            className="search-input"
+                            type="search"
+                            placeholder="What do you want to play?"
+                            aria-label="What do you want to play?"
+                        />
 
-                {user && (
-                    <div className="user-info">
-                        <Link to={`user/${user._id}`}>
-                            {user.imgUrl && <img src={user.imgUrl} />}
-                            {/* {user.fullname} */}
-                        </Link>
-                        {/* <span className="score">{user.score?.toLocaleString()}</span> */}
-                        <button onClick={onLogout}>logout</button>
-                    </div>
-                )}
-            </nav>
+                        <button onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
+                            <BrowseIcon />
+                        </button>
+                    </form>
+                </div>
+            </div>
 
-
-        </header >
+            {/* Right side: Sign Up, Log In */}
+            <div className="header-right flex">
+                <button className="signup-btn">Sign up</button>
+                <button className="login-btn">
+                    <span className="login-btn-inner">Log in</span>
+                </button>
+            </div>
+        </header>
     )
 }
+
+// ==========================
+// Old AppHeader Structure
+// ==========================
+// return (
+//     <header className="app-header main-container full">
+        
+//         <nav className=''>
+//             {/* Logo Link */}
+//             <NavLink to="/home" className="/logo">
+//                 <img src="../img/logo/logo.png" alt="Logo" className="logo-img" />  
+//             </NavLink>
+
+//             {/* Home Navigation Link */}
+//             <NavLink to="/home">Home</NavLink>
+
+//             {/* Center Section: Station Filter */}
+//             <StationFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+
+//             {/* Admin Link - Visible Only to Admin Users */}
+//             {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
+
+//             {/* Guest User Links (Signup / Login) */}
+//             {!user && (
+//                 <div className="user-info">
+//                     <NavLink to="signup" className="signup-link">Sign up</NavLink>
+//                     <NavLink to="login" className="login-link">Login</NavLink>
+//                 </div>
+//             )}
+
+//             {/* Logged-in User Section */}
+//             {user && (
+//                 <div className="user-info">
+//                     <Link to={`user/${user._id}`}>
+//                         {user.imgUrl && <img src={user.imgUrl} />}
+//                         {/* {user.fullname} */}
+//                     </Link>
+//                     {/* <span className="score">{user.score?.toLocaleString()}</span> */}
+//                     <button onClick={onLogout}>logout</button>
+//                 </div>
+//             )}
+//         </nav>
+
+//     </header>
+// )

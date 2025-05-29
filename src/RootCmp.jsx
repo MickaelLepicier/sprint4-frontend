@@ -21,8 +21,7 @@ import { Signup } from './pages/Signup'
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
-import { PlayList } from './pages/PlayList'
-
+import { PlayList } from './cmps/PlayList'
 export function RootCmp() {
     return (
         <div className="main-container">

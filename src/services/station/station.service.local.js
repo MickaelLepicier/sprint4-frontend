@@ -2,7 +2,12 @@ import { storageService } from '../async-storage.service'
 import { loadFromStorage, makeId, saveToStorage } from '../util.service'
 import { userService } from '../user'
 
+import axios from 'axios'
+import { parse, toSeconds } from 'iso8601-duration'
+
 const STORAGE_KEY = 'stationDB'
+
+const YT_API_KEY = import.meta.env.VITE_YT_API_KEY
 
 _createDemoStations()
 
@@ -11,13 +16,15 @@ export const stationService = {
   getById,
   save,
   remove,
+  searchYouTube,
   // addCarMsg
 }
 window.cs = stationService
 
+
+
 async function query(filterBy = { txt: '' }) {
   var stations = await storageService.query(STORAGE_KEY)
-  console.log('statisasdasdasdasdasdasdasdons:', stations)
 
   const { txt, tag, sortField = 'asc', sortDir, onlyLiked } = filterBy
 
@@ -72,6 +79,54 @@ async function save(station) {
     savedStation = await storageService.post(STORAGE_KEY, stationToSave)
   }
   return savedStation
+}
+
+function isoDurationToSeconds(iso) {
+  const durationObj = parse(iso)
+  return toSeconds(durationObj)
+}
+
+async function searchYouTube(query) {
+  try {
+    const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        part: 'snippet',
+        q: query,
+        type: 'video',
+        maxResults: 10,
+        key: YT_API_KEY,
+      },
+    })
+
+    const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
+    if (!videoIds) return []
+
+    const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+      params: {
+        part: 'snippet,contentDetails,statistics',
+
+        id: videoIds,
+        key: YT_API_KEY,
+      },
+    })
+
+    const finalResults = detailsRes.data.items.map(item => ({
+      id: item.id,
+      url: item.id,
+      title: item.snippet.title,
+      description: item.snippet.description,
+      artist: item.snippet.channelTitle,
+      addedAt: new Date(item.snippet.publishedAt).getTime(),
+      imgUrl: item.snippet.thumbnails.default.url,
+      duration: isoDurationToSeconds(item.contentDetails.duration),
+    }))
+
+    console.log('finalResults:', finalResults)
+    return finalResults
+  } catch (error) {
+    console.log('err:', error)
+    throw error
+  }
 }
 
 function _createDemoStations() {

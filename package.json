@@ -21,7 +21,8 @@
         "react-router-dom": "^7.6.1",
         "react-youtube": "^10.1.0",
         "redux": "^5.0.1",
-        "socket.io-client": "^4.8.1"
+        "socket.io-client": "^4.8.1",
+        "vite-plugin-svgr": "^4.3.0"
     },
     "devDependencies": {
         "@types/react": "^19.1.6",

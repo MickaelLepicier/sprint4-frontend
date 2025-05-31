@@ -47,7 +47,7 @@ export function AppHeader() {
             </div>
 
             {/* Center: Search form */}
-            <div className="header-center flex">
+            <div className="header-center flex justify-center">
                 <button onClick={onGoHome} className="home-btn flex align-center justify-center" aria-label="Home">
                     <HomeIcon />
                 </button>

@@ -22,6 +22,7 @@ import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
 import { PlayList } from './pages/PlayList'
+import { Sidebar } from './cmps/Sidebar/Sidebar'
 
 export function RootCmp() {
     return (
@@ -30,6 +31,8 @@ export function RootCmp() {
             <UserMsg />
 
             <main>
+                <Sidebar />
+
                 <Routes>
                     <Route path="" element={<HomePage />} />
 

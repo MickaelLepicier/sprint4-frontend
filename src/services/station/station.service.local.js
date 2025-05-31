@@ -83,7 +83,7 @@ function isoDurationToSeconds(iso) {
   const durationObj = parse(iso)
   return toSeconds(durationObj)
 }
-sideBarSearch('hello')
+
 async function sideBarSearch(query) {
   try {
     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
@@ -127,7 +127,7 @@ async function sideBarSearch(query) {
     throw error
   }
 }
-headerSearch('hello')
+
 async function headerSearch(query) {
   try {
     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
@@ -190,7 +190,7 @@ async function headerSearch(query) {
     throw error
   }
 }
-genrePlaylistSearch('pop')
+
 async function genrePlaylistSearch(genre) {
   try {
     const playlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {

@@ -16,12 +16,10 @@ export const stationService = {
   getById,
   save,
   remove,
-  searchYouTube,
+  sideBarSearch,
   // addCarMsg
 }
 window.cs = stationService
-
-
 
 async function query(filterBy = { txt: '' }) {
   var stations = await storageService.query(STORAGE_KEY)
@@ -85,30 +83,32 @@ function isoDurationToSeconds(iso) {
   const durationObj = parse(iso)
   return toSeconds(durationObj)
 }
-
-async function searchYouTube(query) {
+sideBarSearch('hello')
+async function sideBarSearch(query) {
   try {
     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
         part: 'snippet',
         q: query,
         type: 'video',
-        maxResults: 10,
+        maxResults: 5,
         key: YT_API_KEY,
       },
     })
 
+    console.log('RAW DATA:', searchResults)
     const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
     if (!videoIds) return []
+    console.log('videoIds:', videoIds)
 
     const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
       params: {
         part: 'snippet,contentDetails,statistics',
-
         id: videoIds,
         key: YT_API_KEY,
       },
     })
+    console.log('detailsRes:', detailsRes)
 
     const finalResults = detailsRes.data.items.map(item => ({
       id: item.id,
@@ -121,11 +121,152 @@ async function searchYouTube(query) {
       duration: isoDurationToSeconds(item.contentDetails.duration),
     }))
 
-    console.log('finalResults:', finalResults)
     return finalResults
   } catch (error) {
     console.log('err:', error)
     throw error
+  }
+}
+headerSearch('hello')
+async function headerSearch(query) {
+  try {
+    const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        part: 'snippet',
+        q: query,
+        type: 'video',
+        maxResults: 5,
+        key: YT_API_KEY,
+      },
+    })
+
+    const baseVideos = searchResults.data.items
+
+    const artistStations = await Promise.all(
+      baseVideos.map(async (video, idx) => {
+        const artist = video.snippet.channelTitle
+
+        const artistRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+          params: {
+            part: 'snippet',
+            q: artist,
+            type: 'video',
+            maxResults: 3,
+            key: YT_API_KEY,
+          },
+        })
+
+        const songs = artistRes.data.items
+          .filter(item => item.id?.videoId)
+          .map((item, i) => ({
+            _id: item.id.videoId,
+            videoId: item.id.videoId,
+            title: item.snippet.title,
+            imgUrl: item.snippet.thumbnails?.medium?.url || '',
+            addedBy: `u10${i}`,
+            likedBy: [`u20${i}`],
+            addedAt: Date.now() - (i + 1) * 1000000,
+          }))
+
+        const station = _createEmptyStation()
+
+        station.name = artist
+        station.imgUrl = video.snippet.thumbnails?.medium?.url || ''
+        station.tags = [query]
+        station.createdBy.fullname = artist
+        station.songs = songs
+        station.msgs = [
+          { id: `m${idx}1`, from: 'u201', txt: 'Great vibes!' },
+          { id: `m${idx}2`, from: 'u202', txt: 'Love it!' },
+        ]
+
+        return station
+      })
+    )
+    console.log('artistStations:', artistStations)
+    return artistStations
+  } catch (error) {
+    console.log('err:', error)
+    throw error
+  }
+}
+genrePlaylistSearch('pop')
+async function genrePlaylistSearch(genre) {
+  try {
+    const playlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+      params: {
+        part: 'snippet',
+        q: `${genre} music`,
+        type: 'playlist',
+        maxResults: 5,
+        key: YT_API_KEY,
+      },
+    })
+
+    const playlists = playlistSearchRes.data.items
+
+    const stations = await Promise.all(
+      playlists.map(async (playlist, idx) => {
+        const playlistId = playlist.id.playlistId
+
+        const itemsRes = await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
+          params: {
+            part: 'snippet',
+            playlistId,
+            maxResults: 3,
+            key: YT_API_KEY,
+          },
+        })
+
+        const songs = itemsRes.data.items
+          .filter(item => item.snippet?.resourceId?.videoId)
+          .map((item, i) => ({
+            _id: item.snippet.resourceId.videoId,
+            videoId: item.snippet.resourceId.videoId,
+            title: item.snippet.title,
+            imgUrl: item.snippet.thumbnails?.medium?.url || '',
+            addedBy: `u10${i}`,
+            likedBy: [`u20${i}`],
+            addedAt: Date.now() - (i + 1) * 1000000,
+          }))
+
+        const station = _createEmptyStation()
+        const imgUrl = songs.find(song => song.imgUrl)?.imgUrl || ''
+
+        station.name = playlist.snippet.title
+        station.imgUrl = imgUrl
+        station.tags = [genre]
+        station.createdBy.fullname = playlist.snippet.channelTitle
+        station.songs = songs
+        station.msgs = [
+          { id: `m${idx}1`, from: 'u201', txt: '🔥 Love this genre mix!' },
+          { id: `m${idx}2`, from: 'u202', txt: 'Perfect for the vibe' },
+        ]
+        return station
+      })
+    )
+
+    console.log('GENRE-stations:', stations)
+    return stations
+  } catch (err) {
+    console.log('genrePlaylistSearch error:', err)
+    throw err
+  }
+}
+
+function _createEmptyStation() {
+  return {
+    _id: makeId(),
+    name: '',
+    tags: [],
+    createdBy: {
+      _id: 'userId',
+      fullname: '',
+      imgUrl: '',
+    },
+    likedByUsers: [],
+    songs: [],
+    msgs: [],
   }
 }
 

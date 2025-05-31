@@ -37,8 +37,12 @@ aside.sidebar {
             transition: background-color .2s ease-out;
 
             &:hover {
-                color: #fff;
+                fill: #fff;
                 background-color: #2a2a2a;
+    
+                svg {
+                    fill: #fff;
+                }
             }
 
             .icon {
@@ -62,6 +66,10 @@ aside.sidebar {
                 fill: currentColor;
                 transition: background-color .2s ease-out;
                 fill: #b3b3b3;
+
+                &:hover {
+                    color: #fff;
+                }
             }
         }
 

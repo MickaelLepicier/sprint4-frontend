@@ -1,86 +1,115 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate, Link, NavLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { logout } from '../store/user/user.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { loadSearchResults } from '../store/search/search.actions'
 
 import { AppLogo } from './svg/AppLogo'
 import { HomeIcon } from './svg/HomeIcon'
 import { SearchIcon } from './svg/SearchIcon'
 import { BrowseIcon } from './svg/BrowseIcon'
+import { debounce } from '../services/util.service'
 
 export function AppHeader() {
-    const user = useSelector(storeState => storeState.userModule.user)
-    const [filterBy, setFilterBy] = useState({txt:''})
-    const navigate = useNavigate()
+  const [filterBy, setFilterBy] = useState({ txt: '' })
 
-    async function onLogout() {
-        try {
-            await logout()
-            navigate('/')
-            showSuccessMsg(`Bye now`)
-        } catch (err) {
-            showErrorMsg('Cannot logout')
-        }
+  const user = useSelector(storeState => storeState.userModule.user)
+  const [searchTxt, setSearchTxt] = useState('')
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const performSearch = async txt => {
+    if (!txt.trim()) return
+    try {
+      await dispatch(loadSearchResults(txt, 'stations'))
+      navigate(`/search/${txt}`)
+    } catch (err) {
+      showErrorMsg('Search failed')
     }
+  }
 
-    function onSetFilterBy(filterBy){
-        setFilterBy(filterBy)
+  const debouncedSearch = useRef(debounce(performSearch, 500)).current
+
+  function onSubmitSearch(ev) {
+    ev.preventDefault()
+    performSearch(searchTxt)
+  }
+
+  function handleChange(ev) {
+    const val = ev.target.value
+    setSearchTxt(val)
+    debouncedSearch(val)
+  }
+  async function onLogout() {
+    try {
+      await logout()
+      navigate('/')
+      showSuccessMsg(`Bye now`)
+    } catch (err) {
+      showErrorMsg('Cannot logout')
     }
+  }
 
-    function onGoHome() {
-        navigate('/')
-    }
+  function onSetFilterBy(filterBy) {
+    setFilterBy(filterBy)
+  }
 
-    function onBrowseGenres() {
-        navigate('/search')
-    }
+  function onGoHome() {
+    navigate('/')
+  }
 
-    return (
-        <header className="app-header full flex align-center">
-            {/* Left side: Logo and Home button */}
-            <div className="header-left flex align-center justify-center space-between">
-                <Link to="/" className="logo-link flex justify-center">
-                    <AppLogo />
-                </Link>
-            </div>
+  function onBrowseGenres() {
+    navigate('/search')
+  }
 
-            {/* Center: Search form */}
-            <div className="header-center flex justify-center">
-                <button onClick={onGoHome} className="home-btn flex align-center justify-center" aria-label="Home">
-                    <HomeIcon />
-                </button>
+  return (
+    <header className="app-header full flex align-center">
+      {/* Left side: Logo and Home button */}
+      <div className="header-left flex align-center justify-center space-between">
+        <Link to="/" className="logo-link flex justify-center">
+          <AppLogo />
+        </Link>
+      </div>
 
-                <div className="search-form-container">
-                    <form className="search-form" role="search">
-                        <button className="search-btn" aria-label="Search">
-                            <SearchIcon />
-                        </button>
+      {/* Center: Search form */}
+      <div className="header-center flex justify-center">
+        <button onClick={onGoHome} className="home-btn flex align-center justify-center" aria-label="Home">
+          <HomeIcon />
+        </button>
 
-                        <input
-                            className="search-input"
-                            type="search"
-                            placeholder="What do you want to play?"
-                            aria-label="What do you want to play?"
-                        />
+        <div className="search-form-container">
+          <form className="search-form" role="search" onSubmit={onSubmitSearch}>
+            <button className="search-btn" aria-label="Search">
+              <SearchIcon />
+            </button>
 
-                        <button onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
-                            <BrowseIcon />
-                        </button>
-                    </form>
-                </div>
-            </div>
+            <input
+              className="search-input"
+              type="search"
+              placeholder="What do you want to play?"
+              aria-label="What do you want to play?"
+              value={searchTxt}
+              onChange={handleChange}
+            />
 
-            {/* Right side: Sign Up, Log In */}
-            <div className="header-right flex">
-                <button className="signup-btn">Sign up</button>
-                <button className="login-btn">
-                    <span className="login-btn-inner">Log in</span>
-                </button>
-            </div>
-        </header>
-    )
+            <button onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
+              <BrowseIcon />
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Right side: Sign Up, Log In */}
+      <div className="header-right flex">
+        <button className="signup-btn">Sign up</button>
+        <button className="login-btn">
+          <span className="login-btn-inner">Log in</span>
+        </button>
+      </div>
+    </header>
+  )
 }
 
 // ==========================
@@ -88,11 +117,11 @@ export function AppHeader() {
 // ==========================
 // return (
 //     <header className="app-header main-container full">
-        
+
 //         <nav className=''>
 //             {/* Logo Link */}
 //             <NavLink to="/home" className="/logo">
-//                 <img src="../img/logo/logo.png" alt="Logo" className="logo-img" />  
+//                 <img src="../img/logo/logo.png" alt="Logo" className="logo-img" />
 //             </NavLink>
 
 //             {/* Home Navigation Link */}

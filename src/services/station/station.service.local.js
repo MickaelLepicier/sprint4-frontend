@@ -17,6 +17,9 @@ export const stationService = {
   save,
   remove,
   sideBarSearch,
+  genrePlaylistSearch,
+  headerSearch,
+
   // addCarMsg
 }
 window.cs = stationService
@@ -83,7 +86,7 @@ function isoDurationToSeconds(iso) {
   const durationObj = parse(iso)
   return toSeconds(durationObj)
 }
-sideBarSearch('hello')
+
 async function sideBarSearch(query) {
   try {
     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
@@ -127,7 +130,7 @@ async function sideBarSearch(query) {
     throw error
   }
 }
-headerSearch('hello')
+
 async function headerSearch(query) {
   try {
     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
@@ -183,14 +186,13 @@ async function headerSearch(query) {
         return station
       })
     )
-    console.log('artistStations:', artistStations)
     return artistStations
   } catch (error) {
     console.log('err:', error)
     throw error
   }
 }
-genrePlaylistSearch('pop')
+
 async function genrePlaylistSearch(genre) {
   try {
     const playlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {

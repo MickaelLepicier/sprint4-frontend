@@ -17,12 +17,15 @@ import { LoginSignup } from './pages/LoginSignup'
 import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 
+
 // Components
+
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
 import { PlayList } from './cmps/PlayList'
 import { Sidebar } from './cmps/Sidebar/Sidebar'
+import { SearchStations } from './pages/SearchStations'
 export function RootCmp() {
     const style = {padding: '8px'}
     return (
@@ -45,6 +48,7 @@ export function RootCmp() {
                     <Route path="station/:stationId" element={<StationDetails />} />
                     <Route path="playlist/:stationId" element={<PlayList />} />
                     <Route path="search" element={<GenreIndex />} />
+                    
 
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="review" element={<ReviewIndex />} />

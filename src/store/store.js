@@ -4,12 +4,14 @@ import { stationReducer } from './station/station.reducer'
 import { userReducer } from './user/user.reducer'
 import { reviewReducer } from './review/review.reducer'
 import { systemReducer } from './system/system.reducer'
+import { searchReducer } from './search/search.reducer'
 
 const rootReducer = combineReducers({
     stationModule: stationReducer,
     userModule: userReducer,
     systemModule: systemReducer,
     reviewModule: reviewReducer,
+    searchModule: searchReducer,
 })
 
 

@@ -1,0 +1,25 @@
+.sidebar-filter-sort {
+    padding: 2px 16px 0px 8px;
+
+    .library-search-input {
+            background-color: transparent;
+            background-color: hsla(0, 0%, 100%, .1);
+            border: none;
+            outline: none;
+            color: #B3B3B3;
+            font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, sans-serif;
+            font-size: 13.333px;
+            font-weight: 400;
+            line-height: normal;
+            flex: 1;
+            padding: 8px 8px 8px 32px;
+            border-radius: 4px;
+            height: 32px;
+            text-overflow: ellipsis;
+
+            &::placeholder {
+                color: #B3B3B3;
+                font-size: 16px;
+            }
+    }
+}

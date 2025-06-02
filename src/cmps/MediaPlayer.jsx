@@ -1,13 +1,14 @@
-// import { setIsPlaying } from '../store/actions/station.actions.js'
-// import { SET_NEXT_SONG, SET_PREV_SONG } from '../store/reducers/station.reducer'
-// import { toggleLike } from '../store/actions/user.actions'
-
 import { ReactYouTube } from './ReactYoutube.jsx'
 
 import play from '../assets/icons/media-player/play_small.svg'
 import pause from '../assets/icons/media-player/pause_small.svg'
 import prev from '../assets/icons/media-player/prev_song.svg'
 import next from '../assets/icons/media-player/next_song.svg'
+
+import volumeLow from '../assets/icons/media-player/volume_low.svg'
+import volumeMedium from '../assets/icons/media-player/volume_medium.svg'
+import volumeHigh from '../assets/icons/media-player/volume_high.svg'
+import volumeMute from '../assets/icons/media-player/volume_mute.svg'
 
 import shuffle from '../assets/icons/media-player/shuffle.svg'
 import repeat from '../assets/icons/media-player/repeat.svg'
@@ -18,16 +19,25 @@ import { nextSong, prevSong, setIsPlaying } from '../store/station/station.actio
 
 export function MediaPlayer() {
   const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
-  const song = useSelector((storeState) => storeState.stationModule.currentSong) || ''
+  const currentSong = useSelector((storeState) => storeState.stationModule.currentSong) || ''
+
 
   const videoId = 'SRXH9AbT280' // Extract from YouTube URL
 
   const playerRef = useRef(null)
 
+  // track time
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
 
-  // const song = currentSong
+  // volume
+  const [volume, setVolume] = useState(50)
+  const [prevVolume, setPrevVolume] = useState(50)
+
+  const [isRepeat, setIsRepeat] = useState(false)
+  const [isShuffle, setIsShuffle] = useState(false)
+
+  const song = currentSong
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,7 +53,15 @@ export function MediaPlayer() {
 
     return () => clearInterval(interval)
   }, [isPlaying])
-  // }, [song, isPlaying, songIdx])
+  // }, [song, isPlaying, volume, songIdx])
+
+
+  useEffect(() => {
+    if (currentSong && isPlaying) {
+      audioRef.current.src = currentSong.url
+      audioRef.current.play()
+    }
+  }, [currentSong])
 
   function setActionIcon(imgSrc, str, func, dis = false) {
     return (
@@ -84,7 +102,36 @@ export function MediaPlayer() {
     return `${minutes}:${seconds}`
   }
 
+  // *** VOLUME ***
 
+  function handleVolumeChange(ev) {
+    const newVolume = +ev.target.value
+    setVolume(newVolume)
+    if (playerRef.current) {
+      playerRef.current.setVolume(newVolume)
+    }
+  }
+
+  function toggleMute() {
+    if (volume === 0) {
+      setVolume(prevVolume)
+      if (playerRef.current) playerRef.current.setVolume(prevVolume)
+    } else {
+      setPrevVolume(volume)
+      setVolume(0)
+      if (playerRef.current) playerRef.current.setVolume(0)
+    }
+  }
+
+  function getVolumeIcon() {
+    let imgSrc = volumeHigh
+
+    if (volume === 0) imgSrc = volumeMute
+    else if (volume <= 40) imgSrc = volumeLow 
+    else if (volume <= 80) imgSrc = volumeMedium
+
+    return <img src={imgSrc} alt='volume icon' />
+  }
 
   return (
     <footer className="media-player-container flex align-center">
@@ -93,11 +140,11 @@ export function MediaPlayer() {
       <section className="track-controls-container">
         <div className="track-actions">
           {setActionIcon(shuffle, 'shuffle')}
-          {setActionIcon(prev, 'prev', onPrevSong, !song)}
+          {setActionIcon(prev, 'prev', onPrevSong, !currentSong)}
 
           {isPlaying ? setActionIcon(pause, 'pause', togglePlay) : setActionIcon(play, 'play', togglePlay)}
 
-          {setActionIcon(next, 'next', onNextSong, !song)}
+          {setActionIcon(next, 'next', onNextSong, !currentSong)}
           {setActionIcon(repeat, 'repeat')}
         </div>
 
@@ -114,9 +161,9 @@ export function MediaPlayer() {
               playerRef.current.seekTo(newTime, true)
               setProgress(newTime)
             }}
-            className="seek-bar"
+            className="track-bar"
             style={{
-              '--seek-fill': duration ? `${(progress / duration) * 100}%` : '0%'
+              '--bar-fill': duration ? `${(progress / duration) * 100}%` : '0%'
             }}
           />
           <div className="track-time">{formatTime(duration)}</div>
@@ -135,7 +182,24 @@ export function MediaPlayer() {
         </span>
       </section>
 
-      
+      {/* *** VOLUME *** */}
+
+      <section className="track-options flex">
+        
+        <button className="track-action" onClick={toggleMute}>
+          <span>{getVolumeIcon()}</span>
+        </button>
+
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={volume}
+          onChange={handleVolumeChange}
+          className="track-bar"
+          style={{ '--bar-fill': `${volume}%` }}
+        />
+      </section>
     </footer>
   )
 }

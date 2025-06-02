@@ -7,6 +7,18 @@ import { parse, toSeconds } from 'iso8601-duration'
 
 const STORAGE_KEY = 'stationDB'
 
+const SIDEBAR_CACHE_KEY = 'sideBarCacheDB'
+const sideBarCache = loadFromStorage(SIDEBAR_CACHE_KEY) || {}
+
+const HEADER_SEARCH_KEY = 'headerCacheDB'
+const headerCache = loadFromStorage(HEADER_SEARCH_KEY) || {}
+
+const GENRE_SEARCH_KEY = 'genreCacheDB'
+const genreCache = loadFromStorage(GENRE_SEARCH_KEY) || {}
+
+headerSearch
+genrePlaylistSearch
+
 const YT_API_KEY = import.meta.env.VITE_YT_API_KEY
 
 _createDemoStations()
@@ -88,6 +100,13 @@ function isoDurationToSeconds(iso) {
 }
 
 async function sideBarSearch(query) {
+  const searchWord = query.trim().toLowerCase()
+
+  if (sideBarCache[searchWord]?.length) {
+    console.log('[FROM CACHE]:', searchWord)
+    return Promise.resolve(sideBarCache[searchWord])
+  }
+
   try {
     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
@@ -123,6 +142,8 @@ async function sideBarSearch(query) {
       imgUrl: item.snippet.thumbnails.default.url,
       duration: isoDurationToSeconds(item.contentDetails.duration),
     }))
+    sideBarCache[searchWord] = finalResults
+    saveToStorage(SIDEBAR_CACHE_KEY, sideBarCache)
 
     return finalResults
   } catch (error) {
@@ -132,6 +153,13 @@ async function sideBarSearch(query) {
 }
 
 async function headerSearch(query) {
+  const searchWord = query.trim().toLowerCase()
+
+  if (headerCache[searchWord]?.length) {
+    console.log('[FROM CACHE]:', searchWord)
+    return Promise.resolve(headerCache[searchWord])
+  }
+
   try {
     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
@@ -186,6 +214,10 @@ async function headerSearch(query) {
         return station
       })
     )
+
+    headerCache[searchWord] = artistStations
+    saveToStorage(HEADER_SEARCH_KEY, headerCache)
+
     return artistStations
   } catch (error) {
     console.log('err:', error)
@@ -194,6 +226,13 @@ async function headerSearch(query) {
 }
 
 async function genrePlaylistSearch(genre) {
+  const searchWord = genre.trim().toLowerCase()
+
+  if (genreCache[searchWord]?.length) {
+    console.log('[FROM CACHE]:', searchWord)
+    return Promise.resolve(genreCache[searchWord])
+  }
+
   try {
     const playlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
@@ -247,8 +286,8 @@ async function genrePlaylistSearch(genre) {
         return station
       })
     )
-
-    console.log('GENRE-stations:', stations)
+    genreCache[searchWord] = stations
+    saveToStorage(GENRE_SEARCH_KEY, genreCache)
     return stations
   } catch (err) {
     console.log('genrePlaylistSearch error:', err)

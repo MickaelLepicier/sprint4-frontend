@@ -5,7 +5,7 @@ export const SET_SEARCH_TYPE = 'SET_SEARCH_TYPE'
 const initialState = {
     searchResults: [],
     searchText: '',
-    searchType: 'songs', // 'songs' | 'stations' | 'genre'
+    searchType: '', // 'songs' | 'stations' | 'genre'
 }
 
 export function searchReducer(state = initialState, action) {

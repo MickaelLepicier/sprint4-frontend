@@ -7,11 +7,14 @@ export const ADD_STATION = 'ADD_STATION'
 export const UPDATE_STATION = 'UPDATE_STATION'
 export const ADD_STATION_MSG = 'ADD_STATION_MSG'
 
+export const SET_NEXT_SONG = 'SET_NEXT_SONG'
+export const SET_PREV_SONG = 'SET_PREV_SONG'
+
 const initialState = {
   stations: [],
   station: null,
   currentSong: null,
-  isPlaying: false,
+  isPlaying: false
 }
 
 export function stationReducer(state = initialState, action) {
@@ -25,15 +28,15 @@ export function stationReducer(state = initialState, action) {
       newState = { ...state, station: action.station }
       break
     case REMOVE_STATION:
-      const lastRemovedStation = state.stations.find(station => station._id === action.stationId)
-      stations = state.stations.filter(station => station._id !== action.stationId)
+      const lastRemovedStation = state.stations.find((station) => station._id === action.stationId)
+      stations = state.stations.filter((station) => station._id !== action.stationId)
       newState = { ...state, stations, lastRemovedStation }
       break
     case ADD_STATION:
       newState = { ...state, stations: [...state.stations, action.station] }
       break
     case UPDATE_STATION:
-      stations = state.stations.map(station => (station._id === action.station._id ? action.station : station))
+      stations = state.stations.map((station) => (station._id === action.station._id ? action.station : station))
       newState = { ...state, stations }
       break
     case ADD_STATION_MSG:
@@ -43,8 +46,31 @@ export function stationReducer(state = initialState, action) {
       newState = { ...state, currentSong: action.song }
       break
     case SET_IS_PLAYING:
-      newState = { ...state, isPlaying: action.isPlaying }
+      newState = { ...state, isPlaying: !state.isPlaying }
       break
+
+    case SET_NEXT_SONG:
+      if (!state.station || !state.station.songs || state.station.songs.length === 0) return state
+
+      const currIdx = state.station.songs.findIndex((song) => song._id === state.currentSong?._id)
+      const nextIdx = (currIdx + 1) % state.station.songs.length
+      const nextSong = state.station.songs[nextIdx]
+
+      newState = { ...state, currentSong: nextSong }
+      break
+
+    case SET_PREV_SONG:
+      if (!state.station || !state.station.songs || state.station.songs.length === 0) return state
+
+      const _currIdx = state.station.songs.findIndex((song) => song._id === state.currentSong?._id)
+      if (_currIdx === -1) return state
+
+      const prevIdx = (_currIdx - 1 + state.station.songs.length) % state.station.songs.length
+      const prevSong = state.station.songs[prevIdx]
+
+      newState = { ...state, currentSong: prevSong }
+      break
+
     default:
   }
   return newState

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -6,20 +6,64 @@ import { Link } from 'react-router-dom'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { loadStation, addStationMsg } from '../store/station/station.actions'
 import { SET_IS_PLAYING, SET_SONG } from '../store/station/station.reducer'
+import { SongSearchResult } from './SongSearchResult'
+import { loadSearchResults } from '../store/search/search.actions'
+import { debounce } from '../services/util.service'
 
 export function PlayList() {
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
   const [isCompact, setIsCompact] = useState(false)
   const [currSong, setCurrSong] = useState(null)
+  const [searchSong, setSearchSong] = useState('')
+  const [showSearchBar, setShowSearchBar] = useState(false)
 
   const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    loadStation(stationId)
+    if (!station || station._id !== stationId) {
+      loadStation(stationId)
+    }
   }, [stationId])
+
+  async function performSearch(txt) {
+    if (!txt.trim()) return
+    try {
+      await loadSearchResults(txt, 'songs')
+    } catch (error) {
+      showErrorMsg('Search failed')
+    }
+  }
+
+  const debouncedSearch = useRef(
+    debounce(async txt => {
+      try {
+        await performSearch(txt)
+      } catch (error) {
+        showErrorMsg('Search failed')
+      }
+    },500)
+  )
+
+  function onSubmitSearch(ev) {
+    ev.preventDefault()
+    performSearch(searchSong)
+  }
+
+  function handleChange({ target }) {
+    const { value } = target
+    setSearchSong(value)
+    debouncedSearch.current(value)
+  }
+
+  function onPlaySong(song) {
+    setCurrSong(song)
+
+    dispatch({ type: SET_SONG, song })
+    dispatch({ type: SET_IS_PLAYING, isPlaying })
+  }
 
   // async function onAddStationMsg(stationId) {
   //     try {
@@ -30,13 +74,6 @@ export function PlayList() {
   //     }
 
   // }
-
-  function onPlaySong(song) {
-    setCurrSong(song)
-
-    dispatch({ type: SET_SONG, song })
-    dispatch({ type: SET_IS_PLAYING, isPlaying })
-  }
 
   if (!station) return <div>Loading playlist...</div>
 
@@ -95,7 +132,23 @@ export function PlayList() {
           ))}
         </tbody>
       </table>
-
+      <button onClick={() => setShowSearchBar(!showSearchBar)}>Find more</button>
+      {showSearchBar && (
+        <section className="song-search-section">
+          <form className="" action="" onSubmit={onSubmitSearch}>
+            <input
+              value={searchSong}
+              onChange={handleChange}
+              type="search"
+              placeholder="Enter song name"
+              id="name"
+              name="name"
+            />
+            <label htmlFor="name"></label>
+          </form>
+          <SongSearchResult />
+        </section>
+      )}
       {/* <button onClick={() => { onAddStationMsg(station._id) }}>Add station msg</button> */}
     </section>
   )

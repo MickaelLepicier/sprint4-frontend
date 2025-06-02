@@ -1,6 +1,6 @@
-export function GenrePreview({ genreName, color, imgUrl = '' }) {
+export function GenrePreview({ genreName, color, imgUrl = '',onClickGenre }) {
     return (
-        <div className="genre-preview" role="listitem">
+        <div className="genre-preview" role="listitem" onClick={onClickGenre}>
             <a className="genre-link" href="#">
                 <div
                     className="genre-tile"

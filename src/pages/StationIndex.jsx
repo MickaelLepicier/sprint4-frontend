@@ -14,8 +14,7 @@ export function StationIndex() {
   const [filterBy, setFilterBy] = useState(stationService.getDefaultFilter())
   const stations = useSelector(storeState => storeState.stationModule.stations)
 
-  console.log('stations:',stations)
-  console.log('filterBy:',filterBy)
+  
   useEffect(() => {
     loadStations(filterBy)
   }, [filterBy])

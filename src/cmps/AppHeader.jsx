@@ -20,17 +20,26 @@ export function AppHeader() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const performSearch = async txt => {
+  async function performSearch(txt) {
     if (!txt.trim()) return
     try {
-      await dispatch(loadSearchResults(txt, 'stations'))
+      await loadSearchResults(txt, 'stations')
+
       navigate(`/search/${txt}`)
     } catch (err) {
       showErrorMsg('Search failed')
     }
   }
 
-  const debouncedSearch = useRef(debounce(performSearch, 500)).current
+  const debouncedSearch = useRef(
+    debounce(async txt => {
+      try {
+        await performSearch(txt)
+      } catch (err) {
+        showErrorMsg('Search failed')
+      }
+    }, 500)
+  ).current
 
   function onSubmitSearch(ev) {
     ev.preventDefault()
@@ -94,7 +103,7 @@ export function AppHeader() {
               onChange={handleChange}
             />
 
-            <button onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
+            <button type="button" onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
               <BrowseIcon />
             </button>
           </form>

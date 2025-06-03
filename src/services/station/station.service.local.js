@@ -299,6 +299,7 @@ function _createEmptyStation() {
   return {
     _id: makeId(),
     name: '',
+    imgUrl:'',
     tags: [],
     createdBy: {
       _id: 'userId',

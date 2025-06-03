@@ -23,6 +23,8 @@ export function ReactYouTube({ videoId, onEnd, isPlaying, volume, playerRef }) {
 
     if (isPlaying) {
       player.playVideo()
+    } else {
+      player.pauseVideo()
     }
   }
 

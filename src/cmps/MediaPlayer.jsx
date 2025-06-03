@@ -1,5 +1,4 @@
-import { ReactYouTube } from './ReactYoutube.jsx'
-
+// *** ICONS ***
 import play from '../assets/icons/media-player/play_small.svg'
 import pause from '../assets/icons/media-player/pause_small.svg'
 import prev from '../assets/icons/media-player/prev_song.svg'
@@ -13,18 +12,30 @@ import volumeMute from '../assets/icons/media-player/volume_mute.svg'
 import shuffle from '../assets/icons/media-player/shuffle.svg'
 import repeat from '../assets/icons/media-player/repeat.svg'
 
+import { ReactYouTube } from './ReactYoutube.jsx'
+
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
-import { nextSong, prevSong, setIsPlaying } from '../store/station/station.actions.js'
+import {
+  nextSong,
+  prevSong,
+  setIsPlaying,
+  togglePlay
+} from '../store/station/station.actions.js'
 
 export function MediaPlayer() {
-  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
-  const currentSong = useSelector((storeState) => storeState.stationModule.currentSong) || ''
+  const isPlaying = useSelector(
+    (storeState) => storeState.stationModule.isPlaying
+  )
+  const currSong =
+    useSelector((storeState) => storeState.stationModule.currentSong) || ''
+  const station =
+    useSelector((storeState) => storeState.stationModule.station) || ''
 
+  //   console.log('station: ',station)
+  //   console.log('currSong: ',currSong)
 
-  const videoId = 'SRXH9AbT280' // Extract from YouTube URL
-
-  const playerRef = useRef(null)
+  //   const videoId = 'SRXH9AbT280' // Extract from YouTube URL
 
   // track time
   const [progress, setProgress] = useState(0)
@@ -37,7 +48,14 @@ export function MediaPlayer() {
   const [isRepeat, setIsRepeat] = useState(false)
   const [isShuffle, setIsShuffle] = useState(false)
 
-  const song = currentSong
+  const playerRef = useRef(null)
+  window.playerRef = playerRef
+
+  // FIX BUG - when the song is played it render this page every time the interval is on (500ms)
+  // the solution is to make a different comp and it will render less code
+  //   console.log('playerRef: ',playerRef)
+
+  const song = { ...currSong }
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,18 +70,25 @@ export function MediaPlayer() {
     }, 500)
 
     return () => clearInterval(interval)
-  }, [isPlaying])
-  // }, [song, isPlaying, volume, songIdx])
-
+    //   }, [isPlaying])
+  }, [song, isPlaying, volume])
 
   useEffect(() => {
-    if (currentSong && isPlaying) {
-      audioRef.current.src = currentSong.url
-      audioRef.current.play()
-    }
-  }, [currentSong])
+    // if (currSong && isPlaying) {
+    //   audioRef.current.src = currSong.url
+    //   audioRef.current.play()
+    // }
+  }, [currSong])
 
-  function setActionIcon(imgSrc, str, func, dis = false) {
+  function setActionIcon(
+    imgSrc,
+    str,
+    func = () => {
+      null
+    },
+    dis = false
+  ) {
+    // if(song && str === 'pause' || str === 'play') togglePlay()
     return (
       <button className={`track-action ${str}`} onClick={func} disabled={dis}>
         <img src={imgSrc} alt={str} />
@@ -71,14 +96,12 @@ export function MediaPlayer() {
     )
   }
 
-  async function togglePlay() {
+
+
+  function onTogglePlay() {
     if (!playerRef.current) return
 
-    if (isPlaying) {
-      playerRef.current.pauseVideo()
-    } else {
-      playerRef.current.playVideo()
-    }
+    togglePlay(isPlaying)
 
     setIsPlaying()
   }
@@ -100,6 +123,12 @@ export function MediaPlayer() {
       .toString()
       .padStart(2, '0')
     return `${minutes}:${seconds}`
+  }
+
+  function handleSeekChange(ev) {
+    const newTime = +ev.target.value
+    playerRef.current.seekTo(newTime, true)
+    setProgress(newTime)
   }
 
   // *** VOLUME ***
@@ -127,10 +156,10 @@ export function MediaPlayer() {
     let imgSrc = volumeHigh
 
     if (volume === 0) imgSrc = volumeMute
-    else if (volume <= 40) imgSrc = volumeLow 
+    else if (volume <= 40) imgSrc = volumeLow
     else if (volume <= 80) imgSrc = volumeMedium
 
-    return <img src={imgSrc} alt='volume icon' />
+    return <img src={imgSrc} alt="volume icon" />
   }
 
   return (
@@ -140,11 +169,13 @@ export function MediaPlayer() {
       <section className="track-controls-container">
         <div className="track-actions">
           {setActionIcon(shuffle, 'shuffle')}
-          {setActionIcon(prev, 'prev', onPrevSong, !currentSong)}
+          {setActionIcon(prev, 'prev', onPrevSong, !song)}
 
-          {isPlaying ? setActionIcon(pause, 'pause', togglePlay) : setActionIcon(play, 'play', togglePlay)}
+          {isPlaying
+            ? setActionIcon(pause, 'pause', onTogglePlay)
+            : setActionIcon(play, 'play', onTogglePlay)}
 
-          {setActionIcon(next, 'next', onNextSong, !currentSong)}
+          {setActionIcon(next, 'next', onNextSong, !song)}
           {setActionIcon(repeat, 'repeat')}
         </div>
 
@@ -156,11 +187,7 @@ export function MediaPlayer() {
             max={duration}
             value={progress}
             step="0.1"
-            onChange={(ev) => {
-              const newTime = +ev.target.value
-              playerRef.current.seekTo(newTime, true)
-              setProgress(newTime)
-            }}
+            onChange={handleSeekChange}
             className="track-bar"
             style={{
               '--bar-fill': duration ? `${(progress / duration) * 100}%` : '0%'
@@ -171,11 +198,11 @@ export function MediaPlayer() {
 
         <span className="react-youtube">
           <ReactYouTube
-            key={videoId} // later on change to song.url
-            videoId={videoId} // song.url
+            key={song._id} // later on change to song.url
+            videoId={song._id} // song.url
             isPlaying={isPlaying}
-            // volume={volume}
-            volume={50}
+            volume={volume}
+            // volume={50}
             playerRef={playerRef}
             onEnd={onEnd}
           />
@@ -185,7 +212,6 @@ export function MediaPlayer() {
       {/* *** VOLUME *** */}
 
       <section className="track-options flex">
-        
         <button className="track-action" onClick={toggleMute}>
           <span>{getVolumeIcon()}</span>
         </button>

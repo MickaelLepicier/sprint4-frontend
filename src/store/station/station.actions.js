@@ -9,7 +9,8 @@ import {
   ADD_STATION_MSG,
   SET_IS_PLAYING,
   SET_NEXT_SONG,
-  SET_PREV_SONG
+  SET_PREV_SONG,
+  SET_SONG
 } from './station.reducer'
 
 export async function loadStations(filterBy) {
@@ -75,12 +76,32 @@ export async function addStationMsg(stationId, txt) {
   }
 }
 
+
+
+export async function setSong(song) {
+  try {
+    store.dispatch({ type: SET_SONG, song })
+  } catch (err) {
+    console.log('Cannot set song ', err)
+    throw err
+  }
+}
 export async function setIsPlaying() {
   try {
     store.dispatch({ type: SET_IS_PLAYING })
   } catch (err) {
     console.log('Cannot set isPlaying ', err)
     throw err
+  }
+}
+
+
+export async function togglePlay(isPlaying) {
+  const ref = window.playerRef
+  if (isPlaying) {
+    ref.current.pauseVideo()
+  } else {
+    ref.current.playVideo()
   }
 }
 

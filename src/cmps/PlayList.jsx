@@ -4,7 +4,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadStation, addStationMsg } from '../store/station/station.actions'
+import {
+  loadStation,
+  addStationMsg,
+  setSong,
+  setIsPlaying,
+  togglePlay
+} from '../store/station/station.actions'
 import { SET_IS_PLAYING, SET_SONG } from '../store/station/station.reducer'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
@@ -12,13 +18,15 @@ import { debounce } from '../services/util.service'
 
 export function PlayList() {
   const { stationId } = useParams()
-  const station = useSelector(storeState => storeState.stationModule.station)
+  const station = useSelector((storeState) => storeState.stationModule.station)
   const [isCompact, setIsCompact] = useState(false)
-  const [currSong, setCurrSong] = useState(null)
+  // const [currSong, setCurrSong] = useState(null)
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
 
-  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
+  const isPlaying = useSelector(
+    (storeState) => storeState.stationModule.isPlaying
+  )
 
   const dispatch = useDispatch()
 
@@ -38,13 +46,13 @@ export function PlayList() {
   }
 
   const debouncedSearch = useRef(
-    debounce(async txt => {
+    debounce(async (txt) => {
       try {
         await performSearch(txt)
       } catch (error) {
         showErrorMsg('Search failed')
       }
-    },500)
+    }, 500)
   )
 
   function onSubmitSearch(ev) {
@@ -58,12 +66,12 @@ export function PlayList() {
     debouncedSearch.current(value)
   }
 
-  function onPlaySong(song) {
-    setCurrSong(song)
+  // function onPlaySong(song) {
+  //   setCurrSong(song)
 
-    dispatch({ type: SET_SONG, song })
-    dispatch({ type: SET_IS_PLAYING, isPlaying })
-  }
+  //   dispatch({ type: SET_SONG, song })
+  //   dispatch({ type: SET_IS_PLAYING, isPlaying })
+  // }
 
   // async function onAddStationMsg(stationId) {
   //     try {
@@ -79,6 +87,12 @@ export function PlayList() {
 
   const songs = station?.songs || []
 
+  async function onPlaySong(song = station.songs[0]) {
+    // console.log('station: ',station.songs[0])
+    await setSong(song)
+    await setIsPlaying()
+    togglePlay(isPlaying)
+  }
   return (
     <section className="station-play-list">
       <header className="station-header">
@@ -86,7 +100,7 @@ export function PlayList() {
         <h1>{station.name}</h1>
       </header>
       <div className="playlist-play-actions">
-        <button>PLAY SECTION</button>
+        <button onClick={()=> onPlaySong()}>PLAY SECTION</button>
         <button>Compact</button>
       </div>
 
@@ -116,7 +130,11 @@ export function PlayList() {
               </td>
               <td>
                 <div className="song-img-title">
-                  <img src={song.imgUrl} alt="img" style={{ width: 40 + 'px', height: 40 + 'px' }} />
+                  <img
+                    src={song.imgUrl}
+                    alt="img"
+                    style={{ width: 40 + 'px', height: 40 + 'px' }}
+                  />
                   <p>{song.title}</p>
                 </div>
               </td>
@@ -132,7 +150,9 @@ export function PlayList() {
           ))}
         </tbody>
       </table>
-      <button onClick={() => setShowSearchBar(!showSearchBar)}>Find more</button>
+      <button onClick={() => setShowSearchBar(!showSearchBar)}>
+        Find more
+      </button>
       {showSearchBar && (
         <section className="song-search-section">
           <form className="" action="" onSubmit={onSubmitSearch}>

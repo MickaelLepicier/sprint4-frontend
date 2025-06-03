@@ -66,10 +66,12 @@ export function AppHeader() {
   }
 
   function onGoHome() {
+    setSearchTxt('')
     navigate('/')
   }
 
   function onBrowseGenres() {
+    setSearchTxt('')
     navigate('/search')
   }
 

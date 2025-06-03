@@ -19,6 +19,7 @@ export function PlayList() {
   const [showSearchBar, setShowSearchBar] = useState(false)
 
   const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
+  const currentSong = useSelector(storeState => storeState.stationModule.currentSong)
 
   const dispatch = useDispatch()
 
@@ -79,13 +80,33 @@ export function PlayList() {
 
   const songs = station?.songs || []
 
-  async function onPlaySong(song = station.songs[0]) {
-    console.log('song:',song)
-    // console.log('station: ',station.songs[0])
-    await setSong(song)
-    await setIsPlaying()
-    togglePlay(isPlaying)
+  function onPlaySong(song) {
+    const playerRef = window.playerRef
+    const currPlayer = playerRef?.current
+
+    if (!currPlayer) return
+
+    if (currentSong?._id === song._id) {
+        if (isPlaying) {
+          currPlayer.pauseVideo()
+          setIsPlaying(false)
+        } else {
+            currPlayer.playVideo()
+            setIsPlaying(true)
+        }
+    } else {
+        setSong(song)
+        setIsPlaying(true)
+    }
   }
+  // async function onPlaySong(song = station.songs[0]) {
+  //   console.log('song:',song)
+  //   // console.log('station: ',station.songs[0])
+  //   await setSong(song)
+  //   await setIsPlaying()
+  //   togglePlay(isPlaying)
+  // }
+
   return (
     <section className="station-play-list">
       <header className="station-header">

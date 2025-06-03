@@ -1,10 +1,11 @@
 .app-header {
     min-height: 48px;
-    max-height: 64px;
-    padding: 8px;
+    max-height: 48px;
+    // max-height: 64px;
+    // padding-block-end: 8px;
     background-color: #000000;
     width: 100%;
-        
+    // outline: red 1px solid;
     .header-left {
         flex-shrink: 0;
         height: 72px;

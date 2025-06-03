@@ -25,51 +25,52 @@ import { UserMsg } from './cmps/UserMsg'
 import { PlayList } from './cmps/PlayList'
 import { Sidebar } from './cmps/Sidebar/Sidebar'
 import { SearchStations } from './pages/SearchStations'
+
 export function RootCmp() {
-  const style = { padding: '8px' }
+  // const style = { padding: '8px' }
   return (
-    <div className="main-container" style={style}>
+    <div className="main-container">
       <AppHeader />
+      <Sidebar />
+      
       <UserMsg />
 
-      <main>
-        <Sidebar />
+        <main className="main-content">
+          <Routes>
+            <Route path="" element={<HomePage />} />
 
-        <Routes>
-          <Route path="" element={<HomePage />} />
+            <Route path="about" element={<AboutUs />}>
+              <Route path="team" element={<AboutTeam />} />
+              <Route path="vision" element={<AboutVision />} />
+            </Route>
 
-          <Route path="about" element={<AboutUs />}>
-            <Route path="team" element={<AboutTeam />} />
-            <Route path="vision" element={<AboutVision />} />
-          </Route>
+            <Route path="station" element={<StationIndex />} />
+            <Route path="station/:stationId" element={<StationDetails />} />
+            <Route path="playlist/:stationId" element={<PlayList />} />
+            <Route path="search" element={<GenreIndex />} />
+            <Route path="search/:txt" element={<SearchStations />} />
+            <Route path="genre/:genre" element={<SearchStations />} />
 
-          <Route path="station" element={<StationIndex />} />
-          <Route path="station/:stationId" element={<StationDetails />} />
-          <Route path="playlist/:stationId" element={<PlayList />} />
-          <Route path="search" element={<GenreIndex />} />
-          <Route path="search/:txt" element={<SearchStations />} />
-          <Route path="genre/:genre" element={<SearchStations />} />
+            <Route path="user/:id" element={<UserDetails />} />
+            <Route path="review" element={<ReviewIndex />} />
+            <Route path="chat" element={<ChatApp />} />
 
-          <Route path="user/:id" element={<UserDetails />} />
-          <Route path="review" element={<ReviewIndex />} />
-          <Route path="chat" element={<ChatApp />} />
+            <Route
+              path="admin"
+              element={
+                <AuthGuard checkAdmin={true}>
+                  <AdminIndex />
+                </AuthGuard>
+              }
+            />
 
-          <Route
-            path="admin"
-            element={
-              <AuthGuard checkAdmin={true}>
-                <AdminIndex />
-              </AuthGuard>
-            }
-          />
-
-          <Route path="login" element={<LoginSignup />}>
-            <Route index element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-          </Route>
-        </Routes>
-      </main>
-
+            <Route path="login" element={<LoginSignup />}>
+              <Route index element={<Login />} />
+              <Route path="signup" element={<Signup />} />
+            </Route>
+          </Routes>
+        </main>
+   
       <AppFooter />
     </div>
   )

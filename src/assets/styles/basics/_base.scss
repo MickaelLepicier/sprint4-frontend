@@ -1,17 +1,23 @@
-* {
+*, ::before, ::after {
     box-sizing: border-box;
 }
 
+#root {
+    height: 100%;
+}
+
 html {
+    height: 100%;
     line-height: 1.6;
     color: $clr2;
 }
     
 body {
     margin: 0 auto;
-
+    
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: rem(18px);
+    height: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -48,3 +54,4 @@ input {
 pre {
     white-space: pre-wrap;
 }
+

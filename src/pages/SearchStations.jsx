@@ -9,11 +9,10 @@ export function SearchStations() {
   const type = useSelector(storeState => storeState.searchModule.searchType)
 
   return (
-    <section>
+    <>
       {type === 'stations' && <ArtistSearchResult />}
-     
-      {/* {type === 'songs' && <SongSearchResult />  }  maybe not needed */}
+      {/* {type === 'songs' && <SongSearchResult />} */}
       {type === 'genre' && <GenreSearchResult />}
-    </section>
+    </>
   )
 }

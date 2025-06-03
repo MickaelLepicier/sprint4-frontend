@@ -1,12 +1,16 @@
 aside.sidebar {
-    background-color: #121212;
-    min-width: 299px;
-    max-width: 420px;
-    flex: 1 1 299px;
-    border-radius: 8px;
+    grid-area: sidebar;
     display: flex;
     flex-direction: column;
+    background-color: #121212;
     font-family: SpotifyMixUI, 'Helvetica Neue', helvetica, arial, sans-serif;
+
+    width: clamp(280px, 24vw, 400px);
+    flex-shrink: 0;
+
+    border-radius: 8px;
+    border-bottom-left-radius: 8px;
+    overflow: hidden;
 
     .sidebar-header {
         font-weight: 700;

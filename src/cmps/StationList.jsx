@@ -12,16 +12,18 @@ export function StationList({ stations, onRemoveStation, onUpdateStation }) {
     }
 
     return <section>
-        <ul className="station-list">
-            {stations.map(station =>
-                <li key={station._id}>
-                    <StationPreview station={station} />
-                    {shouldShowActionBtns(station) && <div className="actions">
-                        <button onClick={() => onUpdateStation(station)}>Edit</button>
-                        <button onClick={() => onRemoveStation(station._id)}>x</button>
-                    </div>}
-                </li>)
-            }
-        </ul>
+        <section className="station-list">
+            <div className="grid-container">
+                {stations.map(station =>
+                    <li key={station._id}>
+                        <StationPreview station={station} />
+                        {shouldShowActionBtns(station) && <div className="actions">
+                            <button onClick={() => onUpdateStation(station)}>Edit</button>
+                            <button onClick={() => onRemoveStation(station._id)}>x</button>
+                        </div>}
+                    </li>)
+                }
+            </div>
+        </section>
     </section>
 }

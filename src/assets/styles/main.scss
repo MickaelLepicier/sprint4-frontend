@@ -24,6 +24,8 @@
 @import "pages/LoginSignup";
 @import "pages/Chat";
 @import "pages/PlayList";
+@import "pages/GenreIndex";
+
 
 // Components
 @import "cmps/list";
@@ -44,6 +46,10 @@
 @import "cmps/SidebarFilterSort";
 @import "cmps/SidebarList";
 @import "cmps/MediaPlayer";
+@import "cmps/StationPreview";
+@import "cmps/GenreSearchResult";
+
+
 
 @import "pages/StationList";
 // @import "cmps/StationList";

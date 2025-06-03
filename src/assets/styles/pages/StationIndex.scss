@@ -28,4 +28,20 @@
       }
     }
   }
+
+  ul, li {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+  }
+    .station-list {
+        width: 100%;
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 24px;
+        }
+  }
+
 }

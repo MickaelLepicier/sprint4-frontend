@@ -67,7 +67,9 @@ export function GenreIndex() {
 
     return (
         <section className="genre-index">
-            <h2 className="genre-title">Browse all</h2>
+            <div className="genre-title-wrapper flex">
+                <h2 className="genre-title">Browse all</h2>
+            </div>
             
             <GenreList genres={genres} />
         </section>

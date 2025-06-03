@@ -1,44 +1,91 @@
 .main-container {
     display: grid;
-    grid-template-columns: 8px 1fr 8px;
+    grid-template-columns: clamp(280px, 24vw, 400px) 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
     
-    > * {
-        grid-column: 2;
-
-        &.full {
-            grid-column: 1 / -1;
-        }
-    }
-
+    height: 100%; 
+    min-height: 100;
     background-color: #000;
+    gap: 8px;
+    padding: 8px;
+    
+    // > * {
+    //     grid-column: 2;
 
+    //     &.full {
+    //         grid-column: 1 / -1;
+    //     }
+    // }
+}
 
-    // @include for-narrow-layout {
-    //     grid-template-columns:
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $mobile-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
-    // @include for-normal-layout {
-    //     grid-template-columns:
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $narrow-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
-    // @include for-wide-layout {
-    //     grid-template-columns:
-    //         minmax(20px, 1fr)
-    //         minmax(auto, $normal-breakpoint)
-    //         minmax(20px, 1fr);
-    // }
+.app-header {
+    grid-area: header;
+}
 
-    main {
-        display: flex;
-    }
+aside.sidebar {
+    grid-area: sidebar;
+    height: 100%;
+}
+
+main.main-content {
+    grid-area: main;
+    min-height: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    background-color: #121212; 
+
+    gap: 8px;
+    background-color: #121212;
+    border-radius: 8px;
+}
+
+.app-footer {
+    grid-area: footer;
+    background-color: #181818;
 }
 
 .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-gap: 20px;
+}
+
+/* The scroll bar track (the background) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* The thumb (the scroll handle) */
+::-webkit-scrollbar-thumb {
+    background-color: rgba(170, 170, 170, 0.6);
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+/* Hover state */
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+}
+
+/* Active state */
+::-webkit-scrollbar-thumb:active {
+    background-color: rgba(240, 240, 240, 1);
+}
+
+/* Optional: remove track background */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(170, 170, 170, 0.6) transparent;
 }

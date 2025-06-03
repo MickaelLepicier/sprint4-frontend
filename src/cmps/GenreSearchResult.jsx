@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
 import { useNavigate } from 'react-router'
+import { StationPreview } from './StationPreview'
 
 export function GenreSearchResult() {
   const stations = useSelector(storeState => storeState.searchModule.searchResults)
@@ -24,24 +25,23 @@ export function GenreSearchResult() {
   return (
     <section className="genre-search-result">
       <h1 className="genre-title">{genre}</h1>
+
       <section className="playlist-section">
         <h2>Popular {genre} playlists</h2>
-        <div>
-          {stations.map(station => (
-            <div
-              key={station._id}
-              alt={station.name}
-              onClick={() => {
-                onGoToStation(station)
-              }}
-            >
-              <img src={station.imgUrl} alt={station.name} />
-              <h3>{station.name}</h3>
-              <p>{station.createdBy.fullname}</p>
+
+          <div className="station-list">
+           <div className="grid-container">
+              {stations.map(station => (
+                <StationPreview
+                  key={station._id}
+                  station={station}
+                  onClick={() => onGoToStation(station)}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
       </section>
+
 
       <section className="new-releases-section">
         <h2>{genre} New Releases</h2>

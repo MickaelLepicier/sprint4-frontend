@@ -2,9 +2,14 @@ import { MediaPlayer } from './MediaPlayer'
 
 import { useSelector } from 'react-redux'
 
+import playBtn from '../assets/icons/media-player/play_small.svg'
+import pauseBtn from '../assets/icons/media-player/pause_small.svg'
+
+
 export function AppFooter() {
-  const count = useSelector(storeState => storeState.userModule.count)
-  const song = useSelector(storeState => storeState.stationModule.currentSong) || ''
+  const count = useSelector((storeState) => storeState.userModule.count)
+  const song = useSelector((storeState) => storeState.stationModule.currentSong) || ''
+
 
   function getEmbedUrl(url) {
     if (!url) return
@@ -12,11 +17,16 @@ export function AppFooter() {
     return match ? `https://www.youtube.com/embed/${match[1]}` : ''
   }
 
-  return (
-    <footer className="app-footer flex full">
-      {/* <MediaPlayer /> */}
 
-      <section className="song-player-section">
+
+
+
+
+  return (
+    <footer className="app-footer full">
+      <MediaPlayer />
+
+      {/* <section className="song-player-section">
         <iframe
           width="420"
           height="50"
@@ -25,7 +35,7 @@ export function AppFooter() {
           allow="autoplay; encrypted-media"
           allowfullscreen
         ></iframe>
-      </section>
+      </section> */}
     </footer>
   )
 }

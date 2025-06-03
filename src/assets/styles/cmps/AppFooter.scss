@@ -1,6 +1,7 @@
 .app-footer {
     min-height: 72px;
-    justify-content: space-between;
+    align-content: center;
+
     // background-color: $bg_clr1;
 
     position: sticky;
@@ -9,6 +10,8 @@
     right: 0;
 
     background-color: black;
+    // background-color: lightblue;
+    
     > section {
         display: flex;
         align-items: center;
@@ -17,4 +20,6 @@
             margin: 0;
         }
     }
+
+ 
 }

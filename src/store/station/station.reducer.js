@@ -14,7 +14,7 @@ const initialState = {
   stations: [],
   station: null,
   currentSong: null,
-  isPlaying: false
+  isPlaying: false,
 }
 
 export function stationReducer(state = initialState, action) {
@@ -28,16 +28,20 @@ export function stationReducer(state = initialState, action) {
       newState = { ...state, station: action.station }
       break
     case REMOVE_STATION:
-      const lastRemovedStation = state.stations.find((station) => station._id === action.stationId)
-      stations = state.stations.filter((station) => station._id !== action.stationId)
+      const lastRemovedStation = state.stations.find(station => station._id === action.stationId)
+      stations = state.stations.filter(station => station._id !== action.stationId)
       newState = { ...state, stations, lastRemovedStation }
       break
     case ADD_STATION:
       newState = { ...state, stations: [...state.stations, action.station] }
       break
     case UPDATE_STATION:
-      stations = state.stations.map((station) => (station._id === action.station._id ? action.station : station))
-      newState = { ...state, stations }
+      stations = state.stations.map(station => (station._id === action.station._id ? action.station : station))
+      newState = {
+        ...state,
+        stations,
+        station: state.station?._id === action.station._id ? action.station : state.station,
+      }
       break
     case ADD_STATION_MSG:
       newState = { ...state, station: { ...state.station, msgs: [...(state.station.msgs || []), action.msg] } }
@@ -52,7 +56,7 @@ export function stationReducer(state = initialState, action) {
     case SET_NEXT_SONG:
       if (!state.station || !state.station.songs || state.station.songs.length === 0) return state
 
-      const currIdx = state.station.songs.findIndex((song) => song._id === state.currentSong?._id)
+      const currIdx = state.station.songs.findIndex(song => song._id === state.currentSong?._id)
       const nextIdx = (currIdx + 1) % state.station.songs.length
       const nextSong = state.station.songs[nextIdx]
 
@@ -62,7 +66,7 @@ export function stationReducer(state = initialState, action) {
     case SET_PREV_SONG:
       if (!state.station || !state.station.songs || state.station.songs.length === 0) return state
 
-      const _currIdx = state.station.songs.findIndex((song) => song._id === state.currentSong?._id)
+      const _currIdx = state.station.songs.findIndex(song => song._id === state.currentSong?._id)
       if (_currIdx === -1) return state
 
       const prevIdx = (_currIdx - 1 + state.station.songs.length) % state.station.songs.length

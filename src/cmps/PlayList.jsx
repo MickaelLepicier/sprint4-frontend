@@ -4,13 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import {
-  loadStation,
-  addStationMsg,
-  setSong,
-  setIsPlaying,
-  togglePlay
-} from '../store/station/station.actions'
+import { loadStation, addStationMsg, setSong, setIsPlaying, togglePlay } from '../store/station/station.actions'
 import { SET_IS_PLAYING, SET_SONG } from '../store/station/station.reducer'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
@@ -18,15 +12,13 @@ import { debounce } from '../services/util.service'
 
 export function PlayList() {
   const { stationId } = useParams()
-  const station = useSelector((storeState) => storeState.stationModule.station)
+  const station = useSelector(storeState => storeState.stationModule.station)
   const [isCompact, setIsCompact] = useState(false)
   // const [currSong, setCurrSong] = useState(null)
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
 
-  const isPlaying = useSelector(
-    (storeState) => storeState.stationModule.isPlaying
-  )
+  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
 
   const dispatch = useDispatch()
 
@@ -46,7 +38,7 @@ export function PlayList() {
   }
 
   const debouncedSearch = useRef(
-    debounce(async (txt) => {
+    debounce(async txt => {
       try {
         await performSearch(txt)
       } catch (error) {
@@ -88,6 +80,7 @@ export function PlayList() {
   const songs = station?.songs || []
 
   async function onPlaySong(song = station.songs[0]) {
+    console.log('song:',song)
     // console.log('station: ',station.songs[0])
     await setSong(song)
     await setIsPlaying()
@@ -100,7 +93,7 @@ export function PlayList() {
         <h1>{station.name}</h1>
       </header>
       <div className="playlist-play-actions">
-        <button onClick={()=> onPlaySong()}>PLAY SECTION</button>
+        <button onClick={() => onPlaySong()}>PLAY SECTION</button>
         <button>Compact</button>
       </div>
 
@@ -116,7 +109,7 @@ export function PlayList() {
         </thead>
         <tbody>
           {songs.map((song, idx) => (
-            <tr key={song._id} className="song-row">
+            <tr key={idx} className="song-row">
               <td className="song-play-idx">
                 <span className="song-idx">{idx + 1}</span>
                 <span
@@ -130,11 +123,7 @@ export function PlayList() {
               </td>
               <td>
                 <div className="song-img-title">
-                  <img
-                    src={song.imgUrl}
-                    alt="img"
-                    style={{ width: 40 + 'px', height: 40 + 'px' }}
-                  />
+                  <img src={song.imgUrl} alt="img" style={{ width: 40 + 'px', height: 40 + 'px' }} />
                   <p>{song.title}</p>
                 </div>
               </td>
@@ -150,9 +139,7 @@ export function PlayList() {
           ))}
         </tbody>
       </table>
-      <button onClick={() => setShowSearchBar(!showSearchBar)}>
-        Find more
-      </button>
+      <button onClick={() => setShowSearchBar(!showSearchBar)}>Find more</button>
       {showSearchBar && (
         <section className="song-search-section">
           <form className="" action="" onSubmit={onSubmitSearch}>

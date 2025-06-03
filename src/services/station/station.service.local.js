@@ -16,8 +16,7 @@ const headerCache = loadFromStorage(HEADER_SEARCH_KEY) || {}
 const GENRE_SEARCH_KEY = 'genreCacheDB'
 const genreCache = loadFromStorage(GENRE_SEARCH_KEY) || {}
 
-headerSearch
-genrePlaylistSearch
+
 
 const YT_API_KEY = import.meta.env.VITE_YT_API_KEY
 

@@ -3,7 +3,7 @@ export function SidebarFilterSort() {
         <section className="sidebar-filter-sort">
             <input
                 type="text"
-                class="library-search-input"
+                className="library-search-input"
                 placeholder="Search in Your Library"
                 aria-label="Type to filter your library. The list of content below will update as you type."
             />

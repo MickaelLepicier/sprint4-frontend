@@ -4,9 +4,18 @@ import { useNavigate, useParams } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
 import { debounce } from '../services/util.service'
 
+
 export function SongSearchResult() {
   const songs = useSelector(storeState => storeState.searchModule.searchResults)
-  console.log('songs:', songs)
+
+async function onAddSong(song){
+try {
+  
+} catch (error) {
+  
+}
+}
+  
   if (!songs?.length) return null
   return (
     <section>
@@ -19,6 +28,7 @@ export function SongSearchResult() {
                 <h4>{song.title || ''}</h4>
                 <p>{song.artist || ''}</p>
               </div>
+              <button onClick={()=>onAddSong(song)}>Add</button>
             </li>
           ) : null
         )}

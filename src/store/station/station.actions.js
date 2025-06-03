@@ -86,14 +86,23 @@ export async function setSong(song) {
     throw err
   }
 }
-export async function setIsPlaying() {
+
+export function setIsPlaying(isPlaying) {
   try {
-    store.dispatch({ type: SET_IS_PLAYING })
+    store.dispatch({ type: SET_IS_PLAYING, isPlaying: !!isPlaying })
   } catch (err) {
     console.log('Cannot set isPlaying ', err)
     throw err
   }
 }
+// export async function setIsPlaying() {
+//   try {
+//     store.dispatch({ type: SET_IS_PLAYING })
+//   } catch (err) {
+//     console.log('Cannot set isPlaying ', err)
+//     throw err
+//   }
+// }
 
 
 export async function togglePlay(isPlaying) {

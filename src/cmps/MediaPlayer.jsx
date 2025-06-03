@@ -97,14 +97,24 @@ export function MediaPlayer() {
   }
 
 
-
   function onTogglePlay() {
     if (!playerRef.current) return
 
-    togglePlay(isPlaying)
-
-    setIsPlaying()
+    if (isPlaying) {
+      playerRef.current.pauseVideo()
+      setIsPlaying(false)
+    } else {
+      playerRef.current.playVideo()
+      setIsPlaying(true)
+    }
   }
+  // function onTogglePlay() {
+  //   if (!playerRef.current) return
+
+  //   togglePlay(isPlaying)
+
+  //   setIsPlaying()
+  // }
 
   function onEnd() {
     nextSong()

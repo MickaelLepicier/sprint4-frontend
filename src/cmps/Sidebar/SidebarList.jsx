@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SidebarLikedSongs } from './SidebarLikedSongs'
@@ -10,26 +11,36 @@ export function SidebarList({
     likedSongsStationId
 }) {
     const navigate = useNavigate()
+    const [selectedStationId, setSelectedStationId] = useState(null)
 
-    // Combine user's own created playlists with liked playlists, and mark liked ones with isLiked: true
-    const allStationsToShow = [
-        ...userStations,
-        ...likedStations.map(s => ({ ...s, isLiked: true }))
-    ]
+    useEffect(() => {
+        if (likedSongsStationId) {
+            setSelectedStationId(likedSongsStationId)
+        }
+    }, []) 
 
-    function onClickPlayList(id) {
-        navigate(`playlist/${id}`)
+    // Combine user's own created playlists with liked playlists, Skip the 'Liked Songs' station of the user
+    // and mark (pin) liked ones with isPinned: true (reserved for future use)
+    const allStationsToShow = 
+        [ ...userStations, ...likedStations]
+            .filter(st => st._id !== likedSongsStationId)
+            // .map(st => ({ ...st, isPinned: user?.pinnedStationIds?.includes(station._id) }))
+
+    function onClickPlaylist(stationId) {
+        setSelectedStationId(stationId)
+        navigate(`playlist/${stationId}`)
     }
 
     return (
         <section className="sidebar-list">
             <ul>
                 {/* User's liked songs */}
-                {likedSongsCount > 0 && user?.likedSongsStationId && (
+                {likedSongsCount > 0 && likedSongsStationId && (
                     <SidebarLikedSongs 
-                        songCount={likedSongsCount} 
-                        onClickPlayList={onClickPlayList}
+                        likedSongsCount={likedSongsCount} 
                         likedSongsStationId={likedSongsStationId}
+                        isSelected={selectedStationId === likedSongsStationId}
+                        onClickPlaylist={onClickPlaylist}
                     />
                 )}
 
@@ -44,7 +55,8 @@ export function SidebarList({
                             _id: station._id,
                             isLiked: !!station.isLiked
                         }}
-                        onClickPlayList={onClickPlayList}
+                        isSelected={selectedStationId === station._id}
+                        onClickPlaylist={onClickPlaylist}
                     />
                 ))}
             </ul>

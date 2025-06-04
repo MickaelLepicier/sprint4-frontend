@@ -1,10 +1,10 @@
-.liked-songs-row {
+li.liked-songs-row {
     display: flex;
     align-items: center;
     gap: 12px;
     background-color: #2a2a2a;
     border-radius: 8px;
-    padding: 9px 8px;
+    padding: 8px 8px;
     cursor: pointer;
     color: #fff;
     transition: opacity 0.1s ease;
@@ -38,27 +38,33 @@
     .details {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        // justify-content: center;
+        gap: 2px;
+        align-items: flex-start;
 
         h3 {
             font-size: 16px;
             line-height: 1.2;
-            font-weight: 500;
+            font-weight: 400;
             margin: 0;
+            font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, var(--fallback-fonts, sans-serif);
         }
 
         p {
-            font-size: 13px;
+            font-size: 14px;
             color: #b3b3b3;
-            margin: 2px 0 0;
             display: flex;
             align-items: center;
-            gap: 6px;
+            // gap: 6px;
+            margin: 0;
 
             .pin-icon {
-                width: 14px;
-                height: 14px;
+                width: 12px;
+                height: 12px;
                 fill: #1ed760;
+                display: inline-flex;
+                gap: 4px;
+                margin-inline-end: 4px;
             }
 
             .dot {
@@ -67,3 +73,10 @@
         }
     }
 }
+// display: -webkit-inline-box;
+//     display: -ms-inline-flexbox;
+//     display: inline-flex
+// ;
+//     -webkit-margin-end: 4px;
+//     gap: 4px;
+//     margin-inline-end: 4px;

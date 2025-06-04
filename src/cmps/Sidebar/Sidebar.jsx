@@ -20,11 +20,8 @@ export function Sidebar() {
         if (!stations.length) loadStations()
     }, [stations.length])
 
-    // Currently, likedByUsers stores an array of user IDs (e.g., ['u101', 'u102'])
-    // In the future, we may store full user objects instead (e.g., [{ _id, fullname, ... }])
-    // If we do, we'll need to update this filter accordingly
     const likedStations = user
-        ? stations.filter(s => s.likedByUsers?.includes(user._id))
+        ? stations.filter(s => user.likedStationIds.includes(s._id))
         : []
 
     const userStations = user

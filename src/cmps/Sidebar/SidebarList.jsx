@@ -1,47 +1,53 @@
+import { useNavigate } from 'react-router-dom'
+
+import { SidebarLikedSongs } from './SidebarLikedSongs'
 import { SidebarPreview } from './SidebarPreview'
 
-export function SidebarList({ stations }) {
-  return (
-    <section className="sidebar-list">
-      <ul>
-        <li className="liked-songs-row" draggable="true">
-          <div className="img-wrapper">
-            <img src="https://misc.scdn.co/liked-songs/liked-songs-64.png" alt="Liked Songs" draggable="false" />
-            <button className="play-btn" aria-label="Play Liked Songs">
-              ▶
-            </button>
-          </div>
+export function SidebarList({
+    userStations = [],
+    likedStations = [],
+    likedSongsCount = 0,
+    likedSongsStationId
+}) {
+    const navigate = useNavigate()
 
-          <div className="details">
-            <h3>Liked Songs</h3>
-            <p>
-              <svg className="pin-icon" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M8.822.797a2.72 2.72 0 0 1 3.847 0l2.534 2.533a2.72 2.72 0 0 1 0 3.848l-3.678 3.678-1.337 4.988-4.486-4.486L1.28 15.78a.75.75 0 0 1-1.06-1.06l4.422-4.422L.156 5.812l4.987-1.337L8.822.797z" />
-              </svg>
-              <span>Playlist</span>
-              <span className="dot">•</span>
-              <span>1 song</span>
-            </p>
-          </div>
-        </li>
+    // Combine user's own created playlists with liked playlists, and mark liked ones with isLiked: true
+    const allStationsToShow = [
+        ...userStations,
+        ...likedStations.map(s => ({ ...s, isLiked: true }))
+    ]
 
-        {/* {playlists.map(playlist => (
-                    <SidebarPreview key={playlist.id} playlist={playlist} />
-                ))} */}
+    function onClickPlayList(id) {
+        navigate(`playlist/${id}`)
+    }
 
-        {stations.map(station => (
-          <SidebarPreview
-            key={station._id}
-            playlist={{
-              title: station.name,
-              imgUrl: station.imgUrl,
-              isLiked: false,
-              songCount: station.songs.length,
-              _id:station._id
-            }}
-          />
-        ))}
-      </ul>
-    </section>
-  )
+    return (
+        <section className="sidebar-list">
+            <ul>
+                {/* User's liked songs */}
+                {likedSongsCount > 0 && user?.likedSongsStationId && (
+                    <SidebarLikedSongs 
+                        songCount={likedSongsCount} 
+                        onClickPlayList={onClickPlayList}
+                        likedSongsStationId={likedSongsStationId}
+                    />
+                )}
+
+                {/* All playlists: user's and liked */}
+                {allStationsToShow.map(station => (
+                    <SidebarPreview
+                        key={station._id}
+                        playlist={{
+                            title: station.name,
+                            imgUrl: station.imgUrl,
+                            songCount: station.songs.length,
+                            _id: station._id,
+                            isLiked: !!station.isLiked
+                        }}
+                        onClickPlayList={onClickPlayList}
+                    />
+                ))}
+            </ul>
+        </section>
+    )
 }

@@ -1,14 +1,8 @@
-import { useNavigate } from 'react-router'
 import { PlayIcon } from '../svg/PlayIcon'
 import { useState } from 'react'
 
-export function SidebarPreview({ playlist }) {
+export function SidebarPreview({ playlist, onClickPlayList }) {
   const [isHovered, setIsHovered] = useState(false)
-  const navigate = useNavigate()
-
-  function onClickPlayList(id) {
-    navigate(`playlist/${id}`)
-  }
 
   return (
     <li

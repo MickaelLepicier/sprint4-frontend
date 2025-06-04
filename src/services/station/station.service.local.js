@@ -334,7 +334,7 @@ async function genrePlaylistSearch(genre) {
 
 // Note: this method is okay but could also use refactor in future
 function buildNewStationForUser(user, nextNum) {
-    return {
+    const newUserStation =  {
         name: `My Playlist #${nextNum}`,
         imgUrl: '',
         tags: [],
@@ -348,6 +348,8 @@ function buildNewStationForUser(user, nextNum) {
         msgs: [],
         createdAt: Date.now(),
     }
+    console.log(newUserStation)
+    return newUserStation
 }
 
 function _createEmptyStation() {
@@ -515,7 +517,7 @@ function _createDemoStations() {
       imgUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
       tags: [],
       createdBy: {
-          _id: 'u101',
+          _id: 'u102',
           fullname: 'Puki Ben David',
           imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg'
       },

@@ -8,7 +8,8 @@ export function SidebarList({
     userStations = [],
     likedStations = [],
     likedSongsCount = 0,
-    likedSongsStationId
+    likedSongsStationId,
+    user
 }) {
     const navigate = useNavigate()
     const [selectedStationId, setSelectedStationId] = useState(null)
@@ -53,10 +54,13 @@ export function SidebarList({
                             imgUrl: station.imgUrl,
                             songCount: station.songs.length,
                             _id: station._id,
-                            isLiked: !!station.isLiked
+                            isLiked: !!station.isLiked,
+                            createdById: station.createdBy?._id
                         }}
                         isSelected={selectedStationId === station._id}
                         onClickPlaylist={onClickPlaylist}
+                        userFirstName={user?.fullname?.split(' ')[0]}
+                        userId={user._id}
                     />
                 ))}
             </ul>

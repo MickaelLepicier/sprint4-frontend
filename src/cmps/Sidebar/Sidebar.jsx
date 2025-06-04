@@ -39,7 +39,6 @@ export function Sidebar() {
 
         try {
             const savedStation = await createStationForUser()
-            console.log('STATION SAVED!!')
 
             showSuccessMsg('New playlist created!')
             navigate(`/playlist/${savedStation._id}`)
@@ -62,6 +61,7 @@ export function Sidebar() {
                     likedStations={likedStations}
                     likedSongsCount={likedSongsCount}
                     likedSongsStationId={user?.likedSongsStationId}
+                    user={user}
                 />
             </div>
         </aside>

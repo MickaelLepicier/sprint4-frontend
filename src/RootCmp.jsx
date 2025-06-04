@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router'
+import { login } from './store/user/user.actions'
 
 // Services
 import { userService } from './services/user'
@@ -18,7 +20,6 @@ import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
 
 // Components
-
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
@@ -27,7 +28,14 @@ import { Sidebar } from './cmps/Sidebar/Sidebar'
 import { SearchStations } from './pages/SearchStations'
 
 export function RootCmp() {
-  // const style = { padding: '8px' }
+  // Automatically login as puki (id: u101)
+  // Check user.service.local -> _createDemoUsers() or further info
+  useEffect(() => {
+      if (import.meta.env.DEV) {
+          login({ username: 'puki', password: '123' })
+      }
+  }, [])
+
   return (
     <div className="main-container">
       <AppHeader />

@@ -1,6 +1,11 @@
 import { storageService } from '../async-storage.service'
 
+const USER_KEY = 'user'
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
+
+_createDemoUsers()
+
+userService.login({ username: 'puki', password: '123' }).then(console.log)
 
 export const userService = {
     login,
@@ -61,9 +66,17 @@ function getLoggedinUser() {
 }
 
 function _saveLocalUser(user) {
-    user = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl, score: user.score, isAdmin : user.isAdmin }
-    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-    return user
+    const { _id, fullname, imgUrl, isAdmin } = user
+
+    const localUser = {
+        _id,
+        fullname,
+        imgUrl,
+        isAdmin: !!isAdmin,
+    }
+
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(localUser))
+    return localUser
 }
 
 // To quickly create an admin user, uncomment the next line
@@ -79,4 +92,63 @@ async function _createAdmin() {
 
     const newUser = await storageService.post('user', userCred)
     console.log('newUser: ', newUser)
+}
+
+async function _createDemoUsers() {
+    try {
+        const users = await storageService.query(USER_KEY)
+        if (users?.length) return
+
+        const demoUsers = [
+            {
+                _id: 'u101',
+                username: 'puki',
+                password: '123',
+                fullname: 'Puki Ben David',
+                imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg',
+                likedStationIds: ['s002', 's003'],
+                likedSongIds: [
+                    'mUkfiLjooxs',
+                    'jfKfPfyJRdk',
+                    'DWcJFNfaw9c',
+                    'fJ9rUzIMcZQ',
+                    'ZcXpKiY2MXE',
+                ],
+                likedSongsStationId: 'liked999',
+                isAdmin: false
+            },
+            {
+                _id: 'u102',
+                username: 'admin',
+                password: 'admin',
+                fullname: 'Admin User',
+                imgUrl: 'https://randomuser.me/api/portraits/men/11.jpg',
+                likedStationIds: [],
+                likedSongIds: [],
+                likedSongsStationId: 'liked998',
+                isAdmin: true
+            }
+        ]
+
+        for (const user of demoUsers) {
+            await storageService.post(USER_KEY, user)
+        }
+    } catch (err) {
+        console.error('Failed to create demo users:', err)
+    }
+}
+
+async function _loginDemoUser() {
+    const users = await userService.getUsers()
+    const demoUser = users.find(user => user.username === 'puki')
+
+    if (demoUser) {
+        sessionStorage.setItem('loggedinUser', JSON.stringify({
+            _id: demoUser._id,
+            fullname: demoUser.fullname,
+            imgUrl: demoUser.imgUrl,
+            isAdmin: !!demoUser.isAdmin
+        }))
+        console.log('Logged in as demo user:', demoUser.fullname)
+    }
 }

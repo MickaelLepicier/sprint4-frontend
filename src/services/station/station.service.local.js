@@ -367,12 +367,14 @@ function _createEmptyStation() {
   }
 }
 
+// *** 'Using type: likedSongs' to differenciate from other stations ***
 function _createDemoStations() {
   const demoData = loadFromStorage(STORAGE_KEY)
   if (!demoData || !demoData.length) {
     const demoStations = [
     {
       _id: 's001',
+      // type: 'likedSongs', // <<<<< type: likedSongs
       name: 'Funky Monks',
       imgUrl: 'https://i.imgur.com/O9bYp9X.jpg',
       tags: ['Funk', 'Groove', '70s'],
@@ -462,109 +464,109 @@ function _createDemoStations() {
       ],
     },
 
-      {
-        _id: 's003',
-        name: 'Classic Rock Hits',
-        imgUrl: 'https://i.imgur.com/N6T6vNT.jpg',
-        tags: ['Rock', 'Classic', 'Legends'],
-        createdBy: {
-          _id: 'u105',
-          fullname: 'Mike Thunder',
-          imgUrl: 'https://randomuser.me/api/portraits/men/33.jpg',
-        },
-        likedByUsers: ['u101', 'u102'],
-        songs: [
-          {
-            _id: 'fJ9rUzIMcZQ',
-            title: 'Queen – Bohemian Rhapsody',
-            url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
-            imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
-            addedBy: 'u105',
-            likedBy: ['u101'],
-            addedAt: Date.now() - 7000000,
-          },
-          {
-            _id: 'xbhCPt6PZIU',
-            title: 'AC/DC - Back In Black',
-            url: 'https://www.youtube.com/watch?v=xbhCPt6PZIU',
-            imgUrl: 'https://i.ytimg.com/vi/xbhCPt6PZIU/mqdefault.jpg',
-            addedBy: 'u105',
-            likedBy: ['u102'],
-            addedAt: Date.now() - 5000000,
-          },
-          {
-            _id: 'ZcXpKiY2MXE',
-            title: 'Led Zeppelin - Stairway to Heaven',
-            url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
-            imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
-            addedBy: 'u101',
-            likedBy: ['u105'],
-            addedAt: Date.now() - 2000000,
-          },
-        ],
-        msgs: [
-          { id: 'm301', from: 'u102', txt: 'Rock on 🤘' },
-          { id: 'm302', from: 'u105', txt: 'Legends never die' },
-        ],
+    {
+      _id: 's003',
+      name: 'Classic Rock Hits',
+      imgUrl: 'https://i.imgur.com/N6T6vNT.jpg',
+      tags: ['Rock', 'Classic', 'Legends'],
+      createdBy: {
+        _id: 'u105',
+        fullname: 'Mike Thunder',
+        imgUrl: 'https://randomuser.me/api/portraits/men/33.jpg',
       },
-      {
-        _id: 'liked999',
-        name: 'Liked Songs',
-        imgUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
-        tags: [],
-        createdBy: {
-            _id: 'u101',
-            fullname: 'Puki Ben David',
-            imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg'
+      likedByUsers: ['u101', 'u102'],
+      songs: [
+        {
+          _id: 'fJ9rUzIMcZQ',
+          title: 'Queen – Bohemian Rhapsody',
+          url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+          imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
+          addedBy: 'u105',
+          likedBy: ['u101'],
+          addedAt: Date.now() - 7000000,
         },
-        likedByUsers: [],
-        songs: [
-          {
-            _id: 'mUkfiLjooxs',
-            title: "The JB's - Pass The Peas",
-            url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
-            imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
-            addedBy: 'u202',
-            likedBy: ['u101'],
-            addedAt: Date.now() - 8000000,
-          },
-          {
-            _id: 'jfKfPfyJRdk',
-            title: 'lofi beats to sleep/chill to',
-            url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
-            imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
-            addedBy: 'u102',
-            likedBy: ['u101'],
-            addedAt: Date.now() - 3000000,
-          },
-          {
-            _id: 'DWcJFNfaw9c',
-            title: 'Chillhop Essentials - Winter 2023',
-            url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
-            imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
-            addedBy: 'u103',
-            likedBy: ['u101', 'u102'],
-            addedAt: Date.now() - 2000000,
-          },
-          {
-            _id: 'fJ9rUzIMcZQ',
-            title: 'Queen – Bohemian Rhapsody',
-            url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
-            imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
-            addedBy: 'u105',
-            likedBy: ['u101'],
-            addedAt: Date.now() - 7000000,
-          },
-          {
-            _id: 'ZcXpKiY2MXE',
-            title: 'Led Zeppelin - Stairway to Heaven',
-            url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
-            imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
-            addedBy: 'u101',
-            likedBy: ['u105'],
-            addedAt: Date.now() - 2000000,
-          }
-        ], 
+        {
+          _id: 'xbhCPt6PZIU',
+          title: 'AC/DC - Back In Black',
+          url: 'https://www.youtube.com/watch?v=xbhCPt6PZIU',
+          imgUrl: 'https://i.ytimg.com/vi/xbhCPt6PZIU/mqdefault.jpg',
+          addedBy: 'u105',
+          likedBy: ['u102'],
+          addedAt: Date.now() - 5000000,
+        },
+        {
+          _id: 'ZcXpKiY2MXE',
+          title: 'Led Zeppelin - Stairway to Heaven',
+          url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
+          imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
+          addedBy: 'u101',
+          likedBy: ['u105'],
+          addedAt: Date.now() - 2000000,
+        },
+      ],
+      msgs: [
+        { id: 'm301', from: 'u102', txt: 'Rock on 🤘' },
+        { id: 'm302', from: 'u105', txt: 'Legends never die' },
+      ],
+    },
+    {
+      _id: 'xyz123',
+      name: 'Liked Songs',
+      imgUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
+      tags: [],
+      createdBy: {
+          _id: 'u101',
+          fullname: 'Puki Ben David',
+          imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg'
+      },
+      likedByUsers: [],
+      songs: [
+        {
+          _id: 'mUkfiLjooxs',
+          title: "The JB's - Pass The Peas",
+          url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
+          imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
+          addedBy: 'u202',
+          likedBy: ['u101'],
+          addedAt: Date.now() - 8000000,
+        },
+        {
+          _id: 'jfKfPfyJRdk',
+          title: 'lofi beats to sleep/chill to',
+          url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
+          imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
+          addedBy: 'u102',
+          likedBy: ['u101'],
+          addedAt: Date.now() - 3000000,
+        },
+        {
+          _id: 'DWcJFNfaw9c',
+          title: 'Chillhop Essentials - Winter 2023',
+          url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
+          imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
+          addedBy: 'u103',
+          likedBy: ['u102'],
+          addedAt: Date.now() - 2000000,
+        },
+        {
+          _id: 'fJ9rUzIMcZQ',
+          title: 'Queen – Bohemian Rhapsody',
+          url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+          imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
+          addedBy: 'u105',
+          likedBy: ['u101'],
+          addedAt: Date.now() - 7000000,
+        },
+        {
+          _id: 'ZcXpKiY2MXE',
+          title: 'Led Zeppelin - Stairway to Heaven',
+          url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
+          imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
+          addedBy: 'u101',
+          likedBy: ['u105'],
+          addedAt: Date.now() - 2000000,
+        }
+      ], 
         msgs: [],
         createdAt: Date.now()
       }

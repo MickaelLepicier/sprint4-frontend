@@ -70,6 +70,8 @@ function _saveLocalUser(user) {
         _id,
         fullname,
         imgUrl,
+        likedSongsStationId: user.likedSongsStationId,
+        likedStationIds: user.likedStationIds,
         isAdmin: !!isAdmin,
     }
 
@@ -112,7 +114,7 @@ async function _createDemoUsers() {
                     'fJ9rUzIMcZQ',
                     'ZcXpKiY2MXE',
                 ],
-                likedSongsStationId: 'liked999',
+                likedSongsStationId: 'xyz123',
                 isAdmin: false
             },
             {

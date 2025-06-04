@@ -65,6 +65,23 @@ export async function updateStation(station) {
   }
 }
 
+export async function createStationForUser() {
+    const user = store.getState().userModule.user
+    if (!user?._id) {
+      throw new Error('User must be logged in to create a station')
+    }
+    
+    const stations = store.getState().stationModule.stations
+    const userStations = stations.filter(station => station.createdBy?._id === user._id)
+    const nextNum = userStations.length + 1
+    const newStation = stationService.buildNewStationForUser(user, nextNum)
+    
+    const savedStation = await stationService.save(newStation)
+    store.dispatch(getCmdAddStation(savedStation))
+    console.log(savedStation) 
+    return savedStation
+}
+
 export async function addStationMsg(stationId, txt) {
   try {
     const msg = await stationService.addStationMsg(stationId, txt)
@@ -75,8 +92,6 @@ export async function addStationMsg(stationId, txt) {
     throw err
   }
 }
-
-
 
 export async function setSong(song) {
   try {
@@ -103,7 +118,6 @@ export function setIsPlaying(isPlaying) {
 //     throw err
 //   }
 // }
-
 
 export async function togglePlay(isPlaying) {
   const ref = window.playerRef

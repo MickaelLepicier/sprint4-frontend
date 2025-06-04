@@ -5,8 +5,6 @@ const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser'
 
 _createDemoUsers()
 
-userService.login({ username: 'puki', password: '123' }).then(console.log)
-
 export const userService = {
     login,
     logout,

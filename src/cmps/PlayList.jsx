@@ -15,6 +15,7 @@ import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
 import { PlayButton } from './PlayButton'
+import { SongPreview } from './SongPreview'
 
 export function PlayList() {
   const { stationId } = useParams()
@@ -29,12 +30,10 @@ export function PlayList() {
   )
   const currSong = useSelector(
     (storeState) => storeState.stationModule.currentSong
-  )
-
+  ) || station.songs[0]
 
   const songs = station?.songs || []
-  const _currSong = currSong ? currSong : station.songs[0]
-
+  // const _currSong = currSong ? currSong : station.songs[0]
 
   useEffect(() => {
     if (!station || station._id !== stationId) {
@@ -82,7 +81,6 @@ export function PlayList() {
     if (!currPlayer) return
 
     if (currSong?._id === song?._id) {
-
       if (isPlaying) {
         currPlayer.pauseVideo()
         setIsPlaying(false)
@@ -90,12 +88,10 @@ export function PlayList() {
         currPlayer.playVideo()
         setIsPlaying(true)
       }
-
     } else {
       setSong(song)
       setIsPlaying(true)
     }
-
   }
 
   // async function onAddStationMsg(stationId) {
@@ -147,12 +143,11 @@ export function PlayList() {
         <h1>{station.name}</h1>
       </header>
       <div className="playlist-play-actions">
-
         <div className="media-player-container">
           <PlayButton
-            onToggle={() => onTogglePlay(_currSong)}
+            onToggle={() => onTogglePlay(currSong)}
             isPlaying={isPlaying}
-            addClassName={'play-btn'}
+            addClassName='song-list-play-btn'
           />
         </div>
 
@@ -170,30 +165,16 @@ export function PlayList() {
           </tr>
         </thead>
         <tbody>
-          {songs.map((song, idx) => (
-            <tr key={idx} className="song-row">
-              <td className="song-play-idx">
-                <span className="song-idx">{idx + 1}</span>
-                <span className="play-icon" onClick={() => onTogglePlay(song)}>
-                  ▶
-                </span>
-              </td>
-              <td>
-                <div className="song-img-title">
-                  <img src={song.imgUrl} alt="img" style={{ width: 40 + 'px', height: 40 + 'px' }} />
-                  <p>{song.title}</p>
-                </div>
-              </td>
-              <td>{station.name}</td>
-              <td>{new Date(song.addedAt).toLocaleDateString()}</td>
-
-              <td>
-                <button className="add-to-liked">+</button>
-                <span className="song-duration">⏱️ </span>
-                <button className="more-options">...</button>
-              </td>
-            </tr>
-          ))}
+          {songs.map((song, idx) => {
+            return (
+              <SongPreview
+                song={song}
+                idx={idx}
+                station={station}
+                togglePlay={onTogglePlay}
+              />
+            )
+          })}
         </tbody>
       </table>
       <button onClick={() => setShowSearchBar(!showSearchBar)}>Find more</button>

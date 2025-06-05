@@ -55,7 +55,7 @@
     }
   }
 
-  .play-btn {
+  .song-list-play-btn {
     width: 48px;
     height: 48px;
     background-color: #1db954;
@@ -65,7 +65,33 @@
     }
 
     &:hover {
-      background-color: #1ED760;
+      background-color: #1ed760;
     }
   }
+}
+
+.song-preview-play-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease;
+
+  background: none;
+  border: none;
+
+  img {
+    width: 16px;
+    height: 24px;
+    filter: brightness(0) invert(1); // white
+    // filter: brightness(0) invert(0.6); // #B3B3B3 grey
+
+
+  }
+
+  //   background-color: red;
 }

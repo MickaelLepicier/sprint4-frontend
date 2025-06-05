@@ -50,7 +50,6 @@ export function stationReducer(state = initialState, action) {
       newState = { ...state, currentSong: action.song }
       break
     case SET_IS_PLAYING:
-      // newState = { ...state, isPlaying: !state.isPlaying }
       newState = { ...state, isPlaying: action.isPlaying }
       break
     // case SET_IS_PLAYING:

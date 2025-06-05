@@ -1,6 +1,4 @@
 // *** ICONS ***
-import play from '../assets/icons/media-player/play_small.svg'
-import pause from '../assets/icons/media-player/pause_small.svg'
 import prev from '../assets/icons/media-player/prev_song.svg'
 import next from '../assets/icons/media-player/next_song.svg'
 
@@ -19,8 +17,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   nextSong,
   prevSong,
-  setIsPlaying,
-  togglePlay
+  setIsPlaying
 } from '../store/station/station.actions.js'
 import { PlayButton } from './PlayButton.jsx'
 import { SetActionBtn } from './util/SetActionBtn.jsx'
@@ -33,9 +30,6 @@ export function MediaPlayer() {
     (storeState) => storeState.stationModule.currentSong
   )
   const station = useSelector((storeState) => storeState.stationModule.station)
-
-  // console.log('XXXXXXX isPlaying: ',isPlaying)
-  // console.log('YYYYYYYY currSong: ',currSong)
 
   //   const videoId = 'SRXH9AbT280' // Extract from YouTube URL
 
@@ -77,7 +71,6 @@ export function MediaPlayer() {
     // }
   }, [currSong])
 
-
   function onTogglePlay() {
     if (!playerRef.current) return
 
@@ -88,7 +81,6 @@ export function MediaPlayer() {
       playerRef.current.playVideo()
       setIsPlaying(true)
     }
-
   }
 
   function onEnd() {
@@ -107,7 +99,7 @@ export function MediaPlayer() {
     prevSong()
   }
 
-  function onRepeat(){
+  function onRepeat() {
     setIsRepeat(!isRepeat)
   }
 
@@ -179,7 +171,6 @@ export function MediaPlayer() {
             dis={!song}
           />
           <SetActionBtn imgSrc={repeat} str="repeat" onClick={onRepeat} />
-
         </div>
 
         <div className="track-seek flex">
@@ -201,8 +192,8 @@ export function MediaPlayer() {
 
         <span className="react-youtube">
           <ReactYouTube
-            key={song._id} 
-            videoId={song._id} 
+            key={song._id}
+            videoId={song._id}
             isPlaying={isPlaying}
             volume={volume}
             // volume={50}

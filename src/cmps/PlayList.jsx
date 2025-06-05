@@ -1,14 +1,20 @@
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadStation, addStationMsg, setSong, setIsPlaying, togglePlay } from '../store/station/station.actions'
-import { SET_IS_PLAYING, SET_SONG } from '../store/station/station.reducer'
+import {
+  loadStation,
+  addStationMsg,
+  setSong,
+  setIsPlaying,
+  togglePlay
+} from '../store/station/station.actions'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
+import { PlayButton } from './PlayButton'
 
 export function PlayList() {
   const { stationId } = useParams()
@@ -18,10 +24,17 @@ export function PlayList() {
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
 
-  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
-  const currentSong = useSelector(storeState => storeState.stationModule.currentSong)
+  const isPlaying = useSelector(
+    (storeState) => storeState.stationModule.isPlaying
+  )
+  const currSong = useSelector(
+    (storeState) => storeState.stationModule.currentSong
+  )
 
-  const dispatch = useDispatch()
+
+  const songs = station?.songs || []
+  const _currSong = currSong ? currSong : station.songs[0]
+
 
   useEffect(() => {
     if (!station || station._id !== stationId) {
@@ -59,12 +72,31 @@ export function PlayList() {
     debouncedSearch.current(value)
   }
 
-  // function onPlaySong(song) {
-  //   setCurrSong(song)
+  function onTogglePlay(song) {
+    if (!song || !song._id) {
+      console.log('Invalid song passed to onTogglePlay: ', song)
+      return
+    }
 
-  //   dispatch({ type: SET_SONG, song })
-  //   dispatch({ type: SET_IS_PLAYING, isPlaying })
-  // }
+    const currPlayer = window.playerRef?.current
+    if (!currPlayer) return
+
+    if (currSong?._id === song?._id) {
+
+      if (isPlaying) {
+        currPlayer.pauseVideo()
+        setIsPlaying(false)
+      } else {
+        currPlayer.playVideo()
+        setIsPlaying(true)
+      }
+
+    } else {
+      setSong(song)
+      setIsPlaying(true)
+    }
+
+  }
 
   // async function onAddStationMsg(stationId) {
   //     try {
@@ -107,6 +139,7 @@ export function PlayList() {
   //   togglePlay(isPlaying)
   // }
 
+
   return (
     <section className="station-play-list">
       <header className="station-header">
@@ -114,8 +147,16 @@ export function PlayList() {
         <h1>{station.name}</h1>
       </header>
       <div className="playlist-play-actions">
-        <button onClick={() => onPlaySong()}>PLAY SECTION</button>
-        <button>Compact</button>
+
+        <div className="media-player-container">
+          <PlayButton
+            onToggle={() => onTogglePlay(_currSong)}
+            isPlaying={isPlaying}
+            addClassName={'play-btn'}
+          />
+        </div>
+
+        <button className="btn-compact">Compact</button>
       </div>
 
       <table>
@@ -133,12 +174,7 @@ export function PlayList() {
             <tr key={idx} className="song-row">
               <td className="song-play-idx">
                 <span className="song-idx">{idx + 1}</span>
-                <span
-                  className="play-icon"
-                  onClick={() => {
-                    onPlaySong(song)
-                  }}
-                >
+                <span className="play-icon" onClick={() => onTogglePlay(song)}>
                   ▶
                 </span>
               </td>

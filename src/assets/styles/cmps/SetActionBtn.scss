@@ -1,0 +1,71 @@
+.media-player-container {
+  // *** action button ***
+
+  .track-action {
+    img {
+      // filter: grayscale(1);
+      filter: brightness(0) invert(0.7);
+    }
+
+    &:hover {
+      img {
+        transform: scale(1.05);
+        filter: brightness(0) invert(1);
+      }
+    }
+
+    &:active {
+      img {
+        transform: scale(0.95);
+        filter: brightness(0) invert(0.6);
+      }
+    }
+  }
+
+  .play,
+  .pause {
+    margin-inline: 10px;
+    justify-items: center;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.1s ease-out;
+
+    img {
+      filter: invert(0);
+      transition: all 0.1s ease-out;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      background-color: rgba(255, 255, 255, 0.829);
+
+      img {
+        transform: scale(1.05);
+        filter: invert(0);
+      }
+    }
+
+    &:active {
+      transform: scale(0.95);
+      background-color: rgba(255, 255, 255, 0.594);
+
+      img {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .play-btn {
+    width: 48px;
+    height: 48px;
+    background-color: #1db954;
+
+    img {
+      width: 24px;
+    }
+
+    &:hover {
+      background-color: #1ED760;
+    }
+  }
+}

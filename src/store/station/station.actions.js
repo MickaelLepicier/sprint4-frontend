@@ -101,9 +101,9 @@ export async function setSong(song) {
     throw err
   }
 }
-
-export function setIsPlaying(isPlaying) {
+export async function setIsPlaying(isPlaying) {
   try {
+    // store.dispatch({ type: SET_IS_PLAYING })
     store.dispatch({ type: SET_IS_PLAYING, isPlaying: !!isPlaying })
   } catch (err) {
     console.log('Cannot set isPlaying ', err)

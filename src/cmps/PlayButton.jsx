@@ -1,16 +1,12 @@
-import { FaPlay, FaPause } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+// *** ICONS ***
+import play from '../assets/icons/media-player/play_small.svg'
+import pause from '../assets/icons/media-player/pause_small.svg'
+import { SetActionBtn } from './util/SetActionBtn'
 
-export function PlayButton({isPlaying, onToggle }) {
-    // const isPlaying = useSelector((storeState) => storeState.systemModule.isPlaying)
+export function PlayButton({ isPlaying, onToggle, addClassName = '' }) {
+  
+  const className = isPlaying ? `pause ${addClassName}` : `play ${addClassName}`
+  const imgSrc = isPlaying ? pause : play
 
-
-  return (
-    <button
-      onClick={onToggle}
-      className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg transition-all"
-    >
-      {isPlaying ? <FaPause /> : <FaPlay />}
-    </button>
-  )
+  return <SetActionBtn imgSrc={imgSrc} str={className} onClick={onToggle} />
 }

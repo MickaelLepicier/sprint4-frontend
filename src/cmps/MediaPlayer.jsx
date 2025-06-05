@@ -22,18 +22,20 @@ import {
   setIsPlaying,
   togglePlay
 } from '../store/station/station.actions.js'
+import { PlayButton } from './PlayButton.jsx'
+import { SetActionBtn } from './util/SetActionBtn.jsx'
 
 export function MediaPlayer() {
   const isPlaying = useSelector(
     (storeState) => storeState.stationModule.isPlaying
   )
-  const currSong =
-    useSelector((storeState) => storeState.stationModule.currentSong) || ''
-  const station =
-    useSelector((storeState) => storeState.stationModule.station) || ''
+  const currSong = useSelector(
+    (storeState) => storeState.stationModule.currentSong
+  )
+  const station = useSelector((storeState) => storeState.stationModule.station)
 
-  //   console.log('station: ',station)
-  //   console.log('currSong: ',currSong)
+  // console.log('XXXXXXX isPlaying: ',isPlaying)
+  // console.log('YYYYYYYY currSong: ',currSong)
 
   //   const videoId = 'SRXH9AbT280' // Extract from YouTube URL
 
@@ -51,10 +53,6 @@ export function MediaPlayer() {
   const playerRef = useRef(null)
   window.playerRef = playerRef
 
-  // FIX BUG - when the song is played it render this page every time the interval is on (500ms)
-  // the solution is to make a different comp and it will render less code
-  //   console.log('playerRef: ',playerRef)
-
   const song = { ...currSong }
 
   useEffect(() => {
@@ -70,7 +68,6 @@ export function MediaPlayer() {
     }, 500)
 
     return () => clearInterval(interval)
-    //   }, [isPlaying])
   }, [song, isPlaying, volume])
 
   useEffect(() => {
@@ -79,22 +76,6 @@ export function MediaPlayer() {
     //   audioRef.current.play()
     // }
   }, [currSong])
-
-  function setActionIcon(
-    imgSrc,
-    str,
-    func = () => {
-      null
-    },
-    dis = false
-  ) {
-    // if(song && str === 'pause' || str === 'play') togglePlay()
-    return (
-      <button className={`track-action ${str}`} onClick={func} disabled={dis}>
-        <img src={imgSrc} alt={str} />
-      </button>
-    )
-  }
 
 
   function onTogglePlay() {
@@ -107,17 +88,16 @@ export function MediaPlayer() {
       playerRef.current.playVideo()
       setIsPlaying(true)
     }
+
   }
-  // function onTogglePlay() {
-  //   if (!playerRef.current) return
-
-  //   togglePlay(isPlaying)
-
-  //   setIsPlaying()
-  // }
 
   function onEnd() {
-    nextSong()
+    if (isRepeat && playerRef.current) {
+      playerRef.current.seekTo(0)
+      playerRef.current.playVideo()
+    } else {
+      nextSong()
+    }
   }
   function onNextSong() {
     nextSong()
@@ -125,6 +105,10 @@ export function MediaPlayer() {
 
   function onPrevSong() {
     prevSong()
+  }
+
+  function onRepeat(){
+    setIsRepeat(!isRepeat)
   }
 
   function formatTime(sec) {
@@ -178,15 +162,24 @@ export function MediaPlayer() {
 
       <section className="track-controls-container">
         <div className="track-actions">
-          {setActionIcon(shuffle, 'shuffle')}
-          {setActionIcon(prev, 'prev', onPrevSong, !song)}
+          <SetActionBtn imgSrc={shuffle} str="shuffle" />
+          <SetActionBtn
+            imgSrc={prev}
+            str="prev"
+            onClick={onPrevSong}
+            dis={!song}
+          />
 
-          {isPlaying
-            ? setActionIcon(pause, 'pause', onTogglePlay)
-            : setActionIcon(play, 'play', onTogglePlay)}
+          <PlayButton isPlaying={isPlaying} onToggle={onTogglePlay} />
 
-          {setActionIcon(next, 'next', onNextSong, !song)}
-          {setActionIcon(repeat, 'repeat')}
+          <SetActionBtn
+            imgSrc={next}
+            str="next"
+            onClick={onNextSong}
+            dis={!song}
+          />
+          <SetActionBtn imgSrc={repeat} str="repeat" onClick={onRepeat} />
+
         </div>
 
         <div className="track-seek flex">
@@ -208,8 +201,8 @@ export function MediaPlayer() {
 
         <span className="react-youtube">
           <ReactYouTube
-            key={song._id} // later on change to song.url
-            videoId={song._id} // song.url
+            key={song._id} 
+            videoId={song._id} 
             isPlaying={isPlaying}
             volume={volume}
             // volume={50}

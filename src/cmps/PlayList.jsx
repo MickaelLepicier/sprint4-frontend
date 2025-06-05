@@ -106,35 +106,6 @@ export function PlayList() {
 
   if (!station) return <div>Loading playlist...</div>
 
-  const songs = station?.songs || []
-
-  function onPlaySong(song) {
-    const playerRef = window.playerRef
-    const currPlayer = playerRef?.current
-
-    if (!currPlayer) return
-
-    if (currentSong?._id === song._id) {
-        if (isPlaying) {
-          currPlayer.pauseVideo()
-          setIsPlaying(false)
-        } else {
-            currPlayer.playVideo()
-            setIsPlaying(true)
-        }
-    } else {
-        setSong(song)
-        setIsPlaying(true)
-    }
-  }
-  // async function onPlaySong(song = station.songs[0]) {
-  //   console.log('song:',song)
-  //   // console.log('station: ',station.songs[0])
-  //   await setSong(song)
-  //   await setIsPlaying()
-  //   togglePlay(isPlaying)
-  // }
-
 
   return (
     <section className="station-play-list">

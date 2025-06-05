@@ -223,30 +223,16 @@ async function headerSearch(query) {
           }))
 
         const station = _createEmptyStation()
-        const imgUrl = songs.find(song => song.imgUrl)?.imgUrl || ''
 
-        station.name = playlist.snippet.title
-        station.imgUrl = imgUrl
-        station.tags = [genre]
-        station.createdBy.fullname = playlist.snippet.channelTitle
+        station.name = artist
+        station.imgUrl = video.snippet.thumbnails?.medium?.url || ''
+        station.tags = [query]
+        station.createdBy.fullname = artist
         station.songs = songs
-        station.description = playlist.snippet.description || '' 
         station.msgs = [
-          { id: `m${idx}1`, from: 'u201', txt: '🔥 Love this genre mix!' },
-          { id: `m${idx}2`, from: 'u202', txt: 'Perfect for the vibe' },
+          { id: `m${idx}1`, from: 'u201', txt: 'Great vibes!' },
+          { id: `m${idx}2`, from: 'u202', txt: 'Love it!' },
         ]
-
-        // const station = _createEmptyStation()
-
-        // station.name = artist
-        // station.imgUrl = video.snippet.thumbnails?.medium?.url || ''
-        // station.tags = [query]
-        // station.createdBy.fullname = artist
-        // station.songs = songs
-        // station.msgs = [
-        //   { id: `m${idx}1`, from: 'u201', txt: 'Great vibes!' },
-        //   { id: `m${idx}2`, from: 'u202', txt: 'Love it!' },
-        // ]
 
         return station
       })

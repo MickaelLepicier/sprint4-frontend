@@ -17,6 +17,8 @@
         "iso8601-duration": "^2.1.2",
         "overlayscrollbars": "^2.11.4",
         "react": "^19.1.0",
+        "react-dnd": "^16.0.1",
+        "react-dnd-html5-backend": "^16.0.1",
         "react-dom": "^19.1.0",
         "react-redux": "^9.2.0",
         "react-router": "^7.6.1",

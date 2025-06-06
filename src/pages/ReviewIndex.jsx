@@ -5,7 +5,7 @@ import { loadReviews, removeReview, getActionAddReview, getActionRemoveReview } 
 import { loadUsers } from '../store/user/user.actions'
 
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
-import { socketService, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED } from '../services/socket.service'
+// import { socketService, SOCKET_EVENT_REVIEW_ADDED, SOCKET_EVENT_REVIEW_REMOVED } from '../services/socket.service'
 import { ReviewList } from '../cmps/ReviewList'
 import { ReviewEdit } from '../cmps/ReviewEdit'
 

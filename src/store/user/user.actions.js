@@ -1,5 +1,5 @@
 import { userService } from '../../services/user'
-import { socketService } from '../../services/socket.service'
+// import { socketService } from '../../services/socket.service'
 import { store } from '../store'
 
 import { showErrorMsg } from '../../services/event-bus.service'
@@ -34,7 +34,7 @@ export async function login(credentials) {
             type: SET_USER,
             user
         })
-        socketService.login(user._id)
+        // socketService.login(user._id)
         return user
     } catch (err) {
         console.log('Cannot login', err)

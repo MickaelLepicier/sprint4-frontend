@@ -20,16 +20,16 @@ export function SidebarList({
         }
     }, []) 
 
-    // Combine user's own created playlists with liked playlists, Skip the 'Liked Songs' station of the user
+    // Combine user's own created songlists with liked songlists, Skip the 'Liked Songs' station of the user
     // and mark (pin) liked ones with isPinned: true (reserved for future use)
     const allStationsToShow = 
         [ ...userStations, ...likedStations]
             .filter(st => st._id !== likedSongsStationId)
             // .map(st => ({ ...st, isPinned: user?.pinnedStationIds?.includes(station._id) }))
 
-    function onClickPlaylist(stationId) {
+    function onClickSonglist(stationId) {
         setSelectedStationId(stationId)
-        navigate(`playlist/${stationId}`)
+        navigate(`songlist/${stationId}`)
     }
 
     return (
@@ -41,15 +41,15 @@ export function SidebarList({
                         likedSongsCount={likedSongsCount} 
                         likedSongsStationId={likedSongsStationId}
                         isSelected={selectedStationId === likedSongsStationId}
-                        onClickPlaylist={onClickPlaylist}
+                        onClickSonglist={onClickSonglist}
                     />
                 )}
 
-                {/* All playlists: user's and liked */}
+                {/* All songlists: user's and liked */}
                 {allStationsToShow.map(station => (
                     <SidebarPreview
                         key={station._id}
-                        playlist={{
+                        songlist={{
                             title: station.name,
                             imgUrl: station.imgUrl,
                             songCount: station.songs.length,
@@ -58,7 +58,7 @@ export function SidebarList({
                             createdById: station.createdBy?._id
                         }}
                         isSelected={selectedStationId === station._id}
-                        onClickPlaylist={onClickPlaylist}
+                        onClickSonglist={onClickSonglist}
                         userFirstName={user?.fullname?.split(' ')[0]}
                         userId={user._id}
                     />

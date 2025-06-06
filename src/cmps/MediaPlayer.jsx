@@ -48,6 +48,8 @@ export function MediaPlayer() {
   window.playerRef = playerRef
 
   const song = { ...currSong }
+  const repeatActive = isRepeat ? 'active' : ''
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -170,7 +172,7 @@ export function MediaPlayer() {
             onClick={onNextSong}
             dis={!song}
           />
-          <SetActionBtn imgSrc={repeat} str="repeat" onClick={onRepeat} />
+          <SetActionBtn imgSrc={repeat} str={`repeat ${repeatActive}`} onClick={onRepeat} />
         </div>
 
         <div className="track-seek flex">

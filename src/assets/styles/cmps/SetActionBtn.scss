@@ -20,6 +20,15 @@
         filter: brightness(0) invert(0.6);
       }
     }
+
+    &.active {
+      img {
+        transform: scale(1.05);
+        filter: brightness(0) invert(1);
+      }
+
+
+    }
   }
 
   .play,
@@ -55,7 +64,7 @@
     }
   }
 
-  .song-list-play-btn {
+  .songlist-play-btn {
     width: 48px;
     height: 48px;
     background-color: #1db954;
@@ -89,8 +98,6 @@
     height: 24px;
     filter: brightness(0) invert(1); // white
     // filter: brightness(0) invert(0.6); // #B3B3B3 grey
-
-
   }
 
   //   background-color: red;

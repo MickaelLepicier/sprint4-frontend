@@ -19,15 +19,15 @@ export function GenreSearchResult() {
 
   function onGoToStation(station) {
     dispatch({ type: SET_STATION, station })
-    navigate(`/playlist/${station._id}`)
+    navigate(`/songlist/${station._id}`)
   }
 
   return (
     <section className="genre-search-result">
       <h1 className="genre-title">{genre}</h1>
 
-      <section className="playlist-section">
-        <h2>Popular {genre} playlists</h2>
+      <section className="songlist-section">
+        <h2>Popular {genre} songlists</h2>
 
           <div className="station-list">
            <div className="grid-container">

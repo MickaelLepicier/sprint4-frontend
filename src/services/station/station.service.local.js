@@ -28,7 +28,7 @@ export const stationService = {
   save,
   remove,
   sideBarSearch,
-  genrePlaylistSearch,
+  genreSonglistSearch,
   headerSearch,
   buildNewStationForUser
 
@@ -73,7 +73,7 @@ async function remove(stationId) {
   await storageService.remove(STORAGE_KEY, stationId)
 }
 
-// NEW SAVE: keeps all fields (e.g. createdBy) to avoid playlist bugs
+// NEW SAVE: keeps all fields (e.g. createdBy) to avoid songlist bugs
 async function save(station) {
   let savedStation
 
@@ -248,7 +248,7 @@ async function headerSearch(query) {
   }
 }
 
-async function genrePlaylistSearch(genre) {
+async function genreSonglistSearch(genre) {
   const searchWord = genre.trim().toLowerCase()
 
   if (genreCache[searchWord]?.length) {
@@ -257,26 +257,26 @@ async function genrePlaylistSearch(genre) {
   }
 
   try {
-    const playlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+    const songlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
         part: 'snippet',
         q: `${genre} music`,
-        type: 'playlist',
+        type: 'songlist',
         maxResults: 5,
         key: YT_API_KEY,
       },
     })
 
-    const playlists = playlistSearchRes.data.items
+    const songlists = songlistSearchRes.data.items
 
     const stations = await Promise.all(
-      playlists.map(async (playlist, idx) => {
-        const playlistId = playlist.id.playlistId
+      songlists.map(async (songlist, idx) => {
+        const songlistId = songlist.id.songlistId
 
         const itemsRes = await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
           params: {
             part: 'snippet',
-            playlistId,
+            songlistId: songlistId,
             maxResults: 3,
             key: YT_API_KEY,
           },
@@ -297,10 +297,10 @@ async function genrePlaylistSearch(genre) {
         const station = _createEmptyStation()
         const imgUrl = songs.find(song => song.imgUrl)?.imgUrl || ''
 
-        station.name = playlist.snippet.title
+        station.name = songlist.snippet.title
         station.imgUrl = imgUrl
         station.tags = [genre]
-        station.createdBy.fullname = playlist.snippet.channelTitle
+        station.createdBy.fullname = songlist.snippet.channelTitle
         station.songs = songs
         station.msgs = [
           { id: `m${idx}1`, from: 'u201', txt: '🔥 Love this genre mix!' },
@@ -313,7 +313,7 @@ async function genrePlaylistSearch(genre) {
     saveToStorage(GENRE_SEARCH_KEY, genreCache)
     return stations
   } catch (err) {
-    console.log('genrePlaylistSearch error:', err)
+    console.log('genreSonglistSearch error:', err)
     throw err
   }
 }
@@ -321,7 +321,7 @@ async function genrePlaylistSearch(genre) {
 // Note: this method is okay but could also use refactor in future
 function buildNewStationForUser(user, nextNum) {
     const newUserStation =  {
-        name: `My Playlist #${nextNum}`,
+        name: `My Songlist #${nextNum}`,
         imgUrl: '',
         tags: [],
         createdBy: {

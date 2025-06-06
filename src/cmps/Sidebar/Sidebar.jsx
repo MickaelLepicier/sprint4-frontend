@@ -33,17 +33,17 @@ export function Sidebar() {
 
     async function onCreateStation() {
         if (!user) {
-            showErrorMsg('Please log in to create a playlist')
+            showErrorMsg('Please log in to create a songlist')
             return
         }
 
         try {
             const savedStation = await createStationForUser()
 
-            showSuccessMsg('New playlist created!')
-            navigate(`/playlist/${savedStation._id}`)
+            showSuccessMsg('New songlist created!')
+            navigate(`/songlist/${savedStation._id}`)
         } catch (err) {
-            showErrorMsg('Failed to create playlist')
+            showErrorMsg('Failed to create songlist')
         }
     }
 

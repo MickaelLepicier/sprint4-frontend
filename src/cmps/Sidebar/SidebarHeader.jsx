@@ -12,11 +12,11 @@ export function SidebarHeader({ onCreateStation }) {
 
   // ************************************************************
   // ***** THIS LOGIC IS DISABLED *****
-  // Was used to auto-name playlists like "New Playlist #1"
+  // Was used to auto-name songlists like "New SongList #1"
   // No longer needed because the following features will be implemented:
-  // * Users can rename playlists
-  // * Playlists can be manually reordered (drag & drop)
-  // --> We just create a blank playlist now
+  // * Users can rename songlists
+  // * SongLists can be manually reordered (drag & drop)
+  // --> We just create a blank songlist now
 
   // async function onCreateStation() {
   //   try {
@@ -24,7 +24,7 @@ export function SidebarHeader({ onCreateStation }) {
 
   //     const usedNums = allStations
   //       .map(station => {
-  //         const match = station.name.match(/^New Playlist #(\d+)$/)
+  //         const match = station.name.match(/^New SongList #(\d+)$/)
   //         return match ? +match[1] : null
   //       })
   //       .filter(num => num !== null)
@@ -38,12 +38,12 @@ export function SidebarHeader({ onCreateStation }) {
 
   //     const newStation = {
   //       ...emptyStation,
-  //       name: `New Playlist #${nextNum}`,
+  //       name: `New SongList #${nextNum}`,
   //     }
 
   //     const savedStation = await addStation(newStation)
 
-  //     navigate(`/playlist/${savedStation._id}`)
+  //     navigate(`/songlist/${savedStation._id}`)
   //   } catch (error) {
   //     showErrorMsg('Error creating new album')
   //   }
@@ -54,7 +54,7 @@ export function SidebarHeader({ onCreateStation }) {
     <header className="sidebar-header">
       <div className="header-actions">
         <h1>Your Library</h1>
-        <button className="create-btn" aria-label="Create playlist or folder" onClick={onCreateStation}>
+        <button className="create-btn" aria-label="Create songlist or folder" onClick={onCreateStation}>
           <span className="icon">
             <CreateIcon />
           </span>

@@ -28,7 +28,7 @@ export function SongSearchResult() {
         songs: [...currStation.songs, normalizedSong],
       }
       await updateStation(stationToSave)
-      showSuccessMsg('Song added to playlist!')
+      showSuccessMsg('Song added to songlist!')
     } catch (error) {
       showErrorMsg('Error adding song')
     }

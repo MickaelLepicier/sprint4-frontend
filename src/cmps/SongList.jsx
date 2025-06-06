@@ -4,42 +4,43 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import {
-  loadStation,
-  addStationMsg,
-  setSong,
-  setIsPlaying,
-  togglePlay
-} from '../store/station/station.actions'
+import { loadStation, addStationMsg, setSong, setIsPlaying, togglePlay } from '../store/station/station.actions'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
 import { PlayButton } from './PlayButton'
 import { SongPreview } from './SongPreview'
 
-export function PlayList() {
+export function SongList() {
   const { stationId } = useParams()
-  const station = useSelector(storeState => storeState.stationModule.station)
-  const [isCompact, setIsCompact] = useState(false)
-  // const [currSong, setCurrSong] = useState(null)
-  const [searchSong, setSearchSong] = useState('')
-  const [showSearchBar, setShowSearchBar] = useState(false)
-
-  const isPlaying = useSelector(
-    (storeState) => storeState.stationModule.isPlaying
-  )
-  const currSong = useSelector(
-    (storeState) => storeState.stationModule.currentSong
-  ) || station.songs[0]
-
-  const songs = station?.songs || []
-  // const _currSong = currSong ? currSong : station.songs[0]
+  const station = useSelector((storeState) => storeState.stationModule.station)
 
   useEffect(() => {
     if (!station || station._id !== stationId) {
       loadStation(stationId)
     }
   }, [stationId])
+
+  // const [isCompact, setIsCompact] = useState(false)
+
+  const [searchSong, setSearchSong] = useState('')
+  const [showSearchBar, setShowSearchBar] = useState(false)
+
+  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
+  // console.log('station: ',station)
+  // const currSong = useSelector((storeState) => storeState.stationModule.currentSong) || (station?.songs[0])
+
+  const currentSongFromStore = useSelector((storeState) => storeState.stationModule.currentSong)
+  const currSong = currentSongFromStore || (station && station.songs ? station.songs[0] : null)
+
+  const songs = station?.songs || []
+  // const _currSong = currSong ? currSong : station.songs[0]
+
+  // useEffect(() => {
+  //   if (!station || station._id !== stationId) {
+  //     loadStation(stationId)
+  //   }
+  // }, [stationId])
 
   async function performSearch(txt) {
     if (!txt.trim()) return
@@ -51,7 +52,7 @@ export function PlayList() {
   }
 
   const debouncedSearch = useRef(
-    debounce(async txt => {
+    debounce(async (txt) => {
       try {
         await performSearch(txt)
       } catch (error) {
@@ -104,21 +105,20 @@ export function PlayList() {
 
   // }
 
-  if (!station) return <div>Loading playlist...</div>
-
+  if (!station) return <div>Loading songs list...</div>
 
   return (
-    <section className="station-play-list">
+    <section className="station-songlist">
       <header className="station-header">
         <img src={station.imgUrl} alt="" />
         <h1>{station.name}</h1>
       </header>
-      <div className="playlist-play-actions">
+      <div className="songlist-play-actions">
         <div className="media-player-container">
           <PlayButton
-            onToggle={() => onTogglePlay(currSong)}
+            onToggle={() => currSong && onTogglePlay(currSong)}
             isPlaying={isPlaying}
-            addClassName='song-list-play-btn'
+            addClassName="songlist-play-btn"
           />
         </div>
 
@@ -139,10 +139,11 @@ export function PlayList() {
           {songs.map((song, idx) => {
             return (
               <SongPreview
+                key={song._id || idx}
                 song={song}
                 idx={idx}
                 station={station}
-                togglePlay={onTogglePlay}
+                togglePlay={() => onTogglePlay(song)}
               />
             )
           })}

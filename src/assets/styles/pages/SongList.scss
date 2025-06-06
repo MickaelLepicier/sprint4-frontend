@@ -1,4 +1,4 @@
-.station-play-list {
+.station-songlist {
   background-color: #121212;
   color: #ffffff;
   padding: 32px;
@@ -25,7 +25,7 @@
     }
   }
 
-  .playlist-play-actions {
+  .songlist-play-actions {
     display: flex;
     justify-content: space-between;
     gap: 12px;
@@ -112,6 +112,11 @@
         // [] add animation when the song is playing
         // [] put some of the code here in a SongPreview.scss
 
+        // img {
+        //   // change this to green
+        //   transform: scale(1.05);
+        //   filter: sepia(1) hue-rotate(85deg) saturate(5);
+        // }
 
         .song-play-idx {
           .song-idx {

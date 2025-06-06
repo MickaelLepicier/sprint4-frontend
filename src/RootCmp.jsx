@@ -23,7 +23,7 @@ import { Signup } from './pages/Signup'
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg'
-import { PlayList } from './cmps/PlayList'
+import { SongList } from './cmps/SongList'
 import { Sidebar } from './cmps/Sidebar/Sidebar'
 import { SearchStations } from './pages/SearchStations'
 
@@ -54,7 +54,7 @@ export function RootCmp() {
 
             <Route path="station" element={<StationIndex />} />
             <Route path="station/:stationId" element={<StationDetails />} />
-            <Route path="playlist/:stationId" element={<PlayList />} />
+            <Route path="songlist/:stationId" element={<SongList />} />
             <Route path="search" element={<GenreIndex />} />
             <Route path="search/:txt" element={<SearchStations />} />
             <Route path="genre/:genre" element={<SearchStations />} />

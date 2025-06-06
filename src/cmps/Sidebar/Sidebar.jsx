@@ -20,10 +20,14 @@ export function Sidebar() {
         if (!stations.length) loadStations()
     }, [stations.length])
 
+    // Stations add by user to his library
     const likedStations = user ? stations.filter(s => user.likedStationIds.includes(s._id)) : []
 
+    // Stations the user created
     const userStations = user ? stations.filter(s => s.createdBy?._id === user._id) : []
 
+    // Stations that contains all the songs the user has liked
+    // Station shows/hides according if there are any songs in it
     const likedSongsStation = stations.find(s => s._id === user?.likedSongsStationId)
     const likedSongsCount = likedSongsStation?.songs?.length || 0
 
@@ -42,7 +46,7 @@ export function Sidebar() {
             showErrorMsg('Failed to create songlist')
         }
     }
-
+    console.log('SIDEBAR')
     return (
         <aside className="sidebar">
             <SidebarHeader onCreateStation={onCreateStation}/>
@@ -55,6 +59,7 @@ export function Sidebar() {
                 <SidebarList
                     userStations={userStations}
                     likedStations={likedStations}
+                    likedSongsStation={likedSongsStation}
                     likedSongsCount={likedSongsCount}
                     likedSongsStationId={user?.likedSongsStationId}
                     user={user}

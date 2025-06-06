@@ -1,7 +1,4 @@
 export function StationPreview({ station }) {
-
-console.log('Station clicked:', station)
-
     return (
         <div className="station-preview" role="listitem">
             <div className="img-container">

@@ -46,7 +46,7 @@ export function Sidebar() {
             showErrorMsg('Failed to create songlist')
         }
     }
-    console.log('SIDEBAR')
+
     return (
         <aside className="sidebar">
             <SidebarHeader onCreateStation={onCreateStation}/>

@@ -20,13 +20,9 @@ export function Sidebar() {
         if (!stations.length) loadStations()
     }, [stations.length])
 
-    const likedStations = user
-        ? stations.filter(s => user.likedStationIds.includes(s._id))
-        : []
+    const likedStations = user ? stations.filter(s => user.likedStationIds.includes(s._id)) : []
 
-    const userStations = user
-        ? stations.filter(s => s.createdBy?._id === user._id)
-        : []
+    const userStations = user ? stations.filter(s => s.createdBy?._id === user._id) : []
 
     const likedSongsStation = stations.find(s => s._id === user?.likedSongsStationId)
     const likedSongsCount = likedSongsStation?.songs?.length || 0
@@ -38,7 +34,7 @@ export function Sidebar() {
         }
 
         try {
-            const savedStation = await createStationForUser()
+            const savedStation = await createStationForUser(user)
 
             showSuccessMsg('New songlist created!')
             navigate(`/songlist/${savedStation._id}`)

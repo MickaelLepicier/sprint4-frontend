@@ -65,20 +65,18 @@ export async function updateStation(station) {
   }
 }
 
-export async function createStationForUser() {
-    const user = store.getState().userModule.user
+export async function createStationForUser(user) {
     if (!user?._id) {
       throw new Error('User must be logged in to create a station')
     }
     
     const stations = store.getState().stationModule.stations
-    const userStations = stations.filter(station => station.createdBy?._id === user._id)
-    const nextNum = userStations.length + 1
+    const nextNum = stationService.getNextAvailablePlaylistNumber(stations, user._id)
+
     const newStation = stationService.buildNewStationForUser(user, nextNum)
-    
     const savedStation = await stationService.save(newStation)
+    
     store.dispatch(getCmdAddStation(savedStation))
-    console.log(savedStation) 
     return savedStation
 }
 

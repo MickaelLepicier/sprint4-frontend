@@ -16,8 +16,6 @@ const headerCache = loadFromStorage(HEADER_SEARCH_KEY) || {}
 const GENRE_SEARCH_KEY = 'genreCacheDB'
 const genreCache = loadFromStorage(GENRE_SEARCH_KEY) || {}
 
-
-
 const YT_API_KEY = import.meta.env.VITE_YT_API_KEY
 
 _createDemoStations()
@@ -30,10 +28,11 @@ export const stationService = {
   sideBarSearch,
   genreSonglistSearch,
   headerSearch,
-  buildNewStationForUser
-
-  // addCarMsg
+  buildNewStationForUser,
+  getNextAvailablePlaylistNumber
+  // addCarMsg  
 }
+
 window.cs = stationService
 
 async function query(filterBy = { txt: '' }) {
@@ -318,29 +317,48 @@ async function genreSonglistSearch(genre) {
   }
 }
 
-// Note: this method is okay but could also use refactor in future
 function buildNewStationForUser(user, nextNum) {
-    const newUserStation =  {
-        name: `My Songlist #${nextNum}`,
-        imgUrl: '',
-        tags: [],
+    const emptyStation = _createEmptyStation()
+
+    const newUserStation = {
+        ...emptyStation,
+        name: `My Playlist #${nextNum}`,
         createdBy: {
             _id: user._id,
             fullname: user.fullname,
             imgUrl: user.imgUrl,
         },
-        likedByUsers: [],
-        songs: [],
-        msgs: [],
         createdAt: Date.now(),
     }
-    console.log(newUserStation)
+
     return newUserStation
+}
+
+export function getNextAvailablePlaylistNumber(stations, userId) {
+    const usedNums = stations
+        .filter(st => st.createdBy?._id === userId)
+        .map(st => {
+            const match = st.name?.match(/^My Playlist #(\d+)$/)
+            return match ? +match[1] : null
+        })
+        .filter(num => num !== null)
+        .sort((a, b) => a - b)
+
+    let nextNum = 1
+    for (const num of usedNums) {
+        if (num === nextNum) {
+            nextNum++
+        } else {
+            break
+        }
+    }
+
+    return nextNum
 }
 
 function _createEmptyStation() {
   return {
-    _id: makeId(),
+    // _id: makeId(), // empty stations don't make id!! save() does that
     name: '',
     imgUrl:'',
     tags: [],

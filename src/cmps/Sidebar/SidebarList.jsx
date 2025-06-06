@@ -20,12 +20,8 @@ export function SidebarList({
         }
     }, []) 
 
-    // Combine user's own created songlists with liked songlists, Skip the 'Liked Songs' station of the user
-    // and mark (pin) liked ones with isPinned: true (reserved for future use)
-    const allStationsToShow = 
-        [ ...userStations, ...likedStations]
-            .filter(st => st._id !== likedSongsStationId)
-            // .map(st => ({ ...st, isPinned: user?.pinnedStationIds?.includes(station._id) }))
+    const allStations = [ ...userStations, ...likedStations]
+    const allStationsToShow = allStations.filter(st => st._id !== likedSongsStationId)
 
     function onClickSonglist(stationId) {
         setSelectedStationId(stationId)

@@ -8,7 +8,7 @@ export function SidebarLikedSongs({
         <li
             className={`sidebar-preview${isSelected ? ' selected' : ''}`}
             draggable="true"
-            onClick={() => onClickPlaylist(likedSongsStationId)}
+            onClick={() => onClickSonglist(likedSongsStationId)}
         >
             <div className="img-wrapper">
                 <img

@@ -564,6 +564,16 @@ function _createDemoStations() {
           addedAt: Date.now() - 7000000,
         },
         {
+                  _id: 'Z6V7wGpY9qA',
+          title: 'Peaches - F*** the Pain Away',
+          url: 'https://www.youtube.com/watch?v=Z6V7wGpY9qA',
+          imgUrl: 'https://i.ytimg.com/vi/Z6V7wGpY9qA/mqdefault.jpg',
+          addedBy: 'u101',
+          likedBy: ['u105'],
+          addedAt: Date.now() - 2000000,
+        },
+
+        {
           _id: 'ZcXpKiY2MXE',
           title: 'Led Zeppelin - Stairway to Heaven',
           url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
@@ -571,6 +581,15 @@ function _createDemoStations() {
           addedBy: 'u101',
           likedBy: ['u105'],
           addedAt: Date.now() - 2000000,
+        },
+        {
+          _id: '04854XqcfCY',
+          title: 'Queen – We Are The Champions',
+          url: 'https://www.youtube.com/watch?v=04854XqcfCY',
+          imgUrl: 'https://i.ytimg.com/vi/04854XqcfCY/mqdefault.jpg',
+          addedBy: 'u101',
+          likedBy: ['u105'],
+          addedAt: Date.now() - 1800000,
         }
       ], 
         msgs: [],

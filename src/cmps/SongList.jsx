@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadStation, addStationMsg, setSong, setIsPlaying, togglePlay } from '../store/station/station.actions'
+import { showErrorMsg } from '../services/event-bus.service'
+import { loadStation, setSong, setIsPlaying } from '../store/station/station.actions'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
@@ -13,7 +13,15 @@ import { SongPreview } from './SongPreview'
 
 export function SongList() {
   const { stationId } = useParams()
-  const station = useSelector((storeState) => storeState.stationModule.station)
+  const dispatch = useDispatch()
+  const station = useSelector(store => store.stationModule.station)
+  const isPlaying = useSelector(store => store.stationModule.isPlaying)
+  const currentSongFromStore = useSelector(store => store.stationModule.currentSong)
+
+  const currSong = currentSongFromStore || (station?.songs?.[0] || null)
+  const [songs, setSongs] = useState([])
+  const [searchSong, setSearchSong] = useState('')
+  const [showSearchBar, setShowSearchBar] = useState(false)
 
   useEffect(() => {
     if (!station || station._id !== stationId) {
@@ -21,41 +29,15 @@ export function SongList() {
     }
   }, [stationId])
 
-  // const [isCompact, setIsCompact] = useState(false)
-
-  const [searchSong, setSearchSong] = useState('')
-  const [showSearchBar, setShowSearchBar] = useState(false)
-
-  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
-  // console.log('station: ',station)
-  // const currSong = useSelector((storeState) => storeState.stationModule.currentSong) || (station?.songs[0])
-
-  const currentSongFromStore = useSelector((storeState) => storeState.stationModule.currentSong)
-  const currSong = currentSongFromStore || (station && station.songs ? station.songs[0] : null)
-
-  const songs = station?.songs || []
-  // const _currSong = currSong ? currSong : station.songs[0]
-
-  // useEffect(() => {
-  //   if (!station || station._id !== stationId) {
-  //     loadStation(stationId)
-  //   }
-  // }, [stationId])
-
-  async function performSearch(txt) {
-    if (!txt.trim()) return
-    try {
-      await loadSearchResults(txt, 'songs')
-    } catch (error) {
-      showErrorMsg('Search failed')
-    }
-  }
+  useEffect(() => {
+    if (station?.songs) setSongs(station.songs)
+  }, [station])
 
   const debouncedSearch = useRef(
-    debounce(async (txt) => {
+    debounce(async txt => {
       try {
-        await performSearch(txt)
-      } catch (error) {
+        await loadSearchResults(txt, 'songs')
+      } catch {
         showErrorMsg('Search failed')
       }
     }, 500)
@@ -66,6 +48,11 @@ export function SongList() {
     performSearch(searchSong)
   }
 
+  function performSearch(txt) {
+    if (!txt.trim()) return
+    debouncedSearch.current(txt)
+  }
+
   function handleChange({ target }) {
     const { value } = target
     setSearchSong(value)
@@ -73,37 +60,31 @@ export function SongList() {
   }
 
   function onTogglePlay(song) {
-    if (!song || !song._id) {
-      console.log('Invalid song passed to onTogglePlay: ', song)
-      return
-    }
-
+    if (!song?._id) return
     const currPlayer = window.playerRef?.current
     if (!currPlayer) return
 
-    if (currSong?._id === song?._id) {
+    if (currSong?._id === song._id) {
       if (isPlaying) {
         currPlayer.pauseVideo()
-        setIsPlaying(false)
+        dispatch(setIsPlaying(false))
       } else {
         currPlayer.playVideo()
-        setIsPlaying(true)
+        dispatch(setIsPlaying(true))
       }
     } else {
-      setSong(song)
-      setIsPlaying(true)
+      dispatch(setSong(song))
+      dispatch(setIsPlaying(true))
     }
   }
 
-  // async function onAddStationMsg(stationId) {
-  //     try {
-  //         await addStationMsg(stationId, 'bla bla ' + parseInt(Math.random() * 10))
-  //         showSuccessMsg(`Station msg added`)
-  //     } catch (err) {
-  //         showErrorMsg('Cannot add station msg')
-  //     }
-
-  // }
+  function handleDragEnd(result) {
+    if (!result.destination) return
+    const reordered = Array.from(songs)
+    const [moved] = reordered.splice(result.source.index, 1)
+    reordered.splice(result.destination.index, 0, moved)
+    setSongs(reordered)
+  }
 
   if (!station) return <div>Loading songs list...</div>
 
@@ -113,6 +94,7 @@ export function SongList() {
         <img src={station.imgUrl} alt="" />
         <h1>{station.name}</h1>
       </header>
+
       <div className="songlist-play-actions">
         <div className="media-player-container">
           <PlayButton
@@ -121,7 +103,6 @@ export function SongList() {
             addClassName="songlist-play-btn"
           />
         </div>
-
         <button className="btn-compact">Compact</button>
       </div>
 
@@ -135,24 +116,37 @@ export function SongList() {
             <th>Duration</th>
           </tr>
         </thead>
-        <tbody>
-          {songs.map((song, idx) => {
-            return (
-              <SongPreview
-                key={song._id || idx}
-                song={song}
-                idx={idx}
-                station={station}
-                togglePlay={() => onTogglePlay(song)}
-              />
-            )
-          })}
-        </tbody>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="songs-droppable" direction="vertical">
+            {provided => (
+              <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                {songs.map((song, idx) => (
+                  <Draggable key={song._id} draggableId={song._id} index={idx}>
+                    {provided => (
+                      <SongPreview
+                        song={song}
+                        idx={idx}
+                        station={station}
+                        togglePlay={() => onTogglePlay(song)}
+                        draggableProps={provided.draggableProps}
+                        dragHandleProps={provided.dragHandleProps}
+                        innerRef={provided.innerRef}
+                      />
+
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </tbody>
+            )}
+          </Droppable>
+        </DragDropContext>
       </table>
+
       <button onClick={() => setShowSearchBar(!showSearchBar)}>Find more</button>
       {showSearchBar && (
         <section className="song-search-section">
-          <form className="" action="" onSubmit={onSubmitSearch}>
+          <form onSubmit={onSubmitSearch}>
             <input
               value={searchSong}
               onChange={handleChange}
@@ -166,7 +160,6 @@ export function SongList() {
           <SongSearchResult />
         </section>
       )}
-      {/* <button onClick={() => { onAddStationMsg(station._id) }}>Add station msg</button> */}
     </section>
   )
 }

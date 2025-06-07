@@ -152,6 +152,7 @@ export function MediaPlayer() {
 
   return (
     <footer className="media-player-container flex align-center">
+      
       <section> song data</section>
 
       <section className="track-controls-container">

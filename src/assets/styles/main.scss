@@ -44,10 +44,14 @@
 @import "cmps/Sidebar";
 @import "cmps/SidebarPreview";
 @import "cmps/SidebarFilterSort";
-@import "cmps/MediaPlayer";
 @import "cmps/StationPreview";
 @import "cmps/SidebarList";
 @import "cmps/GenreSearchResult";
+@import "cmps/SongPreview";
+
+@import "cmps/MediaPlayer/MediaPlayer";
+@import "cmps/MediaPlayer/Volume";
+@import "cmps/MediaPlayer/SongInfo";
 
 
 @import "cmps/SetActionBtn";

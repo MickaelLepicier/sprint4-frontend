@@ -32,7 +32,7 @@ function getDefaultFilter() {
 }
 
 // const service = VITE_LOCAL.trim() === 'true' ? local : remote
-const service = VITE_LOCAL === 'true ' ? local : remote
+const service = VITE_LOCAL === 'true' ? local : remote
 export const stationService = { getEmptyStation, getDefaultFilter, ...service }
 
 //* Easy access to this service from the dev tools console

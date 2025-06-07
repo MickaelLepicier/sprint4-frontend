@@ -1,16 +1,11 @@
 // *** ICONS ***
-import prev from '../assets/icons/media-player/prev_song.svg'
-import next from '../assets/icons/media-player/next_song.svg'
+import prev from '../../assets/icons/media-player/prev_song.svg'
+import next from '../../assets/icons/media-player/next_song.svg'
 
-import volumeLow from '../assets/icons/media-player/volume_low.svg'
-import volumeMedium from '../assets/icons/media-player/volume_medium.svg'
-import volumeHigh from '../assets/icons/media-player/volume_high.svg'
-import volumeMute from '../assets/icons/media-player/volume_mute.svg'
+import shuffle from '../../assets/icons/media-player/shuffle.svg'
+import repeat from '../../assets/icons/media-player/repeat.svg'
 
-import shuffle from '../assets/icons/media-player/shuffle.svg'
-import repeat from '../assets/icons/media-player/repeat.svg'
-
-import { ReactYouTube } from './ReactYoutube.jsx'
+import { ReactYouTube } from '../ReactYoutube.jsx'
 
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
@@ -18,9 +13,11 @@ import {
   nextSong,
   prevSong,
   setIsPlaying
-} from '../store/station/station.actions.js'
-import { PlayButton } from './PlayButton.jsx'
-import { SetActionBtn } from './util/SetActionBtn.jsx'
+} from '../../store/station/station.actions.js'
+import { PlayButton } from '../PlayButton.jsx'
+import { SetActionBtn } from '../util/SetActionBtn.jsx'
+import { Volume } from './Volume.jsx'
+import { SongInfo } from './SongInfo.jsx'
 
 export function MediaPlayer() {
   const isPlaying = useSelector(
@@ -49,7 +46,6 @@ export function MediaPlayer() {
 
   const song = { ...currSong }
   const repeatActive = isRepeat ? 'active' : ''
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -140,20 +136,10 @@ export function MediaPlayer() {
     }
   }
 
-  function getVolumeIcon() {
-    let imgSrc = volumeHigh
-
-    if (volume === 0) imgSrc = volumeMute
-    else if (volume <= 40) imgSrc = volumeLow
-    else if (volume <= 80) imgSrc = volumeMedium
-
-    return <img src={imgSrc} alt="volume icon" />
-  }
-
   return (
     <footer className="media-player-container flex align-center">
-      
-      <section> song data</section>
+     
+     <SongInfo song={currSong} />
 
       <section className="track-controls-container">
         <div className="track-actions">
@@ -173,7 +159,11 @@ export function MediaPlayer() {
             onClick={onNextSong}
             dis={!song}
           />
-          <SetActionBtn imgSrc={repeat} str={`repeat ${repeatActive}`} onClick={onRepeat} />
+          <SetActionBtn
+            imgSrc={repeat}
+            str={`repeat ${repeatActive}`}
+            onClick={onRepeat}
+          />
         </div>
 
         <div className="track-seek flex">
@@ -208,21 +198,11 @@ export function MediaPlayer() {
 
       {/* *** VOLUME *** */}
 
-      <section className="track-options flex">
-        <button className="track-action" onClick={toggleMute}>
-          <span>{getVolumeIcon()}</span>
-        </button>
-
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={volume}
-          onChange={handleVolumeChange}
-          className="track-bar"
-          style={{ '--bar-fill': `${volume}%` }}
-        />
-      </section>
+      <Volume
+        volume={volume}
+        toggleMute={toggleMute}
+        handleVolumeChange={handleVolumeChange}
+      />
     </footer>
   )
 }

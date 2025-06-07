@@ -5,7 +5,7 @@ import next from '../../assets/icons/media-player/next_song.svg'
 import shuffle from '../../assets/icons/media-player/shuffle.svg'
 import repeat from '../../assets/icons/media-player/repeat.svg'
 
-import { ReactYouTube } from '../ReactYoutube.jsx'
+import { ReactYouTube } from '../ReactYouTube.jsx'
 
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
@@ -16,8 +16,8 @@ import {
 } from '../../store/station/station.actions.js'
 import { PlayButton } from '../PlayButton.jsx'
 import { SetActionBtn } from '../util/SetActionBtn.jsx'
-import { Volume } from './Volume.jsx'
-import { SongInfo } from './SongInfo.jsx'
+import { Volume } from '../MediaPlayer/Volume.jsx'
+import { SongInfo } from '../MediaPlayer/SongInfo.jsx'
 
 export function MediaPlayer() {
   const isPlaying = useSelector(

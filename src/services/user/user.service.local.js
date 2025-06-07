@@ -41,6 +41,7 @@ async function update({ _id, score }) {
 }
 
 async function login(userCred) {
+    console.log('userCred:',userCred)
     const users = await storageService.query('user')
     const user = users.find(user => user.username === userCred.username)
 
@@ -48,6 +49,7 @@ async function login(userCred) {
 }
 
 async function signup(userCred) {
+    console.log('userCred:',userCred)
     if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
     userCred.score = 10000
 
@@ -56,6 +58,7 @@ async function signup(userCred) {
 }
 
 async function logout() {
+    console.log('logout:',)
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
 }
 
@@ -72,6 +75,7 @@ function _saveLocalUser(user) {
         imgUrl,
         likedSongsStationId: user.likedSongsStationId,
         likedStationIds: user.likedStationIds,
+        likedSongIds: [], // IN CASE WE DECIDE TO DO DIFFERENT FETCHING OF SONG DATA
         isAdmin: !!isAdmin,
     }
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
 import { debounce } from '../services/util.service'
-import { showErrorMsg } from '../services/event-bus.service'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { updateStation } from '../store/station/station.actions'
 
 export function SongSearchResult() {
@@ -30,6 +30,7 @@ export function SongSearchResult() {
       await updateStation(stationToSave)
       showSuccessMsg('Song added to songlist!')
     } catch (error) {
+      console.log('error:', error)
       showErrorMsg('Error adding song')
     }
   }

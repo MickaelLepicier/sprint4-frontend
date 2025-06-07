@@ -26,7 +26,7 @@ export async function loadSearchResults(txt, searchType = 'songs') {
     } else if (searchType === 'stations') {
       results = await stationService.headerSearch(txt)
     } else if (searchType === 'genre') {
-      results = await stationService.genrePlaylistSearch(txt)
+      results = await stationService.genreSonglistSearch(txt)
     } else {
       console.warn('Unknown search type:', searchType)
       results = []

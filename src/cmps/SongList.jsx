@@ -85,6 +85,7 @@ export function SongList() {
     }
 
     function onTogglePlay(song) {
+        console.log('song:',song)
         if (!song || !song._id) {
             console.log('Invalid song passed to onTogglePlay: ', song)
             return

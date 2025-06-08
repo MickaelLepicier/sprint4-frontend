@@ -1,6 +1,7 @@
 .main-container {
+    --sidebar-width: clamp(280px, 24vw, 400px);
     display: grid;
-    grid-template-columns: clamp(280px, 24vw, 400px) 1fr;
+    grid-template-columns: var(--sidebar-width) 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
         "header header"
@@ -8,10 +9,14 @@
         "footer footer";
     
     height: 100%; 
-    min-height: 100;
+    min-height: 100dvh;
     background-color: #000;
     gap: 8px;
     padding: 8px;
+
+    &.collapsed {
+        --sidebar-width: 72px;
+    }
     
     // > * {
     //     grid-column: 2;
@@ -88,4 +93,30 @@ main.main-content {
 * {
     scrollbar-width: thin;
     scrollbar-color: rgba(170, 170, 170, 0.6) transparent;
+}
+/////////////////
+
+.main-container.auth-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    padding: 0;
+    gap: 0;
+    background-color: #000;
+}
+
+.main-container.auth-layout .app-header,
+.main-container.auth-layout aside.sidebar,
+.main-container.auth-layout .app-footer {
+    display: none;
+}
+
+.main-container.auth-layout main.main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 0;
+    overflow: hidden;
 }

@@ -260,7 +260,7 @@ async function genreSonglistSearch(genre) {
       params: {
         part: 'snippet',
         q: `${genre} music`,
-        type: 'songlist',
+        type: 'playlist',
         maxResults: 5,
         key: YT_API_KEY,
       },

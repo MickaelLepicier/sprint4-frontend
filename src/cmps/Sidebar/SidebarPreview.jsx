@@ -9,6 +9,7 @@ export function SidebarPreview({
     isSelected, 
     userFirstName, 
     userId,
+    isCollapsed,
     setDragRef,
     isLikedSongs = false
 }) {
@@ -54,16 +55,18 @@ export function SidebarPreview({
                     </button>
                 )} */}
             </div>
-
-            <div className="details">
-                <h3>{isLikedSongs ? 'Liked Songs' : songlist.title}</h3>
-                <p>
-                    {isLikedSongs && (
-                        <span className="pin-icon"><PinIcon /></span>
-                    )}
-                    <span className="songs">{getSubtitle()}</span>
-                </p>
-            </div>
+           
+            {!isCollapsed && (
+                <div className="details">
+                    <h3>{isLikedSongs ? 'Liked Songs' : songlist.title}</h3>
+                    <p>
+                        {isLikedSongs && (
+                            <span className="pin-icon"><PinIcon /></span>
+                        )}
+                        <span className="songs">{getSubtitle()}</span>
+                    </p>
+                </div>
+            )}
         </li>
     )
 }

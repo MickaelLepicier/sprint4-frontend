@@ -1,0 +1,57 @@
+//   *** track bar ***
+.media-player-container {
+  .track-bar {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    align-self: center;
+    background: linear-gradient(
+      to right,
+      #ffffff var(--bar-fill, 0%),
+      #a9a9a9 var(--bar-fill, 0%)
+    );
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: linear-gradient(
+        to right,
+        #1db954 var(--bar-fill, 0%),
+        #a9a9a9 var(--bar-fill, 0%)
+      );
+    }
+
+    /* Thumb styling */
+    &::-webkit-slider-thumb {
+      opacity: 0;
+      -webkit-appearance: none;
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    &::-moz-range-thumb {
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    /* Optional hover effect */
+    &:hover::-webkit-slider-thumb {
+      opacity: 1;
+    }
+
+    &:hover::-moz-range-thumb {
+      background: #1db954;
+    }
+  }
+}

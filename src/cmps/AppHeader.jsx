@@ -114,10 +114,20 @@ export function AppHeader() {
 
       {/* Right side: Sign Up, Log In */}
       <div className="header-right flex">
-        <button className="signup-btn">Sign up</button>
-        <button className="login-btn">
-          <span className="login-btn-inner">Log in</span>
-        </button>
+        {user ? (
+          <span className="login-btn-inner" onClick={onLogout}>
+            Logout
+          </span>
+        ) : (
+          <>
+            <NavLink to="signup" className="signup-btn">
+              Sign up
+            </NavLink>
+            <NavLink to="login" className="login-btn">
+              <span className="login-btn-inner">Login</span>
+            </NavLink>
+          </>
+        )}
       </div>
     </header>
   )

@@ -5,26 +5,100 @@ aside.sidebar {
     background-color: #121212;
     font-family: SpotifyMixUI, 'Helvetica Neue', helvetica, arial, sans-serif;
 
-    width: clamp(280px, 24vw, 400px);
+    // width: clamp(280px, 24vw, 400px);
     flex-shrink: 0;
 
     border-radius: 8px;
     border-bottom-left-radius: 8px;
     overflow: hidden;
 
+    // When sidebar is collapsed
+    &.collapsed {
+        .library-container {
+            display: flex;
+            margin-top: 8px;
+            padding: 0 4px 0px 4px;
+        }
+
+        .sidebar-list {
+            ul {
+                margin: 0;
+            }
+        }
+
+        .sidebar-header .header-actions {
+            height: unset;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .sidebar-collapse-btn {
+                transform: translateX(0);
+
+
+                cursor: pointer;
+                height: 40px;
+                width: 40px;
+
+                svg {
+                    width: 24px;
+                    height: 24px;
+                    transform: translateX(0);
+                }
+
+                // Library icon (show by default)
+                svg:first-of-type {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+
+                // Expand library icon (hide by default)
+                svg:last-of-type {
+                    position: absolute;
+                    opacity: 0;
+                    pointer-events: none;
+                }
+
+                &:hover svg:first-of-type {
+                    opacity: 0;
+                    pointer-events: none;
+                }
+                
+                &:hover svg:last-of-type {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+            }
+
+            .create-btn {
+                display: flex;
+                justify-content: center;
+                height: 35px;
+                width: 35px;
+            }
+        }
+    }
+    // aside.sidebar.collapsed {
+    //     max-width: 72px;
+    //     min-width: 72px;
+    //     width: 72px;
+    //     padding: 0 4px 4px;
+
+    //     .sidebar-preview {
+    //         width: 64px;
+    //         height: 64px;
+    //         .img-wrapper, img {
+    //             width: 64px;
+    //             height: 64px;
+    //         }
+    //     }
+    // }
     .sidebar-header {
         font-weight: 700;
         color: #FFFFFF;
         -webkit-font-smoothing: antialiased;
         user-select: none;
         padding: 12px 16px 8px;
-
-        h1 {
-            font-size: 16px;
-            margin: 0;
-            margin-left: 8px;
-
-        }
 
         .create-btn {
             background-color: #2A2A2A;
@@ -71,6 +145,7 @@ aside.sidebar {
                 fill: currentColor;
                 transition: background-color .2s ease-out;
                 fill: #b3b3b3;
+                transition: transform .1s ease-out .1s, color .1s ease-out .1s, -webkit-transform .1s ease-out .1s;
 
                 &:hover {
                     color: #fff;
@@ -83,6 +158,48 @@ aside.sidebar {
             align-items: center;
             justify-content: space-between;
             height: 35px;
+
+            .sidebar-collapse-btn {
+                all: unset;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #b3b3b3;
+                cursor: pointer;
+                fill: #b3b3b3;
+                transform: translateX(-24px);
+                transition: transform .1s ease-out .1s, color .1s ease-out .1s, -webkit-transform .1s ease-out .1s;
+
+                h1 {
+                    color: #fff;
+                    font-size: 16px;
+                    margin: 0;
+                    margin-left: 12px;
+                    transition: transform .1s ease-out .1s,color .1s ease-out .1s,-webkit-transform .1s ease-out .1s;
+                }
+
+                svg {
+                    height: 16px;
+                    width: 16px;
+                    opacity: 0;
+                    transform: translateX(-100%);
+                    transition: transform .1s ease-out,opacity .1s ease-out,-webkit-transform .1s ease-out;
+
+                    &.collapse-library-icon:hover {
+                        fill: #fff;
+                    }
+                }
+            }
+        }
+    }
+    
+    &:hover .sidebar-header .header-actions .sidebar-collapse-btn {
+        transform: translateX(0);
+        // color: red !important;
+
+        svg {
+            opacity: 1;
+            transform: translateX(0);
         }
     }
         

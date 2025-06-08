@@ -80,6 +80,7 @@ export async function createStationForUser(user) {
     return savedStation
 }
 
+
 export async function addStationMsg(stationId, txt) {
   try {
     const msg = await stationService.addStationMsg(stationId, txt)
@@ -99,9 +100,9 @@ export async function setSong(song) {
     throw err
   }
 }
-export async function setIsPlaying(isPlaying) {
+
+export function setIsPlaying(isPlaying) {
   try {
-    // store.dispatch({ type: SET_IS_PLAYING })
     store.dispatch({ type: SET_IS_PLAYING, isPlaying: !!isPlaying })
   } catch (err) {
     console.log('Cannot set isPlaying ', err)

@@ -28,15 +28,15 @@ import { Sidebar } from './cmps/Sidebar/Sidebar'
 import { SearchStations } from './pages/SearchStations'
 
 export function RootCmp() {
-  const [isCollapsed, setIsCollapsed] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
   // Automatically login as puki (id: u101)
   // Check user.service.local -> _createDemoUsers() or further info
-  useEffect(() => {
-      if (import.meta.env.DEV) {
-          login({ username: 'puki', password: '123' })
-      }
-  }, [])
+  // useEffect(() => {
+  //   if (import.meta.env.DEV) {
+  //     login({ username: 'puki', password: '123' })
+  //   }
+  // }, [])
 
   return (
     <div className={`main-container${isCollapsed ? ' collapsed' : ''}`}>
@@ -45,42 +45,45 @@ export function RootCmp() {
       
       <UserMsg />
 
-        <main className="main-content">
-          <Routes>
-            <Route path="" element={<HomePage />} />
+      <main className="main-content">
+        <Routes>
+          <Route path="" element={<HomePage />} />
 
-            <Route path="about" element={<AboutUs />}>
-              <Route path="team" element={<AboutTeam />} />
-              <Route path="vision" element={<AboutVision />} />
-            </Route>
+          <Route path="about" element={<AboutUs />}>
+            <Route path="team" element={<AboutTeam />} />
+            <Route path="vision" element={<AboutVision />} />
+          </Route>
 
-            <Route path="station" element={<StationIndex />} />
-            <Route path="station/:stationId" element={<StationDetails />} />
-            <Route path="songlist/:stationId" element={<SongList />} />
-            <Route path="search" element={<GenreIndex />} />
-            <Route path="search/:txt" element={<SearchStations />} />
-            <Route path="genre/:genre" element={<SearchStations />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
 
-            <Route path="user/:id" element={<UserDetails />} />
-            <Route path="review" element={<ReviewIndex />} />
-            <Route path="chat" element={<ChatApp />} />
+          <Route path="station" element={<StationIndex />} />
+          <Route path="station/:stationId" element={<StationDetails />} />
+          <Route path="songlist/:stationId" element={<SongList />} />
+          <Route path="search" element={<GenreIndex />} />
+          <Route path="search/:txt" element={<SearchStations />} />
+          <Route path="genre/:genre" element={<SearchStations />} />
 
-            <Route
-              path="admin"
-              element={
-                <AuthGuard checkAdmin={true}>
-                  <AdminIndex />
-                </AuthGuard>
-              }
-            />
+          <Route path="user/:id" element={<UserDetails />} />
+          <Route path="review" element={<ReviewIndex />} />
+          <Route path="chat" element={<ChatApp />} />
 
-            <Route path="login" element={<LoginSignup />}>
+          <Route
+            path="admin"
+            element={
+              <AuthGuard checkAdmin={true}>
+                <AdminIndex />
+              </AuthGuard>
+            }
+          />
+
+          {/* <Route path="login" element={<LoginSignup />}>
               <Route index element={<Login />} />
               <Route path="signup" element={<Signup />} />
-            </Route>
-          </Routes>
-        </main>
-   
+            </Route> */}
+        </Routes>
+      </main>
+
       <AppFooter />
     </div>
   )

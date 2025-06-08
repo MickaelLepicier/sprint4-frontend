@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router'
 import { login } from './store/user/user.actions'
 
@@ -28,6 +28,8 @@ import { Sidebar } from './cmps/Sidebar/Sidebar'
 import { SearchStations } from './pages/SearchStations'
 
 export function RootCmp() {
+  const [isCollapsed, setIsCollapsed] = useState(false)
+
   // Automatically login as puki (id: u101)
   // Check user.service.local -> _createDemoUsers() or further info
   // useEffect(() => {
@@ -37,10 +39,10 @@ export function RootCmp() {
   // }, [])
 
   return (
-    <div className="main-container">
+    <div className={`main-container${isCollapsed ? ' collapsed' : ''}`}>
       <AppHeader />
-      <Sidebar />
-
+      <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+      
       <UserMsg />
 
       <main className="main-content">

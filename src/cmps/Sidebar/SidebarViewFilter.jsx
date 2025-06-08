@@ -4,9 +4,12 @@ export function SidebarViewFilter() {
             <button className="chip">
                 <span>Playlists</span>
             </button>
+            <div className='chip-wrapper'>
             <button className="chip">
                 <span>Artists</span>
             </button>
+            </div>
+
         </div>
     )
 }

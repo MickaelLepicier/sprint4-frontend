@@ -42,6 +42,14 @@ export function SidebarList({
             : userAndLikedStations
     }, [userStations, likedStations, likedSongsStation, likedSongsCount])
 
+    // Reset order ONLY when playlists are added or deleted (not every prop change)
+    useEffect(() => {
+        // If number of stations changes, update the list (keeps DnD order otherwise)
+        if (orderedStations.length !== initialSidebarStations.length) {
+            setOrderedStations(initialSidebarStations)
+        }
+    }, [initialSidebarStations, orderedStations.length])
+
     // Initialize sidebar stations only once after all station data is available
     // Makes sure we don’t reset the station order again when props change or the page re-renders
     useEffect(() => {

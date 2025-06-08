@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, Navigate } from 'react-router'
+import { Routes, Route, Navigate, useLocation } from 'react-router'
 import { login } from './store/user/user.actions'
 
 // Services
@@ -27,6 +27,8 @@ import { SongList } from './cmps/SongList'
 import { Sidebar } from './cmps/Sidebar/Sidebar'
 import { SearchStations } from './pages/SearchStations'
 
+
+
 export function RootCmp() {
   // Automatically login as puki (id: u101)
   // Check user.service.local -> _createDemoUsers() or further info
@@ -36,10 +38,16 @@ export function RootCmp() {
   //   }
   // }, [])
 
+  const location = useLocation()
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
+
   return (
     <div className="main-container">
-      <AppHeader />
-      <Sidebar />
+      {/* <AppHeader />
+      <Sidebar /> */}
+
+      {!isAuthPage && <AppHeader />}
+      {!isAuthPage && <Sidebar />}
 
       <UserMsg />
 

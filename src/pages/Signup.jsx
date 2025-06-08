@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 
 import { signup } from '../store/user/user.actions'
@@ -11,6 +11,8 @@ import { addStation, removeStation, updateStation } from '../store/station/stati
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function Signup() {
+
+
   const [credentials, setCredentials] = useState(userService.getEmptyUser())
   const [userStation, setUserStation] = useState(stationService.getEmptyStation())
 

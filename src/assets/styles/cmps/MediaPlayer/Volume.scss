@@ -53,5 +53,13 @@
     &:hover::-moz-range-thumb {
       background: #1db954;
     }
+
+    &.not-allowed {
+      cursor: not-allowed;
+
+      &::-webkit-slider-thumb {
+        opacity: 0;
+      }
+    }
   }
 }

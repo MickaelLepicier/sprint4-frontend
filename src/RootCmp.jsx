@@ -42,7 +42,8 @@ export function RootCmp() {
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
 
   return (
-    <div className={`main-container${isCollapsed ? ' collapsed' : ''}`}>
+   <div className={`main-container${isCollapsed ? ' collapsed' : ''} ${isAuthPage ? 'auth-layout' : ''}`}>
+
 {!isAuthPage && <AppHeader />}
 {!isAuthPage && (
   <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />

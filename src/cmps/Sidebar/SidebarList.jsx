@@ -18,7 +18,8 @@ export function SidebarList({
     likedStations = [],
     likedSongsStation = {},
     likedSongsCount = 0,
-    user
+    user,
+    isCollapsed
 }) {
     // Setup state and router
     const [orderedStations, setOrderedStations] = useState([])
@@ -75,6 +76,7 @@ export function SidebarList({
                             onClickSonglist={onClickSonglist}
                             moveStation={moveStation}
                             user={user}
+                            isCollapsed={isCollapsed}
                         />
                     ))}
                 </ul>
@@ -83,7 +85,7 @@ export function SidebarList({
     )
 }
 
-function DraggableStation({ station, index, moveStation, onClickSonglist, user, isLikedSongs, isSelected }) {
+function DraggableStation({ station, index, moveStation, onClickSonglist, user, isLikedSongs, isSelected, isCollapsed }) {
     const [, dragRef] = useDrag({
         type: ItemType,
         item: { index }
@@ -113,6 +115,7 @@ function DraggableStation({ station, index, moveStation, onClickSonglist, user, 
             }}
             isLikedSongs={isLikedSongs}
             isSelected={isSelected}
+            isCollapsed={isCollapsed}
 
             userId={user._id}
             userFirstName={user?.fullname?.split(' ')[0]}

@@ -179,7 +179,8 @@ export function SongList() {
             <th>Title</th>
             <th>Album</th>
             <th>Date Added</th>
-            <th>Duration</th>
+            <th>🕙</th>
+            {/* <th>Duration</th> */}
           </tr>
         </thead>
         {/* DND: Wrap tbody in DragDropContext and Droppable */}

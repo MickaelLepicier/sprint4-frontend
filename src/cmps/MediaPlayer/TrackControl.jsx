@@ -45,6 +45,7 @@ export function TrackControl({ currSong, volume }) {
 
       const currentTime = playerRef.current.getCurrentTime?.()
       const totalTime = playerRef.current.getDuration?.()
+    //   console.log('totalTime: ',totalTime)
       if (typeof currentTime === 'number' && typeof totalTime === 'number') {
         setProgress(currentTime)
         setDuration(totalTime)

@@ -427,7 +427,8 @@ function _createDemoStations() {
     {
       _id: 's002',
       name: 'Lo-Fi Chill',
-      imgUrl: 'https://i.imgur.com/dRn5PpQ.jpg',
+      // imgUrl: 'https://i.imgur.com/dRn5PpQ.jpg',
+      imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
       tags: ['Chill', 'Study', 'Beats'],
       createdBy: {
         _id: 'u103',
@@ -473,7 +474,7 @@ function _createDemoStations() {
     {
       _id: 's003',
       name: 'Classic Rock Hits',
-      imgUrl: 'https://i.imgur.com/N6T6vNT.jpg',
+      imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
       tags: ['Rock', 'Classic', 'Legends'],
       createdBy: {
         _id: 'u105',

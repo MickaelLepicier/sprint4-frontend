@@ -11,11 +11,12 @@ import { HomeIcon } from './svg/HomeIcon'
 import { SearchIcon } from './svg/SearchIcon'
 import { BrowseIcon } from './svg/BrowseIcon'
 import { debounce } from '../services/util.service'
+import { AuthBtns } from './util/AuthBtns'
 
 export function AppHeader() {
   const [filterBy, setFilterBy] = useState({ txt: '' })
 
-  const user = useSelector(storeState => storeState.userModule.user)
+  const user = useSelector((storeState) => storeState.userModule.user)
   const [searchTxt, setSearchTxt] = useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -32,7 +33,7 @@ export function AppHeader() {
   }
 
   const debouncedSearch = useRef(
-    debounce(async txt => {
+    debounce(async (txt) => {
       try {
         await performSearch(txt)
       } catch (err) {
@@ -51,15 +52,15 @@ export function AppHeader() {
     setSearchTxt(val)
     debouncedSearch(val)
   }
-  async function onLogout() {
-    try {
-      await logout()
-      navigate('/')
-      showSuccessMsg(`Bye now`)
-    } catch (err) {
-      showErrorMsg('Cannot logout')
-    }
-  }
+  // async function onLogout() {
+  //   try {
+  //     await logout()
+  //     navigate('/')
+  //     showSuccessMsg(`Bye now`)
+  //   } catch (err) {
+  //     showErrorMsg('Cannot logout')
+  //   }
+  // }
 
   function onSetFilterBy(filterBy) {
     setFilterBy(filterBy)
@@ -86,7 +87,11 @@ export function AppHeader() {
 
       {/* Center: Search form */}
       <div className="header-center flex justify-center">
-        <button onClick={onGoHome} className="home-btn flex align-center justify-center" aria-label="Home">
+        <button
+          onClick={onGoHome}
+          className="home-btn flex align-center justify-center"
+          aria-label="Home"
+        >
           <HomeIcon />
         </button>
 
@@ -105,7 +110,12 @@ export function AppHeader() {
               onChange={handleChange}
             />
 
-            <button type="button" onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
+            <button
+              type="button"
+              onClick={onBrowseGenres}
+              className="browse-btn"
+              aria-label="Browse"
+            >
               <BrowseIcon />
             </button>
           </form>
@@ -113,7 +123,9 @@ export function AppHeader() {
       </div>
 
       {/* Right side: Sign Up, Log In */}
-      <div className="header-right flex">
+      <AuthBtns user={user} />
+
+      {/* <div className="header-right flex">
         {user ? (
           <span className="login-btn-inner" onClick={onLogout}>
             Logout
@@ -128,7 +140,7 @@ export function AppHeader() {
             </NavLink>
           </>
         )}
-      </div>
+      </div> */}
     </header>
   )
 }

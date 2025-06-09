@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
-import { useNavigate, Link, NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate, useLocation, Link, NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import { logout } from '../store/user/user.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
@@ -8,18 +8,26 @@ import { loadSearchResults } from '../store/search/search.actions'
 
 import { AppLogo } from './svg/AppLogo'
 import { HomeIcon } from './svg/HomeIcon'
+import { HomeIconFilled } from './svg/HomeIconFilled'
 import { SearchIcon } from './svg/SearchIcon'
+import { ClearIcon } from './svg/ClearIcon'
 import { BrowseIcon } from './svg/BrowseIcon'
+import { BrowseIconFilled } from './svg/BrowseIconFilled'
 import { debounce } from '../services/util.service'
 
 export function AppHeader() {
   const [filterBy, setFilterBy] = useState({ txt: '' })
+  const [searchTxt, setSearchTxt] = useState('')
 
   const user = useSelector(storeState => storeState.userModule.user)
-  const [searchTxt, setSearchTxt] = useState('')
+  const location = useLocation()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
+  const locPath = {
+    isHome: location.pathname === '/',
+    isBrowse: location.pathname === '/search',
+  }
+  
   async function performSearch(txt) {
     if (!txt.trim()) return
     try {
@@ -87,7 +95,7 @@ export function AppHeader() {
       {/* Center: Search form */}
       <div className="header-center flex justify-center">
         <button onClick={onGoHome} className="home-btn flex align-center justify-center" aria-label="Home">
-          <HomeIcon />
+          {locPath.isHome ? <HomeIconFilled /> : <HomeIcon />}
         </button>
 
         <div className="search-form-container">
@@ -105,9 +113,22 @@ export function AppHeader() {
               onChange={handleChange}
             />
 
-            <button type="button" onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
-              <BrowseIcon />
-            </button>
+            <div className="browse-and-clean-wrapper">
+              {searchTxt && (
+                <button
+                    className="clear-text-btn"
+                    type="button"
+                    aria-label="Clear"
+                    onClick={() => setSearchTxt('')}
+                >
+                    <ClearIcon />
+                </button>
+              )}
+
+              <button type="button" onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
+                {locPath.isBrowse ? <BrowseIconFilled /> : <BrowseIcon />}
+              </button>
+            </div>
           </form>
         </div>
       </div>

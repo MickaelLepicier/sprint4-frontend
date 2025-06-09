@@ -29,8 +29,8 @@ export const stationService = {
   genreSonglistSearch,
   headerSearch,
   buildNewStationForUser,
-  getNextAvailablePlaylistNumber
-  // addCarMsg  
+  getNextAvailablePlaylistNumber,
+  // addCarMsg
 }
 
 window.cs = stationService
@@ -81,7 +81,7 @@ async function save(station) {
     savedStation = await storageService.put(STORAGE_KEY, stationToSave)
   } else {
     const stationToSave = {
-      ...station, 
+      ...station,
       name: station.name || '',
       tags: station.tags || [],
       songs: station.songs || [],
@@ -270,12 +270,12 @@ async function genreSonglistSearch(genre) {
 
     const stations = await Promise.all(
       songlists.map(async (songlist, idx) => {
-        const songlistId = songlist.id.songlistId
+        const songlistId = songlist.id.playlistId
 
         const itemsRes = await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
           params: {
             part: 'snippet',
-            songlistId: songlistId,
+            playlistId: songlistId,
             maxResults: 3,
             key: YT_API_KEY,
           },
@@ -318,49 +318,49 @@ async function genreSonglistSearch(genre) {
 }
 
 function buildNewStationForUser(user, nextNum) {
-    const emptyStation = _createEmptyStation()
+  const emptyStation = _createEmptyStation()
 
-    const newUserStation = {
-        ...emptyStation,
-        name: `My Playlist #${nextNum}`,
-        createdBy: {
-            _id: user._id,
-            fullname: user.fullname,
-            imgUrl: user.imgUrl,
-        },
-        createdAt: Date.now(),
-    }
+  const newUserStation = {
+    ...emptyStation,
+    name: `My Playlist #${nextNum}`,
+    createdBy: {
+      _id: user._id,
+      fullname: user.fullname,
+      imgUrl: user.imgUrl,
+    },
+    createdAt: Date.now(),
+  }
 
-    return newUserStation
+  return newUserStation
 }
 
 export function getNextAvailablePlaylistNumber(stations, userId) {
-    const usedNums = stations
-        .filter(st => st.createdBy?._id === userId)
-        .map(st => {
-            const match = st.name?.match(/^My Playlist #(\d+)$/)
-            return match ? +match[1] : null
-        })
-        .filter(num => num !== null)
-        .sort((a, b) => a - b)
+  const usedNums = stations
+    .filter(st => st.createdBy?._id === userId)
+    .map(st => {
+      const match = st.name?.match(/^My Playlist #(\d+)$/)
+      return match ? +match[1] : null
+    })
+    .filter(num => num !== null)
+    .sort((a, b) => a - b)
 
-    let nextNum = 1
-    for (const num of usedNums) {
-        if (num === nextNum) {
-            nextNum++
-        } else {
-            break
-        }
+  let nextNum = 1
+  for (const num of usedNums) {
+    if (num === nextNum) {
+      nextNum++
+    } else {
+      break
     }
+  }
 
-    return nextNum
+  return nextNum
 }
 
 function _createEmptyStation() {
   return {
     // _id: makeId(), // empty stations don't make id!! save() does that
     name: '',
-    imgUrl:'',
+    imgUrl: '',
     tags: [],
     createdBy: {
       _id: 'userId',
@@ -378,102 +378,104 @@ function _createDemoStations() {
   const demoData = loadFromStorage(STORAGE_KEY)
   if (!demoData || !demoData.length) {
     const demoStations = [
-    {
-      _id: 's001',
-      // type: 'likedSongs', // <<<<< type: likedSongs
-      name: 'Funky Monks',
-      imgUrl: 'https://i.imgur.com/O9bYp9X.jpg',
-      tags: ['Funk', 'Groove', '70s'],
-      createdBy: {
-        _id: 'u102',
-        fullname: 'Dana Blue',
-        imgUrl: 'https://randomuser.me/api/portraits/women/45.jpg',
+      {
+        _id: 's001',
+        // type: 'likedSongs', // <<<<< type: likedSongs
+        name: 'Funky Monks',
+        imgUrl: 'https://i.imgur.com/O9bYp9X.jpg',
+        tags: ['Funk', 'Groove', '70s'],
+        createdBy: {
+          _id: 'u102',
+          fullname: 'Dana Blue',
+          imgUrl: 'https://randomuser.me/api/portraits/women/45.jpg',
+        },
+        likedByUsers: ['u101', 'u202'],
+        songs: [
+          {
+            _id: '4_iC0MyIykM',
+            title: 'The Meters - Cissy Strut',
+            url: 'https://www.youtube.com/watch?v=4_iC0MyIykM',
+            imgUrl: 'https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg',
+            addedBy: 'u201',
+            likedBy: ['u202'],
+            addedAt: Date.now() - 10000000,
+          },
+          {
+            _id: 'mUkfiLjooxs',
+            title: "The JB's - Pass The Peas",
+            url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
+            imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
+            addedBy: 'u202',
+            likedBy: ['u101'],
+            addedAt: Date.now() - 8000000,
+          },
+          {
+            _id: 'pZUC6ZrAkhI',
+            title: 'James Brown - Get Up Offa That Thing',
+            url: 'https://www.youtube.com/watch?v=pZUC6ZrAkhI',
+            imgUrl: 'https://i.ytimg.com/vi/pZUC6ZrAkhI/mqdefault.jpg',
+            addedBy: 'u101',
+            likedBy: ['u202'],
+            addedAt: Date.now() - 6000000,
+          },
+        ],
+        msgs: [
+          { id: 'm101', from: 'u201', txt: 'Funky as always!' },
+          { id: 'm102', from: 'u202', txt: '🔥🔥🔥' },
+        ],
       },
-      likedByUsers: ['u101', 'u202'],
-      songs: [
-        {
-          _id: '4_iC0MyIykM',
-          title: 'The Meters - Cissy Strut',
-          url: 'https://www.youtube.com/watch?v=4_iC0MyIykM',
-          imgUrl: 'https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg',
-          addedBy: 'u201',
-          likedBy: ['u202'],
-          addedAt: Date.now() - 10000000,
+      {
+        _id: 's002',
+        name: 'Lo-Fi Chill',
+      //   // imgUrl: 'https://i.imgur.com/dRn5PpQ.jpg',
+      imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
+        imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
+        tags: ['Chill', 'Study', 'Beats'],
+        createdBy: {
+          _id: 'u103',
+          fullname: 'Mike Thunder',
+          imgUrl: 'https://randomuser.me/api/portraits/men/33.jpg',
         },
-        {
-          _id: 'mUkfiLjooxs',
-          title: "The JB's - Pass The Peas",
-          url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
-          imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
-          addedBy: 'u202',
-          likedBy: ['u101'],
-          addedAt: Date.now() - 8000000,
-        },
-        {
-          _id: 'pZUC6ZrAkhI',
-          title: 'James Brown - Get Up Offa That Thing',
-          url: 'https://www.youtube.com/watch?v=pZUC6ZrAkhI',
-          imgUrl: 'https://i.ytimg.com/vi/pZUC6ZrAkhI/mqdefault.jpg',
-          addedBy: 'u101',
-          likedBy: ['u202'],
-          addedAt: Date.now() - 6000000,
-        },
-      ],
-      msgs: [
-        { id: 'm101', from: 'u201', txt: 'Funky as always!' },
-        { id: 'm102', from: 'u202', txt: '🔥🔥🔥' },
-      ],
-    },
-    {
-      _id: 's002',
-      name: 'Lo-Fi Chill',
-      imgUrl: 'https://i.imgur.com/dRn5PpQ.jpg',
-      tags: ['Chill', 'Study', 'Beats'],
-      createdBy: {
-        _id: 'u103',
-        fullname: 'Mike Thunder',
-        imgUrl: 'https://randomuser.me/api/portraits/men/33.jpg',
+        likedByUsers: ['u101'],
+        songs: [
+          {
+            _id: '5qap5aO4i9A',
+            title: 'lofi hip hop radio – beats to relax/study to',
+            url: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
+            imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
+            addedBy: 'u103',
+            likedBy: ['u102'],
+            addedAt: Date.now() - 4000000,
+          },
+          {
+            _id: 'jfKfPfyJRdk',
+            title: 'lofi beats to sleep/chill to',
+            url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
+            imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
+            addedBy: 'u102',
+            likedBy: ['u101'],
+            addedAt: Date.now() - 3000000,
+          },
+          {
+            _id: 'DWcJFNfaw9c',
+            title: 'Chillhop Essentials - Winter 2023',
+            url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
+            imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
+            addedBy: 'u103',
+            likedBy: ['u101', 'u102'],
+            addedAt: Date.now() - 2000000,
+          },
+        ],
+        msgs: [
+          { id: 'm201', from: 'u103', txt: 'Perfect for focus mode!' },
+          { id: 'm202', from: 'u101', txt: 'Nice vibe' },
+        ],
       },
-      likedByUsers: ['u101'],
-      songs: [
-        {
-          _id: '5qap5aO4i9A',
-          title: 'lofi hip hop radio – beats to relax/study to',
-          url: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
-          imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
-          addedBy: 'u103',
-          likedBy: ['u102'],
-          addedAt: Date.now() - 4000000,
-        },
-        {
-          _id: 'jfKfPfyJRdk',
-          title: 'lofi beats to sleep/chill to',
-          url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
-          imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
-          addedBy: 'u102',
-          likedBy: ['u101'],
-          addedAt: Date.now() - 3000000,
-        },
-        {
-          _id: 'DWcJFNfaw9c',
-          title: 'Chillhop Essentials - Winter 2023',
-          url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
-          imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
-          addedBy: 'u103',
-          likedBy: ['u101', 'u102'],
-          addedAt: Date.now() - 2000000,
-        },
-      ],
-      msgs: [
-        { id: 'm201', from: 'u103', txt: 'Perfect for focus mode!' },
-        { id: 'm202', from: 'u101', txt: 'Nice vibe' },
-      ],
-    },
 
     {
       _id: 's003',
       name: 'Classic Rock Hits',
-      imgUrl: 'https://i.imgur.com/N6T6vNT.jpg',
+      imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
       tags: ['Rock', 'Classic', 'Legends'],
       createdBy: {
         _id: 'u105',
@@ -523,78 +525,78 @@ function _createDemoStations() {
       createdBy: {
           _id: 'u102',
           fullname: 'Puki Ben David',
-          imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg'
-      },
-      likedByUsers: [],
-      songs: [
-        {
-          _id: 'mUkfiLjooxs',
-          title: "The JB's - Pass The Peas",
-          url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
-          imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
-          addedBy: 'u202',
-          likedBy: ['u101'],
-          addedAt: Date.now() - 8000000,
+          imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg',
         },
-        {
-          _id: 'jfKfPfyJRdk',
-          title: 'lofi beats to sleep/chill to',
-          url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
-          imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
-          addedBy: 'u102',
-          likedBy: ['u101'],
-          addedAt: Date.now() - 3000000,
-        },
-        {
-          _id: 'DWcJFNfaw9c',
-          title: 'Chillhop Essentials - Winter 2023',
-          url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
-          imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
-          addedBy: 'u103',
-          likedBy: ['u102'],
-          addedAt: Date.now() - 2000000,
-        },
-        {
-          _id: 'fJ9rUzIMcZQ',
-          title: 'Queen – Bohemian Rhapsody',
-          url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
-          imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
-          addedBy: 'u105',
-          likedBy: ['u101'],
-          addedAt: Date.now() - 7000000,
-        },
-        {
-                  _id: 'Z6V7wGpY9qA',
-          title: 'Peaches - F*** the Pain Away',
-          url: 'https://www.youtube.com/watch?v=Z6V7wGpY9qA',
-          imgUrl: 'https://i.ytimg.com/vi/Z6V7wGpY9qA/mqdefault.jpg',
-          addedBy: 'u101',
-          likedBy: ['u105'],
-          addedAt: Date.now() - 2000000,
-        },
+        likedByUsers: [],
+        songs: [
+          {
+            _id: 'mUkfiLjooxs',
+            title: "The JB's - Pass The Peas",
+            url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
+            imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
+            addedBy: 'u202',
+            likedBy: ['u101'],
+            addedAt: Date.now() - 8000000,
+          },
+          {
+            _id: 'jfKfPfyJRdk',
+            title: 'lofi beats to sleep/chill to',
+            url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
+            imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
+            addedBy: 'u102',
+            likedBy: ['u101'],
+            addedAt: Date.now() - 3000000,
+          },
+          {
+            _id: 'DWcJFNfaw9c',
+            title: 'Chillhop Essentials - Winter 2023',
+            url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
+            imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
+            addedBy: 'u103',
+            likedBy: ['u102'],
+            addedAt: Date.now() - 2000000,
+          },
+          {
+            _id: 'fJ9rUzIMcZQ',
+            title: 'Queen – Bohemian Rhapsody',
+            url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+            imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
+            addedBy: 'u105',
+            likedBy: ['u101'],
+            addedAt: Date.now() - 7000000,
+          },
+          {
+            _id: 'Z6V7wGpY9qA',
+            title: 'Peaches - F*** the Pain Away',
+            url: 'https://www.youtube.com/watch?v=Z6V7wGpY9qA',
+            imgUrl: 'https://i.ytimg.com/vi/Z6V7wGpY9qA/mqdefault.jpg',
+            addedBy: 'u101',
+            likedBy: ['u105'],
+            addedAt: Date.now() - 2000000,
+          },
 
-        {
-          _id: 'ZcXpKiY2MXE',
-          title: 'Led Zeppelin - Stairway to Heaven',
-          url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
-          imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
-          addedBy: 'u101',
-          likedBy: ['u105'],
-          addedAt: Date.now() - 2000000,
-        },
-        {
-          _id: '04854XqcfCY',
-          title: 'Queen – We Are The Champions',
-          url: 'https://www.youtube.com/watch?v=04854XqcfCY',
-          imgUrl: 'https://i.ytimg.com/vi/04854XqcfCY/mqdefault.jpg',
-          addedBy: 'u101',
-          likedBy: ['u105'],
-          addedAt: Date.now() - 1800000,
-        }
-      ], 
+          {
+            _id: 'ZcXpKiY2MXE',
+            title: 'Led Zeppelin - Stairway to Heaven',
+            url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
+            imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
+            addedBy: 'u101',
+            likedBy: ['u105'],
+            addedAt: Date.now() - 2000000,
+          },
+          {
+            _id: '04854XqcfCY',
+            title: 'Queen – We Are The Champions',
+            url: 'https://www.youtube.com/watch?v=04854XqcfCY',
+            imgUrl: 'https://i.ytimg.com/vi/04854XqcfCY/mqdefault.jpg',
+            addedBy: 'u101',
+            likedBy: ['u105'],
+            addedAt: Date.now() - 1800000,
+          },
+        ],
         msgs: [],
-        createdAt: Date.now()
-      }
+        createdAt: Date.now(),
+      },
     ]
     saveToStorage(STORAGE_KEY, demoStations)
   }

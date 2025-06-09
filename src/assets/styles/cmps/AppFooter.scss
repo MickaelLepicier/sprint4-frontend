@@ -1,5 +1,7 @@
 .app-footer {
-    min-height: 72px;
+    // min-height: 72px;
+    min-height: 66px;
+
     align-content: center;
 
     // background-color: $bg_clr1;
@@ -16,6 +18,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 11px 24px 7px 15px;
         p {
             margin: 0;
         }

@@ -14,6 +14,7 @@ import { ClearIcon } from './svg/ClearIcon'
 import { BrowseIcon } from './svg/BrowseIcon'
 import { BrowseIconFilled } from './svg/BrowseIconFilled'
 import { debounce } from '../services/util.service'
+import { AuthBtns } from './util/AuthBtns'
 
 export function AppHeader() {
   const [filterBy, setFilterBy] = useState({ txt: '' })
@@ -40,7 +41,7 @@ export function AppHeader() {
   }
 
   const debouncedSearch = useRef(
-    debounce(async txt => {
+    debounce(async (txt) => {
       try {
         await performSearch(txt)
       } catch (err) {
@@ -59,15 +60,15 @@ export function AppHeader() {
     setSearchTxt(val)
     debouncedSearch(val)
   }
-  async function onLogout() {
-    try {
-      await logout()
-      navigate('/')
-      showSuccessMsg(`Bye now`)
-    } catch (err) {
-      showErrorMsg('Cannot logout')
-    }
-  }
+  // async function onLogout() {
+  //   try {
+  //     await logout()
+  //     navigate('/')
+  //     showSuccessMsg(`Bye now`)
+  //   } catch (err) {
+  //     showErrorMsg('Cannot logout')
+  //   }
+  // }
 
   function onSetFilterBy(filterBy) {
     setFilterBy(filterBy)
@@ -134,7 +135,9 @@ export function AppHeader() {
       </div>
 
       {/* Right side: Sign Up, Log In */}
-      <div className="header-right flex">
+      <AuthBtns user={user} />
+
+      {/* <div className="header-right flex">
         {user ? (
           <span className="login-btn-inner" onClick={onLogout}>
             Logout
@@ -149,52 +152,7 @@ export function AppHeader() {
             </NavLink>
           </>
         )}
-      </div>
+      </div> */}
     </header>
   )
 }
-
-// ==========================
-// Old AppHeader Structure
-// ==========================
-// return (
-//     <header className="app-header main-container full">
-
-//         <nav className=''>
-//             {/* Logo Link */}
-//             <NavLink to="/home" className="/logo">
-//                 <img src="../img/logo/logo.png" alt="Logo" className="logo-img" />
-//             </NavLink>
-
-//             {/* Home Navigation Link */}
-//             <NavLink to="/home">Home</NavLink>
-
-//             {/* Center Section: Station Filter */}
-//             <StationFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
-
-//             {/* Admin Link - Visible Only to Admin Users */}
-//             {user?.isAdmin && <NavLink to="/admin">Admin</NavLink>}
-
-//             {/* Guest User Links (Signup / Login) */}
-//             {!user && (
-//                 <div className="user-info">
-//                     <NavLink to="signup" className="signup-link">Sign up</NavLink>
-//                     <NavLink to="login" className="login-link">Login</NavLink>
-//                 </div>
-//             )}
-
-//             {/* Logged-in User Section */}
-//             {user && (
-//                 <div className="user-info">
-//                     <Link to={`user/${user._id}`}>
-//                         {user.imgUrl && <img src={user.imgUrl} />}
-//                         {/* {user.fullname} */}
-//                     </Link>
-//                     {/* <span className="score">{user.score?.toLocaleString()}</span> */}
-//                     <button onClick={onLogout}>logout</button>
-//                 </div>
-//             )}
-//         </nav>
-
-//     </header>
-// )

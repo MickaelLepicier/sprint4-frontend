@@ -1,13 +1,15 @@
 export function EmptyPlaylistIcon(props) {
     return (
         <svg
-            viewBox="0 0 24 24"
+            data-encore-id="icon"
             role="img"
             aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
+            className="empty-playlist-icon"
+            data-testid="playlist"
+            viewBox="0 0 24 24"
             {...props}
         >
-            <path d="M7.05 3.606 20.54 11.394a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z" />
+            <path d="M6 3h15v15.167a3.5 3.5 0 1 1-3.5-3.5H19V5H8v13.167a3.5 3.5 0 1 1-3.5-3.5H6V3zm0 13.667H4.5a1.5 1.5 0 1 0 1.5 1.5v-1.5zm13 0h-1.5a1.5 1.5 0 1 0 1.5 1.5v-1.5z"></path>
         </svg>
     )
 }

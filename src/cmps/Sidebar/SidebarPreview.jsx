@@ -2,6 +2,8 @@ import { useState } from 'react'
 
 import likedSongsImg  from '../../assets/img/liked-songs.png'
 import { PinIcon } from '../svg/PinIcon'
+import { EmptyPlaylistIcon } from '../svg/EmptyPlaylistIcon' 
+import { ImageWithFallback } from '../util/ImageWithFallBack'
 
 export function SidebarPreview({ 
     songlist, 
@@ -11,7 +13,8 @@ export function SidebarPreview({
     userId,
     isCollapsed,
     setDragRef,
-    isLikedSongs = false
+    isLikedSongs = false,
+    isOver
 }) {
     const [isHovered, setIsHovered] = useState(false)
 
@@ -20,11 +23,6 @@ export function SidebarPreview({
         if (isSelected) className += ' selected'
         if (isLikedSongs) className += ' liked-songs'
         return className
-    }
-
-    // Returns the correct image: "Liked Songs" or the station's own image
-    function getImgSrc() {
-        return isLikedSongs ? likedSongsImg : songlist.imgUrl
     }
 
     // Returns the subtitle based on station type and ownership
@@ -39,16 +37,29 @@ export function SidebarPreview({
         }
     }
 
+    function getImgContent() {
+        if (isLikedSongs) {
+            return <img src={likedSongsImg} alt="Liked Songs" />
+        }
+        return (
+            <ImageWithFallback
+                src={songlist.imgUrl}
+                alt={songlist.title}
+                fallback={<EmptyPlaylistIcon />}
+            />
+        )
+    }
+
     return (
         <li
             ref={setDragRef}
-            className={getClassName()}
+            className={`${getClassName()}${isOver ? ' drag-over' : ''}`}
             onClick={() => onClickSonglist(songlist._id)}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className="img-wrapper">
-                <img src={getImgSrc()} alt={songlist.title} />
+                {getImgContent()}
                 {/* {isHovered && (
                     <button className="play-btn" aria-label={`Play ${songlist.title}`}>
                         <PlayIcon />

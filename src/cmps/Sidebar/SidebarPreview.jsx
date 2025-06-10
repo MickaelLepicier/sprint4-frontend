@@ -1,9 +1,13 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
+
+import { ImageWithFallback } from '../util/ImageWithFallBack'
 
 import likedSongsImg  from '../../assets/img/liked-songs.png'
 import { PinIcon } from '../svg/PinIcon'
 import { EmptyPlaylistIcon } from '../svg/EmptyPlaylistIcon' 
-import { ImageWithFallback } from '../util/ImageWithFallBack'
+import { PlayIcon } from '../svg/PlayIcon' 
+import { stationReducer } from '../../store/station/station.reducer'
 
 export function SidebarPreview({ 
     songlist, 
@@ -16,12 +20,16 @@ export function SidebarPreview({
     isLikedSongs = false,
     isOver
 }) {
-    const [isHovered, setIsHovered] = useState(false)
+    // const [isHovered, setIsHovered] = useState(true)
+    // const currentStationId = useSelector(state => state.stationModule.station?._id)
+    // const isPlaying = songlist._id === currentStationId
 
     function getClassName() {
         let className = 'sidebar-preview'
         if (isSelected) className += ' selected'
         if (isLikedSongs) className += ' liked-songs'
+        // if (isPlaying) className += ' playing'
+        // if (isPlaying) console.log('STATION!!!', songlist.title)
         return className
     }
 
@@ -55,16 +63,13 @@ export function SidebarPreview({
             ref={setDragRef}
             className={`${getClassName()}${isOver ? ' drag-over' : ''}`}
             onClick={() => onClickSonglist(songlist._id)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            // onMouseEnter={() => setIsHovered(true)}
+            // onMouseLeave={() => setIsHovered(false)}
         >
             <div className="img-wrapper">
+                <div className="img-bg" />
                 {getImgContent()}
-                {/* {isHovered && (
-                    <button className="play-btn" aria-label={`Play ${songlist.title}`}>
-                        <PlayIcon />
-                    </button>
-                )} */}
+                <PlayIcon />
             </div>
            
             {!isCollapsed && (

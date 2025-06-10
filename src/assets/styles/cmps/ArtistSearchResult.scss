@@ -1,0 +1,275 @@
+.header-search-stations {
+  background: #121212;
+  padding: 32px 0 0 32px;
+  color: #fff;
+  min-height: 100vh;
+  font-family: 'Circular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  .top-result-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 48px;
+    margin-bottom: 56px;
+    align-items: start;
+    width: 100%;
+
+    .heading-col {
+      &:first-child h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: -1px;
+      }
+      &:last-child h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+        margin: 0 0 16px 0;
+        letter-spacing: -1px;
+      }
+    }
+    .heading-col {
+      grid-row: 1;
+    }
+    .heading-col:first-child {
+      grid-column: 1;
+    }
+    .heading-col:last-child {
+      grid-column: 2;
+    }
+
+    .artist-preview {
+      grid-row: 2;
+      grid-column: 1;
+      background: #181818;
+      border-radius: 12px;
+      padding: 28px 28px 28px 28px;
+
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      cursor: pointer;
+      box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.4);
+      transition: background 0.2s;
+      height: max-content;
+
+      &:hover {
+        background: #232323;
+      }
+
+      img {
+        width: 90px;
+        height: 90px;
+        border-radius: 12px;
+        object-fit: cover;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.4);
+      }
+
+      .artist-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .artist-title {
+          color: #fff;
+          font-size: 1.35rem;
+          font-weight: 700;
+          margin-bottom: 8px;
+          white-space: nowrap;
+          // overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 250px;
+        }
+        .artist-meta {
+          color: #b3b3b3;
+          font-size: 1.02rem;
+          font-weight: 400;
+          margin-bottom: 0;
+          white-space: nowrap;
+          //   overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 250px;
+        }
+        .artist-sub {
+          color: #fff;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .first-artist-songs-preview {
+      grid-row: 2;
+      grid-column: 2;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        .song-preview {
+          display: flex;
+          align-items: center;
+          padding: 7px 0 7px 7px;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background 0.15s;
+
+          &:hover {
+            background: #232323;
+          }
+
+          img {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 16px;
+            box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.25);
+          }
+
+          .song-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .song-name {
+              font-size: 1.08rem;
+              font-weight: 600;
+              color: #fff;
+              margin-bottom: 2px;
+              line-height: 1.1;
+              letter-spacing: 0;
+              white-space: nowrap;
+              //   overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 180px;
+            }
+            .artist-name {
+              font-size: 0.98rem;
+              color: #b3b3b3;
+              font-weight: 400;
+              line-height: 1.05;
+              letter-spacing: 0;
+              white-space: nowrap;
+              //   overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 180px;
+            }
+          }
+
+          .song-duration {
+            margin-left: auto;
+            font-size: 0.95rem;
+            color: #b3b3b3;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+  }
+
+  .artists-section {
+    margin-top: 20px;
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -1px;
+      margin: 0;
+    }
+
+    .artists-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 200px));
+      gap: 0;
+      justify-items: stretch;
+      align-items: stretch;
+      width: 100%;
+
+      .artist-card {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background: transparent;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+        margin: 0;
+
+        &:hover {
+          background: #181818;
+        }
+
+        img {
+          width: 160px;
+          height: 160px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin: 24px auto 14px auto;
+          box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.35);
+          background: #232323;
+          display: block;
+        }
+
+        .artist-info-container {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+          padding-left: 18px;
+          padding-bottom: 18px;
+
+          .artist-title {
+            color: #fff;
+            text-align: left;
+            display: block;
+            line-height: 1.17;
+            font-size: 1.08rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            width: 100%;
+            max-width: 160px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            &:hover {
+              text-decoration: underline;
+              text-decoration-thickness: 0.5px;
+              text-decoration-color: #fff;
+            }
+          }
+
+          .artist-meta {
+            color: #b3b3b3;
+            text-align: left;
+            display: block;
+            line-height: 1.17;
+            font-size: 0.98rem;
+            font-weight: 400;
+            margin-bottom: 0;
+            width: 100%;
+            max-width: 160px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
+        }
+
+        .artist-sub {
+          color: #fff;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}

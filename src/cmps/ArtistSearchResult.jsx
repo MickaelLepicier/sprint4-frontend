@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
 
 export function ArtistSearchResult() {
@@ -23,48 +22,56 @@ export function ArtistSearchResult() {
   const topSongs = topArtist.songs.slice(0, 4)
   return (
     <section className="header-search-stations">
-      <div className="">
-        <h1>Top Result</h1>
-        <div className="top-result-preview">
-          <div className="artist-preview" onClick={() => onSetSong(topArtist.song)}>
-            <img src={topArtist.imgUrl} alt={topArtist.name} />
-            <h2>{topArtist.name}</h2>
-            <span>Song</span> · <span>{topArtist.createdBy.fullname}</span>
-          </div>
-          <div className="first-artist-songs-preview">
-            <h2>Songs</h2>
-            <ul>
-              {topSongs.map(song => (
-                <li key={song._id} className="song-preview flex align-center" onClick={() => onSetSong(song)}>
-                  <img src={song.imgUrl} alt={song.title} />
-                  <div className="song-info">
-                    <span className="song-name">{song.title}</span>
-                    <span className="artist-name">{topArtist.createdBy.fullname}</span>
-                  </div>
-                  {/* Optional: Add time, icons etc. */}
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="top-result-grid">
+        <div className="heading-col">
+          <h1>Top Result</h1>
+        </div>
+        <div className="heading-col">
+          <h3>Songs</h3>
         </div>
 
-        <div className="artists-section">
-          <h2>Artists</h2>
-          <section className="artists-list">
-            {artistStations.map(station => (
-              <div
-                className="artist-card"
-                key={station._id}
-                onClick={() => {
-                  onGoToStation(station)
-                }}
-              >
-                <img src={station.imgUrl} alt={station.name} />
-                <span>{station.name}</span>
-              </div>
-            ))}
-          </section>
+        <div className="artist-preview" onClick={() => onSetSong(topArtist.song)}>
+          <img src={topArtist.imgUrl} alt={topArtist.name} />
+          <div className="artist-info">
+            <span className="artist-title">{topArtist.name}</span>
+            <span className="artist-meta">Song · {topArtist.createdBy.fullname}</span>
+            {/* If needed, you can add <span className="artist-sub">...</span> here */}
+          </div>
         </div>
+        <div className="first-artist-songs-preview">
+          <ul>
+            {topSongs.map(song => (
+              <li key={song._id} className="song-preview flex align-center" onClick={() => onSetSong(song)}>
+                <img src={song.imgUrl} alt={song.title} />
+                <div className="song-info">
+                  <span className="song-name">{song.title}</span>
+                  <span className="artist-name">{topArtist.createdBy.fullname}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="artists-section">
+        <h2>Artists</h2>
+        <section className="artists-list">
+          {artistStations.map(station => (
+            <div
+              className="artist-card"
+              key={station._id}
+              onClick={() => {
+                onGoToStation(station)
+              }}
+            >
+              <img src={station.imgUrl} alt={station.name} />
+              <div className="flex column artist-info-container">
+                <span className="artist-title" title={station.name}>{station.name}</span>
+                <span className="artist-meta">Artist</span>
+              </div>
+            </div>
+          ))}
+        </section>
       </div>
     </section>
   )

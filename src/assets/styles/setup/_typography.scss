@@ -1,68 +1,101 @@
+// SpotifyMixUI
+@font-face {
+  font-family: sm-regular;
+  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-Regular.woff2') format('woff2');
+  font-weight: 400;
+}
 
+@font-face {
+  font-family: sm-bold;
+  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
 
 @font-face {
-    font-family: 'SM-Black';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Black.ttf);
+  font-family: sm-title;
+  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-TitleVariable.woff2') format('woff2');
 }
+
+// CircularSp
 @font-face {
-    font-family: 'SM-BlackItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-BlackItalic.ttf);
+  font-family: csp-black;
+  src: url('@/assets/fonts/CircularSp/CircularSp-Hebr-Black.woff2') format('woff2');
 }
+
 @font-face {
-    font-family: 'SM-Bold';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Bold.ttf);
+  font-family: csp-bold;
+  src: url('@/assets/fonts/CircularSp/CircularSp-Hebr-Bold.woff2') format('woff2');
 }
+
 @font-face {
-    font-family: 'SM-BoldItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-BoldItalic.ttf);
+  font-family: csp-book;
+  src: url('@/assets/fonts/CircularSp/CircularSp-Hebr-Book.woff2') format('woff2');
 }
-@font-face {
-    font-family: 'SM-Extrabold';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Extrabold.ttf);
-}
-@font-face {
-    font-family: 'SM-ExtraboldItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-ExtraboldItalic.ttf);
-}
-@font-face {
-    font-family: 'SM-Light';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Light.ttf);
-}
-@font-face {
-    font-family: 'SM-LightItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-LightItalic.ttf);
-}
-@font-face {
-    font-family: 'SM-Medium';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Medium.ttf);
-}
-@font-face {
-    font-family: 'SM-MediumItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-MediumItalic.ttf);
-}
-@font-face {
-    font-family: 'SM-Regular';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Regular.ttf);
-}
-@font-face {
-    font-family: 'SM-RegularItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-RegularItalic.ttf);
-}
-@font-face {
-    font-family: 'SM-Thin';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Thin.ttf);
-}
-@font-face {
-    font-family: 'SM-ThinItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-ThinItalic.ttf);
-}
-@font-face {
-    font-family: 'SM-Ultra';
-    src: url(../../fonts/spotify-mix/SpotifyMix-Ultra.ttf);
-}
-@font-face {
-    font-family: 'SM-UltraItalic';
-    src: url(../../fonts/spotify-mix/SpotifyMix-UltraItalic.ttf);
-}
+
+// @font-face {
+//     font-family: 'SM-Black';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Black.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-BlackItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-BlackItalic.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-Bold';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Bold.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-BoldItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-BoldItalic.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-Extrabold';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Extrabold.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-ExtraboldItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-ExtraboldItalic.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-Light';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Light.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-LightItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-LightItalic.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-Medium';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Medium.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-MediumItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-MediumItalic.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-Regular';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Regular.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-RegularItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-RegularItalic.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-Thin';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Thin.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-ThinItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-ThinItalic.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-Ultra';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-Ultra.ttf);
+// }
+// @font-face {
+//     font-family: 'SM-UltraItalic';
+//     src: url(../../fonts/spotify-mix/SpotifyMix-UltraItalic.ttf);
+// }
 
 

@@ -41,13 +41,18 @@ export function SongSearchResult() {
       <ul>
         {songs.map(song =>
           song?.imgUrl ? (
-            <li key={song.id}>
-              <img src={song.imgUrl} alt={song.title || ''} />
-              <div>
-                <h4>{song.title || ''}</h4>
-                <p>{song.artist || ''}</p>
+            <li key={song.id} className="song-search-row">
+              <div className="song-info">
+                <img src={song.imgUrl} alt={song.title || ''} />
+                <div className="title-artist">
+                  <h4>{song.title || ''}</h4>
+                  <p>{song.artist || ''}</p>
+                </div>
               </div>
-              <button onClick={() => onAddSong(song)}>Add</button>
+              <div className="album">{song.album || ''}</div>
+              <button className="add-btn" onClick={() => onAddSong(song)}>
+                Add
+              </button>
             </li>
           ) : null
         )}

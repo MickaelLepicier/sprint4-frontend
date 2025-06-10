@@ -7,13 +7,7 @@ import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import {
-  loadStation,
-  addStationMsg,
-  setSong,
-  setIsPlaying,
-  togglePlay
-} from '../store/station/station.actions'
+import { loadStation, addStationMsg, setSong, setIsPlaying, togglePlay } from '../store/station/station.actions'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
@@ -22,7 +16,7 @@ import { SongPreview } from './SongPreview'
 
 export function SongList() {
   const { stationId } = useParams()
-  const station = useSelector((storeState) => storeState.stationModule.station)
+  const station = useSelector(storeState => storeState.stationModule.station)
 
   useEffect(() => {
     if (!station || station._id !== stationId) {
@@ -35,17 +29,12 @@ export function SongList() {
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
 
-  const isPlaying = useSelector(
-    (storeState) => storeState.stationModule.isPlaying
-  )
+  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
   // console.log('station: ',station)
   // const currSong = useSelector((storeState) => storeState.stationModule.currentSong) || (station?.songs[0])
 
-  const currentSongFromStore = useSelector(
-    (storeState) => storeState.stationModule.currentSong
-  )
-  const currSong =
-    currentSongFromStore || (station && station.songs ? station.songs[0] : null)
+  const currentSongFromStore = useSelector(storeState => storeState.stationModule.currentSong)
+  const currSong = currentSongFromStore || (station && station.songs ? station.songs[0] : null)
 
   // DND: songs are now a state, so we can reorder them when dragging
   const [songs, setSongs] = useState([])
@@ -75,7 +64,7 @@ export function SongList() {
   }
 
   const debouncedSearch = useRef(
-    debounce(async (txt) => {
+    debounce(async txt => {
       try {
         await performSearch(txt)
       } catch (error) {
@@ -186,11 +175,11 @@ export function SongList() {
         {/* DND: Wrap tbody in DragDropContext and Droppable */}
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="songs-droppable" direction="vertical">
-            {(provided) => (
+            {provided => (
               <tbody ref={provided.innerRef} {...provided.droppableProps}>
                 {songs.map((song, idx) => (
                   <Draggable key={song._id} draggableId={song._id} index={idx}>
-                    {(provided) => (
+                    {provided => (
                       <SongPreview
                         song={song}
                         idx={idx}
@@ -209,11 +198,28 @@ export function SongList() {
           </Droppable>
         </DragDropContext>
       </table>
-      <button onClick={() => setShowSearchBar(!showSearchBar)}>
-        Find more
+      <button className="find-more-btn" onClick={() => setShowSearchBar(!showSearchBar)}>
+        {showSearchBar ? (
+          <svg
+            className="find-more-svg"
+            width="32"
+            height="32"
+            viewBox="0 0 22 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ verticalAlign: 'middle' }}
+            aria-label="Close"
+          >
+            <line x1="6" y1="6" x2="16" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+            <line x1="16" y1="6" x2="6" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+          </svg>
+        ) : (
+          'Find more'
+        )}
       </button>
       {showSearchBar && (
         <section className="song-search-section">
+          <h4>Let's find something for your playlist</h4>
           <form className="" action="" onSubmit={onSubmitSearch}>
             <input
               value={searchSong}

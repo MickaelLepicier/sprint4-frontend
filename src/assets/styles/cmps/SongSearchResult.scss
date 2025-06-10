@@ -1,0 +1,107 @@
+.song-search-row {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 0;
+  gap: 16px;
+  font-size: 1rem;
+  min-height: 56px; // matches the row height in your image
+  cursor: pointer;
+  background: transparent;
+
+  // Remove border under row
+  border-bottom: none;
+
+  &:hover {
+    background: #232323;
+    border-radius: 6px;
+  }
+
+  .song-info {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    flex: 1.5;
+
+    img {
+      width: 48px;
+      height: 48px;
+      border-radius: 4px;
+      object-fit: cover;
+      margin-right: 16px;
+      
+      background: #222;
+      flex-shrink: 0;
+      border: 1px solid #222;
+    }
+
+    .title-artist {
+      min-width: 0;
+      h4 {
+        margin: 0 0 2px 0;
+        font-size: 1.05rem;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #fff;
+      }
+      p {
+        margin: 0;
+        color: #b3b3b3;
+        font-size: 0.98rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .album {
+    flex: 1.2;
+    color: #b3b3b3;
+    font-size: 0.98rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+  }
+
+  .add-btn {
+    background: transparent;
+    border: 1.5px solid #b3b3b3;
+    color: #fff;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-right: 14px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    height: 34px;
+    min-width: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover, &:focus {
+      background: #fff;
+      color: #181818;
+      border-color: #fff;
+    }
+  }
+}
+
+// Responsive for mobile
+@media (max-width: 600px) {
+  .song-search-row {
+    flex-wrap: wrap;
+    min-height: 44px;
+    .album {
+      flex-basis: 100%;
+      margin-top: 2px;
+    }
+    .add-btn {
+      margin-left: 0;
+      margin-top: 8px;
+    }
+  }
+}

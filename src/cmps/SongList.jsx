@@ -176,7 +176,7 @@ export function SongList() {
   return (
     <section className="station-songlist">
       <header className="station-header">
-        <img src={station.imgUrl} alt="" />
+        <img src={station.imgUrl || 'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'} alt="" />
         <h1>{station.name}</h1>
       </header>
       <div className="songlist-play-actions">

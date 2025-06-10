@@ -1,0 +1,92 @@
+.auth-header {
+  display: flex;
+  gap: 8px;
+
+  .btn-signup {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+    border: none;
+    border-radius: 9999px;
+
+    padding: 4px 16px 4px 8px;
+    min-height: 32px;
+
+    font-family: SpotifyMixUI, 'Helvetica Neue', helvetica, arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #b3b3b3;
+    white-space: nowrap;
+
+    cursor: pointer;
+    user-select: none;
+    // transition: color 0.15s cubic-bezier(0.3, 0, 0, 1), transform 0.15s cubic-bezier(0.3, 0, 0, 1);
+
+    &:hover {
+      color: #ffffff;
+      transform: scale(1.04);
+      transition-duration: 50ms;
+    }
+
+    &:active {
+      opacity: 0.7;
+      transform: scale(1);
+      color: #b3b3b3;
+    }
+
+    // &:focus-visible {
+    //     outline: 2px solid #ffffff;
+    //     outline-offset: 2px;
+    // }
+  }
+
+  
+}
+
+
+  .btn-login, .btn-footer-signup, .btn-logout {
+    all: unset;
+    display: inline-block;
+    font-family: SpotifyMixUI, 'Helvetica Neue', helvetica, arial, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: middle;
+
+    .btn-login-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
+        background-color: #ffffff;
+        color: #000000;
+    
+        border-radius: 9999px;
+        padding: 8px 32px;
+        min-height: 48px;
+    
+        font-weight: 700;
+        font-size: 16px;
+        white-space: nowrap;
+    
+        // transition:
+        //     background-color 0.15s cubic-bezier(0.3, 0, 0, 1),
+        //     transform 0.15s cubic-bezier(0.3, 0, 0, 1);
+      }
+
+    .btn-login-inner:hover {
+      background-color: #f0f0f0; // var(--background-highlight)
+      color: #000000; //var(--text-base)
+      transform: scale(1.04);
+      transition-duration: 150ms;
+      transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
+    }
+
+    // transition: transform 0.15s cubic-bezier(0.3, 0, 0, 1);
+  }
+
+//   .login-btn-inner {
+

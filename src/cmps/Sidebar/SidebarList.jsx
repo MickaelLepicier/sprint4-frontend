@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { SidebarPreview } from './SidebarPreview'
+import { SidebarDragLabel } from './SidebarDragLabel'
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
 const ItemType = 'STATION' // Used for drag-and-drop matching
 
@@ -72,6 +74,7 @@ export function SidebarList({
 
     return (
         <DndProvider backend={HTML5Backend}>
+            <SidebarDragLabel />
             <section className="sidebar-list">
                 <ul>
                     {orderedStations.map((station, index) => (
@@ -94,20 +97,48 @@ export function SidebarList({
 }
 
 function DraggableStation({ station, index, moveStation, onClickSonglist, user, isLikedSongs, isSelected, isCollapsed }) {
-    const [, dragRef] = useDrag({
+    const [, dragRef, preview] = useDrag({
         type: ItemType,
-        item: { index }
+        item: { index, name: station.name },
     })
+    
+    // const [, dragRef] = useDrag({
+    //     type: ItemType,
+    //     item: { index, name: station.name }, // <-- ADD name!
+    // })
 
-    const [, dropRef] = useDrop({
+
+    // const [, dragRef] = useDrag({
+    //     type: ItemType,
+    //     item: { index }
+    // })
+
+    // <--- This is the only change! Collect isOver from useDrop.
+    const [{ isOver }, dropRef] = useDrop({
         accept: ItemType,
         drop(item) {
-        if (item.index !== index) {
-            moveStation(item.index, index)  // Move item to new idx
-            item.index = index // Update dragged item’s idx for internal tracking
-        }
-        }
+            if (item.index !== index) {
+                moveStation(item.index, index)
+                item.index = index
+            }
+        },
+        collect: monitor => ({
+            isOver: monitor.isOver(),
+        }),
     })
+
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true })
+    }, [preview])
+    // const [, dropRef] = useDrop({
+    //     accept: ItemType,
+    //     drop(item) {
+    //     if (item.index !== index) {
+    //         moveStation(item.index, index)  // Move item to new idx
+    //         item.index = index // Update dragged item’s idx for internal tracking
+    //     }
+    //     }
+    // })
 
     const setDragRef = node => dragRef(dropRef(node))
 
@@ -130,6 +161,7 @@ function DraggableStation({ station, index, moveStation, onClickSonglist, user, 
 
             onClickSonglist={onClickSonglist}
             setDragRef={setDragRef}
+            isOver={isOver}
         />
     )
 }

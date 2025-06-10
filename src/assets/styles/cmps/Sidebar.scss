@@ -12,6 +12,14 @@ aside.sidebar {
     border-bottom-left-radius: 8px;
     overflow: hidden;
 
+    // overflow-y: auto;
+
+    .sidebar-list {
+        ul {
+            margin: 0;
+        }
+    }
+
     // When sidebar is collapsed
     &.collapsed {
         .library-container {
@@ -203,13 +211,75 @@ aside.sidebar {
         }
     }
         
+
     .library-container {
         display: flex;
         flex-direction: column;
         margin: 0;
         gap: 8px;
         padding-inline: 8px;
+
+        // Always enable scrolling, so the track/thumb can appear
+        overflow-y: auto;
+
+        // --- Default scrollbar, track, and thumb ---
+        &::-webkit-scrollbar {
+            width: 12px;
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: transparent;
+            border-radius: 0; // <-- no rounding!
+            // transition: background 0.25s cubic-bezier(.3,0,.4,1);
+            transition: background 0.8s cubic-bezier(.3,0,.4,1);
+        }
+
+        // --- Show thumb when sidebar is hovered ---
+        &:hover::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3); // Spotify: semi-transparent white
+        }
+
+        // --- Thumb hover (mouse over the thumb itself) ---
+        &:hover::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.45); // Spotify: slightly brighter on thumb hover
+        }
+
+        // --- Thumb active (drag) ---
+        &:hover::-webkit-scrollbar-thumb:active {
+            background: #CFCFCF; // Almost white when dragging
+        }
     }
+
+    // .library-container {
+    //     display: flex;
+    //     flex-direction: column;
+    //     margin: 0;
+    //     gap: 8px;
+    //     padding-inline: 8px;
+    //     overflow-y: hidden; // hide scrollbar by default
+
+    //     &::-webkit-scrollbar {
+    //         width: 12px;
+    //         background: transparent;
+    //     }
+    //     &::-webkit-scrollbar-thumb {
+    //         background: transparent;
+    //         // border-radius: 8px;
+    //         transition: background 0.8s cubic-bezier(.3,0,.4,1) 0.3s;
+    //     }
+
+    //     &:hover {
+    //         overflow-y: auto;
+
+    //         &::-webkit-scrollbar-thumb {
+    //             background: hsla(0, 0%, 100%, .3);
+    //         }
+    //     }
+
+    //     &:hover::-webkit-scrollbar-thumb:active {
+    //         background: hsla(0, 0%, 100%, .45);
+    //     }
+    // }
 }
 
 .sidebar-view-filter {
@@ -257,4 +327,50 @@ aside.sidebar {
             background-color: #ffffff1a; 
         }
     }
+}
+
+// .sidebar .library-container::-webkit-scrollbar-thumb {
+//     background: transparent !important;
+//     transition: background 1s cubic-bezier(.3,0,.4,1) !important;
+// }
+// .sidebar .library-container:hover::-webkit-scrollbar-thumb {
+//     background: #3a3a3a !important;
+// }
+// .sidebar .library-container::-webkit-scrollbar {
+//     width: 12px !important;
+//     background: transparent !important;
+// }
+
+// .sidebar-drag-label {
+//     background: #232323;
+//     color: #fff;
+//     font-size: 16px;
+//     font-weight: 500;
+//     border-radius: 8px;
+//     padding: 6px 18px;
+//     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+//     opacity: 0.93;
+//     pointer-events: none;
+//     user-select: none;
+//     transition: box-shadow 0.13s;
+//     white-space: nowrap;
+//     // Extra: subtle border
+//     border: 1px solid #313131;
+// }
+
+.sidebar-drag-label {
+    background: rgba(35,35,35,0.93); // or rgba(40,40,40,0.92)
+    color: #b3b3b3;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 0 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    opacity: 0.93;
+    pointer-events: none;
+    user-select: none;
+    // border: 1px solid #313131;
+    white-space: nowrap;
+    font-family: 'Circular', 'Spotify Circular', 'Arial', sans-serif;
+    transition: box-shadow 0.13s;
 }

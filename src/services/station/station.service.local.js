@@ -259,7 +259,7 @@ async function genreSonglistSearch(genre) {
     const songlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
         part: 'snippet',
-        q: `${genre} music`,
+        q: `${genre} music new playlist`,
         type: 'playlist',
         maxResults: 5,
         key: YT_API_KEY,
@@ -427,8 +427,8 @@ function _createDemoStations() {
       {
         _id: 's002',
         name: 'Lo-Fi Chill',
-      //   // imgUrl: 'https://i.imgur.com/dRn5PpQ.jpg',
-      imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
+        //   // imgUrl: 'https://i.imgur.com/dRn5PpQ.jpg',
+        imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
         imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
         tags: ['Chill', 'Study', 'Beats'],
         createdBy: {
@@ -472,57 +472,57 @@ function _createDemoStations() {
         ],
       },
 
-    {
-      _id: 's003',
-      name: 'Classic Rock Hits',
-      imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
-      tags: ['Rock', 'Classic', 'Legends'],
-      createdBy: {
-        _id: 'u105',
-        fullname: 'Mike Thunder',
-        imgUrl: 'https://randomuser.me/api/portraits/men/33.jpg',
+      {
+        _id: 's003',
+        name: 'Classic Rock Hits',
+        imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
+        tags: ['Rock', 'Classic', 'Legends'],
+        createdBy: {
+          _id: 'u105',
+          fullname: 'Mike Thunder',
+          imgUrl: 'https://randomuser.me/api/portraits/men/33.jpg',
+        },
+        likedByUsers: ['u101', 'u102'],
+        songs: [
+          {
+            _id: 'fJ9rUzIMcZQ',
+            title: 'Queen – Bohemian Rhapsody',
+            url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+            imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
+            addedBy: 'u105',
+            likedBy: ['u101'],
+            addedAt: Date.now() - 7000000,
+          },
+          {
+            _id: 'xbhCPt6PZIU',
+            title: 'AC/DC - Back In Black',
+            url: 'https://www.youtube.com/watch?v=xbhCPt6PZIU',
+            imgUrl: 'https://i.ytimg.com/vi/xbhCPt6PZIU/mqdefault.jpg',
+            addedBy: 'u105',
+            likedBy: ['u102'],
+            addedAt: Date.now() - 5000000,
+          },
+          {
+            _id: 'ZcXpKiY2MXE',
+            title: 'Led Zeppelin - Stairway to Heaven',
+            url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
+            imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
+            addedBy: 'u101',
+            likedBy: ['u105'],
+            addedAt: Date.now() - 2000000,
+          },
+        ],
+        msgs: [
+          { id: 'm301', from: 'u102', txt: 'Rock on 🤘' },
+          { id: 'm302', from: 'u105', txt: 'Legends never die' },
+        ],
       },
-      likedByUsers: ['u101', 'u102'],
-      songs: [
-        {
-          _id: 'fJ9rUzIMcZQ',
-          title: 'Queen – Bohemian Rhapsody',
-          url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
-          imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
-          addedBy: 'u105',
-          likedBy: ['u101'],
-          addedAt: Date.now() - 7000000,
-        },
-        {
-          _id: 'xbhCPt6PZIU',
-          title: 'AC/DC - Back In Black',
-          url: 'https://www.youtube.com/watch?v=xbhCPt6PZIU',
-          imgUrl: 'https://i.ytimg.com/vi/xbhCPt6PZIU/mqdefault.jpg',
-          addedBy: 'u105',
-          likedBy: ['u102'],
-          addedAt: Date.now() - 5000000,
-        },
-        {
-          _id: 'ZcXpKiY2MXE',
-          title: 'Led Zeppelin - Stairway to Heaven',
-          url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
-          imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
-          addedBy: 'u101',
-          likedBy: ['u105'],
-          addedAt: Date.now() - 2000000,
-        },
-      ],
-      msgs: [
-        { id: 'm301', from: 'u102', txt: 'Rock on 🤘' },
-        { id: 'm302', from: 'u105', txt: 'Legends never die' },
-      ],
-    },
-    {
-      _id: 'xyz123',
-      name: 'Liked Songs',
-      imgUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
-      tags: [],
-      createdBy: {
+      {
+        _id: 'xyz123',
+        name: 'Liked Songs',
+        imgUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
+        tags: [],
+        createdBy: {
           _id: 'u102',
           fullname: 'Puki Ben David',
           imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg',

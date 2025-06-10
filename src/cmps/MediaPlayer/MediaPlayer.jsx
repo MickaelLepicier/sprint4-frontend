@@ -39,7 +39,7 @@ export function MediaPlayer() {
   }
 
   return (
-    <footer className="media-player-container flex align-center">
+    <section className="media-player-container flex align-center">
       <SongInfo song={currSong} />
 
       <TrackControl currSong={currSong} volume={volume} />
@@ -49,6 +49,6 @@ export function MediaPlayer() {
         toggleMute={toggleMute}
         handleVolumeChange={handleVolumeChange}
       />
-    </footer>
+    </section>
   )
 }

@@ -1,25 +1,94 @@
 .sidebar-filter-sort {
     padding: 2px 16px 0px 8px;
+    display: flex;
+    position: relative;
 
     .library-search-input {
+        display: flex;
+        align-items: start; // vertical center
             background-color: transparent;
             background-color: hsla(0, 0%, 100%, .1);
+            // background-color: rgba(0, 0, 0, 0);
             border: none;
             outline: none;
-            color: #B3B3B3;
+            // color: #B3B3B3;
+            color: hsla(0, 0%, 100%, .7);
+            // color: hsla(0, 0%, 100%, .7);
             font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, sans-serif;
             font-size: 13.333px;
             font-weight: 400;
             line-height: normal;
             flex: 1;
+            // border-radius: 50%;
             padding: 8px 8px 8px 32px;
-            border-radius: 4px;
+            // border-radius: 4px;
             height: 32px;
+            max-width: 32px;
             text-overflow: ellipsis;
-
+            transition: all .3s cubic-bezier(.3,0,.4,1), border-radius 0s .3s;
+            // display: none;
+            opacity: 0;
+            //  text-align: center;
+            display: flex;
+            
+            -webkit-font-smoothing: antialiased;
             &::placeholder {
-                color: #B3B3B3;
-                font-size: 16px;
+                // color: #B3B3B3;
+                line-height: normal;
+                font-size: 13.333px;
+                color: #b3b3b3;
             }
+            &.active {
+                border-radius: 4px;
+                opacity: 1;
+                max-width: 188px;
+                width: 100%;
+            }
+
+            &.active ~ .search-icon-btn,
+            .search-icon-btn:has(+ .library-search-input.active) { 
+                pointer-events: none; 
+                background-color: transparent;
+            }
+    }
+
+    .search-icon-btn-wrapper {
+        background-color: #121212;
+    }
+
+    .search-icon-btn {
+        position: absolute;
+        background-color: transparent;
+        justify-content: center;
+        height: 32px;
+        width: 32px;
+        // z-index: 3;
+        border: none;
+        border-radius: 50%;
+        color: hsla(0, 0%, 100%, .7);
+        cursor: pointer;
+        
+        transition-duration: .3s;
+        transition-property: opacity;
+        transition-timing-function: cubic-bezier(.3,0,.4,1);
+
+        &:hover {
+            // background-color: (0, 0%, 100%, .1);
+            background-color: hsla(0, 0%, 100%, .1);
+
+            svg {
+                fill: #fff;
+            }
+        }
+
+        svg {
+            fill: hsla(0, 0%, 100%, .7);
+            height: 16px;
+            width: 16px;
+
+            transition-duration: .3s;
+            transition-property: opacity;
+            transition-timing-function: cubic-bezier(.3,0,.4,1);
+        }
     }
 }

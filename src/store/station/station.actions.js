@@ -10,7 +10,8 @@ import {
   SET_IS_PLAYING,
   SET_NEXT_SONG,
   SET_PREV_SONG,
-  SET_SONG
+  SET_SONG,
+  SET_CURRENT_STATION
 } from './station.reducer'
 
 export async function loadStations(filterBy) {
@@ -94,14 +95,26 @@ export async function addStationMsg(stationId, txt) {
   }
 }
 
-export async function setSong(song) {
-  try {
-    store.dispatch({ type: SET_SONG, song })
-  } catch (err) {
-    console.log('Cannot set song ', err)
-    throw err
-  }
+// Updated setSong
+export function setSong(song, station) {
+  console.log('~~~SONG~~', song)
+  console.log('~~~STATION~~', station)
+    try {
+      store.dispatch({ type: SET_SONG, song })
+      store.dispatch({ type: SET_CURRENT_STATION, station }) // Added line
+    } catch (err) {
+      console.error('Failed to set song:', err)
+    }
 }
+// Previous setSong -> missing currStation
+// export async function setSong(song) {
+//   try {
+//     store.dispatch({ type: SET_SONG, song })
+//   } catch (err) {
+//     console.log('Cannot set song ', err)
+//     throw err
+//   }
+// }
 
 export function setIsPlaying(isPlaying) {
   try {
@@ -129,13 +142,39 @@ export async function togglePlay(isPlaying) {
   }
 }
 
-export async function nextSong() {
-  store.dispatch({ type: SET_NEXT_SONG })
-}
+export function nextSong() {
+  const state = store.getState().stationModule
+  const { currentStation, currentSong } = state
 
-export async function prevSong() {
-  store.dispatch({ type: SET_PREV_SONG })
+  if (!currentStation || !currentStation.songs?.length) return
+
+  const currIdx = currentStation.songs.findIndex(song => song._id === currentSong?._id)
+  const nextIdx = (currIdx + 1) % currentStation.songs.length
+  const nextSong = currentStation.songs[nextIdx]
+
+  store.dispatch({ type: SET_NEXT_SONG, song: nextSong })
 }
+// export async function nextSong() {
+//   store.dispatch({ type: SET_NEXT_SONG })
+// }
+
+export function prevSong() {
+  const state = store.getState().stationModule
+  const { currentStation, currentSong } = state
+
+  if (!currentStation?.songs?.length) return
+
+  const currIdx = currentStation.songs.findIndex(song => song._id === currentSong?._id)
+  if (currIdx === -1) return
+
+  const prevIdx = (currIdx - 1 + currentStation.songs.length) % currentStation.songs.length
+  const prevSong = currentStation.songs[prevIdx]
+
+  store.dispatch({ type: SET_PREV_SONG, song: prevSong })
+}
+// export async function prevSong() {
+//   store.dispatch({ type: SET_PREV_SONG })
+// }
 
 // Command Creators:
 function getCmdSetStations(stations) {

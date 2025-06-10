@@ -23,11 +23,15 @@ export function SidebarPreview({
     // const [isHovered, setIsHovered] = useState(true)
     // const currentStationId = useSelector(state => state.stationModule.station?._id)
     // const isPlaying = songlist._id === currentStationId
+    const currentStationId = useSelector(state => state.stationModule.currentStation?._id)
+    const isPlaying = songlist._id === currentStationId
+
 
     function getClassName() {
         let className = 'sidebar-preview'
         if (isSelected) className += ' selected'
         if (isLikedSongs) className += ' liked-songs'
+        if (isPlaying) className += ' playing'
         // if (isPlaying) className += ' playing'
         // if (isPlaying) console.log('STATION!!!', songlist.title)
         return className

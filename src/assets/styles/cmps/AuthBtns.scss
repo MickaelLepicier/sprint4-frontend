@@ -17,6 +17,12 @@ If I want this kind of functionality in many NavLink how can I do it?
 
   2.
   which way is better to use SVG, mine or Boaz?
+    my way is less better, the Boaz is better
+    its better for more manipulation and it takes more time to upload
+
+    do 1 svg service, 
+    do reuse to the icons - create in the top level one svg and inside there is depth put each one of them with id
+    later on I can use @use svg and it will bring the svg.  
 
   3.
   how much is it important to add all the font-family liberarys ?
@@ -28,6 +34,7 @@ If I want this kind of functionality in many NavLink how can I do it?
 // CircularSp-Grek, CircularSp-Deva, "Helvetica Neue", helvetica, arial,
 // "Hiragino Kaku Gothic ProN", Meiryo, "MS Gothic"
    
+    use just one and add serif and sun-serif
 */
 
 .auth-header {

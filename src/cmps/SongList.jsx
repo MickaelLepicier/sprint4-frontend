@@ -84,6 +84,30 @@ export function SongList() {
     debouncedSearch.current(value)
   }
 
+  function onTogglePlay(song) {
+    const currPlayer = window.playerRef?.current
+    if (!currPlayer || !song || !song._id) return
+
+    // ⚠️ IMPORTANT: guard against undefined station
+    if (!station || !station._id || !station.songs) {
+      console.warn('Cannot play song: station is not ready yet')
+      return
+    }
+
+    if (currSong?._id === song._id) {
+      if (isPlaying) {
+        currPlayer.pauseVideo()
+        setIsPlaying(false)
+      } else {
+        currPlayer.playVideo()
+        setIsPlaying(true)
+      }
+    } else {
+      setSong(song, station) // ✅ pass correct station
+      setIsPlaying(true)
+    }
+  }
+
   // TODO - make first click play the first song
   function onTogglePlay(song) {
     console.log('onTogglePlay - SongList')
@@ -94,6 +118,12 @@ export function SongList() {
 
     if (!song || !song._id) {
       console.log('Invalid song passed to onTogglePlay: ', song)
+      return
+    }
+
+    // Added check for valid station
+    if (!station || !station._id || !station.songs) {
+      console.warn('Cannot play song: station is not ready yet')
       return
     }
 
@@ -116,7 +146,7 @@ export function SongList() {
     } else {
       // console.log('B')
 
-      setSong(song)
+      setSong(song, station)
       setIsPlaying(true)
       // currPlayer.playVideo()
     }

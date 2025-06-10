@@ -34,7 +34,7 @@ export function GenreSearchResult() {
         <div className="station-list">
           <div className="grid-container">
             {stations.map(station => (
-              <StationPreview key={station._id} station={station} goToStation={() => onGoToStation(station)} />
+              <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
             ))}
           </div>
         </div>

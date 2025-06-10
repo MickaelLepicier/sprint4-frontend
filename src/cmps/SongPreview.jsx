@@ -30,7 +30,7 @@ export function SongPreview({
   // [] add AddLiked of the track
 
 
-  const duration = window.playerRef.current.getDuration?.()
+    const duration = window.playerRef?.current?.getDuration?.() ?? null
   // console.log('DDDD duration: ',duration)
 
   return (

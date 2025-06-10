@@ -1,6 +1,6 @@
 export function StationPreview({ station,goToStation }) {
     return (
-        <div className="station-preview" role="listitem" onClick={()=>{goToStation(station.id)}}>
+        <div className="station-preview" role="listitem" onClick={()=>{goToStation(station)}}>
             <div className="img-container">
                 <img
                     src={station.imgUrl}

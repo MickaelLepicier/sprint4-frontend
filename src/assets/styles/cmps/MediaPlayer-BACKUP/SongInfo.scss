@@ -1,6 +1,6 @@
 .song-info {
-    gap: 1rem;
-    padding: 0 0.875rem 0 0.5rem;
+    gap: 0.75rem;
+    padding: 0 1rem;
     min-width: 200px;
   
     .song-thumbnail {
@@ -13,38 +13,22 @@
     .song-details {
       display: flex;
       flex-direction: column;
-      max-width: 19.6vw;
       white-space: nowrap;
       overflow: hidden;
   
       .song-title {
-        font-family: 'sm-bold';
         font-size: 14px;
-        font-weight: 400;
-        line-height: normal;
-        margin: 0;
+        font-weight: bold;
         color: white;
         text-overflow: ellipsis;
         overflow: hidden;
       }
   
       .song-artist {
-        font-family: 'sm-regular';
         font-size: 12px;
-        line-height: normal;
         color: #b3b3b3;
         text-overflow: ellipsis;
         overflow: hidden;
-      }
-    }
-
-    .song-like-btn {
-      .song-like-img {
-        filter: brightness(0) invert(0.7);
-
-        &:hover {
-          filter: brightness(0) invert(1);
-        }
       }
     }
   }

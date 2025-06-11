@@ -1,8 +1,34 @@
+// SpotifyMixUI
 @font-face {
-    // font-family: caveat;
-    // src: url(../../fonts/Caveat/Caveat-Regular.ttf);
+  font-family: sm-regular;
+  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-Regular.woff2') format('woff2');
+  font-weight: 400;
 }
+
 @font-face {
-    // font-family: montserrat;
-    // src: url(../../fonts/Montserrat/Montserrat-Regular.ttf);
+  font-family: sm-bold;
+  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: sm-title;
+  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-TitleVariable.woff2') format('woff2');
+}
+
+// CircularSp
+@font-face {
+  font-family: csp-black;
+  src: url('@/assets/fonts/CircularSp/CircularSp-Hebr-Black.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: csp-bold;
+  src: url('@/assets/fonts/CircularSp/CircularSp-Hebr-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: csp-book;
+  src: url('@/assets/fonts/CircularSp/CircularSp-Hebr-Book.woff2') format('woff2');
 }

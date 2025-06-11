@@ -33,8 +33,12 @@ export function SongList() {
   // console.log('station: ',station)
   // const currSong = useSelector((storeState) => storeState.stationModule.currentSong) || (station?.songs[0])
 
-  const currentSongFromStore = useSelector(storeState => storeState.stationModule.currentSong)
-  const currSong = currentSongFromStore || (station && station.songs ? station.songs[0] : null)
+  // *****************************
+  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
+  /// ***** CANCELED TO FIX THE NOT PLAYING 1ST SONG BUG
+  // const currentSongFromStore = useSelector(storeState => storeState.stationModule.currentSong)
+  // const currSong = currentSongFromStore || (station && station.songs ? station.songs[0] : null)
+
 
   // DND: songs are now a state, so we can reorder them when dragging
   const [songs, setSongs] = useState([])

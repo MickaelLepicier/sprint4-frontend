@@ -65,7 +65,7 @@ export function RootCmp() {
 
           <Route path="station" element={<StationIndex />} />
           <Route path="station/:stationId" element={<StationDetails />} />
-          <Route path="songlist/:stationId" element={<SongList />} />
+          <Route path="playlist/:stationId" element={<SongList />} />
           <Route path="search" element={<GenreIndex />} />
           <Route path="search/:txt" element={<SearchStations />} />
           <Route path="genre/:genre" element={<SearchStations />} />

@@ -59,7 +59,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
 
             await loadStations()
             
-            navigate(`/songlist/${savedStation._id}`)
+            navigate(`/playlist/${savedStation._id}`)
         } catch (err) {
                 showErrorMsg('Failed to create songlist')
             }

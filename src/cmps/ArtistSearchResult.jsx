@@ -10,7 +10,7 @@ export function ArtistSearchResult() {
 
   function onGoToStation(station) {
     dispatch({ type: SET_STATION, station })
-    navigate(`/songlist/${station._id}`)
+    navigate(`/playlist/${station._id}`)
   }
 
   function onSetSong(song) {

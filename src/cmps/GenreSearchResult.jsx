@@ -19,7 +19,8 @@ export function GenreSearchResult() {
 
   function onGoToStation(station) {
     dispatch({ type: SET_STATION, station })
-    navigate(`/songlist/${station._id}`)
+    console.log('station:',station)
+    navigate(`/playlist/${station._id}`)
   }
 
   return (
@@ -29,7 +30,7 @@ export function GenreSearchResult() {
       </div>
 
       <section className="songlist-section">
-        <h2>Popular {genre} songlists</h2>
+        <h2>Popular {genre} Playlists</h2>
 
         <div className="station-list">
           <div className="grid-container">

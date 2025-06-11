@@ -296,6 +296,9 @@ async function genreSonglistSearch(genre) {
         const station = _createEmptyStation()
         const imgUrl = songs.find(song => song.imgUrl)?.imgUrl || ''
 
+        
+
+        station._id = songlistId
         station.name = songlist.snippet.title
         station.imgUrl = imgUrl
         station.tags = [genre]

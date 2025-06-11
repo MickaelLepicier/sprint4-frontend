@@ -2,9 +2,10 @@ import { NavLink } from 'react-router'
 import { AuthBtns } from './util/AuthBtns'
 
 export function AuthFooter() {
-
+  const bgColor = 'linear-gradient(90deg, #af2896, #509bf5)'
+  
   return (
-    <section>
+    <section style={{background: bgColor}}>
       <NavLink to="signup" className="auth-footer-container" >
         <div>
           <p>Preview of Spotify</p>

@@ -3,6 +3,8 @@
   justify-content: space-between;
 
   width: 100%;
+  padding: 11px 24px 7px 15px;
+
 
   /* disable drag */
   -webkit-user-select: none; /* Safari 3.1+ */
@@ -18,22 +20,44 @@
 
   p:first-child {
     max-height: 20px;
-    line-height: normal;
+    // line-height: normal;
     font-size: 14px;
     font-weight: bold;
     color: white;
 
+    
+  
+    font-family: sm-bold;
+    // font-family: sm-bold;
+    // font-family: sm-title;
 
-    // unicode-bidi:isolate;
-    // vertical-align:baseline;
+    // font-family: csp-black;
+    // font-family: csp-bold;
+    // font-family: csp-book;
+
+    // font-family: var(--encore-body-font-stack);
+    // font-size: var(--encore-text-size-smaller);
+
+    font-weight: 700;
+
+    font-size:14px;
+
     -webkit-font-smoothing:antialiased;
     -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
-  
-    font-family: 'SM-UltraItalic';
+
+    // -webkit-font-smoothing: antialiased;
+   
   }
 
   p:nth-child(2) {
-    font-size: 16px;
+    // font-size: 16px;
     color: white;
+
+    font-family: var(--encore-body-font-stack);
+    font-size: var(--encore-text-size-base);
+    color: var(--text-base);
+
+    // -webkit-font-smoothing: antialiased;
+    // font-weight: 400;
   }
 }

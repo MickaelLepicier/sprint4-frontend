@@ -28,6 +28,8 @@ export const stationService = {
   sideBarSearch,
   genreSonglistSearch,
   headerSearch,
+  addSongToStation,
+  removeSongFromStation,
   buildNewStationForUser,
   getNextAvailablePlaylistNumber,
   // addCarMsg
@@ -95,6 +97,19 @@ async function save(station) {
 
   return savedStation
 }
+
+async function addSongToStation(stationId, song) {
+    const station = await getById(stationId)
+    station.songs.push(song)
+    return await save(station)
+}
+
+async function removeSongFromStation(stationId, songId) {
+    const station = await getById(stationId)
+    station.songs = station.songs.filter(song => song._id !== songId)
+    return await save(station)
+}
+
 // async function save(station) {
 //   var savedStation
 //   if (station._id) {

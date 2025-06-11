@@ -30,6 +30,9 @@
         margin-inline: 16px;
         scale: 1;
       }
+      button.track-action.pause {
+        margin-inline: 16px;
+      }
 
       button.track-action:not(.play) {
         padding-block: 0;

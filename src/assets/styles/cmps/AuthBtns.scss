@@ -2,20 +2,6 @@
 
 QUESTION :
 
-1.
-
-If I want this kind of functionality in many NavLink how can I do it?
-
-  // disable drag 
-  -webkit-user-select: none; // Safari 3.1+ 
-  -moz-user-select: none; // Firefox 2+ 
-  -ms-user-select: none; // IE 10+ 
-  user-select: none; // Standard syntax 
-  -webkit-user-drag: none;
-
-  I tried with a special class in _Links.scss but it didn't work
-
-  2.
   which way is better to use SVG, mine or Boaz?
     my way is less better, the Boaz is better
     its better for more manipulation and it takes more time to upload
@@ -24,52 +10,35 @@ If I want this kind of functionality in many NavLink how can I do it?
     do reuse to the icons - create in the top level one svg and inside there is depth put each one of them with id
     later on I can use @use svg and it will bring the svg.  
 
-  3.
-  how much is it important to add all the font-family liberarys ?
-    for now we have just the first one - SpotifyMix
-    but this is what there is in Spotify:
-    
-// font-family:
-// SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl,
-// CircularSp-Grek, CircularSp-Deva, "Helvetica Neue", helvetica, arial,
-// "Hiragino Kaku Gothic ProN", Meiryo, "MS Gothic"
-   
-    use just one and add serif and sun-serif
 */
 
 .auth-header {
   display: flex;
-  gap: 8px;
 
   .btn-signup {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    background-color: transparent;
-    border: none;
-    border-radius: 9999px;
-
     padding: 4px 16px 4px 8px;
     min-height: 32px;
     text-decoration: none;
 
-    font-family: SpotifyMixUI, 'Helvetica Neue', helvetica, arial, sans-serif;
+    @include font-body-small-bold;
     font-size: 14px;
-    font-weight: 700;
+    // font-weight: 700;
+
+    background-color: transparent;
+    border: none;
+    border-radius: 9999px;
+
     color: #b3b3b3;
     white-space: nowrap;
 
     cursor: pointer;
     user-select: none;
-    // transition: color 0.15s cubic-bezier(0.3, 0, 0, 1), transform 0.15s cubic-bezier(0.3, 0, 0, 1);
 
-    /* disable drag */
-    -webkit-user-select: none; /* Safari 3.1+ */
-    -moz-user-select: none; /* Firefox 2+ */
-    -ms-user-select: none; /* IE 10+ */
-    user-select: none; /* Standard syntax */
-    -webkit-user-drag: none;
+    @include disable-drag;
 
     &:hover {
       color: #ffffff;
@@ -90,19 +59,11 @@ If I want this kind of functionality in many NavLink how can I do it?
 .btn-footer-signup {
   all: unset;
   display: inline-block;
-  font-family: SpotifyMixUI, 'Helvetica Neue', helvetica, arial, sans-serif;
-  font-weight: 700;
-  font-size: 16px;
+
   cursor: pointer;
-  user-select: none;
   vertical-align: middle;
 
-  /* disable drag */
-  -webkit-user-select: none; /* Safari 3.1+ */
-  -moz-user-select: none; /* Firefox 2+ */
-  -ms-user-select: none; /* IE 10+ */
-  user-select: none; /* Standard syntax */
-  -webkit-user-drag: none;
+  @include disable-drag;
 
   &:focus,
   &:hover {
@@ -114,21 +75,19 @@ If I want this kind of functionality in many NavLink how can I do it?
     align-items: center;
     justify-content: center;
 
-    background-color: #ffffff;
-    color: #000000;
-
+    min-height: 48px;
     border-radius: 9999px;
     padding: 8px 32px;
-    min-height: 48px;
 
-    font-weight: 700;
-    font-size: 16px;
+    @include font-body-medium-bold;
     white-space: nowrap;
+
+    background-color: #ffffff;
+    color: #000000;
 
     &:hover {
       background-color: #f0f0f0; // var(--background-highlight)
       color: #000000; //var(--text-base)
-      // text-decoration: none;
       transform: scale(1.04);
       transition-duration: 150ms;
       transition-timing-function: cubic-bezier(0.3, 0, 0, 1);

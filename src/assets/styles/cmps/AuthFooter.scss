@@ -5,13 +5,7 @@
   width: 100%;
   padding: 11px 24px 7px 15px;
 
-
-  /* disable drag */
-  -webkit-user-select: none; /* Safari 3.1+ */
-  -moz-user-select: none; /* Firefox 2+ */
-  -ms-user-select: none; /* IE 10+ */
-  user-select: none; /* Standard syntax */
-  -webkit-user-drag: none;
+@include disable-drag;
 
   &:focus,
   &:hover {
@@ -20,44 +14,20 @@
 
   p:first-child {
     max-height: 20px;
-    // line-height: normal;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-
-    
-  
-    font-family: sm-bold;
-    // font-family: sm-bold;
-    // font-family: sm-title;
-
-    // font-family: csp-black;
-    // font-family: csp-bold;
-    // font-family: csp-book;
-
-    // font-family: var(--encore-body-font-stack);
-    // font-size: var(--encore-text-size-smaller);
-
-    font-weight: 700;
 
     font-size:14px;
+    font-weight: 700;
+    font-family: sm-bold;
 
-    -webkit-font-smoothing:antialiased;
+    color: white;
+
+    -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
 
-    // -webkit-font-smoothing: antialiased;
-   
   }
 
   p:nth-child(2) {
-    // font-size: 16px;
-
-    // font-family: $encore-body-font-stack;
-    // font-size: $encore-text-size-base;
-    @include text-body-medium;
+    @include font-body-medium;
     color: $text-base;
-
-    // -webkit-font-smoothing: antialiased;
-    // font-weight: 400;
   }
 }

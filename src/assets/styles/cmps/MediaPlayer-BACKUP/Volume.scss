@@ -1,27 +1,10 @@
 //   *** track bar ***
 .media-player-container {
-  section.track-options {
-    margin-right: 8px;
-
-    button.track-action {
-      max-width: 32px;
-      width: 100%;
-      margin: 0;
-      padding: 8px;
-      img {
-        // height: 16px;
-        // width: 16px;
-      }
-    }
-  }
-
   .track-bar {
     -webkit-appearance: none;
     width: 100%;
     height: 4px;
     align-self: center;
-    margin: 0;
-
     background: linear-gradient(
       to right,
       #ffffff var(--bar-fill, 0%),

@@ -1,4 +1,3 @@
-import like from '../../assets/icons/media-player/like_btn.svg'
 import {Fragment} from "react";
 
 export function SongInfo({ song }) {
@@ -6,7 +5,6 @@ export function SongInfo({ song }) {
   // TODOs:
   // [] add navigation on the song-title and song-artist
   // [] add likeSong btn that add the song to the Liked Songs
-
 
   return (
     <section className="song-info flex align-center">
@@ -23,9 +21,6 @@ export function SongInfo({ song }) {
             <h4 className="song-title">{song?.title}</h4>
             <p className="song-artist">{song?.artist || 'Unknown Artist'}</p>
           </div>
-          <button className="song-like-btn">
-            <img src={like} className="song-like-img" />
-          </button>
         </Fragment>
       )}
     </section>

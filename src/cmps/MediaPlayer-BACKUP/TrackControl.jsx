@@ -63,8 +63,8 @@ export function TrackControl({ currSong, volume }) {
   }, [currSong])
 
   function onTogglePlay() {
-    // console.log('ONTOGGLE - TrackControl ')
-    // console.log('currSong: ', currSong)
+    console.log('ONTOGGLE - TrackControl ')
+    console.log('currSong: ', currSong)
     if (isTrackAllowed) return
 
     if (isPlaying) {
@@ -125,15 +125,10 @@ export function TrackControl({ currSong, volume }) {
         />
 
         <PlayButton
-          onToggle={() => currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0])}
-          isPlaying={isPlaying}
-          addClassName={isNotAllowed}
-        />
-        {/* <PlayButton
           isPlaying={isPlaying}
           onToggle={onTogglePlay}
           addClassName={isNotAllowed}
-        /> */}
+        />
 
         <SetActionBtn
           imgSrc={next}

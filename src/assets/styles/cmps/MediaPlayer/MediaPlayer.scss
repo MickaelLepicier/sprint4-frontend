@@ -16,17 +16,51 @@
 
   .track-controls-container {
     .track-actions {
-      min-width: 430px;
-      height: 32px;
-
+      display: flex;
+      justify-content: center;
       justify-self: center;
       text-align: center;
+
+      min-width: 430px;
+      height: 32px;
+      margin-bottom: 8px;
+
+      button.track-action.play {
+        padding: 0;
+        margin-inline: 16px;
+        scale: 1;
+      }
+      button.track-action.pause {
+        margin-inline: 16px;
+      }
+
+      button.track-action:not(.play) {
+        padding-block: 0;
+        padding-inline: 8px;
+      }
+
+      .track-action.shuffle {
+        margin-right: 8px;
+      }
+
+      .track-action.repeat {
+        margin-left: 8px;
+      }
     }
   }
 
   .track-seek {
+    min-height: 17px;
+    height: 100%;
     align-items: center;
     color: #b3b3b3;
+
+    input.track-bar {
+      margin-block: 0;
+      margin-inline: 8px;
+      padding: none;
+      height: 4px;
+    }
   }
 
 
@@ -41,8 +75,23 @@
   //   }
 
   .track-time {
+    min-height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    font-family: 'sm-regular';
     font-size: 12px;
-    margin-inline: 3px;
+    line-height: 1.2;
+    // margin-inline: 3px;
+    
+    &:first-child {
+      justify-content: end;
+    }
+
+    &:last-child {
+      justify-content: start;
+    }
   }
 
   .mute-btn {

@@ -7,7 +7,7 @@ $clr4: #95adbe;
 $clr5: #dff0ea;
 $clr6: #fff;
 $clr7: #222;
-$clr8: #B3B3B3; // for txt color
+$clr8: #b3b3b3; // for txt color
 
 $gray1: #ddd;
 $gray2: #aaa;
@@ -23,3 +23,307 @@ $normal-breakpoint: 960px;
 $bg_clr1: #000000;
 $bg_clr2: #121212;
 $bg_clr3: #1f1f1f;
+
+
+
+
+
+// Define SCSS variables
+$background-base: #121212;
+$background-highlight: #1f1f1f;
+$background-press: #000;
+$background-elevated-base: #1f1f1f;
+$background-elevated-highlight: #2a2a2a;
+$background-elevated-press: #191919;
+$background-tinted-base: #ffffff1a;
+$background-tinted-highlight: #ffffff24;
+$background-tinted-press: #ffffff36;
+
+$text-base: #fff;
+$text-subdued: #b3b3b3;
+$text-bright-accent: #1ed760;
+$text-negative: #f3727f;
+$text-warning: #ffa42b;
+$text-positive: #1ed760;
+$text-announcement: #4cb3ff;
+
+$essential-base: #fff;
+$essential-subdued: #7c7c7c;
+$essential-bright-accent: #1ed760;
+$essential-negative: #ed2c3f;
+$essential-warning: #ffa42b;
+$essential-positive: #1ed760;
+$essential-announcement: #4cb3ff;
+$decorative-base: #fff;
+$decorative-subdued: #292929;
+
+$encore-text-size-smaller-2: 0.6875rem;
+$encore-text-size-smaller: 0.8125rem;
+$encore-text-size-base: 1rem;
+$encore-text-size-larger: 1.25rem;
+$encore-text-size-larger-2: 1.5rem;
+$encore-text-size-larger-3: 2rem;
+$encore-text-size-larger-4: 2.5rem;
+$encore-text-size-larger-5: 3rem;
+
+$encore-border-width-hairline: 1px;
+$encore-border-width-thin: 2px;
+$encore-border-width-thick: 4px;
+$encore-border-width-thicker: 8px;
+$encore-border-width-focus: 3px;
+
+$encore-graphic-size-decorative-smaller-2: 12px;
+$encore-graphic-size-decorative-smaller: 16px;
+$encore-graphic-size-decorative-base: 24px;
+$encore-graphic-size-decorative-larger: 32px;
+$encore-graphic-size-decorative-larger-2: 40px;
+$encore-graphic-size-decorative-larger-3: 48px;
+$encore-graphic-size-decorative-larger-4: 64px;
+$encore-graphic-size-decorative-larger-5: 88px;
+
+$encore-graphic-size-informative-smaller-2: 0.75rem;
+$encore-graphic-size-informative-smaller: 1rem;
+$encore-graphic-size-informative-base: 1.5rem;
+$encore-graphic-size-informative-larger: 2rem;
+$encore-graphic-size-informative-larger-2: 2.5rem;
+$encore-graphic-size-informative-larger-3: 3rem;
+$encore-graphic-size-informative-larger-4: 4rem;
+$encore-graphic-size-informative-larger-5: 5.5rem;
+
+$encore-spacing-tighter-5: 2px;
+$encore-spacing-tighter-4: 4px;
+$encore-spacing-tighter-3: 6px;
+$encore-spacing-tighter-2: 8px;
+$encore-spacing-tighter: 12px;
+
+$encore-spacing-base: 16px;
+$encore-spacing-looser: 20px;
+$encore-spacing-looser-2: 24px;
+$encore-spacing-looser-3: 32px;
+$encore-spacing-looser-4: 40px;
+$encore-spacing-looser-5: 48px;
+$encore-spacing-looser-6: 64px;
+
+$encore-control-size-smaller: 32px;
+$encore-control-size-base: 48px;
+$encore-control-size-larger: 56px;
+
+$encore-layout-margin-tighter: 16px;
+$encore-layout-margin-base: 16px;
+$encore-layout-margin-looser: 24px;
+
+$encore-corner-radius-smaller: 2px;
+$encore-corner-radius-base: 4px;
+$encore-corner-radius-larger: 6px;
+$encore-corner-radius-larger-2: 8px;
+$encore-corner-radius-larger-3: 16px;
+
+$encore-body-font-stack: sm-regular, sans-serif;
+$encore-title-font-stack: sm-bold, sans-serif;
+$encore-variable-font-stack: sm-title, sans-serif;
+
+
+// Map SCSS variables to CSS custom properties
+:root {
+  --background-base: #{$background-base};
+  --background-highlight: #{$background-highlight};
+  --background-press: #{$background-press};
+  --background-elevated-base: #{$background-elevated-base};
+  --background-elevated-highlight: #{$background-elevated-highlight};
+  --background-elevated-press: #{$background-elevated-press};
+  --background-tinted-base: #{$background-tinted-base};
+  --background-tinted-highlight: #{$background-tinted-highlight};
+  --background-tinted-press: #{$background-tinted-press};
+
+  --text-base: #{$text-base};
+  --text-subdued: #{$text-subdued};
+  --text-bright-accent: #{$text-bright-accent};
+  --text-negative: #{$text-negative};
+  --text-warning: #{$text-warning};
+  --text-positive: #{$text-positive};
+  --text-announcement: #{$text-announcement};
+
+  --essential-base: #{$essential-base};
+  --essential-subdued: #{$essential-subdued};
+  --essential-bright-accent: #{$essential-bright-accent};
+  --essential-negative: #{$essential-negative};
+  --essential-warning: #{$essential-warning};
+  --essential-positive: #{$essential-positive};
+  --essential-announcement: #{$essential-announcement};
+  --decorative-base: #{$decorative-base};
+  --decorative-subdued: #{$decorative-subdued};
+
+  --encore-text-size-smaller-2: #{$encore-text-size-smaller-2};
+  --encore-text-size-smaller: #{$encore-text-size-smaller};
+  --encore-text-size-base: #{$encore-text-size-base};
+  --encore-text-size-larger: #{$encore-text-size-larger};
+  --encore-text-size-larger-2: #{$encore-text-size-larger-2};
+  --encore-text-size-larger-3: #{$encore-text-size-larger-3};
+  --encore-text-size-larger-4: #{$encore-text-size-larger-4};
+  --encore-text-size-larger-5: #{$encore-text-size-larger-5};
+
+  --encore-border-width-hairline: #{$encore-border-width-hairline};
+  --encore-border-width-thin: #{$encore-border-width-thin};
+  --encore-border-width-thick: #{$encore-border-width-thick};
+  --encore-border-width-thicker: #{$encore-border-width-thicker};
+  --encore-border-width-focus: #{$encore-border-width-focus};
+
+  --encore-graphic-size-decorative-smaller-2: #{$encore-graphic-size-decorative-smaller-2};
+  --encore-graphic-size-decorative-smaller: #{$encore-graphic-size-decorative-smaller};
+  --encore-graphic-size-decorative-base: #{$encore-graphic-size-decorative-base};
+  --encore-graphic-size-decorative-larger: #{$encore-graphic-size-decorative-larger};
+  --encore-graphic-size-decorative-larger-2: #{$encore-graphic-size-decorative-larger-2};
+  --encore-graphic-size-decorative-larger-3: #{$encore-graphic-size-decorative-larger-3};
+  --encore-graphic-size-decorative-larger-4: #{$encore-graphic-size-decorative-larger-4};
+  --encore-graphic-size-decorative-larger-5: #{$encore-graphic-size-decorative-larger-5};
+
+  --encore-graphic-size-informative-smaller-2: #{$encore-graphic-size-informative-smaller-2};
+  --encore-graphic-size-informative-smaller: #{$encore-graphic-size-informative-smaller};
+  --encore-graphic-size-informative-base: #{$encore-graphic-size-informative-base};
+  --encore-graphic-size-informative-larger: #{$encore-graphic-size-informative-larger};
+  --encore-graphic-size-informative-larger-2: #{$encore-graphic-size-informative-larger-2};
+  --encore-graphic-size-informative-larger-3: #{$encore-graphic-size-informative-larger-3};
+  --encore-graphic-size-informative-larger-4: #{$encore-graphic-size-informative-larger-4};
+  --encore-graphic-size-informative-larger-5: #{$encore-graphic-size-informative-larger-5};
+
+  --encore-spacing-tighter-5: #{$encore-spacing-tighter-5};
+  --encore-spacing-tighter-4: #{$encore-spacing-tighter-4};
+  --encore-spacing-tighter-3: #{$encore-spacing-tighter-3};
+  --encore-spacing-tighter-2: #{$encore-spacing-tighter-2};
+  --encore-spacing-tighter: #{$encore-spacing-tighter};
+
+  --encore-spacing-base: #{$encore-spacing-base};
+  --encore-spacing-looser: #{$encore-spacing-looser};
+  --encore-spacing-looser-2: #{$encore-spacing-looser-2};
+  --encore-spacing-looser-3: #{$encore-spacing-looser-3};
+  --encore-spacing-looser-4: #{$encore-spacing-looser-4};
+  --encore-spacing-looser-5: #{$encore-spacing-looser-5};
+  --encore-spacing-looser-6: #{$encore-spacing-looser-6};
+
+  --encore-control-size-smaller: #{$encore-control-size-smaller};
+  --encore-control-size-base: #{$encore-control-size-base};
+  --encore-control-size-larger: #{$encore-control-size-larger};
+
+  --encore-layout-margin-tighter: #{$encore-layout-margin-tighter};
+  --encore-layout-margin-base: #{$encore-layout-margin-base};
+  --encore-layout-margin-looser: #{$encore-layout-margin-looser};
+
+  --encore-corner-radius-smaller: #{$encore-corner-radius-smaller};
+  --encore-corner-radius-base: #{$encore-corner-radius-base};
+  --encore-corner-radius-larger: #{$encore-corner-radius-larger};
+  --encore-corner-radius-larger-2: #{$encore-corner-radius-larger-2};
+  --encore-corner-radius-larger-3: #{$encore-corner-radius-larger-3};
+
+  --encore-body-font-stack: #{$encore-body-font-stack};
+  --encore-title-font-stack: #{$encore-title-font-stack};
+  --encore-variable-font-stack: #{$encore-variable-font-stack};
+}
+
+
+
+/*
+
+:root {
+
+  // Colors
+
+  --background-base: #121212;
+  --background-highlight: #1f1f1f;
+  --background-press: #000;
+  --background-elevated-base: #1f1f1f;
+  --background-elevated-highlight: #2a2a2a;
+  --background-elevated-press: #191919;
+  --background-tinted-base: #ffffff1a;
+  --background-tinted-highlight: #ffffff24;
+  --background-tinted-press: #ffffff36;
+
+  --text-base: #fff;
+  --text-subdued: #b3b3b3;
+  --text-bright-accent: #1ed760;
+  --text-negative: #f3727f;
+  --text-warning: #ffa42b;
+  --text-positive: #1ed760;
+  --text-announcement: #4cb3ff;
+  
+  --essential-base: #fff;
+  --essential-subdued: #7c7c7c;
+  --essential-bright-accent: #1ed760;
+  --essential-negative: #ed2c3f;
+  --essential-warning: #ffa42b;
+  --essential-positive: #1ed760;
+  --essential-announcement: #4cb3ff;
+  --decorative-base: #fff;
+  --decorative-subdued: #292929;
+
+  // Layout
+
+  --encore-text-size-smaller-2: 0.6875rem;
+  --encore-text-size-smaller: 0.8125rem;
+  --encore-text-size-base: 1rem;
+  --encore-text-size-larger: 1.25rem;
+  --encore-text-size-larger-2: 1.5rem;
+  --encore-text-size-larger-3: 2rem;
+  --encore-text-size-larger-4: 2.5rem;
+  --encore-text-size-larger-5: 3rem;
+
+  --encore-border-width-hairline: 1px;
+  --encore-border-width-thin: 2px;
+  --encore-border-width-thick: 4px;
+  --encore-border-width-thicker: 8px;
+  --encore-border-width-focus: 3px;
+
+  --encore-graphic-size-decorative-smaller-2: 12px;
+  --encore-graphic-size-decorative-smaller: 16px;
+  --encore-graphic-size-decorative-base: 24px;
+  --encore-graphic-size-decorative-larger: 32px;
+  --encore-graphic-size-decorative-larger-2: 40px;
+  --encore-graphic-size-decorative-larger-3: 48px;
+  --encore-graphic-size-decorative-larger-4: 64px;
+  --encore-graphic-size-decorative-larger-5: 88px;
+
+  --encore-graphic-size-informative-smaller-2: 0.75rem;
+  --encore-graphic-size-informative-smaller: 1rem;
+  --encore-graphic-size-informative-base: 1.5rem;
+  --encore-graphic-size-informative-larger: 2rem;
+  --encore-graphic-size-informative-larger-2: 2.5rem;
+  --encore-graphic-size-informative-larger-3: 3rem;
+  --encore-graphic-size-informative-larger-4: 4rem;
+  --encore-graphic-size-informative-larger-5: 5.5rem;
+
+  --encore-spacing-tighter-5: 2px;
+  --encore-spacing-tighter-4: 4px;
+  --encore-spacing-tighter-3: 6px;
+  --encore-spacing-tighter-2: 8px;
+  --encore-spacing-tighter: 12px;
+
+  --encore-spacing-base: 16px;
+  --encore-spacing-looser: 20px;
+  --encore-spacing-looser-2: 24px;
+  --encore-spacing-looser-3: 32px;
+  --encore-spacing-looser-4: 40px;
+  --encore-spacing-looser-5: 48px;
+  --encore-spacing-looser-6: 64px;
+
+  --encore-control-size-smaller: 32px;
+  --encore-control-size-base: 48px;
+  --encore-control-size-larger: 56px;
+
+  --encore-layout-margin-tighter: 16px;
+  --encore-layout-margin-base: 16px;
+  --encore-layout-margin-looser: 24px;
+
+  --encore-corner-radius-smaller: 2px;
+  --encore-corner-radius-base: 4px;
+  --encore-corner-radius-larger: 6px;
+  --encore-corner-radius-larger-2: 8px;
+  --encore-corner-radius-larger-3: 16px;
+
+  // Fonts
+
+  --encore-body-font-stack: sm-regular, sans-serif;
+  --encore-title-font-stack: sm-bold, sans-serif;
+  --encore-variable-font-stack: sm-title, sans-serif;
+}
+
+
+*/

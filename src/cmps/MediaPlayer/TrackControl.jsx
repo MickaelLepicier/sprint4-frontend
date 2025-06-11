@@ -125,10 +125,15 @@ export function TrackControl({ currSong, volume }) {
         />
 
         <PlayButton
+          onToggle={() => currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0])}
+          isPlaying={isPlaying}
+          addClassName={isNotAllowed}
+        />
+        {/* <PlayButton
           isPlaying={isPlaying}
           onToggle={onTogglePlay}
           addClassName={isNotAllowed}
-        />
+        /> */}
 
         <SetActionBtn
           imgSrc={next}

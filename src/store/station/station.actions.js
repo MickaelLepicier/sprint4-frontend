@@ -11,7 +11,7 @@ import {
   SET_NEXT_SONG,
   SET_PREV_SONG,
   SET_SONG,
-  SET_CURRENT_STATION
+  SET_CURRENT_STATION,
 } from './station.reducer'
 
 export async function loadStations(filterBy) {
@@ -28,6 +28,7 @@ export async function loadStation(stationId) {
   try {
     const station = await stationService.getById(stationId)
     store.dispatch(getCmdSetStation(station))
+    return station
   } catch (err) {
     console.log('Cannot load station', err)
     throw err
@@ -67,22 +68,21 @@ export async function updateStation(station) {
 }
 
 export async function createStationForUser() {
-    const user = store.getState().userModule.user
-    if (!user?._id) {
-      throw new Error('User must be logged in to create a station')
-    }
-    
-    const stations = store.getState().stationModule.stations
-    const userStations = stations.filter(station => station.createdBy?._id === user._id)
-    const nextNum = userStations.length + 1
-    const newStation = stationService.buildNewStationForUser(user, nextNum)
-    
-    const savedStation = await stationService.save(newStation)
-    store.dispatch(getCmdAddStation(savedStation))
-    console.log(savedStation) 
-    return savedStation
-}
+  const user = store.getState().userModule.user
+  if (!user?._id) {
+    throw new Error('User must be logged in to create a station')
+  }
 
+  const stations = store.getState().stationModule.stations
+  const userStations = stations.filter(station => station.createdBy?._id === user._id)
+  const nextNum = userStations.length + 1
+  const newStation = stationService.buildNewStationForUser(user, nextNum)
+
+  const savedStation = await stationService.save(newStation)
+  store.dispatch(getCmdAddStation(savedStation))
+  console.log(savedStation)
+  return savedStation
+}
 
 export async function addStationMsg(stationId, txt) {
   try {
@@ -99,12 +99,12 @@ export async function addStationMsg(stationId, txt) {
 export function setSong(song, station) {
   console.log('~~~SONG~~', song)
   console.log('~~~STATION~~', station)
-    try {
-      store.dispatch({ type: SET_SONG, song })
-      store.dispatch({ type: SET_CURRENT_STATION, station }) // Added line
-    } catch (err) {
-      console.error('Failed to set song:', err)
-    }
+  try {
+    store.dispatch({ type: SET_SONG, song })
+    store.dispatch({ type: SET_CURRENT_STATION, station }) // Added line
+  } catch (err) {
+    console.error('Failed to set song:', err)
+  }
 }
 // Previous setSong -> missing currStation
 // export async function setSong(song) {
@@ -180,37 +180,37 @@ export function prevSong() {
 function getCmdSetStations(stations) {
   return {
     type: SET_STATIONS,
-    stations
+    stations,
   }
 }
 function getCmdSetStation(station) {
   return {
     type: SET_STATION,
-    station
+    station,
   }
 }
 function getCmdRemoveStation(stationId) {
   return {
     type: REMOVE_STATION,
-    stationId
+    stationId,
   }
 }
 function getCmdAddStation(station) {
   return {
     type: ADD_STATION,
-    station
+    station,
   }
 }
 function getCmdUpdateStation(station) {
   return {
     type: UPDATE_STATION,
-    station
+    station,
   }
 }
 function getCmdAddStationMsg(msg) {
   return {
     type: ADD_STATION_MSG,
-    msg
+    msg,
   }
 }
 
@@ -220,7 +220,7 @@ async function unitTestActions() {
   await addStation(stationService.getEmptyStation())
   await updateStation({
     _id: 'm1oC7',
-    title: 'Station-Good'
+    title: 'Station-Good',
   })
   await removeStation('m1oC7')
   // TODO unit test addStationMsg

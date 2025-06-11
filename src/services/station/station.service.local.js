@@ -125,7 +125,6 @@ async function sideBarSearch(query) {
   const searchWord = query.trim().toLowerCase()
 
   if (sideBarCache[searchWord]?.length) {
-    console.log('[FROM CACHE]:', searchWord)
     return Promise.resolve(sideBarCache[searchWord])
   }
 
@@ -140,10 +139,8 @@ async function sideBarSearch(query) {
       },
     })
 
-    console.log('RAW DATA:', searchResults)
     const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
     if (!videoIds) return []
-    console.log('videoIds:', videoIds)
 
     const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
       params: {
@@ -152,7 +149,6 @@ async function sideBarSearch(query) {
         key: YT_API_KEY,
       },
     })
-    console.log('detailsRes:', detailsRes)
 
     const finalResults = detailsRes.data.items.map(item => ({
       id: item.id,
@@ -178,7 +174,6 @@ async function headerSearch(query) {
   const searchWord = query.trim().toLowerCase()
 
   if (headerCache[searchWord]?.length) {
-    console.log('[FROM CACHE]:', searchWord)
     return Promise.resolve(headerCache[searchWord])
   }
 
@@ -219,10 +214,33 @@ async function headerSearch(query) {
             addedBy: `u10${i}`,
             likedBy: [`u20${i}`],
             addedAt: Date.now() - (i + 1) * 1000000,
+            // duration will be added later
           }))
 
-        const station = _createEmptyStation()
+        // === UPDATE: Fetch video durations for all songs ===
+        const videoIds = songs.map(song => song.videoId).join(',')
+        if (videoIds) {
+          const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+            params: {
+              part: 'contentDetails',
+              id: videoIds,
+              key: YT_API_KEY,
+            },
+          })
 
+          const durationsMap = {}
+          detailsRes.data.items.forEach(item => {
+            durationsMap[item.id] = isoDurationToSeconds(item.contentDetails.duration)
+          })
+
+          songs.forEach(song => {
+            song.duration = durationsMap[song.videoId] || 0
+          })
+        }
+        // === END UPDATE ===
+
+        const station = _createEmptyStation()
+        station._id = video.id?.videoId || `fallback-${idx}`
         station.name = artist
         station.imgUrl = video.snippet.thumbnails?.medium?.url || ''
         station.tags = [query]
@@ -251,7 +269,6 @@ async function genreSonglistSearch(genre) {
   const searchWord = genre.trim().toLowerCase()
 
   if (genreCache[searchWord]?.length) {
-    console.log('[FROM CACHE]:', searchWord)
     return Promise.resolve(genreCache[searchWord])
   }
 
@@ -293,10 +310,28 @@ async function genreSonglistSearch(genre) {
             addedAt: Date.now() - (i + 1) * 1000000,
           }))
 
+        const videoIds = songs.map(song => song.videoId).join(',')
+        if (videoIds) {
+          const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+            params: {
+              part: 'contentDetails',
+              id: videoIds,
+              key: YT_API_KEY,
+            },
+          })
+
+          const durationsMap = {}
+          detailsRes.data.items.forEach(item => {
+            durationsMap[item.id] = isoDurationToSeconds(item.contentDetails.duration)
+          })
+
+          songs.forEach(song => {
+            song.duration = durationsMap[song.videoId] || 0
+          })
+        }
+
         const station = _createEmptyStation()
         const imgUrl = songs.find(song => song.imgUrl)?.imgUrl || ''
-
-        
 
         station._id = songlistId
         station.name = songlist.snippet.title
@@ -319,6 +354,148 @@ async function genreSonglistSearch(genre) {
     throw err
   }
 }
+
+// async function headerSearch(query) {
+//   const searchWord = query.trim().toLowerCase()
+
+//   if (headerCache[searchWord]?.length) {
+//     return Promise.resolve(headerCache[searchWord])
+//   }
+
+//   try {
+//     const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+//       params: {
+//         part: 'snippet',
+//         q: query,
+//         type: 'video',
+//         maxResults: 5,
+//         key: YT_API_KEY,
+//       },
+//     })
+
+//     const baseVideos = searchResults.data.items
+
+//     const artistStations = await Promise.all(
+//       baseVideos.map(async (video, idx) => {
+//         const artist = video.snippet.channelTitle
+
+//         const artistRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+//           params: {
+//             part: 'snippet',
+//             q: artist,
+//             type: 'video',
+//             maxResults: 3,
+//             key: YT_API_KEY,
+//           },
+//         })
+
+//         const songs = artistRes.data.items
+//           .filter(item => item.id?.videoId)
+//           .map((item, i) => ({
+//             _id: item.id.videoId,
+//             videoId: item.id.videoId,
+//             title: item.snippet.title,
+//             imgUrl: item.snippet.thumbnails?.medium?.url || '',
+//             addedBy: `u10${i}`,
+//             likedBy: [`u20${i}`],
+//             addedAt: Date.now() - (i + 1) * 1000000,
+//           }))
+
+//         const station = _createEmptyStation()
+
+//         station.name = artist
+//         station.imgUrl = video.snippet.thumbnails?.medium?.url || ''
+//         station.tags = [query]
+//         station.createdBy.fullname = artist
+//         station.songs = songs
+//         station.msgs = [
+//           { id: `m${idx}1`, from: 'u201', txt: 'Great vibes!' },
+//           { id: `m${idx}2`, from: 'u202', txt: 'Love it!' },
+//         ]
+
+//         return station
+//       })
+//     )
+
+//     headerCache[searchWord] = artistStations
+//     saveToStorage(HEADER_SEARCH_KEY, headerCache)
+
+//     return artistStations
+//   } catch (error) {
+//     console.log('err:', error)
+//     throw error
+//   }
+// }
+
+// async function genreSonglistSearch(genre) {
+//   const searchWord = genre.trim().toLowerCase()
+
+//   if (genreCache[searchWord]?.length) {
+//     return Promise.resolve(genreCache[searchWord])
+//   }
+
+//   try {
+//     const songlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+//       params: {
+//         part: 'snippet',
+//         q: `${genre} music new playlist`,
+//         type: 'playlist',
+//         maxResults: 5,
+//         key: YT_API_KEY,
+//       },
+//     })
+
+//     const songlists = songlistSearchRes.data.items
+
+//     const stations = await Promise.all(
+//       songlists.map(async (songlist, idx) => {
+//         const songlistId = songlist.id.playlistId
+
+//         const itemsRes = await axios.get('https://www.googleapis.com/youtube/v3/playlistItems', {
+//           params: {
+//             part: 'snippet',
+//             playlistId: songlistId,
+//             maxResults: 3,
+//             key: YT_API_KEY,
+//           },
+//         })
+
+//         const songs = itemsRes.data.items
+//           .filter(item => item.snippet?.resourceId?.videoId)
+//           .map((item, i) => ({
+//             _id: item.snippet.resourceId.videoId,
+//             videoId: item.snippet.resourceId.videoId,
+//             title: item.snippet.title,
+//             imgUrl: item.snippet.thumbnails?.medium?.url || '',
+//             addedBy: `u10${i}`,
+//             likedBy: [`u20${i}`],
+//             addedAt: Date.now() - (i + 1) * 1000000,
+//           }))
+
+//         const station = _createEmptyStation()
+//         const imgUrl = songs.find(song => song.imgUrl)?.imgUrl || ''
+
+//         station._id = songlistId
+//         station.name = songlist.snippet.title
+//         station.imgUrl = imgUrl
+//         station.tags = [genre]
+//         station.createdBy.fullname = songlist.snippet.channelTitle
+//         station.songs = songs
+//         station.msgs = [
+//           { id: `m${idx}1`, from: 'u201', txt: '🔥 Love this genre mix!' },
+//           { id: `m${idx}2`, from: 'u202', txt: 'Perfect for the vibe' },
+//         ]
+//         return station
+//       })
+//     )
+//     genreCache[searchWord] = stations
+//     saveToStorage(GENRE_SEARCH_KEY, genreCache)
+//     return stations
+//   } catch (err) {
+//     console.log('genreSonglistSearch error:', err)
+//     throw err
+//   }
+// }
 
 function buildNewStationForUser(user, nextNum) {
   const emptyStation = _createEmptyStation()

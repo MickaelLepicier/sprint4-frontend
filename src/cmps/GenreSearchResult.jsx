@@ -19,7 +19,6 @@ export function GenreSearchResult() {
 
   function onGoToStation(station) {
     dispatch({ type: SET_STATION, station })
-    console.log('station:',station)
     navigate(`/playlist/${station._id}`)
   }
 

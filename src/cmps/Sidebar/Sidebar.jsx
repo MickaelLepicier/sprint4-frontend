@@ -22,6 +22,8 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
         if (!stations.length) loadStations()
     }, [stations.length])
 
+    
+
     // Reserverd for future filter when refactoring the entire component
     function filterStations(stationsArr) {
         if (!searchTerm.trim()) return stationsArr

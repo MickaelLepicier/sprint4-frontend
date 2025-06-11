@@ -17,6 +17,7 @@ import { SongPreview } from './SongPreview'
 export function SongList() {
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
+  // const user = useSelector(storeState=>storeState.userModule.user)
 
   useEffect(() => {
     if (!station || station._id !== stationId) {

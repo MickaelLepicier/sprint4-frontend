@@ -63,8 +63,8 @@ export function TrackControl({ currSong, volume }) {
   }, [currSong])
 
   function onTogglePlay() {
-    console.log('ONTOGGLE - TrackControl ')
-    console.log('currSong: ', currSong)
+    // console.log('ONTOGGLE - TrackControl ')
+    // console.log('currSong: ', currSong)
     if (isTrackAllowed) return
 
     if (isPlaying) {

@@ -41,7 +41,6 @@ async function update({ _id, score }) {
 }
 
 async function login(userCred) {
-    console.log('userCred:',userCred)
     const users = await storageService.query('user')
     const user = users.find(user => user.username === userCred.username)
 
@@ -49,16 +48,13 @@ async function login(userCred) {
 }
 
 async function signup(userCred) {
-    console.log('userCred:',userCred)
     if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
-    userCred.score = 10000
 
     const user = await storageService.post('user', userCred)
     return _saveLocalUser(user)
 }
 
 async function logout() {
-    console.log('logout:',)
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN_USER)
 }
 

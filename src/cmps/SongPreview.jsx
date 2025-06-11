@@ -1,26 +1,25 @@
 import { useSelector } from 'react-redux'
 import { PlayButton } from './PlayButton'
+import { AddIcon } from './svg/AddIcon'
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
+import { loadStation, updateStation } from '../store/station/station.actions'
+import { stationService } from '../services/station'
 
 // Added DND props to the signature
-export function SongPreview({
-  song,
-  idx,
-  station,
-  togglePlay,
-  draggableProps,
-  dragHandleProps,
-  innerRef
-}) {
-  const isPlaying = useSelector(
-    (storeState) => storeState.stationModule.isPlaying
-  )
+export function SongPreview({ song, idx, station, togglePlay, draggableProps, dragHandleProps, innerRef }) {
+  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
+  console.log('song:', song)
 
-  const currSong = useSelector(
-    (storeState) => storeState.stationModule.currentSong
-  )
+  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
+  const likedStationId = useSelector(storeState => storeState.userModule.user.likedSongsStationId || '')
+  const user = useSelector(storeState => storeState.userModule.user || '')
 
   const addClassName = currSong?._id === song?._id ? 'active' : ''
 
+  const likedStation = useSelector(storeState =>
+    storeState.stationModule.stations.find(station => station._id === likedStationId)
+  )
+  const isLiked = likedStation?.songs?.some(s => s._id === song._id)
 
   // TODOs:
   // [] add Album of the track
@@ -29,9 +28,44 @@ export function SongPreview({
   // [] add Duration watch icon in the SongList
   // [] add AddLiked of the track
 
-
-    const duration = window.playerRef?.current?.getDuration?.() ?? null
+  const duration = window.playerRef?.current?.getDuration?.() ?? null
   // console.log('DDDD duration: ',duration)
+
+  async function onAddSongToLiked(song) {
+    try {
+      if (!user || !likedStationId) {
+        showErrorMsg('You must be logged in to like songs.')
+        return
+      }
+
+      const stationToUpdate = await stationService.getById(likedStationId)
+
+      let updatedSongs
+      if (isLiked) {
+        updatedSongs = stationToUpdate.songs.filter(s => s._id !== song._id)
+        showSuccessMsg('Song Removed')
+      } else {
+        updatedSongs = [song, ...stationToUpdate.songs]
+        showSuccessMsg('Song Added')
+      }
+
+      const updatedStation = { ...stationToUpdate, songs: updatedSongs }
+      console.log('updatedStation:', updatedStation)
+
+      await updateStation(updatedStation)
+    } catch (error) {
+      console.log('error:', error)
+      showErrorMsg(`Couldn't add Song`)
+    }
+  }
+
+  function formatDuration(duration) {
+    const mins = Math.floor(duration / 60)
+    const secs = duration % 60
+    const formatDuration = secs < 10 ? '0' + secs : secs
+
+    return `${mins}:${formatDuration}`
+  }
 
   return (
     <tr
@@ -53,11 +87,7 @@ export function SongPreview({
       </td>
       <td>
         <div className="song-img-title">
-          <img
-            src={song.imgUrl}
-            alt="img"
-            style={{ width: 40 + 'px', height: 40 + 'px' }}
-          />
+          <img src={song.imgUrl} alt="img" style={{ width: 40 + 'px', height: 40 + 'px' }} />
           <p>{song.title}</p>
         </div>
       </td>
@@ -65,9 +95,17 @@ export function SongPreview({
       <td>{new Date(song.addedAt).toLocaleDateString()}</td>
 
       <td>
-        {/* <button className="add-to-liked">+</button> */}
+        <button
+          className={`add-to-liked ${isLiked ? 'liked' : ''}`}
+          title="Add to Liked Songs"
+          onClick={() => {
+            onAddSongToLiked(song)
+          }}
+        >
+          <AddIcon />
+        </button>
         {/* <span className="song-duration">⏱️ </span> */}
-        <span className="song-duration">4:30 </span>
+        <span className="song-duration">{formatDuration(song.duration)} </span>
         {/* <button className="more-options">...</button> */}
       </td>
     </tr>

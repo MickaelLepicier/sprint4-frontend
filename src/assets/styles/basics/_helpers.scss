@@ -1,89 +1,110 @@
 // Font Sizes
-.fs12 { font-size: rem(12px); }
-.fs14 { font-size: rem(14px); }
-.fs18 { font-size: rem(18px); }
-.fs20 { font-size: rem(20px); }
-.fs24 { font-size: rem(24px); }
-.fs28 { font-size: rem(28px); }
-.fs30 { font-size: rem(30px); }
+.fs12 {
+  font-size: rem(12px);
+}
+.fs14 {
+  font-size: rem(14px);
+}
+.fs18 {
+  font-size: rem(18px);
+}
+.fs20 {
+  font-size: rem(20px);
+}
+.fs24 {
+  font-size: rem(24px);
+}
+.fs28 {
+  font-size: rem(28px);
+}
+.fs30 {
+  font-size: rem(30px);
+}
 
 // flex helpers
 
 .flex {
-    display: flex;
+  display: flex;
 
-    > *.full {
-        flex: 1;
-    }
+  > *.full {
+    flex: 1;
+  }
 
-    &.column {
-        flex-direction: column;
-    }
+  &.column {
+    flex-direction: column;
+  }
 
-    // Justify Content
-    &.justify-start {
-        justify-content: flex-start;
-    }
-    &.justify-center {
-        justify-content: center;
-    }
-    &.justify-end {
-        justify-content: flex-end;
-    }
-    &.justify-between {
-        justify-content: space-between;
-    }
-    &.justify-around {
-        justify-content: space-around;
-    }
-    &.justify-evenly {
-        justify-content: space-evenly;
-    }
+  // Justify Content
+  &.justify-start {
+    justify-content: flex-start;
+  }
+  &.justify-center {
+    justify-content: center;
+  }
+  &.justify-end {
+    justify-content: flex-end;
+  }
+  &.justify-between {
+    justify-content: space-between;
+  }
+  &.justify-around {
+    justify-content: space-around;
+  }
+  &.justify-evenly {
+    justify-content: space-evenly;
+  }
 
-    // Align Items
-    &.align-start {
-        align-items: flex-start;
-    }
-    &.align-center {
-        align-items: center;
-    }
-    &.align-end {
-        align-items: flex-end;
-    }
-    &.align-stretch {
-        align-items: stretch;
-    }
-    &.align-baseline {
-        align-items: baseline;
-    }
+  // Align Items
+  &.align-start {
+    align-items: flex-start;
+  }
+  &.align-center {
+    align-items: center;
+  }
+  &.align-end {
+    align-items: flex-end;
+  }
+  &.align-stretch {
+    align-items: stretch;
+  }
+  &.align-baseline {
+    align-items: baseline;
+  }
 
-    // Align Self (to be used directly on a flex item)
-    > *.self-start {
-        align-self: flex-start;
-    }
-    > *.self-center {
-        align-self: center;
-    }
-    > *.self-end {
-        align-self: flex-end;
-    }
-    > *.self-stretch {
-        align-self: stretch;
-    }
-    > *.self-baseline {
-        align-self: baseline;
-    }
+  // Align Self (to be used directly on a flex item)
+  > *.self-start {
+    align-self: flex-start;
+  }
+  > *.self-center {
+    align-self: center;
+  }
+  > *.self-end {
+    align-self: flex-end;
+  }
+  > *.self-stretch {
+    align-self: stretch;
+  }
+  > *.self-baseline {
+    align-self: baseline;
+  }
 }
-
 
 // Media helpers
 
 .square-ratio {
-    @include aspect-ratio(1, 1);
+  @include aspect-ratio(1, 1);
 }
 .video-ratio {
-    @include aspect-ratio(16, 9);
+  @include aspect-ratio(16, 9);
 }
 .portrait-ratio {
-    @include aspect-ratio(9, 16);
+  @include aspect-ratio(9, 16);
+}
+
+// Fonts helpers
+
+.encore-text-body-medium,
+.encore-text-body-medium-bold {
+  font-family: var(--encore-body-font-stack);
+  font-size: var(--encore-text-size-base);
 }

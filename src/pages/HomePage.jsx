@@ -42,7 +42,7 @@ export function HomePage() {
   return (
     <section className="home-page">
       {/* Commented until will work filter */}
-      {/* <div className="home-filter">
+      <div className="home-filter">
         <span className={active === 'All' ? 'active' : ''} onClick={() => setActive('All')}>
           All
         </span>
@@ -52,7 +52,7 @@ export function HomePage() {
         <span className={active === 'Podcasts' ? 'active' : ''} onClick={() => setActive('Podcasts')}>
           Podcasts
         </span>
-      </div> */}
+      </div>
       <section className="home-header-stations">
         <div className="header-station-list">
           {headerStations.map(station => (

@@ -148,7 +148,7 @@ export function nextSong() {
 
   if (!currentStation || !currentStation.songs?.length) return
 
-  const currIdx = currentStation.songs.findIndex(song => song._id === currentSong?._id)
+  const currIdx = currentStation.songs.findIndex(song => song.id === currentSong?.id)
   const nextIdx = (currIdx + 1) % currentStation.songs.length
   const nextSong = currentStation.songs[nextIdx]
 
@@ -164,7 +164,7 @@ export function prevSong() {
 
   if (!currentStation?.songs?.length) return
 
-  const currIdx = currentStation.songs.findIndex(song => song._id === currentSong?._id)
+  const currIdx = currentStation.songs.findIndex(song => song.id === currentSong?.id)
   if (currIdx === -1) return
 
   const prevIdx = (currIdx - 1 + currentStation.songs.length) % currentStation.songs.length

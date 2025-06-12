@@ -107,7 +107,7 @@ async function addSongToStation(stationId, song) {
 
 async function removeSongFromStation(stationId, songId) {
   const station = await getById(stationId)
-  station.songs = station.songs.filter(song => song._id !== songId)
+  station.songs = station.songs.filter(song => song.id !== songId)
   return await save(station)
 }
 
@@ -212,7 +212,7 @@ async function headerSearch(query, numResults = 5) {
         const songs = artistRes.data.items
           .filter(item => item.id?.videoId)
           .map((item, i) => ({
-            _id: item.id.videoId,
+            id: item.id.videoId,
             videoId: item.id.videoId,
             title: item.snippet.title,
             imgUrl: item.snippet.thumbnails?.medium?.url || '',
@@ -303,7 +303,7 @@ async function genreSonglistSearch(genre, numResults = 5) {
         const songs = itemsRes.data.items
           .filter(item => item.snippet?.resourceId?.videoId)
           .map((item, i) => ({
-            _id: item.snippet.resourceId.videoId,
+            id: item.snippet.resourceId.videoId,
             videoId: item.snippet.resourceId.videoId,
             title: item.snippet.title,
             imgUrl: item.snippet.thumbnails?.medium?.url || '',
@@ -432,7 +432,7 @@ function _createDemoStations() {
         likedByUsers: ['u101', 'u202'],
         songs: [
           {
-            _id: '4_iC0MyIykM',
+            id: '4_iC0MyIykM',
             title: 'The Meters - Cissy Strut',
             url: 'https://www.youtube.com/watch?v=4_iC0MyIykM',
             imgUrl: 'https://i.ytimg.com/vi/4_iC0MyIykM/mqdefault.jpg',
@@ -441,7 +441,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 10000000,
           },
           {
-            _id: 'mUkfiLjooxs',
+            id: 'mUkfiLjooxs',
             title: "The JB's - Pass The Peas",
             url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
             imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
@@ -450,7 +450,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 8000000,
           },
           {
-            _id: 'pZUC6ZrAkhI',
+            id: 'pZUC6ZrAkhI',
             title: 'James Brown - Get Up Offa That Thing',
             url: 'https://www.youtube.com/watch?v=pZUC6ZrAkhI',
             imgUrl: 'https://i.ytimg.com/vi/pZUC6ZrAkhI/mqdefault.jpg',
@@ -478,7 +478,7 @@ function _createDemoStations() {
         likedByUsers: ['u101'],
         songs: [
           {
-            _id: '5qap5aO4i9A',
+            id: '5qap5aO4i9A',
             title: 'lofi hip hop radio – beats to relax/study to',
             url: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
             imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
@@ -487,7 +487,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 4000000,
           },
           {
-            _id: 'jfKfPfyJRdk',
+            id: 'jfKfPfyJRdk',
             title: 'lofi beats to sleep/chill to',
             url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
             imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
@@ -496,7 +496,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 3000000,
           },
           {
-            _id: 'DWcJFNfaw9c',
+            id: 'DWcJFNfaw9c',
             title: 'Chillhop Essentials - Winter 2023',
             url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
             imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
@@ -524,7 +524,7 @@ function _createDemoStations() {
         likedByUsers: ['u101', 'u102'],
         songs: [
           {
-            _id: 'fJ9rUzIMcZQ',
+            id: 'fJ9rUzIMcZQ',
             title: 'Queen – Bohemian Rhapsody',
             url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
             imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
@@ -533,7 +533,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 7000000,
           },
           {
-            _id: 'xbhCPt6PZIU',
+            id: 'xbhCPt6PZIU',
             title: 'AC/DC - Back In Black',
             url: 'https://www.youtube.com/watch?v=xbhCPt6PZIU',
             imgUrl: 'https://i.ytimg.com/vi/xbhCPt6PZIU/mqdefault.jpg',
@@ -542,7 +542,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 5000000,
           },
           {
-            _id: 'ZcXpKiY2MXE',
+            id: 'ZcXpKiY2MXE',
             title: 'Led Zeppelin - Stairway to Heaven',
             url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
             imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
@@ -569,7 +569,7 @@ function _createDemoStations() {
         likedByUsers: [],
         songs: [
           {
-            _id: 'mUkfiLjooxs',
+            id: 'mUkfiLjooxs',
             title: "The JB's - Pass The Peas",
             url: 'https://www.youtube.com/watch?v=mUkfiLjooxs',
             imgUrl: 'https://i.ytimg.com/vi/mUkfiLjooxs/mqdefault.jpg',
@@ -578,7 +578,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 8000000,
           },
           {
-            _id: 'jfKfPfyJRdk',
+            id: 'jfKfPfyJRdk',
             title: 'lofi beats to sleep/chill to',
             url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
             imgUrl: 'https://i.ytimg.com/vi/jfKfPfyJRdk/mqdefault.jpg',
@@ -587,7 +587,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 3000000,
           },
           {
-            _id: 'DWcJFNfaw9c',
+            id: 'DWcJFNfaw9c',
             title: 'Chillhop Essentials - Winter 2023',
             url: 'https://www.youtube.com/watch?v=DWcJFNfaw9c',
             imgUrl: 'https://i.ytimg.com/vi/DWcJFNfaw9c/mqdefault.jpg',
@@ -596,7 +596,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 2000000,
           },
           {
-            _id: 'fJ9rUzIMcZQ',
+            id: 'fJ9rUzIMcZQ',
             title: 'Queen – Bohemian Rhapsody',
             url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
             imgUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/mqdefault.jpg',
@@ -605,7 +605,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 7000000,
           },
           {
-            _id: 'Z6V7wGpY9qA',
+            id: 'Z6V7wGpY9qA',
             title: 'Peaches - F*** the Pain Away',
             url: 'https://www.youtube.com/watch?v=Z6V7wGpY9qA',
             imgUrl: 'https://i.ytimg.com/vi/Z6V7wGpY9qA/mqdefault.jpg',
@@ -615,7 +615,7 @@ function _createDemoStations() {
           },
 
           {
-            _id: 'ZcXpKiY2MXE',
+            id: 'ZcXpKiY2MXE',
             title: 'Led Zeppelin - Stairway to Heaven',
             url: 'https://www.youtube.com/watch?v=ZcXpKiY2MXE',
             imgUrl: 'https://i.ytimg.com/vi/ZcXpKiY2MXE/mqdefault.jpg',
@@ -624,7 +624,7 @@ function _createDemoStations() {
             addedAt: Date.now() - 2000000,
           },
           {
-            _id: '04854XqcfCY',
+            id: '04854XqcfCY',
             title: 'Queen – We Are The Champions',
             url: 'https://www.youtube.com/watch?v=04854XqcfCY',
             imgUrl: 'https://i.ytimg.com/vi/04854XqcfCY/mqdefault.jpg',
@@ -634,7 +634,6 @@ function _createDemoStations() {
           },
         ],
         msgs: [],
-        createdAt: Date.now(),
       },
     ]
     saveToStorage(STORAGE_KEY, demoStations)

@@ -162,8 +162,8 @@ export function TrackControl({ currSong, volume }) {
 
       <span className="react-youtube">
         <ReactYouTube
-          key={song._id}
-          videoId={song._id}
+          key={song.id}
+          videoId={song.id}
           isPlaying={isPlaying}
           volume={volume}
           playerRef={playerRef}

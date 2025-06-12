@@ -49,7 +49,7 @@ export function GenreSearchResult() {
             .filter(song => song && song.imgUrl)
             .slice(0, 10)
             .map((song, idx) => (
-              <div key={song._id + '-' + idx} className="song-card" onClick={() => onSetSong(song)}>
+              <div key={song.id + '-' + idx} className="song-card" onClick={() => onSetSong(song)}>
                 <img src={song.imgUrl} alt={song.title} />
                 <button className="play-btn">
                   <svg viewBox="0 0 24 24" aria-hidden="true">

@@ -13,12 +13,12 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
   const user = useSelector(storeState => storeState.userModule.user)
   const likedStationId = user?.likedSongsStationId || ''
 
-  const addClassName = currSong?._id === song?._id ? 'active' : ''
+  const addClassName = currSong?.id === song?.id ? 'active' : ''
 
   const likedStation = useSelector(storeState =>
     storeState.stationModule.stations.find(station => station._id === likedStationId)
   )
-  const isLiked = likedStation?.songs?.some(s => s._id === song._id)
+  const isLiked = likedStation?.songs?.some(s => s.id === song.id)
 
   // TODOs:
   // [] add Album of the track
@@ -41,7 +41,7 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
 
       let updatedSongs
       if (isLiked) {
-        updatedSongs = stationToUpdate.songs.filter(s => s._id !== song._id)
+        updatedSongs = stationToUpdate.songs.filter(s => s.id !== song.id)
         showSuccessMsg('Song Removed')
       } else {
         updatedSongs = [song, ...stationToUpdate.songs]

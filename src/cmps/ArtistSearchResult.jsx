@@ -41,7 +41,7 @@ export function ArtistSearchResult() {
         <div className="first-artist-songs-preview">
           <ul>
             {topSongs.map(song => (
-              <li key={song._id} className="song-preview flex align-center" onClick={() => onSetSong(song)}>
+              <li key={song.id} className="song-preview flex align-center" onClick={() => onSetSong(song)}>
                 <img src={song.imgUrl} alt={song.title} />
                 <div className="song-info">
                   <span className="song-name">{song.title}</span>

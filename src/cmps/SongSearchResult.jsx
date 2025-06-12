@@ -15,7 +15,7 @@ export function SongSearchResult() {
     console.log('song:', song)
     try {
       const normalizedSong = {
-        _id: song.id,
+        id: song.id,
         url: `https://www.youtube.com/watch?v=${song.id}`,
         title: song.title,
         imgUrl: song.imgUrl.replace('default.jpg', 'mqdefault.jpg'),

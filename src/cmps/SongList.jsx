@@ -102,7 +102,7 @@ export function SongList() {
 
   function onTogglePlay(song) {
     const currPlayer = window.playerRef?.current
-    if (!currPlayer || !song || !song._id) return
+    if (!currPlayer || !song || !song.id) return
 
     // ⚠️ IMPORTANT: guard against undefined station
     if (!station || !station._id || !station.songs) {
@@ -110,7 +110,7 @@ export function SongList() {
       return
     }
 
-    if (currSong?._id === song._id) {
+    if (currSong?.id === song.id) {
       if (isPlaying) {
         currPlayer.pauseVideo()
         setIsPlaying(false)
@@ -127,12 +127,12 @@ export function SongList() {
   // TODO - make first click play the first song
   function onTogglePlay(song) {
     console.log('onTogglePlay - SongList')
-    // console.log('song: ',song._id)
-    // console.log('currSong: ',currSong._id)
+    // console.log('song: ',song.id)
+    // console.log('currSong: ',currSong.id)
 
     // console.log('song: ',song)
 
-    if (!song || !song._id) {
+    if (!song || !song.id) {
       console.log('Invalid song passed to onTogglePlay: ', song)
       return
     }
@@ -146,7 +146,7 @@ export function SongList() {
     const currPlayer = window.playerRef?.current
     if (!currPlayer) return
 
-    if (currSong?._id === song?._id) {
+    if (currSong?.id === song?.id) {
       // console.log('A')
       if (isPlaying) {
         // console.log('A 1')
@@ -264,7 +264,7 @@ export function SongList() {
             {provided => (
               <tbody ref={provided.innerRef} {...provided.droppableProps}>
                 {songs.map((song, idx) => (
-                  <Draggable key={song._id + idx} draggableId={song._id} index={idx}>
+                  <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
                     {provided => (
                       <SongPreview
                         song={song}

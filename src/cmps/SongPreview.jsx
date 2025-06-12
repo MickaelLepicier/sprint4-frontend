@@ -8,7 +8,6 @@ import { stationService } from '../services/station'
 // Added DND props to the signature
 export function SongPreview({ song, idx, station, togglePlay, draggableProps, dragHandleProps, innerRef }) {
   const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
-  console.log('song:', song)
 
   const currSong = useSelector(storeState => storeState.stationModule.currentSong)
   const likedStationId = useSelector(storeState => storeState.userModule.user.likedSongsStationId || '')
@@ -59,7 +58,8 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     }
   }
 
-  function formatDuration(duration) {
+  function formatDuration(dur) {
+    const duration = +dur
     const mins = Math.floor(duration / 60)
     const secs = duration % 60
     const formatDuration = secs < 10 ? '0' + secs : secs

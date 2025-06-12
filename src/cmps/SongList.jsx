@@ -7,23 +7,35 @@ import { Link } from 'react-router-dom'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadStation, addStationMsg, setSong, setIsPlaying, togglePlay } from '../store/station/station.actions'
+import {
+  loadStation,
+  addStationMsg,
+  setSong,
+  setIsPlaying,
+  togglePlay,
+  addStation,
+  removeStation,
+} from '../store/station/station.actions'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
 import { PlayButton } from './PlayButton'
 import { SongPreview } from './SongPreview'
+import { AddIcon } from './svg/AddIcon'
+import { updateUser } from '../store/user/user.actions'
 
 export function SongList() {
   const { stationId } = useParams()
   const station = useSelector(storeState => storeState.stationModule.station)
-  // const user = useSelector(storeState=>storeState.userModule.user)
+  const user = useSelector(storeState => storeState.userModule.user)
+  const stations = useSelector(storeState => storeState.stationModule.stations)
 
   useEffect(() => {
     if (!station || station._id !== stationId) {
       loadStation(stationId)
     }
   }, [stationId])
+
 
   // const [isCompact, setIsCompact] = useState(false)
 
@@ -39,7 +51,6 @@ export function SongList() {
   /// ***** CANCELED TO FIX THE NOT PLAYING 1ST SONG BUG
   // const currentSongFromStore = useSelector(storeState => storeState.stationModule.currentSong)
   // const currSong = currentSongFromStore || (station && station.songs ? station.songs[0] : null)
-
 
   // DND: songs are now a state, so we can reorder them when dragging
   const [songs, setSongs] = useState([])
@@ -176,12 +187,44 @@ export function SongList() {
 
   // }
 
+  async function onAddToLibrary(station) {
+    try {
+      const existingLikedStation = stations.find(s => s.origId === station._id || s._id === station._id)
+
+      let updatedStationIds
+
+      if (existingLikedStation) {
+        updatedStationIds = user.likedStationIds.filter(id => id !== existingLikedStation._id)
+        await removeStation(existingLikedStation._id)
+      } else {
+        let stationToAdd = { ...station, origId: station._id }
+        delete stationToAdd._id
+        const addedStation = await addStation(stationToAdd)
+        updatedStationIds = [...user.likedStationIds, addedStation._id]
+      }
+
+      const updatedUser = { ...user, likedStationIds: updatedStationIds }
+      const updated = await updateUser(updatedUser)
+
+      console.log('updated:', updated)
+    } catch (error) {
+      console.log('error:', error)
+      showErrorMsg(`Couldn't add to library`)
+    }
+  }
+
   if (!station) return <div>Loading songs list...</div>
 
   return (
     <section className="station-songlist">
       <header className="station-header">
-        <img src={station.imgUrl || 'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'} alt="" />
+        <img
+          src={
+            station.imgUrl ||
+            'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'
+          }
+          alt=""
+        />
         <h1>{station.name}</h1>
       </header>
       <div className="songlist-play-actions">
@@ -191,6 +234,14 @@ export function SongList() {
             isPlaying={isPlaying}
             addClassName="songlist-play-btn"
           />
+          <button
+            title="Save to Your Library"
+            onClick={() => {
+              onAddToLibrary(station)
+            }}
+          >
+            <AddIcon />
+          </button>
         </div>
 
         <button className="btn-compact">Compact</button>
@@ -213,7 +264,7 @@ export function SongList() {
             {provided => (
               <tbody ref={provided.innerRef} {...provided.droppableProps}>
                 {songs.map((song, idx) => (
-                  <Draggable key={song._id} draggableId={song._id} index={idx}>
+                  <Draggable key={song._id + idx} draggableId={song._id} index={idx}>
                     {provided => (
                       <SongPreview
                         song={song}

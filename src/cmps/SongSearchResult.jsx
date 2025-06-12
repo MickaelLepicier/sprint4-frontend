@@ -12,6 +12,7 @@ export function SongSearchResult() {
   const stationSongs = useSelector(storeState => storeState.stationModule.station.songs)
 
   async function onAddSong(song) {
+    console.log('song:', song)
     try {
       const normalizedSong = {
         _id: song.id,
@@ -21,6 +22,7 @@ export function SongSearchResult() {
         addedAt: Date.now(),
         addedBy: 'u999',
         likedBy: [],
+        duration: song.duration,
       }
 
       const stationToSave = {

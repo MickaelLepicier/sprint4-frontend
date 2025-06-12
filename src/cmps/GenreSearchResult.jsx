@@ -18,6 +18,7 @@ export function GenreSearchResult() {
   }
 
   function onGoToStation(station) {
+    console.log('station:', station)
     dispatch({ type: SET_STATION, station })
     navigate(`/playlist/${station._id}`)
   }
@@ -44,7 +45,8 @@ export function GenreSearchResult() {
         <h2>{genre} New Releases</h2>
         <div>
           {stations
-            .flatMap(station => station.songs)
+            .flatMap(station => station.songs || [])
+            .filter(song => song && song.imgUrl)
             .slice(0, 10)
             .map((song, idx) => (
               <div key={song._id + '-' + idx} className="song-card" onClick={() => onSetSong(song)}>

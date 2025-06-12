@@ -10,8 +10,8 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
   const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
 
   const currSong = useSelector(storeState => storeState.stationModule.currentSong)
-  const likedStationId = useSelector(storeState => storeState.userModule.user.likedSongsStationId || '')
-  const user = useSelector(storeState => storeState.userModule.user || '')
+  const user = useSelector(storeState => storeState.userModule.user)
+  const likedStationId = user?.likedSongsStationId || ''
 
   const addClassName = currSong?._id === song?._id ? 'active' : ''
 

@@ -1,60 +1,76 @@
 import like from '../../assets/icons/media-player/like_btn.svg'
-import { Fragment, useEffect } from 'react'
 import { ImageWithFallback } from '../util/ImageWithFallBack'
 import { EmptyPlaylistIcon } from '../svg/EmptyPlaylistIcon'
 import { useSelector } from 'react-redux'
+import { NavLink, useNavigate } from 'react-router'
 
 export function SongInfo({ song }) {
-  // if (!song) return <div>Loading</div>
   // TODOs:
-  // [] add navigation on the song-title and song-artist
-  // [] add likeSong btn that add the song to the Liked Songs
-  // [] make the song-like-btn work
- 
-  // If I want that always there will be a song I will put this line:
-  // const stations = useSelector(
-  //   (storeState) => storeState.stationModule.stations
-  // )
+  // [v] add navigation on the song-title and song-artist
+  // [] add likeSong btn functionality that add the song to the Liked Songs
 
-
-let currSong = {...song}
-
-
+  /*
   // If I want that always there will be a song I will put this line:
 
-  // if(currSong.title === undefined && stations[0]){
-  //   // console.log('lalalalal: ')
+  const stations = useSelector(
+    (storeState) => storeState.stationModule.stations
+  )
 
-  //   const likedSongs = stations.find(station => station.name === "Liked Songs")
-  //   const firstSong = likedSongs.songs[0]
-  //  currSong = firstSong
-  // }
+  let currSong = { ...song }
+  
+  if(currSong.title === undefined && stations[0]){
+    // console.log('lalalalal: ')
 
+    const likedSongs = stations.find(station => station.name === "Liked Songs")
+    const firstSong = likedSongs.songs[0]
+   currSong = firstSong
+  }
+*/
+
+  // navigation with onClick or NavBar:
+  // song-title -> SongPage
+  // song-artist -> StationPreview
+
+  const station = useSelector(
+    (storeState) => storeState.stationModule.currentStation
+  )
 
   return (
     <section className="song-info flex align-center">
-      {/* {!song && <div>There is no song selected</div>} */}
+      <Img song={song} />
+      <div className="song-details">
 
-      <Fragment>
+        <NavLink to={`/playlist/${station?._id}`}>
+          <h4 className="song-title">{song?.title || 'Unknown Song'}</h4>
+        </NavLink>
 
-        <div className="img-wrapper">
-         
-          <div className="img-bg" />
-          <ImageWithFallback
-            src={currSong?.imgUrl}
-            alt={currSong?.title}
-            fallback={<EmptyPlaylistIcon />}
-          />
-        </div>
+        <NavLink to={``}>
+          <p className="song-artist">{song?.artist || 'Unknown Artist'}</p>
+        </NavLink>
 
-        <div className="song-details">
-          <h4 className="song-title">{currSong?.title || 'Unknown Song'}</h4>
-          <p className="song-artist">{currSong?.artist || 'Unknown Artist'}</p>
-        </div>
-        <button className="song-like-btn">
-          <img src={like} className="song-like-img" />
-        </button>
-      </Fragment>
+      </div>
+      <button className="song-like-btn">
+        <img src={like} className="song-like-img" />
+      </button>
     </section>
+  )
+}
+
+function Img({ song }) {
+  if (song) {
+    return (
+      <img
+        src={song?.imgUrl || 'https://i.imgur.com/N6T6vNT.jpg'}
+        alt={song?.title}
+        className="song-thumbnail"
+      />
+    )
+  }
+
+  return (
+    <div className="img-wrapper">
+      <div className="img-bg" />
+      <ImageWithFallback fallback={<EmptyPlaylistIcon />} />
+    </div>
   )
 }

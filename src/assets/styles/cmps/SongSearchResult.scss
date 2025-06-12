@@ -4,11 +4,11 @@
   padding: 0 0 0 0;
   gap: 16px;
   font-size: 1rem;
-  min-height: 56px; // matches the row height in your image
+  min-height: 56px; 
   cursor: pointer;
   background: transparent;
 
-  // Remove border under row
+  
   border-bottom: none;
 
   &:hover {

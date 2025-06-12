@@ -1,71 +1,70 @@
 // Setup
-@import "setup/variables";
-@import "setup/functions";
-@import "setup/mixins";
-@import "setup/typography";
+@import 'setup/variables';
+@import 'setup/functions';
+@import 'setup/mixins';
+@import 'setup/typography';
 
 // Basics
-@import "basics/helpers";
-@import "basics/layout";
-@import "basics/base";
-@import "basics/links";
-@import "basics/forms";
+@import 'basics/helpers';
+@import 'basics/layout';
+@import 'basics/base';
+@import 'basics/links';
+@import 'basics/forms';
 
 // pages
-@import "RootCmp";
+@import 'RootCmp';
 
-@import "pages/AboutUs";
-@import "pages/HomePage";
-@import "pages/StationIndex";
-@import "pages/ReviewIndex";
-@import "pages/UserDetails";
-@import "pages/AdminIndex";
-@import "pages/TaskDetails";
-@import "pages/LoginSignup";
+@import 'pages/AboutUs';
+@import 'pages/HomePage';
+@import 'pages/StationIndex';
+@import 'pages/ReviewIndex';
+@import 'pages/UserDetails';
+@import 'pages/AdminIndex';
+@import 'pages/TaskDetails';
+@import 'pages/LoginSignup';
 // @import "pages/Chat";
-@import "pages/SongList";
-@import "pages/GenreIndex";
+@import 'pages/SongList';
+@import 'pages/GenreIndex';
 
-@import "pages/Login";
-@import "pages/Signup";
-
+@import 'pages/Login';
+@import 'pages/Signup';
 
 // Components
-@import "cmps/list";
-@import "cmps/preview";
+@import 'cmps/list';
+@import 'cmps/preview';
 
-@import "cmps/AppHeader";
-@import "cmps/AppFooter";
-@import "cmps/UserMsg";
+@import 'cmps/AppHeader';
+@import 'cmps/AppFooter';
+@import 'cmps/UserMsg';
 
-@import "cmps/StationFilter";
-@import "cmps/ReviewEdit";
-@import "cmps/ReviewList";
-@import "cmps/GenreList";
-@import "cmps/GenrePreview";
-@import "cmps/ArtistSearchResult";
-@import "cmps/SongSearchResult";
-@import "cmps/SongList";
-
+@import 'cmps/StationFilter';
+@import 'cmps/ReviewEdit';
+@import 'cmps/ReviewList';
+@import 'cmps/GenreList';
+@import 'cmps/GenrePreview';
+@import 'cmps/ArtistSearchResult';
+@import 'cmps/SongSearchResult';
+@import 'cmps/SongList';
 
 // @import "cmps/ReviewPreview";
-@import "cmps/Sidebar";
-@import "cmps/SidebarPreview";
-@import "cmps/SidebarFilterSort";
-@import "cmps/StationPreview";
-@import "cmps/SidebarList";
-@import "cmps/GenreSearchResult";
-@import "cmps/SongPreview";
+@import 'cmps/Sidebar';
+@import 'cmps/SidebarPreview';
+@import 'cmps/SidebarFilterSort';
+@import 'cmps/StationPreview';
+@import 'cmps/WideStationPreview.scss';
 
-@import "cmps/AuthBtns";
-@import "cmps/AuthFooter";
+@import 'cmps/SidebarList';
+@import 'cmps/GenreSearchResult';
+@import 'cmps/SongPreview';
 
-@import "cmps/MediaPlayer/MediaPlayer";
-@import "cmps/MediaPlayer/Volume";
-@import "cmps/MediaPlayer/SongInfo";
+@import 'cmps/AuthBtns';
+@import 'cmps/AuthFooter';
 
+@import 'cmps/MediaPlayer/MediaPlayer';
+@import 'cmps/MediaPlayer/Volume';
+@import 'cmps/MediaPlayer/SongInfo';
 
-@import "cmps/SetActionBtn";
+@import 'cmps/SetActionBtn';
 
 // @import "pages/StationList";
 // @import "cmps/StationList";

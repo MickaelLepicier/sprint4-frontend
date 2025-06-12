@@ -32,6 +32,7 @@ export const stationService = {
   removeSongFromStation,
   buildNewStationForUser,
   getNextAvailablePlaylistNumber,
+  getHomeSearchContent,
   // addCarMsg
 }
 
@@ -116,6 +117,15 @@ function isoDurationToSeconds(iso) {
   return seconds
 }
 
+async function getHomeSearchContent(query = 'playlist 2025') {
+  const [genreResults, headerResults] = await Promise.all([
+    stationService.genreSonglistSearch(query, 12),
+    stationService.headerSearch(query, 12),
+  ])
+
+  return [...genreResults, ...headerResults]
+}
+
 async function sideBarSearch(query) {
   const searchWord = query.trim().toLowerCase()
 
@@ -165,7 +175,7 @@ async function sideBarSearch(query) {
   }
 }
 
-async function headerSearch(query) {
+async function headerSearch(query, numResults = 5) {
   const searchWord = query.trim().toLowerCase()
 
   if (headerCache[searchWord]?.length) {
@@ -178,7 +188,7 @@ async function headerSearch(query) {
         part: 'snippet',
         q: query,
         type: 'video',
-        maxResults: 5,
+        maxResults: numResults,
         key: YT_API_KEY,
       },
     })
@@ -257,7 +267,7 @@ async function headerSearch(query) {
   }
 }
 
-async function genreSonglistSearch(genre) {
+async function genreSonglistSearch(genre, numResults = 5) {
   const searchWord = genre.trim().toLowerCase()
 
   if (genreCache[searchWord]?.length) {
@@ -270,7 +280,7 @@ async function genreSonglistSearch(genre) {
         part: 'snippet',
         q: `${genre} music new playlist`,
         type: 'playlist',
-        maxResults: 5,
+        maxResults: numResults,
         key: YT_API_KEY,
       },
     })
@@ -458,7 +468,6 @@ function _createDemoStations() {
         _id: 's002',
         name: 'Lo-Fi Chill',
         //   // imgUrl: 'https://i.imgur.com/dRn5PpQ.jpg',
-        imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
         imgUrl: 'https://i.ytimg.com/vi/5qap5aO4i9A/mqdefault.jpg',
         tags: ['Chill', 'Study', 'Beats'],
         createdBy: {

@@ -15,7 +15,7 @@ const genres = [
     { name: 'Documentary', color: 'rgb(80, 55, 80)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/documentary_nlv9zf.jpg' },
     { name: 'Comedy', color: 'rgb(175, 40, 150)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/comedy_idakyo.jpg' },
     { name: 'Charts', color: 'rgb(141, 103, 171)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/charts_biuvmm.jpg' },
-    { name: 'Dance/Electronic', color: 'rgb(71, 125, 149)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/dance-electronics_zluxdt.jpg' }, 
+    { name: 'Dance Electronic', color: 'rgb(71, 125, 149)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/dance-electronics_zluxdt.jpg' }, 
     { name: 'Mood', color: 'rgb(225, 17, 140)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/mood_aaacea.jpg' },
     { name: 'Indie', color: 'rgb(233, 20, 41)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/all-new-indie_fjroil.jpg' },
     { name: 'Workout', color: 'rgb(119, 119, 119)', imgUrl: 'https://res.cloudinary.com/dkxnyqrkc/image/upload/v1748422332/cardio_ay7yr5.jpg' }, 

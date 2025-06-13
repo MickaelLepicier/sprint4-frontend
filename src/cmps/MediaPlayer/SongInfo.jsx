@@ -31,15 +31,12 @@ export function SongInfo({ song }) {
   // song-title -> SongPage
   // song-artist -> StationPreview
 
-  const station = useSelector(
-    (storeState) => storeState.stationModule.currentStation
-  )
+  const station = useSelector((storeState) => storeState.stationModule.currentStation)
 
   return (
     <section className="song-info flex align-center">
       <Img song={song} />
       <div className="song-details">
-
         <NavLink to={`/playlist/${station?._id}`}>
           <h4 className="song-title">{song?.title || 'Unknown Song'}</h4>
         </NavLink>
@@ -47,7 +44,6 @@ export function SongInfo({ song }) {
         <NavLink to={``}>
           <p className="song-artist">{song?.artist || 'Unknown Artist'}</p>
         </NavLink>
-
       </div>
       <button className="song-like-btn">
         <img src={like} className="song-like-img" />
@@ -57,20 +53,17 @@ export function SongInfo({ song }) {
 }
 
 function Img({ song }) {
-  if (song) {
-    return (
-      <img
-        src={song?.imgUrl || 'https://i.imgur.com/N6T6vNT.jpg'}
-        alt={song?.title}
-        className="song-thumbnail"
-      />
-    )
-  }
+  let addClassName = song ? 'song-thumbnail' : ''
 
   return (
     <div className="img-wrapper">
       <div className="img-bg" />
-      <ImageWithFallback fallback={<EmptyPlaylistIcon />} />
+      <ImageWithFallback
+        src={song?.imgUrl}
+        alt={song?.title}
+        className = {addClassName}
+        fallback={<EmptyPlaylistIcon />}
+      />
     </div>
   )
 }

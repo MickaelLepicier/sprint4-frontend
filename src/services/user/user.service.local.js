@@ -109,7 +109,7 @@ async function _createDemoUsers() {
         password: '123',
         fullname: 'Puki Ben David',
         imgUrl: 'https://randomuser.me/api/portraits/men/10.jpg',
-        likedStationIds: ['s002', 's003'],
+        likedStationIds: ['s002', 's003', 's999'],
         likedSongIds: ['mUkfiLjooxs', 'jfKfPfyJRdk', 'DWcJFNfaw9c', 'fJ9rUzIMcZQ', 'ZcXpKiY2MXE'],
         likedSongsStationId: 'xyz123',
         isAdmin: false,

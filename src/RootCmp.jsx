@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router'
-import { login } from './store/user/user.actions'
+import './services/lyrics.service.js'
 
 // Services
 import { userService } from './services/user'
@@ -26,29 +26,18 @@ import { UserMsg } from './cmps/UserMsg'
 import { SongList } from './cmps/SongList'
 import { Sidebar } from './cmps/Sidebar/Sidebar'
 import { SearchStations } from './pages/SearchStations'
+import { LyricsPanel } from './cmps/LyricsPanel.jsx'
 
 export function RootCmp() {
   const [isCollapsed, setIsCollapsed] = useState(false)
-
-  // Automatically login as puki (id: u101)
-  // Check user.service.local -> _createDemoUsers() or further info
-  // useEffect(() => {
-  //   if (import.meta.env.DEV) {
-  //     login({ username: 'puki', password: '123' })
-  //   }
-  // }, [])
-
   const location = useLocation()
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
 
   return (
-   <div className={`main-container${isCollapsed ? ' collapsed' : ''} ${isAuthPage ? 'auth-layout' : ''}`}>
+    <div className={`main-container${isCollapsed ? ' collapsed' : ''} ${isAuthPage ? 'auth-layout' : ''}`}>
+      {!isAuthPage && <AppHeader />}
+      {!isAuthPage && (<Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />)}
 
-{!isAuthPage && <AppHeader />}
-{!isAuthPage && (
-  <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-)}
-      
       <UserMsg />
 
       <main className="main-content">
@@ -82,7 +71,9 @@ export function RootCmp() {
               </AuthGuard>
             }
           />
-
+          
+          <Route path="lyrics" element={<LyricsPanel />} />
+          
           {/* <Route path="login" element={<LoginSignup />}>
               <Route index element={<Login />} />
               <Route path="signup" element={<Signup />} />

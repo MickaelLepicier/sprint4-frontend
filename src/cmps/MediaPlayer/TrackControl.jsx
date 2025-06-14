@@ -15,6 +15,7 @@ import { PlayButton } from '../PlayButton.jsx'
 import { SetActionBtn } from '../util/SetActionBtn.jsx'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
+import { PlayIcon } from '../svg/PlayIcon.jsx'
 
 export function TrackControl({ currSong, volume }) {
   // TODO - fix bugs - when click on playBtn play a song or return if there is no song
@@ -35,6 +36,7 @@ export function TrackControl({ currSong, volume }) {
 
   const isTrackAllowed = !playerRef.current || !currSong
   const isNotAllowed = isTrackAllowed ? 'not-allowed' : ''
+  const isPlay = isPlaying ? 'track-control-pause-icon' : 'track-control-play-icon'
 
   const repeatActive = isRepeat ? 'active' : ''
   const song = { ...currSong }
@@ -113,6 +115,10 @@ export function TrackControl({ currSong, volume }) {
     setProgress(newTime)
   }
 
+  // TODO - insted of PlayButton put SVG PlayIcon
+  // TODO - insted of SetActionBtn put SVG 
+
+
   return (
     <section className="track-controls-container">
       <div className="track-actions">
@@ -127,13 +133,9 @@ export function TrackControl({ currSong, volume }) {
         <PlayButton
           onToggle={() => currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0])}
           isPlaying={isPlaying}
-          addClassName={isNotAllowed}
-        />
-        {/* <PlayButton
-          isPlaying={isPlaying}
-          onToggle={onTogglePlay}
-          addClassName={isNotAllowed}
-        /> */}
+          className={`${isPlay} ${isNotAllowed}`}
+          />
+
 
         <SetActionBtn
           imgSrc={next}

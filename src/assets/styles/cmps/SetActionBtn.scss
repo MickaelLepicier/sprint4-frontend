@@ -40,62 +40,62 @@
 
   }
 
-  .play,
-  .pause {
-    margin-inline: 10px;
-    justify-items: center;
-    border-radius: 50%;
-    background-color: rgb(255, 255, 255);
-    transition: all 0.1s ease-out;
+  // .play,
+  // .pause {
+  //   margin-inline: 10px;
+  //   justify-items: center;
+  //   border-radius: 50%;
+  //   background-color: rgb(255, 255, 255);
+  //   transition: all 0.1s ease-out;
 
-    img {
-      filter: invert(0);
-      transition: all 0.1s ease-out;
-    }
+  //   img {
+  //     filter: invert(0);
+  //     transition: all 0.1s ease-out;
+  //   }
 
-    &:hover {
-      // transform: scale(1.05);
-      background-color: rgba(255, 255, 255, 0.829);
+  //   &:hover {
+  //     // transform: scale(1.05);
+  //     background-color: rgba(255, 255, 255, 0.829);
 
-      img {
-        transform: scale(1.05);
-        filter: invert(0);
-      }
-    }
+  //     img {
+  //       transform: scale(1.05);
+  //       filter: invert(0);
+  //     }
+  //   }
 
-    &:active {
-      transform: scale(0.95);
-      background-color: rgba(255, 255, 255, 0.594);
+  //   &:active {
+  //     transform: scale(0.95);
+  //     background-color: rgba(255, 255, 255, 0.594);
 
-      img {
-        transform: scale(0.95);
-      }
-    }
+  //     img {
+  //       transform: scale(0.95);
+  //     }
+  //   }
 
-    &.not-allowed {
-      transform: scale(1);
-      background-color: rgba(255, 255, 255, 0.5);
+  //   &.not-allowed {
+  //     transform: scale(1);
+  //     background-color: rgba(255, 255, 255, 0.5);
     
-      img {
-        transform: scale(1);
-        filter: invert(0);
-      }
-    }
-  }
+  //     img {
+  //       transform: scale(1);
+  //       filter: invert(0);
+  //     }
+  //   }
+  // }
 
-  .songlist-play-btn {
-    width: 48px;
-    height: 48px;
-    background-color: #1db954;
+  // .songlist-play-btn {
+  //   width: 48px;
+  //   height: 48px;
+  //   background-color: #1db954;
 
-    img {
-      width: 24px;
-    }
+  //   img {
+  //     width: 24px;
+  //   }
 
-    &:hover {
-      background-color: #1ed760;
-    }
-  }
+  //   &:hover {
+  //     background-color: #1ed760;
+  //   }
+  // }
 
   
 }

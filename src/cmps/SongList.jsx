@@ -215,6 +215,8 @@ export function SongList() {
 
   if (!station) return <div>Loading songs list...</div>
 
+  // TODO - insted of PlayButton pot SVG PlayIcon
+
   return (
     <section className="station-songlist">
       <header className="station-header">
@@ -232,7 +234,7 @@ export function SongList() {
           <PlayButton
             onToggle={() => currSong && onTogglePlay(currSong)}
             isPlaying={isPlaying}
-            addClassName="songlist-play-btn"
+            className="songlist-play-icon"
           />
           <button
             title="Save to Your Library"

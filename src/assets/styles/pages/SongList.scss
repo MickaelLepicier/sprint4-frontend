@@ -31,6 +31,12 @@
     gap: 12px;
     margin-bottom: 20px;
 
+    .media-player-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
     .btn-compact {
       background-color: #1db954;
       border: none;

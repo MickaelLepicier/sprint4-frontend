@@ -67,6 +67,8 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     return `${mins}:${formatDuration}`
   }
 
+  // TODO - insted of PlayButton pot SVG PlayIcon
+
   return (
     <tr
       className={`song-row ${addClassName}`}

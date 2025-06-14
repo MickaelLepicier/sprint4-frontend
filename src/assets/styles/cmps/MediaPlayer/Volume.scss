@@ -79,4 +79,13 @@
       }
     }
   }
+
+  // *** lyrics ***
+  .lyrics-btn {
+    padding: 0 8px;
+    // background-color: red;
+    img {
+      filter: invert(1);
+    }
+  }
 }

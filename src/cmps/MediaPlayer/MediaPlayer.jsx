@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Volume } from '../MediaPlayer/Volume.jsx'
 import { SongInfo } from '../MediaPlayer/SongInfo.jsx'
 import { TrackControl } from './TrackControl.jsx'
+import { LyricsButton } from './LyricsButton.jsx'
 
 export function MediaPlayer() {
   const currSong = useSelector(
@@ -44,11 +45,15 @@ export function MediaPlayer() {
 
       <TrackControl currSong={currSong} volume={volume} />
 
-      <Volume
-        volume={volume}
-        toggleMute={toggleMute}
-        handleVolumeChange={handleVolumeChange}
-      />
+      <section className="other-options flex align-center">
+        <LyricsButton />
+        
+        <Volume
+          volume={volume}
+          toggleMute={toggleMute}
+          handleVolumeChange={handleVolumeChange}
+        />
+      </section>
     </section>
   )
 }

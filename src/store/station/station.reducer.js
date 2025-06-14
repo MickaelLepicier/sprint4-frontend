@@ -11,12 +11,15 @@ export const ADD_STATION_MSG = 'ADD_STATION_MSG'
 export const SET_NEXT_SONG = 'SET_NEXT_SONG'
 export const SET_PREV_SONG = 'SET_PREV_SONG'
 
+export const SET_LYRICS_CACHE = 'SET_LYRICS_CACHE'
+
 const initialState = {
   stations: [],
   station: null, // this will get updated whenever we VISIT ***ANY*** station
   currentSong: null, // curr playing song
   currentStation: null, // curr playing station
   isPlaying: false,
+  lyricsCache: {} // store lyrics for played songs
 }
 
 export function stationReducer(state = initialState, action) {
@@ -88,6 +91,11 @@ export function stationReducer(state = initialState, action) {
 
     //   newState = { ...state, currentSong: prevSong }
     //   break
+    case SET_LYRICS_CACHE:
+      newState = {
+        ...state, lyricsCache: { ...state.lyricsCache, [action.cacheKey]: action.lyrics }
+      }
+      break
 
     default:
   }

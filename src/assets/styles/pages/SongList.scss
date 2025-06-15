@@ -25,14 +25,21 @@
     }
   }
 
+<<<<<<< HEAD
   /* The modal card */
+=======
+>>>>>>> a4b8b6909bf242689ce809f852c94e778ff30ecd
   .edit-details-dialog {
     background: transparent;
     border: none;
     padding: 0;
   }
-  .edit-details-dialog::backdrop {
-    background-color: #18171775;
+
+  /* The modal card */
+  .edit-details-dialog {
+    background: transparent;
+    border: none;
+    padding: 0;
   }
 
   /* The modal card */

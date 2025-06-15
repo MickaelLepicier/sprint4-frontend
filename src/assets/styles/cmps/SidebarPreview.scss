@@ -1,140 +1,139 @@
 .sidebar-preview {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background-color: #121212;
-    border-radius: 8px;
-    padding: 8px 8px;
-    cursor: pointer;
-    color: #fff;
-    transition: opacity 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #121212;
+  border-radius: 8px;
+  padding: 8px 8px;
+  cursor: pointer;
+  color: #fff;
+  transition: opacity 0.1s ease;
+  position: relative;
+
+  // Not active, just pressed: background goes full black (#000)
+  &:active:not(:is(.active, .selected)) {
+    background-color: #000;
+  }
+
+  // Active + pressed: slightly brighter overlay (#ffffff36)
+  &:is(.active, .selected):active {
+    background-color: #ffffff36 !important;
+  }
+
+  &.playing {
+    .details h3 {
+      color: #1ed760 !important;
+    }
+  }
+
+  &.drag-over {
     position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: #1ed760; // Spotify green
+      border-radius: 2px;
+      pointer-events: none;
+    }
+  }
 
-    // Not active, just pressed: background goes full black (#000)
-    &:active:not(:is(.active, .selected)) {
-        background-color: #000;
+  &:hover {
+    background-color: #1f1f1f;
+
+    .img-wrapper {
+      img {
+        opacity: 0.6;
+      }
+      // opacity: 0.6;
+      // transition: opacity 0.2s ease;
+
+      svg.play-icon {
+        display: block;
+        opacity: 1 !important;
+        z-index: 10;
+        fill: white;
+      }
+    }
+  }
+
+  &:is(.active, .selected) {
+    background-color: #2a2a2a;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-width: 0;
+    // justify-content: center;
+    gap: 2px;
+    align-items: flex-start;
+
+    h3 {
+      max-width: inherit;
+      width: 100%;
+      font-size: 16px;
+      line-height: normal;
+      font-weight: 400;
+      text-overflow: ellipsis;
+      margin: 0;
+      font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
+        var(--fallback-fonts, sans-serif);
+      // display: -webkit-box;
+      // -webkit-line-clamp: 1;
+      // -webkit-box-orient: vertical;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    // Active + pressed: slightly brighter overlay (#ffffff36)
-    &:is(.active, .selected):active {
-        background-color: #ffffff36 !important;
+    p {
+      font-size: 14px;
+      color: #b3b3b3;
+      // margin: 2px 0 0;
+      display: flex;
+      align-items: center;
+      // gap: 6px;
+      // padding: 8px;
+      margin: 0;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      .pin-icon {
+        width: 14px;
+        height: 14px;
+        fill: #1ed760;
+      }
+
+      .dot {
+        font-size: 14px;
+      }
+
+      .pin-icon {
+        width: 12px;
+        height: 12px;
+        fill: #1ed760;
+        display: inline-flex;
+        gap: 4px;
+        margin-inline-end: 4px;
+        z-index: 10;
+      }
+
+      span {
+        font-size: 14;
+      }
     }
-
-    &.playing {
-        .details h3 {
-            color: #1ed760 !important;
-        }
-    }
-
-    &.drag-over {
-        position: relative;
-        &::after {
-            content: '';
-            position: absolute;
-            left: 0; right: 0; bottom: 0;
-            height: 2px;
-            background: #1ed760; // Spotify green
-            border-radius: 2px;
-            pointer-events: none;
-        }
-    }
-
-    &:hover {
-        background-color: #1F1F1F;
-
-        .img-wrapper  {
-            img {
-                opacity: 0.6;
-            }
-            // opacity: 0.6;
-            // transition: opacity 0.2s ease;
-
-            svg.play-icon {
-                display: block;
-                opacity: 1 !important;
-                z-index: 10;
-                fill: white;
-            }
-        }
-    }
-
-    &:is(.active, .selected) {
-        background-color: #2a2a2a;
-    }
-
-    .details {
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 0;
-        min-width: 0;
-        // justify-content: center;
-        gap: 2px;
-        align-items: flex-start;
-
-
-
-        h3 {
-            max-width: inherit;
-            width: 100%;
-            font-size: 16px;
-            line-height: normal;
-            font-weight: 400;
-            text-overflow: ellipsis;
-            margin: 0;
-            font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva, var(--fallback-fonts, sans-serif);
-            // display: -webkit-box;
-            // -webkit-line-clamp: 1;
-            // -webkit-box-orient: vertical;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-      
-        }
-
-        p {
-            font-size: 14px;
-            color: #b3b3b3;
-            // margin: 2px 0 0;
-            display: flex;
-            align-items: center;
-            // gap: 6px;
-            // padding: 8px;
-            margin: 0;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            .pin-icon {
-                width: 14px;
-                height: 14px;
-                fill: #1ed760;
-            }
-
-            .dot {
-                font-size: 14px;
-            }
-            
-            .pin-icon {
-                width: 12px;
-                height: 12px;
-                fill: #1ed760;
-                display: inline-flex;
-                gap: 4px;
-                margin-inline-end: 4px;
-                z-index: 10;
-            }
-
-            span {
-                font-size: 14;
-            }
-        }
-    }
-
+  }
 }
 
 li.sidebar-preview.selected:hover {
-    background-color: #ffffff24;
+  background-color: #ffffff24;
 }
 
 // .sidebar-preview:hover .img-wrapper img,
@@ -149,7 +148,7 @@ li.sidebar-preview.selected:hover {
 // }
 
 // .sidebar-preview .img-wrapper .play-icon {
-//     display: none; 
+//     display: none;
 //     position: absolute;
 //     z-index: 20;
 //     fill: white;
@@ -157,13 +156,45 @@ li.sidebar-preview.selected:hover {
 //     width: 24px;
 // }
 
-li.sidebar-preview:hover {
-    .img-wrapper {
-        .img-bg {
-            opacity: 0.6;
-        }
-        svg.empty-playlist-icon {
-            opacity: 0.6;
-        }
+.station-context-menu {
+  background-color: rgb(24, 23, 23);
+  width: 180px;
+  border-radius: 8px;
+  padding: 2px 0;
+  list-style: none;
+  border: 0.1px solid rgba(255, 255, 255, 0.123);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: white;
+    padding: 6px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin: 3px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      display: block;
     }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+      border-radius: 5px;
+    }
+  }
+}
+
+li.sidebar-preview:hover {
+  .img-wrapper {
+    .img-bg {
+      opacity: 0.6;
+    }
+    svg.empty-playlist-icon {
+      opacity: 0.6;
+    }
+  }
 }

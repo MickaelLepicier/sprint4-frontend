@@ -5,6 +5,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { SidebarPreview } from './SidebarPreview'
 import { SidebarDragLabel } from './SidebarDragLabel'
 import { getEmptyImage } from 'react-dnd-html5-backend'
+import { useDispatch } from 'react-redux'
+import { removeStation } from '../../store/station/station.actions'
+import { showErrorMsg } from '../../services/event-bus.service'
 
 const ItemType = 'STATION' // Used for drag-and-drop matching
 
@@ -23,6 +26,22 @@ export function SidebarList({
   user,
   isCollapsed,
 }) {
+  const initialContextMenu = {
+    show: false,
+    x: 0,
+    y: 0,
+    itemId: null,
+  }
+  const [contextMenu, setContextMenu] = useState(initialContextMenu)
+
+  async function onDeleteStation(stationId) {
+    try {
+      await removeStation(stationId)
+    } catch (error) {
+      showErrorMsg('could not remove')
+    }
+  }
+
   // Setup state and router
   const [orderedStations, setOrderedStations] = useState([])
   const hasInitializedSidebarStations = useRef(false)
@@ -88,6 +107,10 @@ export function SidebarList({
               moveStation={moveStation}
               user={user}
               isCollapsed={isCollapsed}
+              contextMenu={contextMenu}
+              setContextMenu={setContextMenu}
+              initialContextMenu={initialContextMenu}
+              onDeleteStation ={onDeleteStation}
             />
           ))}
         </ul>
@@ -105,6 +128,10 @@ function DraggableStation({
   isLikedSongs,
   isSelected,
   isCollapsed,
+  contextMenu,
+  setContextMenu,
+  initialContextMenu,
+  onDeleteStation,
 }) {
   const [, dragRef, preview] = useDrag({
     type: ItemType,
@@ -168,6 +195,10 @@ function DraggableStation({
       onClickSonglist={onClickSonglist}
       setDragRef={setDragRef}
       isOver={isOver}
+      contextMenu={contextMenu}
+      setContextMenu={setContextMenu}
+      initialContextMenu={initialContextMenu}
+      onDeleteStation={onDeleteStation}
     />
   )
 }

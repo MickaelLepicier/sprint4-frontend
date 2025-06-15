@@ -25,6 +25,210 @@
     }
   }
 
+  /* The modal card */
+  .edit-details-dialog {
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+  .edit-details-dialog::backdrop {
+    background-color: #18171775;
+  }
+
+  /* The modal card */
+  .edit-modal {
+    background: #181818;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 0 32px 32px 32px;
+    min-width: 520px;
+    max-width: 540px;
+    border: none;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: auto 1fr 1fr 70px;
+    grid-template-areas:
+      'header header'
+      'img name'
+      'img desc'
+      '. save';
+    gap: 16px 24px;
+    align-items: start;
+    position: relative;
+  }
+
+  /* Header section as part of grid */
+  .edit-modal > div:first-child {
+    grid-area: header;
+    background: #181818;
+    border-radius: 12px 12px 0 0;
+    padding: 32px 0 0 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .edit-modal h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .find-more-svg {
+    cursor: pointer;
+    color: #b3b3b3;
+    transition: color 0.18s;
+  }
+  .find-more-svg:hover {
+    color: #fff;
+  }
+
+  /* ImgUploader container */
+  .edit-modal-img {
+    grid-area: img;
+    width: 200px;
+    height: 200px;
+    background: #232323;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  .upload-preview {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .upload-preview label {
+    color: #b3b3b3;
+    font-size: 0.95rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .upload-preview img {
+    width: 100%;
+    object-fit: contain;
+  }
+
+  /* Name input */
+  .edit-modal-name {
+    grid-area: name;
+    border: 1px solid #5e5e5e;
+    border-radius: 6px;
+    padding: 0 10px;
+    margin: 0;
+    min-width: 0;
+    position: relative;
+    background: none;
+    transition: border 0.2s;
+    display: flex;
+    flex-direction: column;
+    // height: 56px;
+    box-sizing: border-box;
+  }
+
+  .edit-modal-name legend {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #b3b3b3;
+    opacity: 1;
+    padding: 0 4px;
+    margin-left: 8px;
+  }
+
+  .edit-modal-name input {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 100%;
+    padding: 8px 0;
+    outline: none;
+  }
+
+  /* Focus border effect */
+  .edit-modal-name:focus-within {
+    border: 1.5px solid #fff;
+  }
+
+  /* Description textarea */
+  .edit-modal fieldset:not(.edit-modal-name) {
+    grid-area: desc;
+    border: 1px solid #5e5e5e;
+    border-radius: 6px;
+    padding: 0 10px;
+    margin: 0;
+    min-width: 0;
+    background: none;
+    transition: border 0.2s;
+    display: flex;
+    flex-direction: column;
+    height: 112px;
+    box-sizing: border-box;
+  }
+
+  .edit-modal fieldset:not(.edit-modal-name) legend {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #b3b3b3;
+    opacity: 1;
+    padding: 0 4px;
+    margin-left: 8px;
+  }
+  .edit-modal textarea {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    width: 100%;
+    height: 80px;
+    padding: 8px 0;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+  }
+  .edit-modal fieldset:not(.edit-modal-name):focus-within {
+    border: 1.5px solid #fff;
+  }
+
+  /* Save button */
+  .edit-modal button[type='submit'] {
+    grid-area: save;
+    align-self: end;
+    justify-self: end;
+    min-width: 100px;
+    height: 48px;
+    background: #fff;
+    color: #181818;
+    border-radius: 24px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  .edit-modal button[type='submit']:hover {
+    background: #1ed760;
+    color: #181818;
+  }
+
   .songlist-play-actions {
     display: flex;
     justify-content: space-between;

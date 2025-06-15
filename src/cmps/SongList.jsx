@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 // DND: Import drag-and-drop components
@@ -15,6 +15,8 @@ import {
   togglePlay,
   addStation,
   removeStation,
+  updateStation,
+  loadStations,
 } from '../store/station/station.actions'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
@@ -23,6 +25,8 @@ import { PlayButton } from './PlayButton'
 import { SongPreview } from './SongPreview'
 import { AddIcon } from './svg/AddIcon'
 import { updateUser } from '../store/user/user.actions'
+import { ImgUploader } from './ImgUploader'
+import { SET_STATION } from '../store/station/station.reducer'
 
 export function SongList() {
   const { stationId } = useParams()
@@ -30,17 +34,21 @@ export function SongList() {
   const user = useSelector(storeState => storeState.userModule.user)
   const stations = useSelector(storeState => storeState.stationModule.stations)
 
+  const modalRef = useRef()
+
+  const [stationToUpdate, setStationToUpdate] = useState(station)
+
   useEffect(() => {
     if (!station || station._id !== stationId) {
       loadStation(stationId)
     }
   }, [stationId])
 
-
   // const [isCompact, setIsCompact] = useState(false)
 
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
+  const dispatch = useDispatch()
 
   const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
   // console.log('station: ',station)
@@ -213,6 +221,39 @@ export function SongList() {
     }
   }
 
+  async function onSubmitChange(ev) {
+    ev.preventDefault()
+
+    try {
+      await updateStation(stationToUpdate)
+      await loadStations()
+
+      modalRef.current?.close()
+    } catch (error) {
+      showErrorMsg('could not update station')
+    }
+  }
+
+  async function onHandleChange({ target }) {
+    const { name, value } = target
+    setStationToUpdate(prevStation => ({ ...prevStation, [name]: value }))
+
+    console.log('stationToUpdate:', stationToUpdate)
+  }
+
+  function onUploaded(imgUrl) {
+    setStationToUpdate(stationToUpdate => ({ ...stationToUpdate, imgUrl }))
+  }
+
+  function onOpenModal() {
+    if (station._id === user.likedSongsStationId) return
+    setStationToUpdate({ ...station }) // always copy fresh
+    if (modalRef.current) modalRef.current.showModal()
+  }
+
+  function onCloseModal() {
+    if (modalRef.current) modalRef.current.close()
+  }
   if (!station) return <div>Loading songs list...</div>
 
   return (
@@ -225,7 +266,66 @@ export function SongList() {
           }
           alt=""
         />
-        <h1>{station.name}</h1>
+        <div>
+          <h1 className="station-header-name" onClick={onOpenModal}>
+            {station.name}
+          </h1>
+
+          <span>{station.description}</span>
+        </div>
+
+        {/* DIALOOOOOOOOOGGGGGGGGG */}
+        <dialog className="edit-details-dialog" ref={modalRef}>
+          <form className="edit-modal" action="" method="dialog" onSubmit={onSubmitChange}>
+            <div>
+              <h2>Edit details</h2>
+              <svg
+                onClick={onCloseModal}
+                className="find-more-svg"
+                width="32"
+                height="32"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ verticalAlign: 'middle' }}
+                aria-label="Close"
+              >
+                <line x1="6" y1="6" x2="16" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                <line x1="16" y1="6" x2="6" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+              </svg>
+            </div>
+            <div className="edit-modal-img">
+              <ImgUploader onUploaded={onUploaded} />
+            </div>
+
+            <fieldset className="edit-modal-name">
+              <legend>Name</legend>
+              <label htmlFor="station-name"></label>
+              <input
+                id="station-name"
+                type="text"
+                name="name"
+                value={stationToUpdate?.name || ''}
+                onChange={onHandleChange}
+              />
+            </fieldset>
+
+            <fieldset>
+              <legend>Description</legend>
+              <textarea
+                name="description"
+                id="station-desc"
+                value={stationToUpdate?.description || ''}
+                onChange={onHandleChange}
+                autoComplete="off"
+              ></textarea>
+            </fieldset>
+
+            <button type="submit">Save</button>
+          </form>
+        </dialog>
+
+        {/* DIALOOOOOOOOOGGGGGGGGG */}
       </header>
       <div className="songlist-play-actions">
         <div className="media-player-container">

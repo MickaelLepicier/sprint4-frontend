@@ -354,7 +354,13 @@ export function SongList() {
             <th>Title</th>
             <th>Album</th>
             <th>Date Added</th>
-            <th>🕙</th>
+            <th>
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
+                <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
+                <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+            </th>
             {/* <th>Duration</th> */}
           </tr>
         </thead>

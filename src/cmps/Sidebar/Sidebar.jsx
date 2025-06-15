@@ -18,7 +18,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
   const user = useSelector(state => state.userModule.user)
   const navigate = useNavigate()
 
-  console.log('Sidebar stations:', stations)
+  
 
   useEffect(() => {
     if (!stations.length) loadStations()

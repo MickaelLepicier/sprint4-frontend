@@ -8,8 +8,9 @@
   align-items: center;
   background: transparent;
   border-radius: 4px;
-  box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+  // box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
   z-index: 1;
+  cursor: pointer;
 
   .img-bg {
     position: absolute;
@@ -58,67 +59,80 @@
     opacity: 1;
   }
 
+  /* track control icons */
+
   svg.track-control-play-icon,
   svg.track-control-pause-icon {
     position: absolute;
     width: 32px;
     height: 32px;
 
-    // width: 14px;
-    // height: 14px;
-
-    padding: 4.69px; // icon size 14.04 - 16 (on Spotify - 16 - 16) 
-
-    // pause - 12 -14
+    // padding: 4.69px; // icon size 14.04 - 16 (on Spotify - 16 - 16)
+    padding: 6.18px; // icon size 12.19 - 13.9 (on Spotify - 12.29 - 13.98)
 
     border-radius: 50%;
     background-color: #fff;
     margin-inline: 10px;
-
-    // filter: invert(0);
     transition: all 0.1s ease-out;
 
+    // & > path {
+    // width: 16px;
+    // height: 16px;
+    // fill: #4018ce;
+    // transform: scale(0.6666) translate(4, 4)
+    // }
+
     &:hover {
-      // transform: scale(1.05);
       background-color: rgba(255, 255, 255, 0.829);
 
       transform: scale(1.05);
-      //   filter: invert(0);
     }
 
     &:active {
       transform: scale(0.95);
       background-color: rgba(255, 255, 255, 0.594);
-
-      transform: scale(0.95);
     }
 
     &.not-allowed {
       transform: scale(1);
       background-color: rgba(255, 255, 255, 0.5);
-
-      //   transform: scale(1);
-      //   filter: invert(0);
     }
   }
 
   svg.track-control-pause-icon {
-    padding: 2.2px;
+    padding: 6.6px; // icon size 10.97 - 14.1 (on Spotify - 12 - 14)
   }
 
-  svg.songlist-play-icon {
+  /* songlist icons */
+  svg.songlist-play-icon,
+  svg.songlist-pause-icon {
     width: 48px;
     height: 48px;
-    background-color: #1db954;
+    background-color: #1ed760;
     border-radius: 50%;
 
-    padding: 7px 6px; // 21.09 - 24.05
-    // img {
-    //   width: 24px;
-    // }
+    padding: 12px; // exactly for play and pouse px
 
     &:hover {
-      background-color: #1ed760;
+      background-color: #3bdb74;
+      transform: scale(1.05);
     }
+
+    &:active {
+      transform: scale(1);
+      background-color: #1ed760cc;
+    }
+  }
+
+  /* songlist icons */
+  svg.song-preview-play-icon,
+  svg.song-preview-pause-icon {
+    
+    width: 16px;
+    height: 24px;
+
+    fill: #fff;
+    transition: opacity 0.2s ease;
+    
   }
 }

@@ -30,6 +30,9 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
   const duration = window.playerRef?.current?.getDuration?.() ?? null
   // console.log('DDDD duration: ',duration)
 
+  const isPlay = isPlaying ? 'song-preview-pause-icon' : 'song-preview-play-icon'
+
+
   async function onAddSongToLiked(song) {
     try {
       if (!user || !likedStationId) {
@@ -84,7 +87,7 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
           isPlaying={isPlaying && addClassName}
           // onToggle={() => togglePlay(song)}
           onToggle={togglePlay}
-          addClassName="song-preview-play-btn"
+          className={isPlay}
         />
       </td>
       <td>

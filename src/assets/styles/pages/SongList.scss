@@ -95,7 +95,7 @@
             pointer-events: none;
           }
 
-          .song-preview-play-btn {
+          .song-preview-play-icon, .song-preview-pause-icon {
             opacity: 1;
             pointer-events: auto;
           }
@@ -129,7 +129,7 @@
             pointer-events: none;
           }
 
-          .song-preview-play-btn {
+          .song-preview-play-icon, .song-preview-pause-icon {
             opacity: 1;
             pointer-events: auto;
           }
@@ -160,7 +160,7 @@
           pointer-events: auto;
         }
 
-        .song-preview-play-btn {
+        .song-preview-play-icon, .song-preview-pause-icon {
           opacity: 0;
           pointer-events: none;
         }

@@ -70,6 +70,9 @@ export function SongList() {
   //   }
   // }, [stationId])
 
+  const isPlay = isPlaying ? 'songlist-pause-icon' : 'songlist-play-icon'
+
+
   async function performSearch(txt) {
     if (!txt.trim()) return
     try {
@@ -234,7 +237,7 @@ export function SongList() {
           <PlayButton
             onToggle={() => currSong && onTogglePlay(currSong)}
             isPlaying={isPlaying}
-            className="songlist-play-icon"
+            className={isPlay}
           />
           <button
             title="Save to Your Library"

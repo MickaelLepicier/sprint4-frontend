@@ -1,28 +1,17 @@
-// *** ICONS ***
-import prev from '../../assets/icons/media-player/prev_song.svg'
-import next from '../../assets/icons/media-player/next_song.svg'
-
-import shuffle from '../../assets/icons/media-player/shuffle.svg'
-import repeat from '../../assets/icons/media-player/repeat.svg'
 
 import { ReactYouTube } from '../ReactYouTube.jsx'
-import {
-  nextSong,
-  prevSong,
-  setIsPlaying
-} from '../../store/station/station.actions.js'
-import { PlayButton } from '../PlayButton.jsx'
+import { nextSong, prevSong, setIsPlaying } from '../../store/station/station.actions.js'
+import { PlayBtn } from '../PlayBtn.jsx'
 import { SetActionBtn } from '../util/SetActionBtn.jsx'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 import { PlayIcon } from '../svg/PlayIcon.jsx'
+import { SetTrackBtn } from '../SetTrackBtn.jsx'
 
 export function TrackControl({ currSong, volume }) {
   // TODO - fix bugs - when click on playBtn play a song or return if there is no song
 
-  const isPlaying = useSelector(
-    (storeState) => storeState.stationModule.isPlaying
-  )
+  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
 
   // track time
   const [progress, setProgress] = useState(0)
@@ -38,7 +27,7 @@ export function TrackControl({ currSong, volume }) {
   const isNotAllowed = isTrackAllowed ? 'not-allowed' : ''
   const isPlay = isPlaying ? 'track-control-pause-icon' : 'track-control-play-icon'
 
-  const repeatActive = isRepeat ? 'active' : ''
+  // const repeatActive = isRepeat ? 'active' : ''
   const song = { ...currSong }
 
   useEffect(() => {
@@ -47,7 +36,7 @@ export function TrackControl({ currSong, volume }) {
 
       const currentTime = playerRef.current.getCurrentTime?.()
       const totalTime = playerRef.current.getDuration?.()
-    //   console.log('totalTime: ',totalTime)
+      //   console.log('totalTime: ',totalTime)
       if (typeof currentTime === 'number' && typeof totalTime === 'number') {
         setProgress(currentTime)
         setDuration(totalTime)
@@ -115,28 +104,34 @@ export function TrackControl({ currSong, volume }) {
     setProgress(newTime)
   }
 
-  // TODO - insted of PlayButton put SVG PlayIcon
-  // TODO - insted of SetActionBtn put SVG 
-
-
   return (
     <section className="track-controls-container">
       <div className="track-actions">
+
+        <SetTrackBtn  className={`shuffle ${isNotAllowed}`} />
+
+        <SetTrackBtn  className={`prev-song ${isNotAllowed}`} onClick={onPrevSong} dis={!song} />
+
+        {/* 
         <SetActionBtn imgSrc={shuffle} str={`shuffle ${isNotAllowed}`} />
         <SetActionBtn
           imgSrc={prev}
           str={`prev ${isNotAllowed}`}
           onClick={onPrevSong}
           dis={!song}
-        />
+        /> */}
 
-        <PlayButton
-          onToggle={() => currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0])}
+        <PlayBtn
+          onToggle={() => (currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0]))}
           isPlaying={isPlaying}
           className={`${isPlay} ${isNotAllowed}`}
-          />
+        />
 
+        <SetTrackBtn className={`next-song ${isNotAllowed}`} onClick={onNextSong} dis={!song} />
+        <SetTrackBtn className={`repeat ${isNotAllowed}`} onClick={onRepeat} dis={!song} />
+      
 
+        {/* 
         <SetActionBtn
           imgSrc={next}
           str={`next ${isNotAllowed}`}
@@ -147,7 +142,7 @@ export function TrackControl({ currSong, volume }) {
           imgSrc={repeat}
           str={`repeat ${repeatActive} ${isNotAllowed}`}
           onClick={onRepeat}
-        />
+        /> */}
       </div>
 
       <div className="track-seek flex">

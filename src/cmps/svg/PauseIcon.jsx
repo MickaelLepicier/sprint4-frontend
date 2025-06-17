@@ -4,12 +4,13 @@ export function PauseIcon(props) {
             data-encore-id="icon"
             role="img"
             aria-hidden="true"
-            viewBox="0 0 24 24"
+            // viewBox="0 0 24 24"
             // className="pause-icon"
             {...props}
         >
            <path
-           d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7z"
+        //    d="M5.7 3a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7zm10 0a.7.7 0 0 0-.7.7v16.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V3.7a.7.7 0 0 0-.7-.7z"
+           d={props.path}
             // width='160px'
             // height='160px'
            />

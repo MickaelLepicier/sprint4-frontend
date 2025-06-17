@@ -10,7 +10,7 @@ export function SidebarLikedSongs({
             draggable="true"
             onClick={() => onClickSonglist(likedSongsStationId)}
         >
-            <div className="img-wrapper">
+            <div className="icon-wrapper">
                 <img
                     src="https://misc.scdn.co/liked-songs/liked-songs-64.png"
                     alt="Liked Songs"

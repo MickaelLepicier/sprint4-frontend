@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { PlayButton } from './PlayButton'
+import { PlayBtn } from './PlayBtn'
 import { AddIcon } from './svg/AddIcon'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStation, updateStation } from '../store/station/station.actions'
@@ -70,7 +70,6 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     return `${mins}:${formatDuration}`
   }
 
-  // TODO - insted of PlayButton pot SVG PlayIcon
 
   return (
     <tr
@@ -83,7 +82,7 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     >
       <td className="song-play-idx">
         <span className="song-idx">{idx + 1}</span>
-        <PlayButton
+        <PlayBtn
           isPlaying={isPlaying && addClassName}
           // onToggle={() => togglePlay(song)}
           onToggle={togglePlay}

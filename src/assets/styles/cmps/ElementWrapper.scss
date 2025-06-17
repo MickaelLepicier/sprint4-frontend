@@ -1,0 +1,217 @@
+// call this ElementWrapper
+// make a dynamic svg that take the all the svg files
+
+.icon-wrapper {
+  // position: relative;
+  // width: 48px;
+  //   height: 48px;
+
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+
+  // padding: 0;
+
+  // background: transparent;
+  // background: none;
+  // border: none;
+  // border-radius: 4px;
+
+  // box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  cursor: pointer;
+
+  .img-bg {
+    position: absolute;
+    // background-color: red;
+    border-radius: 4px;
+    box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+    // height: 100%;
+    // width: 100%;
+    width: 48px;
+    height: 48px;
+
+    background: #282828;
+    z-index: 1;
+  }
+
+  &:has(svg.empty-playlist-icon) {
+    border-radius: 4px;
+    background: #282828;
+  }
+  img {
+    // width: 100%;
+    // height: 100%;
+    width: 48px;
+    height: 48px;
+
+    border-radius: 4px;
+    z-index: 3;
+    object-fit: cover;
+  }
+
+  svg.empty-playlist-icon {
+    height: 24px;
+    width: 24px;
+    // font-size: 13.3333px;
+    fill: #b3b3b3;
+    opacity: 1;
+    z-index: 4;
+  }
+
+  svg.play-icon {
+    fill: #fff;
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    transition: color 0.2s ease;
+    display: none;
+    z-index: 10;
+    opacity: 1;
+  }
+}
+
+/* btns wrapper */
+
+.btn-wrapper {
+  /* track control icons */
+
+  // padding: 0;
+
+  background: transparent;
+  background: none;
+  border: none;
+  border-radius: 4px;
+}
+
+.track-control-play-btn,
+.track-control-pause-btn {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+  background-color: #fff;
+  margin-inline: 10px;
+  transition: all 0.1s ease-out;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.829);
+
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    background-color: rgba(255, 255, 255, 0.594);
+  }
+
+  &.not-allowed {
+    transform: scale(1);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+svg.track-control-play-icon,
+svg.track-control-pause-icon {
+  // position: absolute;
+
+  //  width: 12.3px;
+  // height: 14px;
+  width: 16px;
+  height: 16px;
+
+  // padding: 5px;
+
+  transform: translate(0px, 1.5px);
+
+  transform-origin: center;
+
+  // padding: 4.69px; // icon size 14.04 - 16 (on Spotify - 16 - 16)
+  // padding: 6.18px; // icon size 12.19 - 13.9 (on Spotify - 12.29 - 13.98)
+}
+
+svg.track-control-pause-icon {
+  // padding: 6.6px; // icon size 10.97 - 14.1 (on Spotify - 12 - 14)
+}
+
+svg.track-icon {
+  width: 32px;
+  height: 32px;
+
+  // the path is 14 or 16 px
+
+  // background-color: blue;
+  fill: white;
+  fill: #b3b3b3;
+
+  // padding: 8.5px;
+}
+
+// TODO - keep doing this!
+svg.shuffle {
+  // 16
+  // padding:5px;
+}
+
+.not-allowed {
+  filter: brightness(0.5);
+  cursor: not-allowed;
+}
+
+.songlist-play-btn,
+.songlist-pause-btn {
+  width: 48px;
+  height: 48px;
+  background-color: #1ed760;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: #3bdb74;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(1);
+    background-color: #1ed760cc;
+  }
+}
+
+/* songlist icons */
+svg.songlist-play-icon,
+svg.songlist-pause-icon {
+  width: 24px;
+  height: 24px;
+
+  transform: translate(0px, 1.5px);
+  transform-origin: center;
+
+  // padding: 12px; // exactly for play and pouse px
+}
+
+/* songPreview buttons */
+.song-preview-play-btn,
+.song-preview-pause-btn {
+  width: 24px;
+  height: 24px;
+
+  // width: 16px;
+  // height: 16px;
+}
+
+/* songPreview icons */
+svg.song-preview-play-icon,
+svg.song-preview-pause-icon {
+  // width: 16px;
+  // height: 24px;
+
+  width: 14px;
+  height: 14px;
+
+  transform: translate(-1px, 1.5px);
+  transform-origin: center;
+
+  fill: #fff;
+  transition: opacity 0.2s ease;
+}
+// }

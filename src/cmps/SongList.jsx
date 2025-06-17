@@ -19,7 +19,7 @@ import {
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
-import { PlayButton } from './PlayButton'
+import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
 import { AddIcon } from './svg/AddIcon'
 import { updateUser } from '../store/user/user.actions'
@@ -218,8 +218,6 @@ export function SongList() {
 
   if (!station) return <div>Loading songs list...</div>
 
-  // TODO - insted of PlayButton pot SVG PlayIcon
-
   return (
     <section className="station-songlist">
       <header className="station-header">
@@ -233,13 +231,15 @@ export function SongList() {
         <h1>{station.name}</h1>
       </header>
       <div className="songlist-play-actions">
+        
         <div className="media-player-container">
-          <PlayButton
+          <PlayBtn
             onToggle={() => currSong && onTogglePlay(currSong)}
             isPlaying={isPlaying}
             className={isPlay}
           />
           <button
+          className='add-song'
             title="Save to Your Library"
             onClick={() => {
               onAddToLibrary(station)

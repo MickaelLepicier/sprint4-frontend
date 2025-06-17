@@ -45,7 +45,8 @@ export function SongInfo({ song }) {
           <p className="song-artist">{song?.artist || 'Unknown Artist'}</p>
         </NavLink>
       </div>
-      <button className="song-like-btn">
+
+      <button className="add-song song-like-btn">
         <img src={like} className="song-like-img" />
       </button>
     </section>
@@ -56,7 +57,7 @@ function Img({ song }) {
   let addClassName = song ? 'song-thumbnail' : ''
 
   return (
-    <div className="img-wrapper">
+    <div className="icon-wrapper">
       <div className="img-bg" />
       <ImageWithFallback
         src={song?.imgUrl}

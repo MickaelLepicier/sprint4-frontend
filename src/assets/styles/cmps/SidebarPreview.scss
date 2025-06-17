@@ -42,7 +42,7 @@
     &:hover {
         background-color: #1F1F1F;
 
-        .img-wrapper  {
+        .icon-wrapper  {
             img {
                 opacity: 0.6;
             }
@@ -119,18 +119,18 @@ li.sidebar-preview.selected:hover {
     background-color: #ffffff24;
 }
 
-// .sidebar-preview:hover .img-wrapper img,
-// .sidebar-preview:hover .img-wrapper svg.empty-playlist-icon {
+// .sidebar-preview:hover .icon-wrapper img,
+// .sidebar-preview:hover .icon-wrapper svg.empty-playlist-icon {
 //     opacity: 0.6;
 //     transition: opacity 0.2s;
 // }
 
-// .sidebar-preview:hover .img-wrapper .play-icon {
+// .sidebar-preview:hover .icon-wrapper .play-icon {
 //     display: block;
 //     opacity: 1;
 // }
 
-// .sidebar-preview .img-wrapper .play-icon {
+// .sidebar-preview .icon-wrapper .play-icon {
 //     display: none; 
 //     position: absolute;
 //     z-index: 20;
@@ -140,7 +140,7 @@ li.sidebar-preview.selected:hover {
 // }
 
 li.sidebar-preview:hover {
-    .img-wrapper {
+    .icon-wrapper {
         .img-bg {
             opacity: 0.6;
         }

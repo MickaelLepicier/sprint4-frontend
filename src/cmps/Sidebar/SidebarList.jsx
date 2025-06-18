@@ -135,7 +135,8 @@ function DraggableStation({
     return (
         <SidebarPreview
           station={station}
-          isLikedSongs={isLikedSongs}          isSelected={isSelected}
+          isLikedSongs={isLikedSongs}          
+          isSelected={isSelected}
           isCollapsed={isCollapsed}
           userId={user._id}
           userFirstName={user?.fullname?.split(' ')[0]}

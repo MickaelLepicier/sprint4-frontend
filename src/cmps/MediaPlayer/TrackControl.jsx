@@ -25,7 +25,7 @@ export function TrackControl({ currSong, volume }) {
   const isNotAllowed = isTrackAllowed ? 'not-allowed' : ''
   const isPlay = isPlaying ? 'track-control-pause-icon' : 'track-control-play-icon'
 
-  // const repeatActive = isRepeat ? 'active' : ''
+  const repeatActive = isRepeat ? 'active' : ''
   const song = { ...currSong }
 
   useEffect(() => {
@@ -116,7 +116,7 @@ export function TrackControl({ currSong, volume }) {
         />
 
         <SetTrackBtn className={`next-song ${isNotAllowed}`} onClick={onNextSong} dis={!song} />
-        <SetTrackBtn className={`repeat ${isNotAllowed}`} onClick={onRepeat} dis={!song} />
+        <SetTrackBtn className={`repeat ${isNotAllowed} ${repeatActive}`} onClick={onRepeat} dis={!song} />
 
       </div>
 

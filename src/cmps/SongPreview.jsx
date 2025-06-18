@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { PlayButton } from './PlayButton'
+import { PlayBtn } from './PlayBtn'
 import { AddIcon } from './svg/AddIcon'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStation, updateStation } from '../store/station/station.actions'
@@ -29,6 +29,9 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
 
   const duration = window.playerRef?.current?.getDuration?.() ?? null
   // console.log('DDDD duration: ',duration)
+
+  const isPlay = isPlaying ? 'song-preview-pause-icon' : 'song-preview-play-icon'
+
 
   async function onAddSongToLiked(song) {
     try {
@@ -67,6 +70,7 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     return `${mins}:${formatDuration}`
   }
 
+
   return (
     <tr
       className={`song-row ${addClassName}`}
@@ -78,11 +82,11 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     >
       <td className="song-play-idx">
         <span className="song-idx">{idx + 1}</span>
-        <PlayButton
+        <PlayBtn
           isPlaying={isPlaying && addClassName}
           // onToggle={() => togglePlay(song)}
           onToggle={togglePlay}
-          addClassName="song-preview-play-btn"
+          className={isPlay}
         />
       </td>
       <td>

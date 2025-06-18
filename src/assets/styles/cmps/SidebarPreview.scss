@@ -54,12 +54,12 @@
   &:hover {
     background-color: #1f1f1f;
 
-    .img-wrapper {
-      img {
-        opacity: 0.6;
-      }
-      // opacity: 0.6;
-      // transition: opacity 0.2s ease;
+        .icon-wrapper  {
+            img {
+                opacity: 0.6;
+            }
+            // opacity: 0.6;
+            // transition: opacity 0.2s ease;
 
       svg.play-icon {
         display: block;
@@ -146,20 +146,19 @@ li.sidebar-preview.selected:hover {
   background-color: #ffffff24;
 }
 
-// .sidebar-preview:hover .img-wrapper img,
-// .sidebar-preview:hover .img-wrapper svg.empty-playlist-icon {
+// .sidebar-preview:hover .icon-wrapper img,
+// .sidebar-preview:hover .icon-wrapper svg.empty-playlist-icon {
 //     opacity: 0.6;
 //     transition: opacity 0.2s;
 // }
 
-// .sidebar-preview:hover .img-wrapper .play-icon {
+// .sidebar-preview:hover .icon-wrapper .play-icon {
 //     display: block;
 //     opacity: 1;
 // }
 
-// .sidebar-preview .img-wrapper .play-icon {
-//     display: none;
-//     display: none;
+// .sidebar-preview .icon-wrapper .play-icon {
+//     display: none; 
 //     position: absolute;
 //     z-index: 20;
 //     fill: white;
@@ -200,12 +199,12 @@ li.sidebar-preview.selected:hover {
 }
 
 li.sidebar-preview:hover {
-  .img-wrapper {
-    .img-bg {
-      opacity: 0.6;
+    .icon-wrapper {
+        .img-bg {
+            opacity: 0.6;
+        }
+        svg.empty-playlist-icon {
+            opacity: 0.6;
+        }
     }
-    svg.empty-playlist-icon {
-      opacity: 0.6;
-    }
-  }
 }

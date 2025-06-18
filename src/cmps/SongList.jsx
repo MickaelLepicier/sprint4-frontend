@@ -21,7 +21,7 @@ import {
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
 import { debounce } from '../services/util.service'
-import { PlayButton } from './PlayButton'
+import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
 import { AddIcon } from './svg/AddIcon'
 import { updateUser } from '../store/user/user.actions'
@@ -79,6 +79,9 @@ export function SongList() {
   //     loadStation(stationId)
   //   }
   // }, [stationId])
+
+  const isPlay = isPlaying ? 'songlist-pause-icon' : 'songlist-play-icon'
+
 
   async function performSearch(txt) {
     if (!txt.trim()) return
@@ -339,13 +342,15 @@ export function SongList() {
         {/* DIALOOOOOOOOOGGGGGGGGG */}
       </header>
       <div className="songlist-play-actions">
+        
         <div className="media-player-container">
-          <PlayButton
+          <PlayBtn
             onToggle={() => currSong && onTogglePlay(currSong)}
             isPlaying={isPlaying}
-            addClassName="songlist-play-btn"
+            className={isPlay}
           />
           <button
+          className='add-song'
             title="Save to Your Library"
             onClick={() => {
               onAddToLibrary(station)

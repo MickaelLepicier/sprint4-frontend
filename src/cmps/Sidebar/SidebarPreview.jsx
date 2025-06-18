@@ -111,7 +111,7 @@ export function SidebarPreview({
         onClick={() => onClickSonglist(_id)}
         onContextMenu={handleStationMenu}
       >
-        <div className="img-wrapper">
+        <div className="icon-wrapper">
           <div className="img-bg" />
           {getImgContent()}
           <PlayIcon />

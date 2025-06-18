@@ -237,6 +237,12 @@
     gap: 12px;
     margin-bottom: 20px;
 
+    .media-player-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
     .btn-compact {
       background-color: #1db954;
       border: none;
@@ -295,7 +301,7 @@
             pointer-events: none;
           }
 
-          .song-preview-play-btn {
+          .song-preview-play-icon, .song-preview-pause-icon {
             opacity: 1;
             pointer-events: auto;
           }
@@ -329,7 +335,7 @@
             pointer-events: none;
           }
 
-          .song-preview-play-btn {
+          .song-preview-play-icon, .song-preview-pause-icon {
             opacity: 1;
             pointer-events: auto;
           }
@@ -360,7 +366,7 @@
           pointer-events: auto;
         }
 
-        .song-preview-play-btn {
+        .song-preview-play-icon, .song-preview-pause-icon {
           opacity: 0;
           pointer-events: none;
         }

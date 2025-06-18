@@ -1,32 +1,94 @@
 .genre-search-result {
+  // If you want a global left padding, uncomment the next line
+  // padding-left: 10px;
+
   .station-list {
     width: 100%;
-
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
+      //gap: 24px;
+    }
+  }
+
+  .songlist-section-header {
+    font-family: SpotifyMixUI;
+  }
+
+  .songlist-section {
+    background: #121212;
+    color: #fff;
+    padding: 32px 24px 0 24px;
+    font-family: SpotifyMixUI;
+    padding-left: 0;
+
+    .songlist-section-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: SpotifyMixUI;
+      span {
+        font-family: SpotifyMixUI;
+        font-size: 14px;
+      }
+    }
+
+    h2 {
+      margin-left: 10px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0;
+      //margin-bottom: 24px;
+      //letter-spacing: -1px;
     }
   }
 
   .new-releases-section {
+    // Add animation for song-list expand/collapse
+    .song-list {
+      overflow: hidden;
+      max-height: 600px;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      /* Adjust to fit your initial state: 6 songs' height */
+    }
+    // Expanded state for song-list
+    .song-list.expanded {
+      max-height: 2000px; /* Should be enough to fit 12 songs. Adjust if needed */
+    }
+
     background: #121212;
     color: #fff;
     padding: 32px 24px 0 24px;
-    min-height: 100vh;
-    font-family: inherit;
+    font-family: SpotifyMixUI;
+    padding-left: 0;
 
     h2 {
+      margin-left: 10px;
       font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 24px;
-      letter-spacing: -1px;
+      //margin-bottom: 24px;
+      //letter-spacing: -1px;
+    }
+
+    .new-releases-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: SpotifyMixUI;
+
+      h2 {
+        margin-bottom: 0;
+      }
+      span {
+        margin-right: 3em;
+        cursor: pointer;
+        align-self: center;
+        font-family: SpotifyMixUI;
+        font-size: 14px;
+      }
     }
 
     > div {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      padding-bottom: 32px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
     }
 
     .song-card {
@@ -83,7 +145,6 @@
         &:hover {
           scale: 1.1;
         }
-
         svg {
           width: 24px;
           height: 24px;
@@ -125,9 +186,8 @@
     padding: 0 0 40px 48px;
     box-sizing: border-box;
     position: relative;
-
     margin-bottom: 50px;
-
+    padding-left: 10px;
     .genre-title {
       font-size: 4rem;
       font-weight: 800;

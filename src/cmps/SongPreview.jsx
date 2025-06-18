@@ -4,6 +4,7 @@ import { AddIcon } from './svg/AddIcon'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStation, updateStation } from '../store/station/station.actions'
 import { stationService } from '../services/station'
+import { cleanTitle } from '../services/util.service'
 
 // Added DND props to the signature
 export function SongPreview({ song, idx, station, togglePlay, draggableProps, dragHandleProps, innerRef }) {
@@ -88,10 +89,10 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
       <td>
         <div className="song-img-title">
           <img src={song.imgUrl} alt="img" style={{ width: 40 + 'px', height: 40 + 'px' }} />
-          <p>{song.title}</p>
+          <p>{cleanTitle(song.title)}</p>
         </div>
       </td>
-      <td>{station.name}</td>
+      <td>{cleanTitle(station.name)}</td>
       <td>{new Date(song.addedAt).toLocaleDateString()}</td>
 
       <td>

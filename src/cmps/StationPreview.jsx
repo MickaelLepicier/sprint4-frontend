@@ -1,3 +1,5 @@
+import { cleanTitle } from "../services/util.service"
+
 export function StationPreview({ station,goToStation }) {
     return (
         <div className="station-preview" role="listitem" onClick={()=>{goToStation(station)}}>
@@ -19,7 +21,7 @@ export function StationPreview({ station,goToStation }) {
             </div>
 
             <div className="info">
-              <p className="station-name">{station.name}</p>
+              <p className="station-name">{cleanTitle(station.name)}</p>
                 {station.artist && (
                   <p className="station-artist">{station.artist}</p>
                 )}

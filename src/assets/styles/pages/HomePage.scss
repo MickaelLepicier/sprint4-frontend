@@ -21,6 +21,7 @@
       text-align: center;
       cursor: pointer;
       transition: background 0.15s, color 0.15s;
+      font-family: SpotifyMixUI;
 
       &:hover {
         background: #ffffff73;
@@ -36,45 +37,77 @@
   }
 
   .home-header-stations {
+    margin-block-start: 35px;
     display: grid;
     place-items: center;
     padding: 5px;
+    margin-block-end: 35px;
 
     .header-station-list {
       justify-self: start;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
+      width: 100%;
+      font-family: SpotifyMixUI;
     }
   }
 
   .home-top-mixes {
+    margin-block-end: 40px;
+    .top-mixes-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: SpotifyMixUI;
+      align-items: center;
+
+      span {
+        cursor: pointer;
+        font-size: 14px;
+        align-self: center;
+      }
+    }
+
     .top-mixes-h1 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+      font-size: 20px;
+      font-weight: 700;
+      margin-block-end: 0;
       text-align: left;
       padding-inline-start: 4px;
+      color: white;
     }
     .home-mixes-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
     }
   }
 
   .home-recommended {
+    font-family: SpotifyMixUI;
+
+    .top-recommended-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: SpotifyMixUI;
+      align-items: center;
+      span {
+        cursor: pointer;
+        font-size: 14px;
+        align-self: center;
+      }
+    }
     .top-recommended-h1 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
+      font-size: 20px;
+      font-weight: 700;
+      margin-block-end: 0;
       text-align: left;
       padding-inline-start: 4px;
+      color: white;
     }
     .recommended-station-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
+      // gap: 1rem;
     }
   }
 }

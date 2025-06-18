@@ -10,6 +10,9 @@
   flex-direction: column;
   gap: 12px;
 
+  height:230px ;
+  width: 177px;
+
   &:hover {
     background: #282828;
   }
@@ -71,9 +74,10 @@
     flex-direction: column;
 
     .station-name {
-      font-size: 16px;
+      font-size: 14px;
+      font-family: SpotifyMixUITitle;
       font-weight: 600;
-      color: #fff;
+      color:#b3b3b3;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;

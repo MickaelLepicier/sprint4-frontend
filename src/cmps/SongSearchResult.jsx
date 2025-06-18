@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
-import { debounce } from '../services/util.service'
+import { cleanTitle, debounce } from '../services/util.service'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { updateStation } from '../store/station/station.actions'
 
@@ -47,7 +47,7 @@ export function SongSearchResult() {
               <div className="song-info">
                 <img src={song.imgUrl} alt={song.title || ''} />
                 <div className="title-artist">
-                  <h4>{song.title || ''}</h4>
+                  <h4>{cleanTitle(song.title) || ''}</h4>
                   <p>{song.artist || ''}</p>
                 </div>
               </div>

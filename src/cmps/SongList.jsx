@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -20,7 +20,7 @@ import {
 } from '../store/station/station.actions'
 import { SongSearchResult } from './SongSearchResult'
 import { loadSearchResults } from '../store/search/search.actions'
-import { debounce } from '../services/util.service'
+import { cleanTitle, debounce } from '../services/util.service'
 import { PlayButton } from './PlayButton'
 import { SongPreview } from './SongPreview'
 import { AddIcon } from './svg/AddIcon'
@@ -35,6 +35,8 @@ export function SongList() {
   const station = useSelector(storeState => storeState.stationModule.station)
   const user = useSelector(storeState => storeState.userModule.user)
   const stations = useSelector(storeState => storeState.stationModule.stations)
+
+  const navigate = useNavigate()
 
   const modalRef = useRef()
 
@@ -209,7 +211,6 @@ export function SongList() {
       if (existingLikedStation) {
         updatedStationIds = user.likedStationIds.filter(id => id !== existingLikedStation._id)
         await removeStation(existingLikedStation._id)
-
         newOrder = stationOrder.filter(id => id !== existingLikedStation._id)
       } else {
         let stationToAdd = { ...station, origId: station._id }
@@ -221,7 +222,7 @@ export function SongList() {
       }
 
       setStationOrder(newOrder)
-      
+
       const updatedUser = { ...user, likedStationIds: updatedStationIds }
       const updated = await updateUser(updatedUser)
 
@@ -279,7 +280,7 @@ export function SongList() {
         />
         <div>
           <h1 className="station-header-name" onClick={onOpenModal}>
-            {station.name}
+            {cleanTitle(station.name)}
           </h1>
 
           <span>{station.description}</span>

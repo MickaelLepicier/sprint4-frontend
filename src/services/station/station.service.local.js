@@ -1,6 +1,7 @@
 import { storageService } from '../async-storage.service'
-import { loadFromStorage, makeId, saveToStorage } from '../util.service'
+import { loadFromStorage, makeId, saveToStorage,cleanTitle } from '../util.service'
 import { userService } from '../user'
+
 
 import axios from 'axios'
 import { parse, toSeconds } from 'iso8601-duration'
@@ -80,9 +81,27 @@ async function save(station) {
   let savedStation
 
   if (station._id) {
-    const stationToSave = { ...station }
-    savedStation = await storageService.put(STORAGE_KEY, stationToSave)
+    // Check if station exists before updating
+    const existingStations = await storageService.query(STORAGE_KEY)
+    const exists = existingStations.some(s => s._id === station._id)
+    if (exists) {
+      const stationToSave = { ...station }
+      savedStation = await storageService.put(STORAGE_KEY, stationToSave)
+    } else {
+      // Treat as new (post), use existing _id if present
+      const stationToSave = {
+        ...station,
+        name: station.name || '',
+        tags: station.tags || [],
+        songs: station.songs || [],
+        msgs: station.msgs || [],
+        likedByUsers: station.likedByUsers || [],
+        createdAt: station.createdAt || Date.now(),
+      }
+      savedStation = await storageService.post(STORAGE_KEY, stationToSave)
+    }
   } else {
+    // No _id at all, always post (create)
     const stationToSave = {
       ...station,
       name: station.name || '',
@@ -92,7 +111,6 @@ async function save(station) {
       likedByUsers: station.likedByUsers || [],
       createdAt: station.createdAt || Date.now(),
     }
-
     savedStation = await storageService.post(STORAGE_KEY, stationToSave)
   }
 

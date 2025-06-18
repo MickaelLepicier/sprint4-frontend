@@ -6,11 +6,14 @@ import { useDispatch } from 'react-redux'
 import { StationPreview } from '../cmps/StationPreview'
 import { SET_STATION } from '../store/station/station.reducer'
 import { WideStationPreview } from '../cmps/WideStationPreview'
+import { addStation } from '../store/station/station.actions'
 
 export function HomePage() {
   const [stations, setStations] = useState([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [showMoreTopMixes, setShowMoreTopMixes] = useState(false)
+  const [showMoreRecommended, setShowMoreRecommended] = useState(false)
 
   const [active, setActive] = useState('All')
 
@@ -29,7 +32,7 @@ export function HomePage() {
   }
 
   function onGoToStation(station) {
-    dispatch({ type: SET_STATION, station })
+    addStation(station)
     navigate(`/playlist/${station._id}`)
   }
 
@@ -42,7 +45,7 @@ export function HomePage() {
   return (
     <section className="home-page">
       {/* Commented until will work filter */}
-      <div className="home-filter">
+      {/* <div className="home-filter">
         <span className={active === 'All' ? 'active' : ''} onClick={() => setActive('All')}>
           All
         </span>
@@ -52,7 +55,7 @@ export function HomePage() {
         <span className={active === 'Podcasts' ? 'active' : ''} onClick={() => setActive('Podcasts')}>
           Podcasts
         </span>
-      </div>
+      </div> */}
       <section className="home-header-stations">
         <div className="header-station-list">
           {headerStations.map(station => (
@@ -61,19 +64,45 @@ export function HomePage() {
         </div>
       </section>
       <section className="home-top-mixes">
-        <h1 className="top-mixes-h1">Top Mixes</h1>
+        <div className="top-mixes-header">
+          <h1 className="top-mixes-h1">Top Mixes</h1>
+          <span
+            onClick={() => {
+              setShowMoreTopMixes(!showMoreTopMixes)
+            }}
+          >
+            {showMoreTopMixes ? 'Show All' : 'Show Less'}
+          </span>
+        </div>
         <div className="home-mixes-list">
-          {topMixes.map(station => (
-            <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
-          ))}
+          {showMoreTopMixes
+            ? topMixes
+                .map(station => <StationPreview key={station._id} station={station} goToStation={onGoToStation} />)
+                .slice(0, 7)
+            : topMixes.map(station => (
+                <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
+              ))}
         </div>
       </section>
       <section className="home-recommended">
-        <h1 className="top-recommended-h1">Recommended Stations</h1>
+        <div className="top-recommended-header">
+          <h1 className="top-recommended-h1">Recommended Stations</h1>
+          <span
+            onClick={() => {
+              setShowMoreRecommended(!showMoreRecommended)
+            }}
+          >
+            {showMoreRecommended ? 'Show All' : 'Show Less'}
+          </span>
+        </div>
         <div className="recommended-station-list">
-          {recommended.map(station => (
-            <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
-          ))}
+          {showMoreRecommended
+            ? recommended
+                .map(station => <StationPreview key={station._id} station={station} goToStation={onGoToStation} />)
+                .slice(0, 7)
+            : recommended.map(station => (
+                <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
+              ))}
         </div>
       </section>
     </section>

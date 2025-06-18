@@ -12,6 +12,7 @@ import {
   SET_PREV_SONG,
   SET_SONG,
   SET_CURRENT_STATION,
+  SET_STATION_ORDER
 } from './station.reducer'
 
 export async function loadStations(filterBy) {
@@ -68,18 +69,23 @@ export async function updateStation(station) {
 }
 
 export async function createStationForUser() {
-  const user = store.getState().userModule.user
+  const state = store.getState()
+  const user = state.userModule.user
   if (!user?._id) {
     throw new Error('User must be logged in to create a station')
   }
 
   const stations = store.getState().stationModule.stations
+  const stationOrder = state.stationModule.stationOrder
   const userStations = stations.filter(station => station.createdBy?._id === user._id)
   const nextNum = userStations.length + 1
   const newStation = stationService.buildNewStationForUser(user, nextNum)
 
   const savedStation = await stationService.save(newStation)
   store.dispatch(getCmdAddStation(savedStation))
+  
+  const newOrder = [...stationOrder, savedStation._id]
+  store.dispatch({ type: SET_STATION_ORDER, stationOrder: newOrder })
   console.log(savedStation)
   return savedStation
 }
@@ -93,6 +99,10 @@ export async function addStationMsg(stationId, txt) {
     console.log('Cannot add station msg', err)
     throw err
   }
+}
+
+export function setStationOrder(stationOrder) {
+  return store.dispatch({ type: SET_STATION_ORDER, stationOrder })
 }
 
 // Updated setSong

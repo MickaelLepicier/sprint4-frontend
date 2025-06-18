@@ -1,122 +1,97 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useState, useEffect, useMemo} from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate,useLocation} from 'react-router-dom'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend'
+
 import { SidebarPreview } from './SidebarPreview'
 import { SidebarDragLabel } from './SidebarDragLabel'
-import { getEmptyImage } from 'react-dnd-html5-backend'
-import { useDispatch } from 'react-redux'
-import { removeStation } from '../../store/station/station.actions'
+import { removeStation, setStationOrder} from '../../store/station/station.actions'
 import { showErrorMsg } from '../../services/event-bus.service'
+import { swapItems } from '../../services/util.service'
 
-const ItemType = 'STATION' // Used for drag-and-drop matching
-
-function arrayMove(arr, fromIndex, toIndex) {
-  const newArr = [...arr]
-  const [item] = newArr.splice(fromIndex, 1)
-  newArr.splice(toIndex, 0, item)
-  return newArr
-}
+const ItemType = 'STATION'
 
 export function SidebarList({
-  userStations = [],
-  likedStations = [],
-  likedSongsStation = {},
-  likedSongsCount = 0,
+  stations = [],
   user,
   isCollapsed,
 }) {
-  const initialContextMenu = {
-    show: false,
-    x: 0,
-    y: 0,
-    itemId: null,
-  }
-  const [contextMenu, setContextMenu] = useState(initialContextMenu)
-
-  async function onDeleteStation(stationId) {
-    try {
-      await removeStation(stationId)
-    } catch (error) {
-      showErrorMsg('could not remove')
+    const initialContextMenu = {
+      show: false,
+      x: 0,
+      y: 0,
+      itemId: null,
     }
-  }
+    const stationOrder = useSelector(state => state.stationModule.stationOrder)
+    const [contextMenu, setContextMenu] = useState(initialContextMenu)
+    
+    const navigate = useNavigate()
+    const location = useLocation()
 
-  // Setup state and router
-  const [orderedStations, setOrderedStations] = useState([])
-  const hasInitializedSidebarStations = useRef(false)
+    const match = location.pathname.match(/^\/playlist\/(.+)/)
+    const stationId = match?.[1].trim()
 
-  const navigate = useNavigate()
-  const location = useLocation()
+    const orderedStations = useMemo(() => {
+      const map = Object.fromEntries(stations.map(s => [s._id, s]))
+      return stationOrder.map(id => map[id]).filter(Boolean)
+    }, [stations, stationOrder])
 
-  // Get stationId from the URL (used to know which playlist is selected)
-  const match = location.pathname.match(/^\/playlist\/(.+)/)
-  const stationId = match?.[1].trim()
-  const isPlaylistPage = !!match
+    useEffect(() => {
+      const orderedIds = orderedStations.map(s => s._id)
+      const actualIds = stations.map(s => s._id)
+      const mismatch =
+        orderedIds.length !== actualIds.length ||
+        !actualIds.every(id => orderedIds.includes(id))
 
-  // Memoize the input data to avoid resetting order later
-  const initialSidebarStations = useMemo(() => {
-    const userAndLikedStations = [...userStations, ...likedStations]
+      if (mismatch) {
+        setStationOrder(actualIds)
+      }
+    }, [stations, orderedStations])
 
-    return (likedSongsStation && likedSongsCount) > 0
-      ? [likedSongsStation, ...userAndLikedStations]
-      : userAndLikedStations
-  }, [userStations, likedStations, likedSongsStation, likedSongsCount])
-
-  // Reset order ONLY when playlists are added or deleted (not every prop change)
-  useEffect(() => {
-    // If number of stations changes, update the list (keeps DnD order otherwise)
-    if (orderedStations.length !== initialSidebarStations.length) {
-      setOrderedStations(initialSidebarStations)
+    function moveStation(fromIndex, toIndex) {
+      const newOrder = swapItems(orderedStations, fromIndex, toIndex).map(s => s._id)
+      setStationOrder(newOrder)
     }
-  }, [initialSidebarStations, orderedStations.length])
 
-  // Initialize sidebar stations only once after all station data is available
-  // Makes sure we don’t reset the station order again when props change or the page re-renders
-  useEffect(() => {
-    if (hasInitializedSidebarStations.current) return
+    async function onDeleteStation(stationId) {
+        try {
+            await removeStation(stationId)
+        } catch {
+            showErrorMsg('Could not remove station')
+        }
+    }
 
-    if (!initialSidebarStations.length) return
+    function onClickSonglist(stationId) {
+        navigate(`/playlist/${stationId}`)
+    }
 
-    setOrderedStations(initialSidebarStations)
-    hasInitializedSidebarStations.current = true
-  }, [initialSidebarStations])
-
-  function onClickSonglist(stationId) {
-    navigate(`playlist/${stationId}`)
-  }
-
-  // When user drags a station
-  function moveStation(fromIndex, toIndex) {
-    setOrderedStations(prev => arrayMove(prev, fromIndex, toIndex))
-  }
-
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <SidebarDragLabel />
-      <section className="sidebar-list">
-        <ul>
-          {orderedStations.map((station, index) => (
-            <DraggableStation
-              key={station._id}
-              index={index}
-              station={station}
-              isLikedSongs={station._id === user.likedSongsStationId}
-              isSelected={isPlaylistPage && String(stationId) === String(station._id)}
-              onClickSonglist={onClickSonglist}
-              moveStation={moveStation}
-              user={user}
-              isCollapsed={isCollapsed}
-              contextMenu={contextMenu}
-              setContextMenu={setContextMenu}
-              initialContextMenu={initialContextMenu}
-              onDeleteStation ={onDeleteStation}
-            />
-          ))}
-        </ul>
-      </section>
-    </DndProvider>
-  )
+    return (
+        <DndProvider backend={HTML5Backend}>
+            <SidebarDragLabel />
+            <section className="sidebar-list">
+                <ul>
+                    {orderedStations.map((station, index) => (
+                        <DraggableStation
+                          key={station._id}
+                          index={index}
+                          station={station}
+                          moveStation={moveStation}
+                          onClickSonglist={onClickSonglist}
+                          user={user}
+                          isCollapsed={isCollapsed}
+                          isLikedSongs={station._id === user.likedSongsStationId}
+                          isSelected={String(stationId) === String(station._id)}
+                          contextMenu={contextMenu}
+                          setContextMenu={setContextMenu}
+                          initialContextMenu={initialContextMenu}
+                          onDeleteStation={onDeleteStation}
+                        />
+                    ))}
+                </ul>
+            </section>
+        </DndProvider>
+    )
 }
 
 function DraggableStation({
@@ -133,72 +108,45 @@ function DraggableStation({
   initialContextMenu,
   onDeleteStation,
 }) {
-  const [, dragRef, preview] = useDrag({
-    type: ItemType,
-    item: { index, name: station.name },
-  })
+    const [, dragRef, preview] = useDrag({
+        type: ItemType,
+        item: { index, name: station.name }
+    })
 
-  // const [, dragRef] = useDrag({
-  //     type: ItemType,
-  //     item: { index, name: station.name }, // <-- ADD name!
-  // })
+    const [{ isOver }, dropRef] = useDrop({
+        accept: ItemType,
+        drop(item) {
+            if (item.index !== index) {
+                moveStation(item.index, index)
+                item.index = index
+            }
+        },
+        collect: monitor => ({
+            isOver: monitor.isOver()
+        })
+    })
 
-  // const [, dragRef] = useDrag({
-  //     type: ItemType,
-  //     item: { index }
-  // })
+    useEffect(() => {
+        preview(getEmptyImage(), { captureDraggingState: true })
+    }, [preview])
 
-  // <--- This is the only change! Collect isOver from useDrop.
-  const [{ isOver }, dropRef] = useDrop({
-    accept: ItemType,
-    drop(item) {
-      if (item.index !== index) {
-        moveStation(item.index, index)
-        item.index = index
-      }
-    },
-    collect: monitor => ({
-      isOver: monitor.isOver(),
-    }),
-  })
+    const setDragRef = node => dragRef(dropRef(node))
 
-  useEffect(() => {
-    preview(getEmptyImage(), { captureDraggingState: true })
-  }, [preview])
-  // const [, dropRef] = useDrop({
-  //     accept: ItemType,
-  //     drop(item) {
-  //     if (item.index !== index) {
-  //         moveStation(item.index, index)  // Move item to new idx
-  //         item.index = index // Update dragged item’s idx for internal tracking
-  //     }
-  //     }
-  // })
-
-  const setDragRef = node => dragRef(dropRef(node))
-
-  return (
-    <SidebarPreview
-      songlist={{
-        title: station.name,
-        imgUrl: station.imgUrl,
-        songCount: station.songs.length,
-        _id: station._id,
-        isLiked: !!station.isLiked,
-        createdById: station.createdBy?._id,
-      }}
-      isLikedSongs={isLikedSongs}
-      isSelected={isSelected}
-      isCollapsed={isCollapsed}
-      userId={user._id}
-      userFirstName={user?.fullname?.split(' ')[0]}
-      onClickSonglist={onClickSonglist}
-      setDragRef={setDragRef}
-      isOver={isOver}
-      contextMenu={contextMenu}
-      setContextMenu={setContextMenu}
-      initialContextMenu={initialContextMenu}
-      onDeleteStation={onDeleteStation}
-    />
-  )
+    return (
+        <SidebarPreview
+          station={station}
+          isLikedSongs={isLikedSongs}          
+          isSelected={isSelected}
+          isCollapsed={isCollapsed}
+          userId={user._id}
+          userFirstName={user?.fullname?.split(' ')[0]}
+          onClickSonglist={onClickSonglist}
+          setDragRef={setDragRef}
+          isOver={isOver}
+          contextMenu={contextMenu}
+          setContextMenu={setContextMenu}
+          initialContextMenu={initialContextMenu}
+          onDeleteStation={onDeleteStation}
+        />
+    )
 }

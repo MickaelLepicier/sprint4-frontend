@@ -7,6 +7,7 @@ export const REMOVE_STATION = 'REMOVE_STATION'
 export const ADD_STATION = 'ADD_STATION'
 export const UPDATE_STATION = 'UPDATE_STATION'
 export const ADD_STATION_MSG = 'ADD_STATION_MSG'
+export const SET_STATION_ORDER = 'SET_STATION_ORDER'
 
 export const SET_NEXT_SONG = 'SET_NEXT_SONG'
 export const SET_PREV_SONG = 'SET_PREV_SONG'
@@ -19,7 +20,8 @@ const initialState = {
   currentSong: null, // curr playing song
   currentStation: null, // curr playing station
   isPlaying: false,
-  lyricsCache: {} // store lyrics for played songs
+  lyricsCache: {}, // store lyrics for played songs
+  stationOrder: []
 }
 
 export function stationReducer(state = initialState, action) {
@@ -95,6 +97,9 @@ export function stationReducer(state = initialState, action) {
       newState = {
         ...state, lyricsCache: { ...state.lyricsCache, [action.cacheKey]: action.lyrics }
       }
+      break
+    case SET_STATION_ORDER:
+      newState = { ...state, stationOrder: action.stationOrder }
       break
 
     default:

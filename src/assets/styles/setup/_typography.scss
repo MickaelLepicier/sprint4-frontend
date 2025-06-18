@@ -1,20 +1,40 @@
 // SpotifyMixUI
 @font-face {
-  font-family: sm-regular;
-  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-Regular.woff2') format('woff2');
+  font-family: 'SpotifyMixUI';
   font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/SpotifyMixUI/SpotifyMixUI-Regular.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: sm-bold;
-  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-Bold.woff2') format('woff2');
+  font-family: 'SpotifyMixUI';
   font-weight: 700;
-  font-style: normal;
+  font-display: swap;
+  src: url('../fonts/SpotifyMixUI/SpotifyMixUI-Bold.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: sm-title;
-  src: url('@/assets/fonts/SpotifyMixUI/SpotifyMixUI-TitleVariable.woff2') format('woff2');
+  font-family: 'SpotifyMixUITitle';
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/SpotifyMixUI/SpotifyMixUITitleVariable.woff2') format('woff2'),
+       url('../fonts/SpotifyMixUI/SpotifyMixUITitle-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SpotifyMixUITitle';
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/SpotifyMixUI/SpotifyMixUITitleVariable.woff2') format('woff2'),
+       url('../fonts/SpotifyMixUI/SpotifyMixUITitle-Extrabold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'SpotifyMixUITitleVariable';
+  font-weight: 100 1000;
+  font-stretch: 50% 150%;
+  font-display: swap;
+  src: url('../fonts/SpotifyMixUI/SpotifyMixUITitleVariable.woff2') format('woff2');
 }
 
 // CircularSp

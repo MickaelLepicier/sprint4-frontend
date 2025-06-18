@@ -1,6 +1,6 @@
 // call this ElementWrapper
 // make a dynamic svg that take the all the svg files
-
+// '#1DB954' : '#b3b3b3'
 .icon-wrapper {
   // position: relative;
   // width: 48px;
@@ -146,12 +146,38 @@ svg.track-control-pause-icon {
     filter: brightness(0) invert(1);
   }
 
+  &.active-green {
+    transform: scale(1.05);
+
+    path {
+      fill: #1db954;
+    }
+
+    &:hover {
+    transform: scale(1.1);
+   
+    filter: brightness(1.1);
+  }
+  }
+
   &.not-allowed {
     transform: scale(1);
     filter: brightness(0.5);
 
     // background-color: rgba(255, 255, 255, 0.5);
   }
+}
+
+// TODO fix bug that the button not go up
+.track-btn.active-green::after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  background-color: #1DB954; // Spotify green
+  border-radius: 50%;
+
+  margin: 0 auto 0; 
 }
 
 svg.track-icon {

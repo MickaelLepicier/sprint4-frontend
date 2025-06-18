@@ -1,0 +1,53 @@
+.spotify-loader-backdrop {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+
+    .spotify-loader-svg {
+        width: 56px;
+        height: 12.4444px;
+        overflow: visible;
+
+        .spotify-loader-dot {
+            fill: #fff;
+            stroke: none;
+            transform-origin: center;
+            animation: spotify-pulse 1.32s linear infinite;
+            opacity: 0.5;
+
+            &.dot2 {
+                animation-delay: 100ms; 
+            }
+
+            &.dot3 {
+                animation-delay: 200ms;
+            }
+        }
+    }
+}
+
+@keyframes spotify-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.5;
+        animation-timing-function: cubic-bezier(1, 0, 0.7, 1);
+    }
+    40% {
+        transform: scale(1.3);
+        opacity: 0.75;
+        animation-timing-function: cubic-bezier(0.3, 0, 0, 1);
+    }
+    72.5% {
+        transform: scale(1);
+        opacity: 0.5;
+        animation-timing-function: linear;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+}

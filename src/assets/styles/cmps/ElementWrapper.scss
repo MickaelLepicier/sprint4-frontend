@@ -77,12 +77,15 @@
 .btn-wrapper {
   /* track control icons */
 
-  // padding: 0;
-
   background: transparent;
   background: none;
   border: none;
   border-radius: 4px;
+
+  cursor: pointer;
+
+  // padding: 0;
+  // margin-inline: 5px;
 }
 
 .track-control-play-btn,
@@ -92,7 +95,7 @@
 
   border-radius: 50%;
   background-color: #fff;
-  margin-inline: 10px;
+  margin-inline: 16px;
   transition: all 0.1s ease-out;
 
   &:hover {
@@ -114,44 +117,49 @@
 
 svg.track-control-play-icon,
 svg.track-control-pause-icon {
-  // position: absolute;
-
-  //  width: 12.3px;
-  // height: 14px;
   width: 16px;
   height: 16px;
-
-  // padding: 5px;
 
   transform: translate(0px, 1.5px);
 
   transform-origin: center;
-
-  // padding: 4.69px; // icon size 14.04 - 16 (on Spotify - 16 - 16)
-  // padding: 6.18px; // icon size 12.19 - 13.9 (on Spotify - 12.29 - 13.98)
 }
 
-svg.track-control-pause-icon {
-  // padding: 6.6px; // icon size 10.97 - 14.1 (on Spotify - 12 - 14)
-}
-
-svg.track-icon {
+.track-btn {
   width: 32px;
   height: 32px;
 
-  // the path is 14 or 16 px
+      padding-top: 4px;
 
-  // background-color: blue;
-  fill: white;
-  fill: #b3b3b3;
 
-  // padding: 8.5px;
+  &:hover {
+    transform: scale(1.05);
+    filter: brightness(0) invert(1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    filter: brightness(0) invert(0.6);
+  }
+
+  &.active {
+    transform: scale(1.05);
+    filter: brightness(0) invert(1);
+  }
+
+  &.not-allowed {
+    transform: scale(1);
+    filter: brightness(0.5);
+
+    // background-color: rgba(255, 255, 255, 0.5);
+  }
 }
 
-// TODO - keep doing this!
-svg.shuffle {
-  // 16
-  // padding:5px;
+svg.track-icon {
+  width: 16px;
+  height: 16px;
+
+  fill: #b3b3b3;
 }
 
 .not-allowed {
@@ -194,17 +202,11 @@ svg.songlist-pause-icon {
 .song-preview-pause-btn {
   width: 24px;
   height: 24px;
-
-  // width: 16px;
-  // height: 16px;
 }
 
 /* songPreview icons */
 svg.song-preview-play-icon,
 svg.song-preview-pause-icon {
-  // width: 16px;
-  // height: 24px;
-
   width: 14px;
   height: 14px;
 

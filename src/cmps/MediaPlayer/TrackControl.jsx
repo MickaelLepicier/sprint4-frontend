@@ -2,10 +2,8 @@
 import { ReactYouTube } from '../ReactYouTube.jsx'
 import { nextSong, prevSong, setIsPlaying } from '../../store/station/station.actions.js'
 import { PlayBtn } from '../PlayBtn.jsx'
-import { SetActionBtn } from '../util/SetActionBtn.jsx'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
-import { PlayIcon } from '../svg/PlayIcon.jsx'
 import { SetTrackBtn } from '../SetTrackBtn.jsx'
 
 export function TrackControl({ currSong, volume }) {
@@ -54,8 +52,7 @@ export function TrackControl({ currSong, volume }) {
   }, [currSong])
 
   function onTogglePlay() {
-    // console.log('ONTOGGLE - TrackControl ')
-    // console.log('currSong: ', currSong)
+
     if (isTrackAllowed) return
 
     if (isPlaying) {
@@ -112,15 +109,6 @@ export function TrackControl({ currSong, volume }) {
 
         <SetTrackBtn  className={`prev-song ${isNotAllowed}`} onClick={onPrevSong} dis={!song} />
 
-        {/* 
-        <SetActionBtn imgSrc={shuffle} str={`shuffle ${isNotAllowed}`} />
-        <SetActionBtn
-          imgSrc={prev}
-          str={`prev ${isNotAllowed}`}
-          onClick={onPrevSong}
-          dis={!song}
-        /> */}
-
         <PlayBtn
           onToggle={() => (currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0]))}
           isPlaying={isPlaying}
@@ -129,20 +117,7 @@ export function TrackControl({ currSong, volume }) {
 
         <SetTrackBtn className={`next-song ${isNotAllowed}`} onClick={onNextSong} dis={!song} />
         <SetTrackBtn className={`repeat ${isNotAllowed}`} onClick={onRepeat} dis={!song} />
-      
 
-        {/* 
-        <SetActionBtn
-          imgSrc={next}
-          str={`next ${isNotAllowed}`}
-          onClick={onNextSong}
-          dis={!song}
-        />
-        <SetActionBtn
-          imgSrc={repeat}
-          str={`repeat ${repeatActive} ${isNotAllowed}`}
-          onClick={onRepeat}
-        /> */}
       </div>
 
       <div className="track-seek flex">

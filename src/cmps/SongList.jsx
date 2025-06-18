@@ -27,6 +27,8 @@ import { AddIcon } from './svg/AddIcon'
 import { updateUser } from '../store/user/user.actions'
 import { ImgUploader } from './ImgUploader'
 import { SET_STATION } from '../store/station/station.reducer'
+import { setStationOrder } from '../store/station/station.actions'
+import { store } from '../store/store'
 
 export function SongList() {
   const { stationId } = useParams()
@@ -199,18 +201,27 @@ export function SongList() {
     try {
       const existingLikedStation = stations.find(s => s.origId === station._id || s._id === station._id)
 
+      const state = store.getState()
+      const stationOrder = state.stationModule.stationOrder
+      let newOrder = []
       let updatedStationIds
 
       if (existingLikedStation) {
         updatedStationIds = user.likedStationIds.filter(id => id !== existingLikedStation._id)
         await removeStation(existingLikedStation._id)
+
+        newOrder = stationOrder.filter(id => id !== existingLikedStation._id)
       } else {
         let stationToAdd = { ...station, origId: station._id }
         delete stationToAdd._id
         const addedStation = await addStation(stationToAdd)
         updatedStationIds = [...user.likedStationIds, addedStation._id]
+
+        newOrder = [...stationOrder, addedStation._id]
       }
 
+      setStationOrder(newOrder)
+      
       const updatedUser = { ...user, likedStationIds: updatedStationIds }
       const updated = await updateUser(updatedUser)
 

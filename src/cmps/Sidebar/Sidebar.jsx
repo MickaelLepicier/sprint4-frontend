@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -18,38 +18,39 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
   const user = useSelector(state => state.userModule.user)
   const navigate = useNavigate()
 
-  
-
   useEffect(() => {
     if (!stations.length) loadStations()
   }, [stations.length])
 
-  // Reserverd for future filter when refactoring the entire component
-  function filterStations(stationsArr) {
-    if (!searchTerm.trim()) return stationsArr
+  const filteredStations = useMemo(() => {
+    if (!user) return []
+
     const regex = new RegExp(searchTerm, 'i')
-    return stationsArr.filter(station => regex.test(station.name))
-  }
+    const userId = user._id
+    const likedStationIds = new Set(user.likedStationIds)
 
-  const regex = new RegExp(searchTerm, 'i')
+    const result = {
+      likedSongs: [],
+      created: [],
+      liked: [],
+    }
 
-  // Stations added  by user to his library
-  // const likedStations = user ? stations.filter(s => user.likedStationIds.includes(s._id)) : []
-  const likedStations = user ? stations.filter(s => user.likedStationIds.includes(s._id) && regex.test(s.name)) : []
+    for (const station of stations) {
+      if (!regex.test(station.name)) continue
 
-  // Stations the user created (*** DOES NOT INCLUDE THE LIKED SONGS STATION! ***)
-  // const userStations = user
-  //     ? stations.filter(s => s.createdBy?._id === user._id && s._id !== user.likedSongsStationId)
-  //     : []
-  const userStations = user
-    ? stations.filter(s => s.createdBy?._id === user._id && s._id !== user.likedSongsStationId && regex.test(s.name))
-    : []
+      const isLikedSongsStation = station._id === user.likedSongsStationId
 
-  // Stations that contains all the songs the user has liked
-  // Station shows/hides according if there are any songs in it
-  // const likedSongsStation = stations.find(s => s._id === user?.likedSongsStationId)
-  const likedSongsStation = stations.find(s => s._id === user?.likedSongsStationId && regex.test(s.name))
-  const likedSongsCount = likedSongsStation?.songs?.length || 0
+      if (isLikedSongsStation && station.songs?.length > 0) {
+        result.likedSongs.push(station)
+      } else if (station.createdBy?._id === userId && !isLikedSongsStation) {
+        result.created.push(station)
+      } else if (likedStationIds.has(station._id)) {
+        result.liked.push(station)
+      }
+    }
+
+    return [...result.likedSongs, ...result.created, ...result.liked]
+  }, [stations, user, searchTerm])
 
   async function onCreateStation() {
     if (!user) {
@@ -96,13 +97,9 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
             {!isCollapsed && <SidebarFilterSort searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
 
             <SidebarList
-              userStations={userStations}
-              likedStations={likedStations}
-              likedSongsStation={likedSongsStation}
-              likedSongsCount={likedSongsCount}
-              likedSongsStationId={user?.likedSongsStationId}
-              user={user}
+              stations={filteredStations}
               isCollapsed={isCollapsed}
+              user={user}
             />
           </div>
         </>

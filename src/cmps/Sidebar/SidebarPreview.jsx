@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 import { ImageWithFallback } from '../util/ImageWithFallBack'
@@ -7,11 +7,9 @@ import likedSongsImg from '../../assets/img/liked-songs.png'
 import { PinIcon } from '../svg/PinIcon'
 import { EmptyPlaylistIcon } from '../svg/EmptyPlaylistIcon'
 import { PlayIcon } from '../svg/PlayIcon'
-import { stationReducer } from '../../store/station/station.reducer'
-import { useRef } from 'react'
 
 export function SidebarPreview({
-  songlist,
+  station,
   onClickSonglist,
   isSelected,
   userFirstName,
@@ -25,23 +23,20 @@ export function SidebarPreview({
   initialContextMenu,
   onDeleteStation,
 }) {
-  // const [isHovered, setIsHovered] = useState(true)
-  // const currentStationId = useSelector(state => state.stationModule.station?._id)
-  // const isPlaying = songlist._id === currentStationId
+  const {
+    _id,
+    name: title,
+    imgUrl,
+    songs = [],
+    createdBy,
+  } = station
+
   const currentStationId = useSelector(state => state.stationModule.currentStation?._id)
-  const isPlaying = songlist._id === currentStationId
+  const isPlaying = _id === currentStationId
+  const songCount = songs.length
+  const createdById = createdBy?._id
 
   const menuRef = useRef()
-
-  function getClassName() {
-    let className = 'sidebar-preview'
-    if (isSelected) className += ' selected'
-    if (isLikedSongs) className += ' liked-songs'
-    if (isPlaying) className += ' playing'
-    // if (isPlaying) className += ' playing'
-    // if (isPlaying) console.log('STATION!!!', songlist.title)
-    return className
-  }
 
   useEffect(() => {
     function handleClickOutside(ev) {
@@ -54,12 +49,18 @@ export function SidebarPreview({
     return () => window.removeEventListener('mousedown', handleClickOutside)
   }, [contextMenu])
 
-  // Returns the subtitle based on station type and ownership
+  function getClassName() {
+    let className = 'sidebar-preview'
+    if (isSelected) className += ' selected'
+    if (isLikedSongs) className += ' liked-songs'
+    if (isPlaying) className += ' playing'
+    return className
+  }
+
   function getSubtitle() {
-    const { songCount } = songlist
     const playlistPrefix = 'Playlist •'
 
-    if (songlist.createdById === userId) {
+    if (createdById === userId) {
       return `${playlistPrefix} ${userFirstName}`
     } else {
       return `${playlistPrefix} ${songCount} ${songCount === 1 ? 'song' : 'songs'}`
@@ -70,24 +71,23 @@ export function SidebarPreview({
     if (isLikedSongs) {
       return <img src={likedSongsImg} alt="Liked Songs" />
     }
-    return <ImageWithFallback src={songlist.imgUrl} alt={songlist.title} fallback={<EmptyPlaylistIcon />} />
+    return <ImageWithFallback src={imgUrl} alt={title} fallback={<EmptyPlaylistIcon />} />
   }
 
   function handleStationMenu(ev) {
     ev.preventDefault()
-    const { pageX, pageY } = ev
-    setContextMenu({ show: true, x: pageX, y: pageY, itemId: songlist._id })
+    setContextMenu({ show: true, x: ev.pageX, y: ev.pageY, itemId: _id })
   }
 
   function onDelete(ev) {
     ev.stopPropagation()
-    onDeleteStation(songlist._id)
+    onDeleteStation(_id)
     setContextMenu(initialContextMenu)
   }
 
   return (
     <section>
-      {contextMenu.show && contextMenu.itemId === songlist._id && (
+      {contextMenu.show && contextMenu.itemId === _id && (
         <ul
           className="station-context-menu"
           ref={menuRef}
@@ -108,10 +108,8 @@ export function SidebarPreview({
       <li
         ref={setDragRef}
         className={`${getClassName()}${isOver ? ' drag-over' : ''}`}
-        onClick={() => onClickSonglist(songlist._id)}
+        onClick={() => onClickSonglist(_id)}
         onContextMenu={handleStationMenu}
-        // onMouseEnter={() => setIsHovered(true)}
-        // onMouseLeave={() => setIsHovered(false)}
       >
         <div className="img-wrapper">
           <div className="img-bg" />
@@ -121,7 +119,7 @@ export function SidebarPreview({
 
         {!isCollapsed && (
           <div className="details">
-            <h3>{isLikedSongs ? 'Liked Songs' : songlist.title}</h3>
+            <h3>{isLikedSongs ? 'Liked Songs' : title}</h3>
             <p>
               {isLikedSongs && (
                 <span className="pin-icon">

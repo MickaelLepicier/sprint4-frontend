@@ -53,3 +53,11 @@ export function loadFromStorage(key) {
     const data = localStorage.getItem(key)
     return (data) ? JSON.parse(data) : undefined
 }
+
+export function swapItems(arr, indexA, indexB) {
+  const newArr = [...arr]
+  const temp = newArr[indexA]
+  newArr[indexA] = newArr[indexB]
+  newArr[indexB] = temp
+  return newArr
+}

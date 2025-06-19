@@ -31,8 +31,8 @@ export function HomePage() {
     }
   }
 
-  function onGoToStation(station) {
-    addStation(station)
+  async function onGoToStation(station) {
+    await addStation(station)
     navigate(`/playlist/${station._id}`)
   }
 

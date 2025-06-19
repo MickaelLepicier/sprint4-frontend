@@ -1,96 +1,49 @@
 import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-// DND: Import drag-and-drop components
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
+import { debounce } from '../services/util.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+
 import {
   loadStation,
   addStationMsg,
   setSong,
   setIsPlaying,
-  togglePlay,
   addStation,
   removeStation,
-  updateStation,
-  loadStations,
+  setStationOrder,
 } from '../store/station/station.actions'
-import { SongSearchResult } from './SongSearchResult'
+import { updateUser } from '../store/user/user.actions'
 import { loadSearchResults } from '../store/search/search.actions'
-import { debounce } from '../services/util.service'
+import { store } from '../store/store'
+
+import { SongSearchResult } from './SongSearchResult'
+import { StationEditModal } from './StationEditModal'
 import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
 import { AddIcon } from './svg/AddIcon'
-import { updateUser } from '../store/user/user.actions'
-import { ImgUploader } from './ImgUploader'
-import { SET_STATION } from '../store/station/station.reducer'
-import { setStationOrder } from '../store/station/station.actions'
-import { store } from '../store/store'
 
 export function SongList() {
   const { stationId } = useParams()
+
+  // Redux selectors
   const station = useSelector(storeState => storeState.stationModule.station)
   const user = useSelector(storeState => storeState.userModule.user)
   const stations = useSelector(storeState => storeState.stationModule.stations)
-
-  const modalRef = useRef()
-
-  const [stationToUpdate, setStationToUpdate] = useState(station)
-
-  useEffect(() => {
-    if (!station || station._id !== stationId) {
-      loadStation(stationId)
-    }
-  }, [stationId])
-
-  // const [isCompact, setIsCompact] = useState(false)
-
+  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
+  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
+  
+  // Local state
+  const [songs, setSongs] = useState([])
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
-  const dispatch = useDispatch()
-
-  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
-  // console.log('station: ',station)
-  // const currSong = useSelector((storeState) => storeState.stationModule.currentSong) || (station?.songs[0])
-
-  // *****************************
-  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
-  /// ***** CANCELED TO FIX THE NOT PLAYING 1ST SONG BUG
-  // const currentSongFromStore = useSelector(storeState => storeState.stationModule.currentSong)
-  // const currSong = currentSongFromStore || (station && station.songs ? station.songs[0] : null)
-
-  // DND: songs are now a state, so we can reorder them when dragging
-  const [songs, setSongs] = useState([])
-
-  // DND: When station changes, update songs
-  useEffect(() => {
-    if (station?.songs) setSongs(station.songs)
-  }, [station])
-  // ^^Using the useEffect with setSongs above instead of line no. 47 now ^^
-  // const songs = station?.songs || []
-
-  // const _currSong = currSong ? currSong : station.songs[0]
-
-  // useEffect(() => {
-  //   if (!station || station._id !== stationId) {
-  //     loadStation(stationId)
-  //   }
-  // }, [stationId])
-
   const isPlay = isPlaying ? 'songlist-pause-icon' : 'songlist-play-icon'
 
-
-  async function performSearch(txt) {
-    if (!txt.trim()) return
-    try {
-      await loadSearchResults(txt, 'songs')
-    } catch (error) {
-      showErrorMsg('Search failed')
-    }
-  }
+  // Refs
+  const modalRef = useRef()
 
   const debouncedSearch = useRef(
     debounce(async txt => {
@@ -102,55 +55,44 @@ export function SongList() {
     }, 500)
   )
 
+  // UseEffects
+  useEffect(() => {
+    if (!station || station._id !== stationId) loadStation(stationId)
+  }, [stationId])
+
+  useEffect(() => {
+    if (station?.songs) setSongs(station.songs)
+  }, [station])
+  
+  // Event Handlers - Search
+  async function performSearch(txt) {
+    if (!txt.trim()) return
+    try {
+      await loadSearchResults(txt, 'songs')
+    } catch (error) {
+      showErrorMsg('Search failed')
+    }
+  }
+
   function onSubmitSearch(ev) {
     ev.preventDefault()
     performSearch(searchSong)
   }
-
+  
   function handleChange({ target }) {
     const { value } = target
     setSearchSong(value)
     debouncedSearch.current(value)
   }
 
-  function onTogglePlay(song) {
-    const currPlayer = window.playerRef?.current
-    if (!currPlayer || !song || !song.id) return
-
-    // ⚠️ IMPORTANT: guard against undefined station
-    if (!station || !station._id || !station.songs) {
-      console.warn('Cannot play song: station is not ready yet')
-      return
-    }
-
-    if (currSong?.id === song.id) {
-      if (isPlaying) {
-        currPlayer.pauseVideo()
-        setIsPlaying(false)
-      } else {
-        currPlayer.playVideo()
-        setIsPlaying(true)
-      }
-    } else {
-      setSong(song, station) // ✅ pass correct station
-      setIsPlaying(true)
-    }
-  }
-
-  // TODO - make first click play the first song
+  // Event Handlers - Play toggle
   function onTogglePlay(song) {
     console.log('onTogglePlay - SongList')
-    // console.log('song: ',song.id)
-    // console.log('currSong: ',currSong.id)
-
-    // console.log('song: ',song)
-
     if (!song || !song.id) {
       console.log('Invalid song passed to onTogglePlay: ', song)
       return
     }
 
-    // Added check for valid station
     if (!station || !station._id || !station.songs) {
       console.warn('Cannot play song: station is not ready yet')
       return
@@ -160,28 +102,20 @@ export function SongList() {
     if (!currPlayer) return
 
     if (currSong?.id === song?.id) {
-      // console.log('A')
       if (isPlaying) {
-        // console.log('A 1')
-
         currPlayer.pauseVideo()
         setIsPlaying(false)
       } else {
-        // console.log('A 2')
-
         currPlayer.playVideo()
         setIsPlaying(true)
       }
     } else {
-      // console.log('B')
-
       setSong(song, station)
       setIsPlaying(true)
-      // currPlayer.playVideo()
     }
   }
 
-  // DND: handleDragEnd for drag-and-drop reordering
+  // Event Handlers - Drag and Drop
   function handleDragEnd(result) {
     if (!result.destination) return
     const reordered = Array.from(songs)
@@ -190,16 +124,7 @@ export function SongList() {
     setSongs(reordered)
   }
 
-  // async function onAddStationMsg(stationId) {
-  //     try {
-  //         await addStationMsg(stationId, 'bla bla ' + parseInt(Math.random() * 10))
-  //         showSuccessMsg(`Station msg added`)
-  //     } catch (err) {
-  //         showErrorMsg('Cannot add station msg')
-  //     }
-
-  // }
-
+  // Event Handlers - User actions (mutations)
   async function onAddToLibrary(station) {
     try {
       const existingLikedStation = stations.find(s => s.origId === station._id || s._id === station._id)
@@ -227,47 +152,22 @@ export function SongList() {
       
       const updatedUser = { ...user, likedStationIds: updatedStationIds }
       const updated = await updateUser(updatedUser)
-
-      console.log('updated:', updated)
     } catch (error) {
       console.log('error:', error)
       showErrorMsg(`Couldn't add to library`)
     }
   }
 
-  async function onSubmitChange(ev) {
-    ev.preventDefault()
+  // async function onAddStationMsg(stationId) {
+  //     try {
+  //         await addStationMsg(stationId, 'bla bla ' + parseInt(Math.random() * 10))
+  //         showSuccessMsg(`Station msg added`)
+  //     } catch (err) {
+  //         showErrorMsg('Cannot add station msg')
+  //     }
 
-    try {
-      await updateStation(stationToUpdate)
-      await loadStations()
+  // }
 
-      modalRef.current?.close()
-    } catch (error) {
-      showErrorMsg('could not update station')
-    }
-  }
-
-  async function onHandleChange({ target }) {
-    const { name, value } = target
-    setStationToUpdate(prevStation => ({ ...prevStation, [name]: value }))
-
-    console.log('stationToUpdate:', stationToUpdate)
-  }
-
-  function onUploaded(imgUrl) {
-    setStationToUpdate(stationToUpdate => ({ ...stationToUpdate, imgUrl }))
-  }
-
-  function onOpenModal() {
-    if (station._id === user.likedSongsStationId) return
-    setStationToUpdate({ ...station }) // always copy fresh
-    if (modalRef.current) modalRef.current.showModal()
-  }
-
-  function onCloseModal() {
-    if (modalRef.current) modalRef.current.close()
-  }
   if (!station) return <div>Loading songs list...</div>
 
   return (
@@ -281,7 +181,7 @@ export function SongList() {
           alt=""
         />
         <div>
-          <h1 className="station-header-name" onClick={onOpenModal}>
+          <h1 className="station-header-name" onClick={() => modalRef.current?.openModal()}> 
             {station.name}
           </h1>
 
@@ -289,60 +189,11 @@ export function SongList() {
         </div>
 
         {/* DIALOOOOOOOOOGGGGGGGGG */}
-        <dialog className="edit-details-dialog" ref={modalRef}>
-          <form className="edit-modal" action="" method="dialog" onSubmit={onSubmitChange}>
-            <div>
-              <h2>Edit details</h2>
-              <svg
-                onClick={onCloseModal}
-                className="find-more-svg"
-                width="32"
-                height="32"
-                viewBox="0 0 22 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ verticalAlign: 'middle' }}
-                aria-label="Close"
-              >
-                <line x1="6" y1="6" x2="16" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-                <line x1="16" y1="6" x2="6" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-              </svg>
-            </div>
-            <div className="edit-modal-img">
-              <ImgUploader onUploaded={onUploaded} />
-            </div>
-
-            <fieldset className="edit-modal-name">
-              <legend>Name</legend>
-              <label htmlFor="station-name"></label>
-              <input
-                id="station-name"
-                type="text"
-                name="name"
-                value={stationToUpdate?.name || ''}
-                onChange={onHandleChange}
-              />
-            </fieldset>
-
-            <fieldset>
-              <legend>Description</legend>
-              <textarea
-                name="description"
-                id="station-desc"
-                value={stationToUpdate?.description || ''}
-                onChange={onHandleChange}
-                autoComplete="off"
-              ></textarea>
-            </fieldset>
-
-            <button type="submit">Save</button>
-          </form>
-        </dialog>
-
+        <StationEditModal ref={modalRef} />
         {/* DIALOOOOOOOOOGGGGGGGGG */}
       </header>
+
       <div className="songlist-play-actions">
-        
         <div className="media-player-container">
           <PlayBtn
             onToggle={() => currSong && onTogglePlay(currSong)}

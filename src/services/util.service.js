@@ -103,3 +103,18 @@ export function swapItems(arr, indexA, indexB) {
   newArr[indexB] = temp
   return newArr
 }
+
+export async function isValidImg(url) {
+    return new Promise(resolve => {
+        const img = new Image()
+
+        img.onload = () => {
+            const isFallbackSize = img.naturalWidth === 161 && img.naturalHeight === 81
+            resolve(!isFallbackSize)
+        }
+
+        img.onerror = () => resolve(false)
+
+        img.src = url
+    })
+}

@@ -1,7 +1,13 @@
-export function SetActionBtn({imgSrc, str, onClick = () => null, dis = false}) {
-    return (
-      <button className={`track-action ${str}`} onClick={onClick} disabled={dis}>
-        <img src={imgSrc} alt={str} />
-      </button>
-    )
-  }
+export function SetActionBtn({ currIcon, addClassName = '', onClick = () => null, ariaLabel, title, dis = false }) {
+  return (
+    <button
+      className={`btn-wrapper ${addClassName}`}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      title={title}
+      disabled={dis}
+    >
+      {currIcon}
+    </button>
+  )
+}

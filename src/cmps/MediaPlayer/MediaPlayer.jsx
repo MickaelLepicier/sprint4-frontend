@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { Volume } from '../MediaPlayer/Volume.jsx'
 import { SongInfo } from '../MediaPlayer/SongInfo.jsx'
 import { TrackControl } from './TrackControl.jsx'
-import { LyricsButton } from './LyricsButton.jsx'
-
+import { LyricsBtn } from './LyricsBtn.jsx'
+  
 export function MediaPlayer() {
   const currSong = useSelector(
     (storeState) => storeState.stationModule.currentSong
@@ -46,7 +46,7 @@ export function MediaPlayer() {
       <TrackControl currSong={currSong} volume={volume} />
 
       <section className="other-options flex align-center">
-        <LyricsButton />
+        <LyricsBtn/>
         
         <Volume
           volume={volume}

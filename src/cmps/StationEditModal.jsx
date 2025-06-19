@@ -202,7 +202,12 @@ export const StationEditModal = forwardRef((props, ref) => {
                 </div>
 
                 {/* Save station edit changes button */}
-                <button type="submit" onClick={onSubmitChange} className="save-btn">
+                <button     
+                    type="submit"
+                    onClick={onSubmitChange}
+                    disabled={!!isLoading}
+                    className={`save-btn ${isLoading ? 'not-allowed' : ''}`}
+                >
                     <span>Save</span>
                 </button>
 

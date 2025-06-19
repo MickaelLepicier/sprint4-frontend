@@ -123,6 +123,7 @@ $encore-title-font-stack: sm-bold, sans-serif;
 $encore-variable-font-stack: sm-title, sans-serif;
 
 
+
 // Map SCSS variables to CSS custom properties
 :root {
   --background-base: #{$background-base};
@@ -217,6 +218,8 @@ $encore-variable-font-stack: sm-title, sans-serif;
   --encore-body-font-stack: #{$encore-body-font-stack};
   --encore-title-font-stack: #{$encore-title-font-stack};
   --encore-variable-font-stack: #{$encore-variable-font-stack};
+
+  --content-spacing: clamp(16px, 16px + (100cqw - 600px) / 424 * 8, 24px);
 }
 
 

@@ -3,7 +3,7 @@ export function GenrePreview({ genreName, color, imgUrl = '',onClickGenre }) {
         <div className="genre-preview" role="listitem" onClick={onClickGenre}>
             <a className="genre-link" href="#">
                 <div
-                    className="genre-tile"
+                    className="genre-title"
                     style={{ backgroundColor: color }}
                 >
                     {/* Uncomment when imgUrl is used */}

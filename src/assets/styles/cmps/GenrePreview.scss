@@ -1,39 +1,41 @@
 .genre-preview {
   padding: 12px;
+  user-select: none;
 
   .genre-link {
-    text-decoration: none;
-    color: inherit;
     display: block;
+    color: inherit;
+    text-decoration: none;
 
-    .genre-tile {
-      border-radius: 12px;
-      height: 170px;
-      width: 100%;
+    .genre-title {
+      // height: 170px;
+      // width: 100%;
+      padding: 16px;
+      padding-bottom: 56.25%;
+      position: relative;
       display: flex;
       align-items: flex-start;
       justify-content: flex-start;
-      position: relative;
-      padding: 16px;
       overflow: hidden;
-
+      border-radius: 8px;
+      
       .genre-name {
+        font-family: SpotifyMixUITitle;
         color: white;
-        font-size: 20px;
-        font-weight: 700;
-        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+        font-size: 1.5rem;
       }
 
       .genre-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
         position: absolute;
-        bottom: -10px;
-        right: -10px;
-        width: 100px;
-        height: 100px;
-        transform: rotate(25deg);
+        object-fit: cover;
+        object-position: center center;
+
+        right: 0;
+        bottom: 0;
+        width: 45%;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .2);
+        transform: rotate(25deg) translate(18%, -2%);
       }
     }
   }

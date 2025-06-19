@@ -12,8 +12,8 @@ export function HomePage() {
   const [stations, setStations] = useState([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [showMoreTopMixes, setShowMoreTopMixes] = useState(false)
-  const [showMoreRecommended, setShowMoreRecommended] = useState(false)
+  const [showMoreTopMixes, setShowMoreTopMixes] = useState(true)
+  const [showMoreRecommended, setShowMoreRecommended] = useState(true)
 
   const [active, setActive] = useState('All')
 
@@ -31,8 +31,8 @@ export function HomePage() {
     }
   }
 
-  function onGoToStation(station) {
-    addStation(station)
+  async function onGoToStation(station) {
+    await addStation(station)
     navigate(`/playlist/${station._id}`)
   }
 

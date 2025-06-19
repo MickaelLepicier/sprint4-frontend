@@ -77,12 +77,17 @@
       h2 {
         margin-bottom: 0;
       }
+
       span {
         margin-right: 3em;
         cursor: pointer;
         align-self: center;
         font-family: SpotifyMixUI;
         font-size: 14px;
+
+        &:hover{
+          text-decoration: underline;
+        }
       }
     }
 

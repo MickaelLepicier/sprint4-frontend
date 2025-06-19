@@ -65,6 +65,9 @@
         cursor: pointer;
         font-size: 14px;
         align-self: center;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
@@ -90,10 +93,14 @@
       justify-content: space-between;
       font-family: SpotifyMixUI;
       align-items: center;
+      
       span {
         cursor: pointer;
         font-size: 14px;
         align-self: center;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
     .top-recommended-h1 {

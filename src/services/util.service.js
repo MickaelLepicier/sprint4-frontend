@@ -118,3 +118,88 @@ export async function isValidImg(url) {
         img.src = url
     })
 }
+
+export function getApproximateSpotifyColor(hex) {
+    let r = parseInt(hex.slice(1, 3), 16)
+    let g = parseInt(hex.slice(3, 5), 16)
+    let b = parseInt(hex.slice(5, 7), 16)
+
+    let [h, s, l] = rgbToHsl(r, g, b)
+
+    // Stronger saturation boost
+    s = Math.min(1, s * 1.8)
+
+    // Darker midtones, lighter darks
+    l = l > 0.6 ? l * 0.85 : l * 0.75
+
+    // Sharper hue shifts
+    if (h > 0.5 && h < 0.75) h -= 0.08
+    if (h < 0.08) h += 0.03
+
+    const [r2, g2, b2] = hslToRgb(h, s, l)
+    return `rgb(${Math.round(r2)}, ${Math.round(g2)}, ${Math.round(b2)})`
+}
+
+
+// export function enhanceColor(hex, brightness = 1.2, saturation = 1.2) {
+//   const r = parseInt(hex.slice(1, 3), 16)
+//   const g = parseInt(hex.slice(3, 5), 16)
+//   const b = parseInt(hex.slice(5, 7), 16)
+
+//   const brightened = [
+//     Math.min(255, r * brightness),
+//     Math.min(255, g * brightness),
+//     Math.min(255, b * brightness)
+//   ]
+
+//   const [h, s, l] = rgbToHsl(...brightened)
+//   const [r2, g2, b2] = hslToRgb(h, s * saturation, l)
+
+//   return `rgba(${Math.round(r2)}, ${Math.round(g2)}, ${Math.round(b2)}, 1)`
+// }
+
+function rgbToHsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255
+  const max = Math.max(r, g, b), min = Math.min(r, g, b)
+  let h, s, l = (max + min) / 2
+
+  if (max === min) {
+    h = s = 0
+  } else {
+    const d = max - min
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break
+      case g: h = (b - r) / d + 2; break
+      case b: h = (r - g) / d + 4; break
+    }
+    h /= 6
+  }
+
+  return [h, s, l]
+}
+
+function hslToRgb(h, s, l) {
+  let r, g, b
+  if (s === 0) {
+    r = g = b = l
+  } else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1
+      if (t > 1) t -= 1
+      if (t < 1 / 6) return p + (q - p) * 6 * t
+      if (t < 1 / 2) return q
+      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
+      return p
+    }
+
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s
+    const p = 2 * l - q
+    r = hue2rgb(p, q, h + 1 / 3)
+    g = hue2rgb(p, q, h)
+    b = hue2rgb(p, q, h - 1 / 3)
+  }
+
+  return [r * 255, g * 255, b * 255]
+}
+

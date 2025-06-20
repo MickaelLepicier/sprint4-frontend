@@ -1,5 +1,26 @@
 .home-page {
-  padding-inline: 20px;
+  padding-inline: 40px;
+  position: relative; 
+
+  .home-gradient {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 256px;
+      z-index: 0;
+      // background-image:
+      //   linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, var(--background-base) 100%),
+      //   var(--background-noise);
+      // background-color: red;
+      background-color: rgb(83, 83, 83);
+      background-image:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, var(--background-base) 100%),
+        var(--background-noise);
+
+      // background-color: hotpink;
+
+      transition: background 1s ease;
+  }
 
   .home-filter {
     margin-block-start: 10px;
@@ -37,19 +58,59 @@
   }
 
   .home-header-stations {
-    margin-block-start: 35px;
-    display: grid;
-    place-items: center;
-    padding: 5px;
-    margin-block-end: 35px;
+     container-type: inline-size;
+     --item-height: 48px;
+    // --item-height: 64px;
+    // --min-col-width: 270px;
+
+    // margin-block-start: 35px;
+    // display: grid;
+    // place-items: center;
+    // padding: 5px;
+    // margin-block-end: 35px;
 
     .header-station-list {
       justify-self: start;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
+      grid-template: auto / repeat(auto-fill, minmax(max(var(--min-col-width), 25%), 1fr));
       width: 100%;
-      font-family: SpotifyMixUI;
+      gap: 8px;
+      width: 100%;
+      container-type: inline-size;
+    }
+
+    @container (min-width: 700px) {
+      .header-station-list {
+        // --item-height: 64px;
+        // grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, minmax(170px, 1fr)); 
+      }
+    }
+
+    @container (min-width: 790px) {
+      .header-station-list {
+          // grid-template-columns: repeat(4, minmax(170px, 1fr)); 
+      }
+    }
+
+    @container (min-width: 1141px) {
+      .header-station-list {
+        --item-height: 64px;
+        gap: 12px;
+        // grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @container (min-width: 1220px) {
+      .some-class {
+        font-size: var(--encore-text-size-base); /* now resolves to 16px */
+      }
+    }
+
+    @container (min-width: 1599px) {
+      .header-station-list {
+        --item-height: 80px;
+      }
     }
   }
 

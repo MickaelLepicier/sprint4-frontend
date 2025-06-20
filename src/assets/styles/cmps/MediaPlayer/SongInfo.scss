@@ -1,55 +1,62 @@
 .song-info {
-    gap: 1rem;
-    padding: 0 0.875rem 0 0.5rem;
-    min-width: 200px;
-  
-    .song-thumbnail {
-      width: 56px;
-      height: 56px;
-      object-fit: cover;
-      border-radius: 4px;
+  gap: 1rem;
+  // padding: 0 0.875rem 0 0.5rem;
+  flex: 1;
+
+  min-width: 230px;
+  margin-left: 8px;
+
+  // padding-inline-start: 8px;
+
+  .song-thumbnail {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 4px;
+    // margin-left: 8px;
+
+    // padding-inline-start: 8px;
+  }
+
+  .song-details {
+    display: flex;
+    flex-direction: column;
+    max-width: 19.6vw;
+    white-space: nowrap;
+    overflow: hidden;
+
+    a {
+      color: white;
     }
-  
-    .song-details {
-      display: flex;
-      flex-direction: column;
-      max-width: 19.6vw;
-      white-space: nowrap;
+
+    .song-title {
+      font-family: 'sm-bold';
+      font-size: 14px;
+      font-weight: 400;
+      line-height: normal;
+      margin: 0;
+      color: white;
+      text-overflow: ellipsis;
       overflow: hidden;
-  
-      a{
-        color: white;
-      }
-      
-      .song-title {
-        font-family: 'sm-bold';
-        font-size: 14px;
-        font-weight: 400;
-        line-height: normal;
-        margin: 0;
-        color: white;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-  
-      .song-artist {
-        font-family: 'sm-regular';
-        font-size: 12px;
-        line-height: normal;
-        color: #b3b3b3;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
     }
 
-    .song-like-btn {
-      .song-like-img {
-        filter: brightness(0) invert(0.7);
+    .song-artist {
+      font-family: 'sm-regular';
+      font-size: 12px;
+      line-height: normal;
+      color: #b3b3b3;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+  }
 
-        &:hover {
-          filter: brightness(0) invert(1);
-        }
+  .song-like-btn {
+    .song-like-img {
+      filter: brightness(0) invert(0.7);
+
+      &:hover {
+        filter: brightness(0) invert(1);
       }
     }
   }
-  
+}

@@ -5,10 +5,7 @@ import { useSelector } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router'
 
 export function SongInfo({ song }) {
-  // TODOs:
-  // [v] add navigation on the song-title and song-artist
-  // [] add likeSong btn functionality that add the song to the Liked Songs
-
+  
   /*
   // If I want that always there will be a song I will put this line:
 
@@ -49,6 +46,7 @@ export function SongInfo({ song }) {
       <button className="add-song song-like-btn">
         <img src={like} className="song-like-img" />
       </button>
+
     </section>
   )
 }
@@ -58,7 +56,6 @@ function Img({ song }) {
 
   return (
     <div className="icon-wrapper">
-      <div className="img-bg" />
       <ImageWithFallback
         src={song?.imgUrl}
         alt={song?.title}

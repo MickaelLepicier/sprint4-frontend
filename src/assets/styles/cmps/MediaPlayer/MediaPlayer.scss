@@ -1,6 +1,7 @@
 .media-player-container {
   justify-content: space-between;
 
+  // add like btn
   img {
     width: 16px;
   }
@@ -15,11 +16,13 @@
   }
 
   .track-controls-container {
+    max-width: 722px;
+    flex: 2;
+
     .track-actions {
       display: flex;
       justify-content: center;
-      
-      min-width: 430px;
+
       height: 32px;
       margin-bottom: 8px;
 
@@ -61,7 +64,6 @@
     }
   }
 
-
   //   .gray-icon {
   //     width: 24px;
   //     height: 24px;
@@ -81,8 +83,7 @@
     font-family: 'sm-regular';
     font-size: 12px;
     line-height: 1.2;
-    // margin-inline: 3px;
-    
+
     &:first-child {
       justify-content: end;
     }
@@ -97,5 +98,11 @@
 
   .react-youtube {
     display: none;
+  }
+
+  .other-options {
+    min-width: 230px;
+    flex: 1;
+    justify-content: right;
   }
 }

@@ -1,39 +1,22 @@
-// call this ElementWrapper
-// make a dynamic svg that take the all the svg files
-// '#1DB954' : '#b3b3b3'
-.icon-wrapper {
-  // position: relative;
-  // width: 48px;
-  //   height: 48px;
 
+.icon-wrapper {
   display: flex;
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
 
-  // padding: 0;
-
-  // background: transparent;
-  // background: none;
-  // border: none;
-  // border-radius: 4px;
-
-  // box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
   z-index: 1;
   cursor: pointer;
 
   .img-bg {
-    position: absolute;
-    // background-color: red;
     border-radius: 4px;
     box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
-    // height: 100%;
-    // width: 100%;
     width: 48px;
     height: 48px;
 
     background: #282828;
     z-index: 1;
+
   }
 
   &:has(svg.empty-playlist-icon) {
@@ -41,8 +24,6 @@
     background: #282828;
   }
   img {
-    // width: 100%;
-    // height: 100%;
     width: 48px;
     height: 48px;
 
@@ -54,7 +35,6 @@
   svg.empty-playlist-icon {
     height: 24px;
     width: 24px;
-    // font-size: 13.3333px;
     fill: #b3b3b3;
     opacity: 1;
     z-index: 4;
@@ -75,19 +55,16 @@
 /* btns wrapper */
 
 .btn-wrapper {
-  /* track control icons */
-
   background: transparent;
   background: none;
   border: none;
   border-radius: 4px;
-
+  
   cursor: pointer;
 
-  // padding: 0;
-  // margin-inline: 5px;
 }
 
+/* track control icons */
 .track-control-play-btn,
 .track-control-pause-btn {
   width: 32px;
@@ -120,8 +97,6 @@ svg.track-control-pause-icon {
   width: 16px;
   height: 16px;
 
-  transform: translate(0px, 1.5px);
-
   transform-origin: center;
 }
 
@@ -129,7 +104,7 @@ svg.track-control-pause-icon {
   width: 32px;
   height: 32px;
 
-  padding-top: 5px;
+  display: flex;
 
   &:hover {
     transform: scale(1.05);
@@ -154,30 +129,29 @@ svg.track-control-pause-icon {
     }
 
     &:hover {
-    transform: scale(1.1);
-   
-    filter: brightness(1.1);
-  }
+      transform: scale(1.1);
+      filter: brightness(1.1);
+    }
   }
 
   &.not-allowed {
     transform: scale(1);
     filter: brightness(0.5);
-
-    // background-color: rgba(255, 255, 255, 0.5);
   }
 }
 
-// TODO fix bug that the button not go up
+
 .track-btn.active-green::after {
   content: '';
-  display: block;
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+
   width: 4px;
   height: 4px;
-  background-color: #1DB954; // Spotify green
+  background-color: #1db954; 
   border-radius: 50%;
-
-  margin: 0 auto 0; 
 }
 
 svg.track-icon {
@@ -216,10 +190,7 @@ svg.songlist-pause-icon {
   width: 24px;
   height: 24px;
 
-  transform: translate(0px, 1.5px);
   transform-origin: center;
-
-  // padding: 12px; // exactly for play and pouse px
 }
 
 /* songPreview buttons */
@@ -227,18 +198,15 @@ svg.songlist-pause-icon {
 .song-preview-pause-btn {
   width: 24px;
   height: 24px;
+  padding: 0;
 }
 
 /* songPreview icons */
 svg.song-preview-play-icon,
 svg.song-preview-pause-icon {
-  width: 14px;
-  height: 14px;
-
-  transform: translate(-1px, 1.5px);
-  transform-origin: center;
+  width: 16px;
+  height: 24px;
 
   fill: #fff;
   transition: opacity 0.2s ease;
 }
-// }

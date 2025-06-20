@@ -112,8 +112,9 @@ export function SidebarPreview({
         onContextMenu={handleStationMenu}
       >
         <div className="icon-wrapper">
-          <div className="img-bg" />
+          {/* <div className="img-bg" /> */}
           {getImgContent()}
+          {/* TODO - put PlayBtn functionality */}
           <PlayIcon />
         </div>
 

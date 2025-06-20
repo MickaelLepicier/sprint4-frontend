@@ -1,6 +1,8 @@
 export function EmptyPlaylistIcon({ size = 24, color = 'currentColor', ...props }) {
 
     return (
+          <div className="img-bg flex-center ">
+
         <svg
             data-encore-id="icon"
             role="img"
@@ -17,5 +19,6 @@ export function EmptyPlaylistIcon({ size = 24, color = 'currentColor', ...props 
                 fill={color}
             />
         </svg>
+        </div>
     )
 }

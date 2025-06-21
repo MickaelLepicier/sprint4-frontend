@@ -30,21 +30,18 @@
     }
 
     .song-title {
-      font-family: 'sm-bold';
-      font-size: 14px;
-      font-weight: 400;
-      line-height: normal;
+      font-family: SpotifyMixUI;
+      font-size: var(--encore-text-size-smaller);
       margin: 0;
-      color: white;
+      color: var(--text-base);
       text-overflow: ellipsis;
       overflow: hidden;
     }
 
     .song-artist {
-      font-family: 'sm-regular';
-      font-size: 12px;
-      line-height: normal;
-      color: #b3b3b3;
+      font-family: SpotifyMixUI;
+      font-size: var(--encore-text-size-smaller-2);
+      color: var(--text-subdued);
       text-overflow: ellipsis;
       overflow: hidden;
     }

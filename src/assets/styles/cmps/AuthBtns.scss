@@ -75,7 +75,7 @@ QUESTION :
       .user-name {
         color: #000000;
         font-weight: 700;
-        font-size: 0.875rem;
+        font-size: var(--encore-text-size-smaller);
         text-transform: uppercase;
         user-select: none;
         background-color: rgb(125, 75, 50);
@@ -83,12 +83,13 @@ QUESTION :
         border-radius: 50%;
         height: 32px;
         width: 32px;
+        transform: 150ms cubic-bezier(0.3, 0, 0, 1);
       }
       
 
       &:hover {
         // border-color: #ffae6d;
-        // scale: 1.1;
+        scale: 1.04;
       }
 
       &:active {

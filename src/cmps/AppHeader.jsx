@@ -126,9 +126,11 @@ export function AppHeader() {
                 </button>
               )}
 
-              <button type="button" onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
-                {locPath.isBrowse ? <BrowseIconFilled /> : <BrowseIcon />}
-              </button>
+              <div className="border-line">
+                <button type="button" onClick={onBrowseGenres} className="browse-btn" aria-label="Browse">
+                  {locPath.isBrowse ? <BrowseIconFilled /> : <BrowseIcon />}
+                </button>
+              </div>
             </div>
           </form>
         </div>

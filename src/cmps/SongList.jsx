@@ -234,7 +234,7 @@ export function SongList() {
 
                   {!isLikedStation && stationDuration && (
                     <>
-                      <span className="comma">, </span>
+                      <span className="comma">,&nbsp;</span>
                       <span>{stationDuration}</span>
                     </>
                   )}

@@ -3,6 +3,7 @@
     background-color: #121212;
     // padding-block-start: 44px;
     padding-inline: var(--content-spacing);
+    container-type: inline-size;
 
     .genre-title-wrapper {
         display: flex; 
@@ -15,7 +16,7 @@
             all: unset;
             color: #fff;
             font-family: SpotifyMixUI;
-            font-size: 1.5rem;
+            font-size: var(--encore-text-size-larger);
             // margin-top: auto;
             align-self: end;
             height: fit-content;

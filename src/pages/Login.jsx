@@ -39,7 +39,7 @@ export function Login() {
         <Link to="/" className="logo-link flex justify-center">
           <AppLogo />
         </Link>
-        <h1>Log in to Spotify</h1>
+        <h1>Log in to MisterBeat</h1>
         <input
           type="text"
           name="username"

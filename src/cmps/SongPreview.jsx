@@ -84,7 +84,8 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
       <td className="song-play-idx">
         <span className="song-idx">{idx + 1}</span>
         <PlayBtn
-          isPlaying={isPlaying && addClassName}
+
+          // isPlaying={isPlaying && addClassName}
           // onToggle={() => togglePlay(song)}
           onToggle={togglePlay}
           className={isPlay}

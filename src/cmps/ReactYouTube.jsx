@@ -1,6 +1,11 @@
+import { useSelector } from 'react-redux'
 import YouTube from 'react-youtube'
 
-export function ReactYouTube({ videoId, onEnd, isPlaying, volume, playerRef }) {
+export function ReactYouTube({ videoId, onEnd, volume, playerRef }) {
+  
+  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
+
+  
   const opts = {
     height: '0',
     width: '0',

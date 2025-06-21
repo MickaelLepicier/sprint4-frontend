@@ -6,10 +6,20 @@ import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 import { SetTrackBtn } from '../SetTrackBtn.jsx'
 
+// TODOs:
+// [] fix bugs about PlayBtn
+// [] add shuffle functionality
+// [] add next song after song finish
+// [] add border-radius: 2px to the line
+
+// [] add prev song first click to take the track to the start
+// (if the song is up to 2 sec so the song go back 1 track)
+
 export function TrackControl({ currSong, volume }) {
-  // TODO - fix bugs - when click on playBtn play a song or return if there is no song
 
   const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
+  // const station = useSelector((storeState) => storeState.stationModule.station)
+
 
   // track time
   const [progress, setProgress] = useState(0)
@@ -74,6 +84,7 @@ export function TrackControl({ currSong, volume }) {
   }
   function onNextSong() {
     if (isTrackAllowed) return
+    // a
     nextSong()
   }
 
@@ -110,7 +121,7 @@ export function TrackControl({ currSong, volume }) {
         <SetTrackBtn  className={`prev-song ${isNotAllowed}`} onClick={onPrevSong} dis={!song} />
 
         <PlayBtn
-          onToggle={() => (currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0]))}
+          onToggle={onTogglePlay}
           isPlaying={isPlaying}
           className={`${isPlay} ${isNotAllowed}`}
         />
@@ -141,7 +152,7 @@ export function TrackControl({ currSong, volume }) {
         <ReactYouTube
           key={song.id}
           videoId={song.id}
-          isPlaying={isPlaying}
+          // isPlaying={isPlaying}
           volume={volume}
           playerRef={playerRef}
           onEnd={onEnd}

@@ -1,11 +1,13 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
+// import { ColorThief } from '../cmps/ColorThief' 
 
-import { debounce, cleanTitle } from '../services/util.service'
+import { debounce, cleanTitle, calcStationDuration } from '../services/util.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { useHeadingFontSize } from '../customHooks/useHeadingFontSize'
 
 import {
   loadStation,
@@ -22,6 +24,7 @@ import { store } from '../store/store'
 
 import { SongSearchResult } from './SongSearchResult'
 import { StationEditModal } from './StationEditModal'
+import { DominantColorExtractor } from './DominantColorExtractor'
 import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
 import { AddIcon } from './svg/AddIcon'
@@ -40,10 +43,11 @@ export function SongList() {
   const [songs, setSongs] = useState([])
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
-  const isPlay = isPlaying ? 'songlist-pause-icon' : 'songlist-play-icon'
+  const [dominantColor, setDominantColor] = useState('#121212') 
 
   // Refs
   const modalRef = useRef()
+  const headingRef = useRef()
 
   const debouncedSearch = useRef(
     debounce(async txt => {
@@ -54,6 +58,17 @@ export function SongList() {
       }
     }, 500)
   )
+
+  // Derived values
+  const isLikedStation = station?._id === user?.likedSongsStationId
+  const isOwnedByUser = isLikedStation || station?.createdBy?._id === user?._id
+  const isPlay = isPlaying ? 'songlist-pause-icon' : 'songlist-play-icon'
+  const headerFontSize = useHeadingFontSize(headingRef, [station?.name])
+
+  // Memoized values
+  const stationDuration = useMemo(() => {
+    return calcStationDuration(station?.songs || [])
+  }, [station?.songs])
 
   // UseEffects
   useEffect(() => {
@@ -171,26 +186,37 @@ export function SongList() {
 
   return (
     <section className="station-songlist">
-      <header className="station-header">
-        <img
-          src={
-            station.imgUrl ||
-            'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'
-          }
-          alt=""
-        />
-        <div>
-          <h1 className="station-header-name" onClick={() => modalRef.current?.openModal()}> 
-            {cleanTitle(station.name)}
-          </h1>
+      <DominantColorExtractor imgUrl={station.imgUrl} onSetColor={setDominantColor} />
+      <div 
+        className="station-header-container"
+        style={{ backgroundColor: `${dominantColor}`,
+          backgroundImage: `linear-gradient(transparent 0%, rgba(0, 0, 0, 0.5) 100%)`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+          boxShadow: `0 1px 232px 0 ${dominantColor}`
+        }}  
+      >
+        <header className="station-header">
+          <img
+            src={
+              station.imgUrl ||
+              'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'
+            }
+            alt=""
+          />
+          <div>
+            <h1 style={{ headerFontSize }} className="station-header-name" onClick={() => modalRef.current?.openModal()}> 
+              {cleanTitle(station.name)}
+            </h1>
 
-          <span>{station.description}</span>
-        </div>
+            <span>{station.description}</span>
+          </div>
 
-        {/* DIALOOOOOOOOOGGGGGGGGG */}
-        <StationEditModal ref={modalRef} />
-        {/* DIALOOOOOOOOOGGGGGGGGG */}
-      </header>
+          {/* DIALOOOOOOOOOGGGGGGGGG */}
+          <StationEditModal ref={modalRef} />
+          {/* DIALOOOOOOOOOGGGGGGGGG */}
+        </header>
+      </div>
 
       <div className="songlist-play-actions">
         <div className="media-player-container">
@@ -210,52 +236,56 @@ export function SongList() {
           </button>
         </div>
 
-        <button className="btn-compact">Compact</button>
+        {/* TODO: Will put it back after finishing the layout */}
+        {/* <button className="btn-compact">Compact</button> */}
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Album</th>
-            <th>Date Added</th>
-            <th>
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
-                <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
-                <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
-              </svg>
-            </th>
-            {/* <th>Duration</th> */}
-          </tr>
-        </thead>
-        {/* DND: Wrap tbody in DragDropContext and Droppable */}
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="songs-droppable" direction="vertical">
-            {provided => (
-              <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                {songs.map((song, idx) => (
-                  <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
-                    {provided => (
-                      <SongPreview
-                        song={song}
-                        idx={idx}
-                        station={station}
-                        togglePlay={() => onTogglePlay(song)}
-                        draggableProps={provided.draggableProps} // DND: pass drag props
-                        dragHandleProps={provided.dragHandleProps} // DND: pass handle props
-                        innerRef={provided.innerRef} // DND: pass ref
-                      />
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </tbody>
-            )}
-          </Droppable>
-        </DragDropContext>
-      </table>
+      <div className="song-list-container">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Album</th>
+              <th>Date Added</th>
+              <th>
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                  <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
+                  <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </th>
+              {/* <th>Duration</th> */}
+            </tr>
+          </thead>
+          {/* DND: Wrap tbody in DragDropContext and Droppable */}
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="songs-droppable" direction="vertical">
+              {provided => (
+                <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                  {songs.map((song, idx) => (
+                    <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
+                      {provided => (
+                        <SongPreview
+                          song={song}
+                          idx={idx}
+                          station={station}
+                          togglePlay={() => onTogglePlay(song)}
+                          draggableProps={provided.draggableProps} // DND: pass drag props
+                          dragHandleProps={provided.dragHandleProps} // DND: pass handle props
+                          innerRef={provided.innerRef} // DND: pass ref
+                        />
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </tbody>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </table>
+      </div>
+
       <button className="find-more-btn" onClick={() => setShowSearchBar(!showSearchBar)}>
         {showSearchBar ? (
           <svg

@@ -153,6 +153,8 @@ QUESTION :
   cursor: pointer;
   vertical-align: middle;
 
+  transition: transform 150ms cubic-bezier(0.3, 0, 0, 1);
+
   @include disable-drag;
 
   &:focus,
@@ -165,22 +167,24 @@ QUESTION :
     align-items: center;
     justify-content: center;
 
-    min-height: 48px;
+    min-block-size: 48px;
     border-radius: 9999px;
     padding: 8px 32px;
 
-    @include font-body-medium-bold;
+    @include font-body-medium;
+    font-weight: 700;
     white-space: nowrap;
 
     background-color: #ffffff;
     color: #000000;
+    
+    transition: inherit;
+    transition-property: background-color, transform;
 
     &:hover {
       background-color: #f0f0f0; // var(--background-highlight)
-      color: #000000; //var(--text-base)
+      color: #000000; 
       transform: scale(1.04);
-      transition-duration: 150ms;
-      transition-timing-function: cubic-bezier(0.3, 0, 0, 1);
     }
 
     &:active {

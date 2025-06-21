@@ -51,10 +51,10 @@
   }
 
   .track-seek {
-    min-height: 17px;
+    // min-height: 17px;
     height: 100%;
     align-items: center;
-    color: #b3b3b3;
+    color: var(--text-subdued);
 
     input.track-bar {
       margin-block: 0;
@@ -75,14 +75,11 @@
   //   }
 
   .track-time {
-    min-height: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // min-height: inherit;
+    @include flex;
     min-width: 40px;
-    font-family: 'sm-regular';
-    font-size: 12px;
-    line-height: 1.2;
+    font-family: SpotifyMixUI;
+    font-size: var(--encore-text-size-smaller-2);
 
     &:first-child {
       justify-content: end;

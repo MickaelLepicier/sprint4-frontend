@@ -23,6 +23,8 @@
     aspect-ratio: 1 / 1;
     border-radius: 6px;
     overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
+    background-color: var(--card-color, #333);
 
     img {
       position: absolute;
@@ -74,13 +76,13 @@
     flex-direction: column;
 
     .station-name {
-      font-size: 14px;
-      font-family: SpotifyMixUITitle;
-      font-weight: 600;
-      color:#b3b3b3;
+      font-size: var(---encore-text-size-smaller);
+      font-family: SpotifyMixUI;
+      color:var(--text-subdued);
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      white-space: normal;
+      vertical-align: baseline;
     }
 
     .station-artist {

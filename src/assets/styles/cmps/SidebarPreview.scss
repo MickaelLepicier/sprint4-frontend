@@ -86,13 +86,12 @@
     h3 {
       max-width: inherit;
       width: 100%;
-      font-size: 16px;
-      line-height: normal;
+      font-family: SpotifyMixUI;
       font-weight: 400;
+      font-size: var(--encore-text-size-base);
+      color: var(--text-base);
       text-overflow: ellipsis;
       margin: 0;
-      font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
-        var(--fallback-fonts, sans-serif);
       // display: -webkit-box;
       // -webkit-line-clamp: 1;
       // -webkit-box-orient: vertical;
@@ -136,7 +135,8 @@
       }
 
       span {
-        font-size: 14;
+        color: var(--text-subdued);
+        font-size: var(--encore-text-size-smaller);
       }
     }
   }

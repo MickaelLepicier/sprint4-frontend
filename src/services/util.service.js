@@ -203,3 +203,30 @@ function hslToRgb(h, s, l) {
   return [r * 255, g * 255, b * 255]
 }
 
+export function calcStationDuration(songs) {
+  if (!songs?.length) return null
+
+  const hasValidDurations = songs.every(song => typeof song.duration === 'number' && song.duration > 0)
+  if (!hasValidDurations) return null
+
+  const totalSec = songs.reduce((sum, song) => sum + song.duration, 0)
+  return _formatAsAboutDuration(totalSec)
+}
+
+function _formatAsAboutDuration(totalSec) {
+  const hr = Math.floor(totalSec / 3600)
+  const min = Math.floor((totalSec % 3600) / 60)
+  const sec = totalSec % 60
+
+  if (hr > 0) {
+    if (min > 0) return `about ${hr} hr ${min} min`
+    return `about ${hr} hr`
+  }
+
+  // When 45~60 minutes or seconds are under 15, show only the minutes
+  if (min >= 45 || sec < 15) {
+    return `about ${Math.round(totalSec / 60)} min`
+  }
+
+  return `${min} min ${sec} sec`
+}

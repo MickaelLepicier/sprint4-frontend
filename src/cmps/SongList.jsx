@@ -204,13 +204,47 @@ export function SongList() {
             }
             alt=""
           />
-          <div>
+          {/* <div>
             <h1 style={{ headerFontSize }} className="station-header-name" onClick={() => modalRef.current?.openModal()}> 
               {cleanTitle(station.name)}
             </h1>
 
             <span>{station.description}</span>
+          </div> */}
+          
+          {/* Station Info */}
+          <div>
+            <span className="playlist-label">
+              {isLikedStation ? 'Playlist' : 'Public Playlist'}
+
+            </span>
+
+            <h1 style={{ headerFontSize }} className="station-header-name" onClick={() => modalRef.current?.openModal()}> 
+              {cleanTitle(station.name)}
+            </h1>
+
+            <div className="station-meta flex align-center">
+              <span className="created-by">{isOwnedByUser ? user.fullname : 'MisterBeat'}</span>
+              <span className="dot">•</span>
+              {station?.songs?.length > 0 && (
+                <p>
+                  <span>
+                      {station.songs.length} {station.songs.length === 1 ? 'song' : 'songs'}
+                  </span>
+
+                  {!isLikedStation && stationDuration && (
+                    <>
+                      <span className="comma">, </span>
+                      <span>{stationDuration}</span>
+                    </>
+                  )}
+                </p>
+              )}
+            </div>
+
+            <span>{station.description}</span>
           </div>
+          {/* Station Info */}
 
           {/* DIALOOOOOOOOOGGGGGGGGG */}
           <StationEditModal ref={modalRef} />
@@ -220,13 +254,14 @@ export function SongList() {
 
       <div className="songlist-play-actions">
         <div className="media-player-container">
+          {/* TODO: Add funtionality/correct styling to Play/Add butons! */}
           <PlayBtn
             onToggle={() => currSong && onTogglePlay(currSong)}
             isPlaying={isPlaying}
             className={isPlay}
           />
           <button
-          className='add-song'
+            className='save-playlist add-song'
             title="Save to Your Library"
             onClick={() => {
               onAddToLibrary(station)

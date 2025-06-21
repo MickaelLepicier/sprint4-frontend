@@ -30,7 +30,7 @@ $bg_clr3: #1f1f1f;
 
 // Define SCSS variables
 $background-base: #121212;
-$background-highlight: #1f1f1f;
+$background-highlight: #f0f0f0;
 $background-press: #000;
 $background-elevated-base: #1f1f1f;
 $background-elevated-highlight: #2a2a2a;
@@ -122,7 +122,7 @@ $encore-body-font-stack: sm-regular, sans-serif;
 $encore-title-font-stack: sm-bold, sans-serif;
 $encore-variable-font-stack: sm-title, sans-serif;
 
-
+$carousel-shelf-element-width: calc(1955px / 11);
 
 // Map SCSS variables to CSS custom properties
 :root {
@@ -218,6 +218,23 @@ $encore-variable-font-stack: sm-title, sans-serif;
   --encore-body-font-stack: #{$encore-body-font-stack};
   --encore-title-font-stack: #{$encore-title-font-stack};
   --encore-variable-font-stack: #{$encore-variable-font-stack};
+
+  --carousel-shelf-element-width: #{carousel-shelf-element-width};
+
+  --shortest-1: 50ms;
+  --shortest-2: 100ms;
+  --shortest-3: 150ms;
+  --shortest-4: 200ms;
+  --short-1: 250ms;
+  --short-2: 300ms;
+  --productive: cubic-bezier(0.3,0,0,1);
+  --productive-decelerate: cubic-bezier(0,0,0.2,1);
+  --productive-accelerate: cubic-bezier(0.8,0,1,1);
+  --productive-exit-duration: var(--shortest-4);
+  --encore-opacity-disabled: 0.3;
+  --encore-border-radius-rounded: 9999px;
+  --encore-overlay-box-shadow: 0 4px 12px 0 #0000004d;
+  --encore-focus-box-shadow: 0 3px 0 0;
 }
 
 // Some random variables not organized as we go along
@@ -324,9 +341,9 @@ $encore-variable-font-stack: sm-title, sans-serif;
 
   // Fonts
 
-  --encore-body-font-stack: sm-regular, sans-serif;
-  --encore-title-font-stack: sm-bold, sans-serif;
-  --encore-variable-font-stack: sm-title, sans-serif;
+  // --encore-body-font-stack: SpotifyMixUI, sans-serif;
+  // --encore-title-font-stack: sm-bold, sans-serif;
+  // --encore-variable-font-stack: sm-title, sans-serif;
 }
 */
 

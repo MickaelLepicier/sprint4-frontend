@@ -17,11 +17,14 @@ export function HomePage() {
   const dispatch = useDispatch()
   const [showMoreTopMixes, setShowMoreTopMixes] = useState(true)
   const [showMoreRecommended, setShowMoreRecommended] = useState(true)
+  const [activeFilter, setActiveFilter] = useState('All')
 
   const [gradientStyle, setGradientStyle] = useState({})
   const [imgHover, setImgHover] = useState(null)
   const firstStationColor = useRef(null)
+  const filters = ['All', 'Music', 'Podcasts']
   const fac = new FastAverageColor()
+
 
   const [active, setActive] = useState('All')
 
@@ -95,18 +98,21 @@ export function HomePage() {
   return (
     <section className="home-page">
       <div className="home-gradient" style={gradientStyle}></div>
-      {/* Commented until will work filter */}
+
       <div className="home-filter">
-        <span className={active === 'All' ? 'active' : ''} onClick={() => setActive('All')}>
-          All
-        </span>
-        <span className={active === 'Music' ? 'active' : ''} onClick={() => setActive('Music')}>
-          Music
-        </span>
-        <span className={active === 'Podcasts' ? 'active' : ''} onClick={() => setActive('Podcasts')}>
-          Podcasts
-        </span>
+        <div className="group-filter-btns">
+          {filters.map(filter => (
+            <button
+              key={filter}
+              className={`group-filter-btn ${activeFilter === filter ? 'active' : ''}`}
+              onClick={() => setActiveFilter(filter)}
+            >
+              <span>{filter}</span>
+            </button>
+          ))}
+        </div>
       </div>
+
       <section className="home-header-stations">
         <div className="header-station-list">
           {headerStations.map(station => (

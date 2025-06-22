@@ -1,0 +1,83 @@
+.track-seek {
+  height: 100%;
+  align-items: center;
+  color: var(--text-subdued);
+
+  .track-time {
+    @include flex;
+    min-width: 40px;
+    font-family: SpotifyMixUI;
+    font-size: var(--encore-text-size-smaller-2);
+
+    &:first-child {
+      justify-content: end;
+    }
+
+    &:last-child {
+      justify-content: start;
+    }
+  }
+}
+
+.track-bar-container {
+  width: 100%;
+  height: 4px;
+  margin-inline: 8px;
+  cursor: pointer;
+
+  &:hover {
+    .track-bar-bg .track-bar-fill {
+      background: #1db954;
+    }
+
+    .track-thumb {
+      opacity: 1;
+    }
+  }
+
+  .track-bar-bg {
+    width: 100%;
+    height: 100%;
+    background: #a9a9a9;
+    border-radius: 2px;
+    overflow: hidden;
+
+    .track-bar-fill {
+      height: 100%;
+      background: #ffffff;
+      border-radius: 2px;
+
+      transition: background 0.2s ease;
+    }
+  }
+
+  .track-thumb {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translateY(-65%);
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0;
+
+    pointer-events: auto;
+  }
+
+  &:hover .track-thumb {
+    opacity: 1;
+  }
+
+  &.not-allowed {
+    cursor: not-allowed;
+
+    .track-thumb {
+      opacity: 0;
+    }
+
+    .track-bar-fill,
+    .track-bar-bg:hover .track-bar-fill {
+      background: #a9a9a9;
+    }
+  }
+}

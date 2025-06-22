@@ -1,15 +1,19 @@
-
 import { ReactYouTube } from '../ReactYouTube.jsx'
 import { nextSong, prevSong, setIsPlaying } from '../../store/station/station.actions.js'
 import { PlayBtn } from '../PlayBtn.jsx'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 import { SetTrackBtn } from '../SetTrackBtn.jsx'
+import { TrackSeek } from './TrackSeek.jsx'
 
 export function TrackControl({ currSong, volume }) {
-  // TODO - fix bugs - when click on playBtn play a song or return if there is no song
-
   const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
+  // const station = useSelector((storeState) => storeState.stationModule.station)
+  const currStation = useSelector((storeState) => storeState.stationModule.currentStation)
+
+  // shuffle
+  const [shuffledOrder, setShuffledOrder] = useState([])
+  const [originalOrder, setOriginalOrder] = useState([])
 
   // track time
   const [progress, setProgress] = useState(0)
@@ -21,11 +25,12 @@ export function TrackControl({ currSong, volume }) {
   const playerRef = useRef(null)
   window.playerRef = playerRef
 
-  const isTrackAllowed = !playerRef.current || !currSong
-  const isNotAllowed = isTrackAllowed ? 'not-allowed' : ''
+  const isNotAllowed = !playerRef.current || !currSong
+  const isNotAllowedCN = isNotAllowed ? 'not-allowed' : ''
   const isPlay = isPlaying ? 'track-control-pause-icon' : 'track-control-play-icon'
 
   const repeatActive = isRepeat ? 'active' : ''
+  const shuffleActive = isShuffle ? 'active' : ''
   const song = { ...currSong }
 
   useEffect(() => {
@@ -44,6 +49,14 @@ export function TrackControl({ currSong, volume }) {
     return () => clearInterval(interval)
   }, [song, isPlaying, volume])
 
+  // shuffle
+  useEffect(() => {
+    if (currStation === null) return
+
+    setOriginalOrder(currStation.songs)
+    setIsShuffle(false)
+  }, [currStation])
+
   useEffect(() => {
     // if (currSong && isPlaying) {
     //   audioRef.current.src = currSong.url
@@ -52,8 +65,7 @@ export function TrackControl({ currSong, volume }) {
   }, [currSong])
 
   function onTogglePlay() {
-
-    if (isTrackAllowed) return
+    if (isNotAllowed) return
 
     if (isPlaying) {
       playerRef.current.pauseVideo()
@@ -69,79 +81,118 @@ export function TrackControl({ currSong, volume }) {
       playerRef.current.seekTo(0)
       playerRef.current.playVideo()
     } else {
-      nextSong()
+      onNextSong()
     }
   }
+
   function onNextSong() {
-    if (isTrackAllowed) return
-    nextSong()
+    if (isNotAllowed) return
+
+    const songs = isShuffle ? shuffledOrder : originalOrder
+
+    if (!songs.length || !currSong.id) return
+
+    const currIdx = songs.findIndex((song) => song.id === currSong?.id)
+    const nextIdx = (currIdx + 1) % songs.length
+    const nextTrack = songs[nextIdx]
+
+    nextSong(nextTrack)
   }
 
   function onPrevSong() {
-    if (isTrackAllowed) return
-    prevSong()
+    if (isNotAllowed) return
+
+    const currentTime = playerRef.current?.getCurrentTime?.()
+
+    if (typeof currentTime === 'number') {
+      if (currentTime > 2) {
+        playerRef.current.seekTo(0)
+      } else {
+        const songs = isShuffle ? shuffledOrder : originalOrder
+
+        if (!songs.length || !currSong.id) return
+
+        const currIdx = songs.findIndex((song) => song.id === currSong?.id)
+        if (currIdx === -1) return
+
+        const prevIdx = (currIdx - 1 + songs.length) % songs.length
+        const prevTrack = songs[prevIdx]
+
+        prevSong(prevTrack)
+      }
+    }
+  }
+
+  function onShuffle() {
+    if (isNotAllowed) return
+
+    const newIsShuffle = !isShuffle
+    setIsShuffle(newIsShuffle)
+
+    if (!newIsShuffle) return
+
+    if (newIsShuffle) {
+      // Generate a new shuffled list
+      const shuffledSongs = shuffleArray(currStation.songs)
+      setShuffledOrder(shuffledSongs)
+    
+    } else {
+      setShuffledOrder([]) // clear shuffle
+    }
+  }
+
+  function shuffleArray(array) {
+    const shuffled = [...array] // create a shallow copy to avoid mutating the original
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+    }
+    return shuffled
   }
 
   function onRepeat() {
-    if (isTrackAllowed) return
+    if (isNotAllowed) return
     setIsRepeat(!isRepeat)
   }
 
-  function formatTime(sec) {
-    const minutes = Math.floor(sec / 60)
-    const seconds = Math.floor(sec % 60)
-      .toString()
-      .padStart(2, '0')
-    return `${minutes}:${seconds}`
-  }
+  function handleClickSeek(ev) {
+    const rect = ev.currentTarget.getBoundingClientRect()
+    const clickX = ev.clientX - rect.left
+    const percentage = clickX / rect.width
+    const newTime = percentage * duration
 
-  function handleSeekChange(ev) {
-    const newTime = +ev.target.value
-    playerRef.current.seekTo(newTime, true)
+    playerRef.current?.seekTo(newTime, true)
     setProgress(newTime)
   }
 
   return (
     <section className="track-controls-container">
       <div className="track-actions">
+        <SetTrackBtn className={`shuffle ${isNotAllowedCN} ${shuffleActive}`} onClick={onShuffle} />
 
-        <SetTrackBtn  className={`shuffle ${isNotAllowed}`} />
+        <SetTrackBtn className={`prev-song ${isNotAllowedCN}`} onClick={onPrevSong} dis={!song} />
 
-        <SetTrackBtn  className={`prev-song ${isNotAllowed}`} onClick={onPrevSong} dis={!song} />
+        <PlayBtn onToggle={onTogglePlay} isPlaying={isPlaying} className={`${isPlay} ${isNotAllowedCN}`} />
 
-        <PlayBtn
-          onToggle={() => (currSong ? onTogglePlay(currSong) : onTogglePlay(songs[0]))}
-          isPlaying={isPlaying}
-          className={`${isPlay} ${isNotAllowed}`}
-        />
-
-        <SetTrackBtn className={`next-song ${isNotAllowed}`} onClick={onNextSong} dis={!song} />
-        <SetTrackBtn className={`repeat ${isNotAllowed} ${repeatActive}`} onClick={onRepeat} dis={!song} />
-
+        <SetTrackBtn className={`next-song ${isNotAllowedCN}`} onClick={onNextSong} dis={!song} />
+        <SetTrackBtn className={`repeat ${isNotAllowedCN} ${repeatActive}`} onClick={onRepeat} dis={!song} />
       </div>
 
-      <div className="track-seek flex">
-        <div className="track-time">{formatTime(progress)}</div>
-        <input
-          type="range"
-          min="0"
-          max={duration}
-          value={progress}
-          step="0.1"
-          onChange={handleSeekChange}
-          className={`track-bar ${isNotAllowed}`}
-          style={{
-            '--bar-fill': duration ? `${(progress / duration) * 100}%` : '0%'
-          }}
-        />
-        <div className="track-time">{formatTime(duration)}</div>
-      </div>
+      <TrackSeek
+        progress={progress}
+        duration={duration}
+        handleClickSeek={handleClickSeek}
+        onSeek={(newTime) => {
+          playerRef.current.seekTo(newTime, true)
+          setProgress(newTime)
+        }}
+        isNotAllowed={isNotAllowedCN}
+      />
 
       <span className="react-youtube">
         <ReactYouTube
           key={song.id}
           videoId={song.id}
-          isPlaying={isPlaying}
           volume={volume}
           playerRef={playerRef}
           onEnd={onEnd}

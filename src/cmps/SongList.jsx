@@ -16,7 +16,7 @@ import {
   setIsPlaying,
   addStation,
   removeStation,
-  setStationOrder,
+  setStationOrder
 } from '../store/station/station.actions'
 import { updateUser } from '../store/user/user.actions'
 import { loadSearchResults } from '../store/search/search.actions'
@@ -33,11 +33,13 @@ export function SongList() {
   const { stationId } = useParams()
 
   // Redux selectors
-  const station = useSelector(storeState => storeState.stationModule.station)
-  const user = useSelector(storeState => storeState.userModule.user)
-  const stations = useSelector(storeState => storeState.stationModule.stations)
-  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
-  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
+  const user = useSelector((storeState) => storeState.userModule.user)
+  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
+  const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
+
+  const stations = useSelector((storeState) => storeState.stationModule.stations)
+  const station = useSelector((storeState) => storeState.stationModule.station)
+  const currentStation = useSelector((storeState) => storeState.stationModule.currentStation)
 
   // Local state
   const [songs, setSongs] = useState([])
@@ -50,7 +52,7 @@ export function SongList() {
   const headingRef = useRef()
 
   const debouncedSearch = useRef(
-    debounce(async txt => {
+    debounce(async (txt) => {
       try {
         await performSearch(txt)
       } catch (error) {
@@ -78,7 +80,7 @@ export function SongList() {
   useEffect(() => {
     if (station?.songs) setSongs(station.songs)
   }, [station])
-  
+
   // Event Handlers - Search
   async function performSearch(txt) {
     if (!txt.trim()) return
@@ -93,7 +95,7 @@ export function SongList() {
     ev.preventDefault()
     performSearch(searchSong)
   }
-  
+
   function handleChange({ target }) {
     const { value } = target
     setSearchSong(value)
@@ -102,7 +104,6 @@ export function SongList() {
 
   // Event Handlers - Play toggle
   function onTogglePlay(song) {
-    console.log('onTogglePlay - SongList')
     if (!song || !song.id) {
       console.log('Invalid song passed to onTogglePlay: ', song)
       return
@@ -130,6 +131,13 @@ export function SongList() {
     }
   }
 
+  function handleSongPlay() {
+    let song = currSong || station.songs[0]
+    if (station._id !== currentStation?._id) song = station.songs[0]
+
+    onTogglePlay(song)
+  }
+
   // Event Handlers - Drag and Drop
   function handleDragEnd(result) {
     if (!result.destination) return
@@ -142,7 +150,7 @@ export function SongList() {
   // Event Handlers - User actions (mutations)
   async function onAddToLibrary(station) {
     try {
-      const existingLikedStation = stations.find(s => s.origId === station._id || s._id === station._id)
+      const existingLikedStation = stations.find((s) => s.origId === station._id || s._id === station._id)
 
       const state = store.getState()
       const stationOrder = state.stationModule.stationOrder
@@ -150,9 +158,9 @@ export function SongList() {
       let updatedStationIds
 
       if (existingLikedStation) {
-        updatedStationIds = user.likedStationIds.filter(id => id !== existingLikedStation._id)
+        updatedStationIds = user.likedStationIds.filter((id) => id !== existingLikedStation._id)
         await removeStation(existingLikedStation._id)
-        newOrder = stationOrder.filter(id => id !== existingLikedStation._id)
+        newOrder = stationOrder.filter((id) => id !== existingLikedStation._id)
       } else {
         let stationToAdd = { ...station, origId: station._id }
         delete stationToAdd._id
@@ -254,12 +262,7 @@ export function SongList() {
 
       <div className="songlist-play-actions">
         <div className="media-player-container">
-          {/* TODO: Add funtionality/correct styling to Play/Add butons! */}
-          <PlayBtn
-            onToggle={() => currSong && onTogglePlay(currSong)}
-            isPlaying={isPlaying}
-            className={isPlay}
-          />
+          <PlayBtn onToggle={handleSongPlay} isPlaying={isPlaying} className={isPlay} />
           <button
             className='save-playlist add-song'
             title="Save to Your Library"

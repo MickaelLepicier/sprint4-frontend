@@ -117,8 +117,8 @@ export function SongList() {
   }
 
   function handleSongPlay() {
-    let song = currSong || currentStation.songs[0]
-    if (station._id !== currentStation._id) song = station.songs[0]
+    let song = currSong || station.songs[0]
+    if (station._id !== currentStation?._id) song = station.songs[0]
 
     onTogglePlay(song)
   }

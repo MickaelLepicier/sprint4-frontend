@@ -50,19 +50,21 @@
     }
   }
 
-  .track-seek {
-    // min-height: 17px;
-    height: 100%;
-    align-items: center;
-    color: var(--text-subdued);
+  
+  /* TrackSeek */
 
-    input.track-bar {
-      margin-block: 0;
-      margin-inline: 8px;
-      padding: none;
-      height: 4px;
-    }
-  }
+  // .track-seek {
+  //   // min-height: 17px;
+  //   height: 100%;
+  //   align-items: center;
+  //   color: var(--text-subdued);
+
+  //   input.track-bar {
+  //     margin-block: 0;
+  //     margin-inline: 8px;
+  //     height: 4px;
+  //   }
+  // }
 
   //   .gray-icon {
   //     width: 24px;
@@ -74,21 +76,7 @@
   //     mask-size: contain;
   //   }
 
-  .track-time {
-    // min-height: inherit;
-    @include flex;
-    min-width: 40px;
-    font-family: SpotifyMixUI;
-    font-size: var(--encore-text-size-smaller-2);
 
-    &:first-child {
-      justify-content: end;
-    }
-
-    &:last-child {
-      justify-content: start;
-    }
-  }
 
   .mute-btn {
   }

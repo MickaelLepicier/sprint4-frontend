@@ -1,25 +1,23 @@
-
 import { ReactYouTube } from '../ReactYouTube.jsx'
 import { nextSong, prevSong, setIsPlaying } from '../../store/station/station.actions.js'
 import { PlayBtn } from '../PlayBtn.jsx'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
 import { SetTrackBtn } from '../SetTrackBtn.jsx'
+import { TrackSeek } from './TrackSeek.jsx'
 
 // TODOs:
-// [] fix bugs about PlayBtn
+// [v] fix bugs about PlayBtn
 // [] add shuffle functionality
-// [] add next song after song finish
-// [] add border-radius: 2px to the line
+// [v] add next song after song finish
+// [v] add border-radius: 2px to the line
 
-// [] add prev song first click to take the track to the start
+// [v] add prev song first click to take the track to the start
 // (if the song is up to 2 sec so the song go back 1 track)
 
 export function TrackControl({ currSong, volume }) {
-
   const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
   // const station = useSelector((storeState) => storeState.stationModule.station)
-
 
   // track time
   const [progress, setProgress] = useState(0)
@@ -62,7 +60,6 @@ export function TrackControl({ currSong, volume }) {
   }, [currSong])
 
   function onTogglePlay() {
-
     if (isTrackAllowed) return
 
     if (isPlaying) {
@@ -84,13 +81,21 @@ export function TrackControl({ currSong, volume }) {
   }
   function onNextSong() {
     if (isTrackAllowed) return
-    // a
     nextSong()
   }
 
   function onPrevSong() {
     if (isTrackAllowed) return
-    prevSong()
+
+    const currentTime = playerRef.current?.getCurrentTime?.()
+
+    if (typeof currentTime === 'number') {
+      if (currentTime > 2) {
+        playerRef.current.seekTo(0)
+      } else {
+        prevSong()
+      }
+    }
   }
 
   function onRepeat() {
@@ -98,55 +103,66 @@ export function TrackControl({ currSong, volume }) {
     setIsRepeat(!isRepeat)
   }
 
-  function formatTime(sec) {
-    const minutes = Math.floor(sec / 60)
-    const seconds = Math.floor(sec % 60)
-      .toString()
-      .padStart(2, '0')
-    return `${minutes}:${seconds}`
-  }
+  // function formatTime(sec) {
+  //   const minutes = Math.floor(sec / 60)
+  //   const seconds = Math.floor(sec % 60)
+  //     .toString()
+  //     .padStart(2, '0')
+  //   return `${minutes}:${seconds}`
+  // }
 
-  function handleSeekChange(ev) {
-    const newTime = +ev.target.value
-    playerRef.current.seekTo(newTime, true)
+  function handleClickSeek(ev) {
+    const rect = ev.currentTarget.getBoundingClientRect()
+    const clickX = ev.clientX - rect.left
+    const percentage = clickX / rect.width
+    const newTime = percentage * duration
+
+    playerRef.current?.seekTo(newTime, true)
     setProgress(newTime)
   }
+
+  // function trackBarStyle(){
+  // let res = (progress / duration) * 100
+  // if(!progress || !duration) res = 0
+  // return res
+  // }
 
   return (
     <section className="track-controls-container">
       <div className="track-actions">
+        <SetTrackBtn className={`shuffle ${isNotAllowed}`} />
 
-        <SetTrackBtn  className={`shuffle ${isNotAllowed}`} />
+        <SetTrackBtn className={`prev-song ${isNotAllowed}`} onClick={onPrevSong} dis={!song} />
 
-        <SetTrackBtn  className={`prev-song ${isNotAllowed}`} onClick={onPrevSong} dis={!song} />
-
-        <PlayBtn
-          onToggle={onTogglePlay}
-          isPlaying={isPlaying}
-          className={`${isPlay} ${isNotAllowed}`}
-        />
+        <PlayBtn onToggle={onTogglePlay} isPlaying={isPlaying} className={`${isPlay} ${isNotAllowed}`} />
 
         <SetTrackBtn className={`next-song ${isNotAllowed}`} onClick={onNextSong} dis={!song} />
         <SetTrackBtn className={`repeat ${isNotAllowed} ${repeatActive}`} onClick={onRepeat} dis={!song} />
-
       </div>
 
-      <div className="track-seek flex">
+      {/* TrackSeek comp */}
+
+      <TrackSeek
+        progress={progress}
+        duration={duration}
+        handleClickSeek={handleClickSeek}
+        isNotAllowed={isNotAllowed}
+      />
+
+    
+
+      {/* <div className="track-seek flex">
         <div className="track-time">{formatTime(progress)}</div>
-        <input
-          type="range"
-          min="0"
-          max={duration}
-          value={progress}
-          step="0.1"
-          onChange={handleSeekChange}
-          className={`track-bar ${isNotAllowed}`}
-          style={{
-            '--bar-fill': duration ? `${(progress / duration) * 100}%` : '0%'
-          }}
-        />
+
+        <div className={`track-bar-container ${isNotAllowed}`} onClick={handleClickSeek}>
+          <div className="track-bar-bg">
+            <div className="track-bar-fill" style={{ width: `${trackBarStyle()}%` }}></div>
+          </div>
+          <div className="track-thumb" style={{ left: `calc(${trackBarStyle()}% - 6px)` }} />
+        </div>
+
         <div className="track-time">{formatTime(duration)}</div>
-      </div>
+      </div> */}
 
       <span className="react-youtube">
         <ReactYouTube

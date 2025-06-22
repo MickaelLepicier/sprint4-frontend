@@ -4,6 +4,10 @@
     margin-right: 8px;
   }
 
+  // border-radius: 2px;
+
+  // ~~~~~~~~~~~~~~~~~~~~~
+
   .track-bar {
     -webkit-appearance: none;
     width: 100%;
@@ -11,22 +15,15 @@
     align-self: center;
     margin: 0;
 
-    background: linear-gradient(
-      to right,
-      #ffffff var(--bar-fill, 0%),
-      #a9a9a9 var(--bar-fill, 0%)
-    );
+    background: linear-gradient(to right, #ffffff var(--bar-fill, 0%), #a9a9a9 var(--bar-fill, 0%));
+
     border-radius: 2px;
     outline: none;
     cursor: pointer;
     transition: background 0.2s ease;
 
     &:hover {
-      background: linear-gradient(
-        to right,
-        #1db954 var(--bar-fill, 0%),
-        #a9a9a9 var(--bar-fill, 0%)
-      );
+      background: linear-gradient(to right, #1db954 var(--bar-fill, 0%), #a9a9a9 var(--bar-fill, 0%));
     }
 
     /* Thumb styling */
@@ -68,5 +65,4 @@
       }
     }
   }
-
 }

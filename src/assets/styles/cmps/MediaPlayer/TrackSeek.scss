@@ -1,0 +1,102 @@
+
+
+  // TODOs:
+  // [] add mouse active event -
+  // that way I can drag the scroll and change the numbers live
+  
+  // [] make a TrackSeek.scss and put the scss code there
+  // [] make the volume comp with the same classNames as the TrackSeek
+
+
+.track-seek {
+  // min-height: 17px;
+  height: 100%;
+  align-items: center;
+  color: var(--text-subdued);
+
+  // input.track-bar {
+  //   margin-block: 0;
+  //   margin-inline: 8px;
+  //   height: 4px;
+  // }
+
+  .track-time {
+    @include flex;
+    min-width: 40px;
+    font-family: SpotifyMixUI;
+    font-size: var(--encore-text-size-smaller-2);
+
+    &:first-child {
+      justify-content: end;
+    }
+
+    &:last-child {
+      justify-content: start;
+    }
+  }
+}
+
+.track-bar-container {
+  width: 100%;
+  height: 4px;
+  margin-inline: 8px;
+  cursor: pointer;
+
+  .track-bar-bg {
+    width: 100%;
+    height: 100%;
+    background: #a9a9a9;
+    border-radius: 2px;
+    overflow: hidden;
+
+    &:hover .track-bar-fill {
+      background: #1db954;
+    }
+
+    .track-bar-fill {
+      height: 100%;
+      background: #ffffff;
+      border-radius: 2px;
+
+      transition: background 0.2s ease;
+    }
+  }
+
+  .track-thumb {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translateY(-65%);
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0;
+
+    pointer-events: none;
+    // pointer-events: auto;
+
+     &:hover .track-bar-fill {
+      background: #1db954;
+      width:50px;
+    }
+  }
+
+  &:hover .track-thumb {
+    opacity: 1;
+  }
+
+    &.not-allowed {
+    cursor: not-allowed;
+
+    .track-thumb {
+      opacity: 0;
+    }
+
+    .track-bar-fill{
+      background: #a9a9a9;
+    }
+    .track-bar-bg:hover .track-bar-fill {
+      background: #a9a9a9;
+    }
+  }
+}

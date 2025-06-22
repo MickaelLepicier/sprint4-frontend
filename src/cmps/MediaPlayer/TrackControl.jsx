@@ -121,6 +121,8 @@ export function TrackControl({ currSong, volume }) {
     setProgress(newTime)
   }
 
+  
+  
   // function trackBarStyle(){
   // let res = (progress / duration) * 100
   // if(!progress || !duration) res = 0
@@ -146,10 +148,12 @@ export function TrackControl({ currSong, volume }) {
         progress={progress}
         duration={duration}
         handleClickSeek={handleClickSeek}
+        onSeek={(newTime) => {
+          playerRef.current.seekTo(newTime, true)
+          setProgress(newTime)
+        }}
         isNotAllowed={isNotAllowed}
       />
-
-    
 
       {/* <div className="track-seek flex">
         <div className="track-time">{formatTime(progress)}</div>

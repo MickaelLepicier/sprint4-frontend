@@ -72,8 +72,7 @@
     transition: opacity 0.2s, transform 0.2s;
     opacity: 0;
 
-    pointer-events: none;
-    // pointer-events: auto;
+    pointer-events: auto;
 
      &:hover .track-bar-fill {
       background: #1db954;

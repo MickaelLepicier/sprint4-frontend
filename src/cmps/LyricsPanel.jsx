@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { useLyricsColors } from '../customHooks/useLyricsColors'
+import { useLyricsColors } from '../hooks/useLyricsColors'
 import { fetchLyrics } from '../services/lyrics.service'
 
 export function LyricsPanel() {

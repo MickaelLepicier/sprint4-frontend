@@ -1,12 +1,9 @@
+// TODOs:
+// [] add mouse active event -
+// that way I can drag the scroll and change the numbers live
 
-
-  // TODOs:
-  // [] add mouse active event -
-  // that way I can drag the scroll and change the numbers live
-  
-  // [] make a TrackSeek.scss and put the scss code there
-  // [] make the volume comp with the same classNames as the TrackSeek
-
+// [] make a TrackSeek.scss and put the scss code there
+// [] make the volume comp with the same classNames as the TrackSeek
 
 .track-seek {
   // min-height: 17px;
@@ -42,6 +39,16 @@
   margin-inline: 8px;
   cursor: pointer;
 
+  &:hover {
+    .track-bar-bg .track-bar-fill {
+      background: #1db954;
+    }
+
+    .track-thumb {
+      opacity: 1;
+    }
+  }
+
   .track-bar-bg {
     width: 100%;
     height: 100%;
@@ -49,9 +56,9 @@
     border-radius: 2px;
     overflow: hidden;
 
-    &:hover .track-bar-fill {
-      background: #1db954;
-    }
+    // &:hover .track-bar-fill {
+    //   background: #1db954;
+    // }
 
     .track-bar-fill {
       height: 100%;
@@ -73,27 +80,20 @@
     opacity: 0;
 
     pointer-events: auto;
-
-     &:hover .track-bar-fill {
-      background: #1db954;
-      width:50px;
-    }
   }
 
   &:hover .track-thumb {
     opacity: 1;
   }
 
-    &.not-allowed {
+  &.not-allowed {
     cursor: not-allowed;
 
     .track-thumb {
       opacity: 0;
     }
 
-    .track-bar-fill{
-      background: #a9a9a9;
-    }
+    .track-bar-fill,
     .track-bar-bg:hover .track-bar-fill {
       background: #a9a9a9;
     }

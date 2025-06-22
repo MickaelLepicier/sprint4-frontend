@@ -1,21 +1,7 @@
-// TODOs:
-// [] add mouse active event -
-// that way I can drag the scroll and change the numbers live
-
-// [] make a TrackSeek.scss and put the scss code there
-// [] make the volume comp with the same classNames as the TrackSeek
-
 .track-seek {
-  // min-height: 17px;
   height: 100%;
   align-items: center;
   color: var(--text-subdued);
-
-  // input.track-bar {
-  //   margin-block: 0;
-  //   margin-inline: 8px;
-  //   height: 4px;
-  // }
 
   .track-time {
     @include flex;
@@ -55,10 +41,6 @@
     background: #a9a9a9;
     border-radius: 2px;
     overflow: hidden;
-
-    // &:hover .track-bar-fill {
-    //   background: #1db954;
-    // }
 
     .track-bar-fill {
       height: 100%;

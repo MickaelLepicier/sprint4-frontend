@@ -22,6 +22,7 @@ import { Signup } from './pages/Signup'
 // Components
 import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
+import { MainFooter } from './cmps/MainFooter'
 import { UserMsg } from './cmps/UserMsg'
 import { SongList } from './cmps/SongList'
 import { Sidebar } from './cmps/Sidebar/Sidebar'
@@ -77,8 +78,11 @@ export function RootCmp() {
           {/* <Route path="login" element={<LoginSignup />}>
               <Route index element={<Login />} />
               <Route path="signup" element={<Signup />} />
-            </Route> */}
+              </Route> */}
+
         </Routes>
+        
+        <MainFooter />
       </main>
 
       <AppFooter />

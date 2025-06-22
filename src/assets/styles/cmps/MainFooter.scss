@@ -1,0 +1,167 @@
+.main-footer {
+    color: var(--text-subdued);
+    background-color: var(--background-base);
+    padding-top: 40px;
+
+    .footer-divider {
+        border: 0;
+        border-block-start: 1px solid var(--decorative-subdued, #dedede);
+        margin-inline:  var(--content-spacing);
+        margin-block: var(--encore-spacing-looser, 24px);
+
+        &.secondary {
+            margin-inline: 0;
+            margin-block-start: 0;
+        }
+    }
+
+    .footer-nav {
+        padding: 8px 16px calc(40px + 32px);
+        width: 100%;
+
+        :is(.footer-bottom, .footer-links) a {
+            display: inline-flex;
+            width: fit-content;
+            color: var(--text-subdued);
+            cursor: pointer;
+            transition: color var(--shortest-3) var(--productive);
+
+            &:hover {
+                text-decoration: underline;
+                color: var(--text-base);
+            }
+        }
+
+        @media (min-width: 992px) {
+            padding-left: 32px;
+            padding-right: 32px;
+        }
+
+        .footer-top {
+            display: flex;
+            flex-direction: column;
+            margin-top: 32px;
+
+            @media (min-width: 992px) {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .footer-links {
+            display: flex;
+            flex-flow: column wrap;
+
+            @media (min-width: 768px) {
+                flex-direction: row;
+            }
+            @media (min-width: 992px) {
+                flex: 1 1 50%;
+                padding-bottom: 0px;
+            }
+
+            .footer-column {
+                margin-bottom: 32px;
+
+                ul {
+                    margin: 0;
+                }
+
+                li {
+                    margin-block: 8px;
+                }
+
+                h3,p {
+                    font-family: SpotifyMixUI;
+                    color: var(--text-base);
+                    font-weight: 700;
+                    font-size: 1rem;
+                    margin: 0;
+                }
+
+                @media (min-width: 768px) {
+                    width: 40%;
+                    margin-right: 24px;
+                }
+                @media (min-width: 992px) {
+                    width: 20%;
+                }
+            }
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            align-self: flex-start;
+            margin-bottom:40px;
+            vertical-align: baseline;
+
+            .social-link-wrapper {
+                display: inline;
+                padding-right: 16px;
+
+            }
+
+            a {
+                height: 40px;
+                width: 40px;
+                border-radius: 50%;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(41, 41, 41);
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: rgb(114, 114, 114);
+                }
+
+                &:active {
+                    opacity: 0.7;
+                    transform: scale(1);
+                    color: var(--text-subdued, #656565);
+                }
+
+                svg {
+                    color: #fff;
+                }
+            }
+        }
+
+    }
+
+    .footer-bottom {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+        padding-top: 16px;
+        font-size: 0.875rem;
+        
+        @media (min-width: 992px) {
+            flex-flow: row;
+            align-items: flex-start;
+        }
+
+        .legal-links {
+            display: flex;
+            flex-wrap: wrap; 
+            align-items: center;
+
+            .link-wrapper { 
+                margin-right: 16px;
+
+                a {
+                    margin-bottom: 8px;
+                }
+            }
+        }
+
+        .copyright-wrapper {
+            margin-right: 16px;
+
+            .copyright {
+                margin: 0;
+            }
+        }
+    }
+}

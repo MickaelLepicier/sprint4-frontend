@@ -7,7 +7,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 
 import { debounce, cleanTitle, calcStationDuration } from '../services/util.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { useHeadingFontSize } from '../customHooks/useHeadingFontSize'
+import { useHeadingFontSize } from '../hooks/useHeadingFontSize'
 
 import {
   loadStation,

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 
 import { ImageWithFallback } from '../util/ImageWithFallBack'
 
+import { SidebarPlayBtn } from './SidebarPlayBtn'
 import likedSongsImg from '../../assets/img/liked-songs.png'
 import { PinIcon } from '../svg/PinIcon'
 import { EmptyPlaylistIcon } from '../svg/EmptyPlaylistIcon'
@@ -78,11 +79,14 @@ export function SidebarPreview({
             onContextMenu(ev, station)
           }}
         >
-          <div className="icon-wrapper" >
+          <div className="icon-wrapper" style={{ position: 'relative' }}>
             {/* <div className="img-bg" /> */}
             {getImgContent()}
             {/* TODO - put PlayBtn functionality */}
-            <PlayIcon />
+            {/* <PlayIcon /> */}
+            {/* {isHovered && <SidebarPlayBtn station={station} />} */}
+            <SidebarPlayBtn station={station} />
+
           </div>
 
           {!isCollapsed && (

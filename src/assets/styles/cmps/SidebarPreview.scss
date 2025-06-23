@@ -152,6 +152,8 @@
       }
     }
   }
+
+
 }
 
 li.sidebar-preview.selected:hover {
@@ -272,4 +274,23 @@ aside.sidebar .preview-hover-label {
             display: block;
         }
     }
+}
+
+section li.sidebar-preview {
+  div.icon-wrapper {
+    button.sidebar-play-btn {
+      background-color: transparent;
+      position: absolute;
+      z-index: 3;
+      background: none;
+      padding: 12px;
+      transition-property: color, transform;
+      transition-duration: var(--shortest-3);
+      transition-timing-function: var(--productive);
+
+      &:hover {
+        transform: scale(1.04);
+      }
+    }
+  }
 }

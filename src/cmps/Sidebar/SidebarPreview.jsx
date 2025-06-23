@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useState, seEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 
 import { ImageWithFallback } from '../util/ImageWithFallBack'
@@ -12,16 +12,12 @@ export function SidebarPreview({
   station,
   onClickSonglist,
   isSelected,
-  userFirstName,
-  userId,
+  user,
   isCollapsed,
   setDragRef,
   isLikedSongs = false,
   isOver,
-  contextMenu,
-  setContextMenu,
-  initialContextMenu,
-  onDeleteStation,
+  onContextMenu
 }) {
   const {
     _id,
@@ -31,23 +27,14 @@ export function SidebarPreview({
     createdBy,
   } = station
 
+  const [isHovered, setIsHovered] = useState(false)
+
   const currentStationId = useSelector(state => state.stationModule.currentStation?._id)
   const isPlaying = _id === currentStationId
   const songCount = songs.length
   const createdById = createdBy?._id
-
-  const menuRef = useRef()
-
-  useEffect(() => {
-    function handleClickOutside(ev) {
-      if (contextMenu.show && menuRef.current && !menuRef.current.contains(ev.target)) {
-        setContextMenu(initialContextMenu)
-      }
-    }
-
-    window.addEventListener('mousedown', handleClickOutside)
-    return () => window.removeEventListener('mousedown', handleClickOutside)
-  }, [contextMenu])
+  const userFirstName = user?.fullname?.split(' ')[0]
+  const userId = user?._id
 
   function getClassName() {
     let className = 'sidebar-preview'
@@ -73,65 +60,54 @@ export function SidebarPreview({
     }
     return <ImageWithFallback src={imgUrl} alt={title} fallback={<EmptyPlaylistIcon />} />
   }
-
-  function handleStationMenu(ev) {
-    ev.preventDefault()
-    setContextMenu({ show: true, x: ev.pageX, y: ev.pageY, itemId: _id })
-  }
-
-  function onDelete(ev) {
-    ev.stopPropagation()
-    onDeleteStation(_id)
-    setContextMenu(initialContextMenu)
-  }
-
+        
   return (
-    <section>
-      {contextMenu.show && contextMenu.itemId === _id && (
-        <ul
-          className="station-context-menu"
-          ref={menuRef}
-          style={{ top: contextMenu.y, left: contextMenu.x, position: 'absolute', zIndex: 20 }}
-          onClick={() => setContextMenu(initialContextMenu)}
+    <>
+      <section>
+        <li
+          ref={setDragRef}
+          className={`${getClassName()}${isOver ? ' drag-over' : ''}`}
+          onClick={() => onClickSonglist(_id)}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onContextMenu={(ev) => {
+            ev.stopPropagation()
+            ev.preventDefault()
+            onContextMenu(ev, station)
+          }}
         >
-          <li onClick={onDelete}>
-            <span>
-              <svg xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="2" />
-                <line x1="8" y1="12" x2="16" y2="12" stroke="white" strokeWidth="2" />
-              </svg>
-            </span>
-            Delete
-          </li>
-        </ul>
-      )}
-      <li
-        ref={setDragRef}
-        className={`${getClassName()}${isOver ? ' drag-over' : ''}`}
-        onClick={() => onClickSonglist(_id)}
-        onContextMenu={handleStationMenu}
-      >
-        <div className="icon-wrapper">
-          {/* <div className="img-bg" /> */}
-          {getImgContent()}
-          {/* TODO - put PlayBtn functionality */}
-          <PlayIcon />
-        </div>
-
-        {!isCollapsed && (
-          <div className="details">
-            <h3>{isLikedSongs ? 'Liked Songs' : title}</h3>
-            <p>
-              {isLikedSongs && (
-                <span className="pin-icon">
-                  <PinIcon />
-                </span>
-              )}
-              <span className="songs">{getSubtitle()}</span>
-            </p>
+          <div className="icon-wrapper" >
+            {/* <div className="img-bg" /> */}
+            {getImgContent()}
+            {/* TODO - put PlayBtn functionality */}
+            <PlayIcon />
           </div>
-        )}
-      </li>
-    </section>
+
+          {!isCollapsed && (
+            <div className="details">
+              <h3>{isLikedSongs ? 'Liked Songs' : title}</h3>
+              <p>
+                {isLikedSongs && (
+                  <span className="pin-icon">
+                    <PinIcon />
+                  </span>
+                )}
+                <span className="songs">{getSubtitle()}</span>
+              </p>
+            </div>
+          )}
+        </li>      
+      </section>
+
+      {isCollapsed && isHovered && (
+        <div className="preview-hover-label">
+          <div className="preview-info">
+            <p className="title">{isLikedSongs ? 'Liked Songs' : title}</p>
+            <p className="songs">{getSubtitle()}</p>
+          </div>
+        </div>
+      )}
+    </>
+
   )
 }

@@ -208,3 +208,43 @@ li.sidebar-preview:hover {
         }
     }
 }
+
+aside.sidebar .preview-hover-label {
+    position: absolute;
+    transform: translateY(-56px);
+    left: 84px;
+    z-index: 99999999999999999999999999;
+    pointer-events: none;
+
+    background-color: var(--generic-tooltip-background-color, #282828);
+    border-radius: 4px;
+    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.3), 0 6px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 14px !important;
+    max-width: 50ch;
+    height: 48px;
+    padding: 4px 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .preview-info {
+        display: flex;
+        flex-direction: column;
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        p.title {
+            font-size: 1rem;
+            display: block;
+        }
+
+        p.songs {
+            color: var(--text-subdued);
+            font-size: var(--$encore-text-size-smaller);
+            display: block;
+        }
+    }
+}

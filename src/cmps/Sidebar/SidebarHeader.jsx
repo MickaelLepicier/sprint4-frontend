@@ -7,9 +7,8 @@ export function SidebarHeader({
     onCreateStation,
     isCollapsed,
     onToggleCollapse,
-    isSidebarHovered
+    isCompactCreateBtn
 }) {
-
 
     return (
     <header className="sidebar-header">
@@ -34,9 +33,12 @@ export function SidebarHeader({
                 {!isCollapsed && <h1 className="your-library-title">Your Library</h1>}
             </button>
 
-            <button className="create-btn" aria-label="Create songlist or folder" onClick={onCreateStation}>
+            <button 
+                className={`create-btn ${isCompactCreateBtn ? 'compact' : ''}`}
+                aria-label="Create songlist or folder" 
+                onClick={onCreateStation}>
                 <span className="icon"><CreateIcon /></span>
-                {!isCollapsed && <span className="label">Create</span>}
+                <span className="label">Create</span>
             </button>
         </div>
     </header>

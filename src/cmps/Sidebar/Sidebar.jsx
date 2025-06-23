@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ import { SidebarHeader } from './SidebarHeader'
 import { SidebarViewFilter } from './SidebarViewFilter'
 import { SidebarFilterSort } from './SidebarFilterSort'
 import { SidebarList } from './SidebarList'
+import { useCompactCreateBtn } from '../../hooks/useCompactCreateBtn'
 import { showSuccessMsg, showErrorMsg } from '../../services/event-bus.service'
 
 export function Sidebar({ isCollapsed, setIsCollapsed }) {
@@ -17,6 +18,9 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
   const stations = useSelector(state => state.stationModule.stations)
   const user = useSelector(state => state.userModule.user)
   const navigate = useNavigate()
+
+  const sidebarRef = useRef()
+  const isCompactCreateBtn = useCompactCreateBtn(sidebarRef, 331)
 
   useEffect(() => {
     if (!stations.length) loadStations()
@@ -76,6 +80,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
+      ref={sidebarRef}
       className={`sidebar${isCollapsed ? ' collapsed' : ''}`}
       onMouseEnter={() => setIsSidebarHovered(true)}
       onMouseLeave={() => setIsSidebarHovered(false)}
@@ -85,6 +90,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
         isCollapsed={isCollapsed}
         onToggleCollapse={onToggleCollapse}
         isSidebarHovered={isSidebarHovered}
+        isCompactCreateBtn={isCompactCreateBtn}
       />
 
       {user && (

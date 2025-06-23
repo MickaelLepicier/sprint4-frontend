@@ -1,5 +1,8 @@
 .main-container {
-    --sidebar-width: clamp(280px, 24vw, 400px);
+    container-type: inline-size;
+    // --sidebar-width: clamp(280px, 24vw, 400px);
+    --sidebar-width: clamp(280px, (100cqw - 544px) * 0.5, 420px);
+
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr;
     grid-template-rows: auto 1fr auto;
@@ -14,6 +17,8 @@
     gap: 8px;
     padding: 8px;
 
+    width: 100%;
+    
     &.collapsed {
         --sidebar-width: 72px;
     }
@@ -24,6 +29,9 @@
     //     &.full {
     //         grid-column: 1 / -1;
     //     }
+    // }
+    // aside.sidebar { 
+    //     width: var(--sidebar-width);
     // }
 }
 
@@ -47,7 +55,7 @@ main.main-content {
     overflow-y: auto;
     background-color: #121212; 
 
-    gap: 8px;
+    // gap: 8px;
     background-color: #121212;
     border-radius: 8px;
 }

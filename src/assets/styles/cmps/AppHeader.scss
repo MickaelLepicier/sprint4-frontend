@@ -76,7 +76,12 @@
   }
 
   .header-center {
+    justify-content: start;
     width: 100%;
+
+    @media (min-width: 1400px) {
+      justify-content: center;
+    }
   }
 
   .search-form-container {

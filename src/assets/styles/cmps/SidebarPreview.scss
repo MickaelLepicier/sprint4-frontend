@@ -51,7 +51,7 @@
     }
   }
 
-  &:hover {
+  &:hover:not(.collapsed) {
     background-color: #1f1f1f;
 
         .icon-wrapper  {

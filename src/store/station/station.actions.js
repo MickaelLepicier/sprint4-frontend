@@ -10,6 +10,8 @@ import {
   SET_IS_PLAYING,
   SET_NEXT_SONG,
   SET_PREV_SONG,
+  SET_SHUFFLED_ORDER,
+  SET_IS_SHUFFLE,
   SET_SONG,
   SET_CURRENT_STATION,
   SET_STATION_ORDER,
@@ -153,6 +155,14 @@ export function prevSong(prevTrack) {
     console.log('Cannot go to the preview song ', err)
     throw err
   }
+}
+
+export function setIsShuffle(isShuffle) {
+  return store.dispatch({ type: SET_IS_SHUFFLE, isShuffle })
+}
+
+export function setShuffledOrder(shuffledOrder) {
+  return store.dispatch({ type: SET_SHUFFLED_ORDER, shuffledOrder })
 }
 
 // Command Creators:

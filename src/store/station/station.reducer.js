@@ -12,6 +12,9 @@ export const SET_STATION_ORDER = 'SET_STATION_ORDER'
 export const SET_NEXT_SONG = 'SET_NEXT_SONG'
 export const SET_PREV_SONG = 'SET_PREV_SONG'
 
+export const SET_IS_SHUFFLE = 'SET_SHUFFLE'
+export const SET_SHUFFLED_ORDER = 'SET_SHUFFLED_ORDER'
+
 export const SET_LYRICS_CACHE = 'SET_LYRICS_CACHE'
 
 const initialState = {
@@ -21,7 +24,9 @@ const initialState = {
   currentStation: null, // curr playing station
   isPlaying: false,
   lyricsCache: {}, // store lyrics for played songs
-  stationOrder: []
+  stationOrder: [],
+  isShuffle: false,
+  shuffledOrder: [],
 }
 
 export function stationReducer(state = initialState, action) {
@@ -69,6 +74,14 @@ export function stationReducer(state = initialState, action) {
 
     case SET_PREV_SONG:
       newState = { ...state, currentSong: action.song }
+      break
+
+    case SET_IS_SHUFFLE:
+      newState = { ...state, isShuffle: action.isShuffle }
+      break
+    
+    case SET_SHUFFLED_ORDER:
+      newState = { ...state, shuffledOrder: action.shuffledOrder }
       break
 
     case SET_LYRICS_CACHE:

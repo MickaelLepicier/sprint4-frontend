@@ -5,7 +5,7 @@ import { TwitterIcon } from './svg/TwitterIcon'
 export function MainFooter() {
 	return (
 		<footer className="main-footer">
-            <hr class="footer-divider"></hr>
+            <hr className="footer-divider"></hr>
             <div>
                 <nav className="footer-nav">
                     <div className="footer-top">
@@ -64,7 +64,7 @@ export function MainFooter() {
                         </div>
                     </div>
                     
-                    <hr class="footer-divider secondary"></hr>
+                    <hr className="footer-divider secondary"></hr>
 
                     <section className="footer-bottom">
                         <div className="legal-links">

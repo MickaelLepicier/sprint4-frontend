@@ -1,5 +1,5 @@
 import { ReactYouTube } from '../ReactYouTube.jsx'
-import { nextSong, prevSong, setIsPlaying } from '../../store/station/station.actions.js'
+import { nextSong, prevSong, setIsPlaying, setIsShuffle, setShuffledOrder } from '../../store/station/station.actions.js'
 import { PlayBtn } from '../PlayBtn.jsx'
 import { useSelector } from 'react-redux'
 import { useEffect, useRef, useState } from 'react'
@@ -12,15 +12,17 @@ export function TrackControl({ currSong, volume }) {
   const currStation = useSelector((storeState) => storeState.stationModule.currentStation)
 
   // shuffle
-  const [shuffledOrder, setShuffledOrder] = useState([])
+  // const [shuffledOrder, setShuffledOrder] = useState([])
+  const shuffledOrder = useSelector(state => state.stationModule.shuffledOrder)
   const [originalOrder, setOriginalOrder] = useState([])
 
   // track time
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
-
+  
   const [isRepeat, setIsRepeat] = useState(false)
-  const [isShuffle, setIsShuffle] = useState(false)
+  // const [isShuffle, setIsShuffle] = useState(false)
+  const isShuffle = useSelector(state => state.stationModule.isShuffle)
 
   const playerRef = useRef(null)
   window.playerRef = playerRef
@@ -49,13 +51,31 @@ export function TrackControl({ currSong, volume }) {
     return () => clearInterval(interval)
   }, [song, isPlaying, volume])
 
-  // shuffle
+  //////////////////////////////////////////////////////
+  // global shuffle (does not cancel on playlist change)
   useEffect(() => {
-    if (currStation === null) return
+    if (!currStation) return
 
     setOriginalOrder(currStation.songs)
-    setIsShuffle(false)
-  }, [currStation])
+    
+    if (isShuffle) {
+      // When shuffle is ON, set shuffledOrder
+      const shuffled = shuffleArray(currStation.songs)
+      setShuffledOrder(shuffled)
+    } else {
+      // When shuffle is OFF, clear shuffledOrder
+      setShuffledOrder([])
+    }
+  }, [currStation, isShuffle])
+  
+  // shuffle
+  // useEffect(() => {
+  //   if (currStation === null) return
+
+  //   setOriginalOrder(currStation.songs)
+  //   setIsShuffle(false)
+  // }, [currStation])
+  //////////////////////////////////////////////////////
 
   useEffect(() => {
     // if (currSong && isPlaying) {

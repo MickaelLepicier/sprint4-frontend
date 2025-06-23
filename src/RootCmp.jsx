@@ -82,7 +82,7 @@ export function RootCmp() {
 
         </Routes>
         
-        <MainFooter />
+        {!isAuthPage && <MainFooter />}
       </main>
 
       <AppFooter />

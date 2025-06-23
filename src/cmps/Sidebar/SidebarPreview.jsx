@@ -7,6 +7,7 @@ import likedSongsImg from '../../assets/img/liked-songs.png'
 import { PinIcon } from '../svg/PinIcon'
 import { EmptyPlaylistIcon } from '../svg/EmptyPlaylistIcon'
 import { PlayIcon } from '../svg/PlayIcon'
+import { VolumeIcon } from '../svg/VolumeIcon'
 
 export function SidebarPreview({
   station,
@@ -30,6 +31,7 @@ export function SidebarPreview({
   const [isHovered, setIsHovered] = useState(false)
 
   const currentStationId = useSelector(state => state.stationModule.currentStation?._id)
+  const isPlayingSong = useSelector(state => state.stationModule.isPlaying) || null
   const isPlaying = _id === currentStationId
   const songCount = songs.length
   const createdById = createdBy?._id
@@ -84,6 +86,7 @@ export function SidebarPreview({
           </div>
 
           {!isCollapsed && (
+          <>
             <div className="details">
               <h3>{isLikedSongs ? 'Liked Songs' : title}</h3>
               <p>
@@ -95,16 +98,28 @@ export function SidebarPreview({
                 <span className="songs">{getSubtitle()}</span>
               </p>
             </div>
+          
+            {isPlaying && isPlayingSong && (
+              <div className="volume-icon-container">
+                <span><VolumeIcon color="#1ed760" /></span>
+              </div>
+            )}
+          </>
           )}
         </li>      
       </section>
 
       {isCollapsed && isHovered && (
-        <div className="preview-hover-label">
-          <div className="preview-info">
+        <div className={`preview-hover-label`}>
+          <div className={`preview-info ${isPlaying ? ' playing' : ''}`}>
             <p className="title">{isLikedSongs ? 'Liked Songs' : title}</p>
             <p className="songs">{getSubtitle()}</p>
           </div>
+          {isPlaying && isPlayingSong && (
+              <div>
+                  <VolumeIcon color="#1ed760" />
+              </div>
+          )}
         </div>
       )}
     </>

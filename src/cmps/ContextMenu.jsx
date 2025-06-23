@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 
 export function ContextMenu({ x, y, options = [], onClose }) {
+    if (!options.length) return 
+
     const menuRef = useRef()
 
     useEffect(() => {

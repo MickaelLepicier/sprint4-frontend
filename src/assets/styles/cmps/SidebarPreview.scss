@@ -74,6 +74,18 @@
     background-color: #2a2a2a;
   }
 
+  .volume-icon-container {
+    flex-shrink: 0;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+
+    span {
+      display: block;
+      padding: 8px;
+    }
+  }
+
   .details {
     display: flex;
     flex-direction: column;
@@ -227,6 +239,10 @@ aside.sidebar .preview-hover-label {
     overflow: hidden;
     text-overflow: ellipsis;
 
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
     .preview-info {
         display: flex;
         flex-direction: column;
@@ -236,9 +252,18 @@ aside.sidebar .preview-hover-label {
             padding: 0;
         }
 
-        p.title {
+        &.playing {
+          p.title {
+              color: #1ed760;
+          }
+        }
+
+        p.title &.playing {
             font-size: 1rem;
             display: block;
+            .playing &{
+              color: green;
+            }
         }
 
         p.songs {

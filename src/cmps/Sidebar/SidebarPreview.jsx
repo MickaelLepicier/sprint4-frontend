@@ -42,6 +42,7 @@ export function SidebarPreview({
   function getClassName() {
     let className = 'sidebar-preview'
     if (isSelected) className += ' selected'
+    if (isCollapsed) className += ' collapsed'
     if (isLikedSongs) className += ' liked-songs'
     if (isPlaying) className += ' playing'
     return className
@@ -84,9 +85,7 @@ export function SidebarPreview({
             {getImgContent()}
             {/* TODO - put PlayBtn functionality */}
             {/* <PlayIcon /> */}
-            {/* {isHovered && <SidebarPlayBtn station={station} />} */}
-            <SidebarPlayBtn station={station} />
-
+            {!isCollapsed && isHovered && <SidebarPlayBtn station={station} />}
           </div>
 
           {!isCollapsed && (

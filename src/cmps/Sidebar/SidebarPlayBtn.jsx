@@ -1,15 +1,26 @@
 import { useSelector } from 'react-redux'
 import { setSong, setIsPlaying, setShuffledOrder } from '../../store/station/station.actions'
-import { SidebarPlayIcon } from '../svg/SidebarPlayIcon'
-import { SidebarPauseIcon } from '../svg/SidebarPauseIcon'
+import { PlayStandardIcon } from '../svg/PlayStandardIcon'
+import { PauseStandardIcon } from '../svg/PauseStandardIcon'
+import { PlayLargeIcon } from '../svg/PlayLargeIcon'
+import { PauseLargeIcon } from '../svg/PauseLargeIcon'
 import { SetActionBtn } from '../util/SetActionBtn'
 
-export function SidebarPlayBtn({ station }) {
+export function SidebarPlayBtn({ station, isLargePlayIcon = false }) {
     const isPlaying = useSelector(store => store.stationModule.isPlaying)
     const isShuffle = useSelector(store => store.stationModule.isShuffle)
     const currentStation = useSelector(store => store.stationModule.currentStation)
 
     const isCurrStationPlaying = currentStation?._id === station._id && isPlaying
+
+    console.log('islarge', isLargePlayIcon)
+
+    let iconCmp
+    if (isCurrStationPlaying) {
+        iconCmp = isLargePlayIcon ? <PauseLargeIcon /> : <PauseStandardIcon />
+    } else {
+        iconCmp = isLargePlayIcon ? <PlayLargeIcon /> : <PlayStandardIcon />
+    }
 
     function handleTogglePlay(ev) {
         ev.stopPropagation()
@@ -40,10 +51,6 @@ export function SidebarPlayBtn({ station }) {
         }
     }
 
-    const iconCmp = isCurrStationPlaying
-        ? <SidebarPauseIcon color="#fff" />
-        : <SidebarPlayIcon color="#fff" />
-
     return (
         <SetActionBtn
             currIcon={iconCmp}
@@ -55,7 +62,6 @@ export function SidebarPlayBtn({ station }) {
     )
 }
 
-// Use your friend's function as-is!
 function shuffleArray(array) {
     const shuffled = [...array]
     for (let i = shuffled.length - 1; i > 0; i--) {

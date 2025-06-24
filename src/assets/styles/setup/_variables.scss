@@ -235,6 +235,7 @@ $carousel-shelf-element-width: calc(1955px / 11);
   --encore-border-radius-rounded: 9999px;
   --encore-overlay-box-shadow: 0 4px 12px 0 #0000004d;
   --encore-focus-box-shadow: 0 3px 0 0;
+
 }
 
 // Some random variables not organized as we go along
@@ -242,6 +243,35 @@ $carousel-shelf-element-width: calc(1955px / 11);
   --content-spacing: clamp(16px, 16px + (100cqw - 600px) / 424 * 8, 24px);
   --background-noise: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuMDUiLz48L3N2Zz4=");
 }
+
+.encore-bright-accent-set {
+    --background-base: #1ed760;
+    --background-highlight: #3be477;
+    --background-press: #1abc54;
+    --background-elevated-base: #3be477;
+    --background-elevated-highlight: #3be477;
+    --background-elevated-press: #1abc54;
+    --background-tinted-base: #1ed760;
+    --background-tinted-highlight: #1ed760;
+    --background-tinted-press: #1ed760;
+    --text-base: #000;
+    --text-subdued: #000;
+    --text-bright-accent: #000;
+    --text-negative: #000;
+    --text-warning: #000;
+    --text-positive: #000;
+    --text-announcement: #000;
+    --essential-base: #000;
+    --essential-subdued: #000;
+    --essential-bright-accent: #000;
+    --essential-negative: #000;
+    --essential-warning: #000;
+    --essential-positive: #000;
+    --essential-announcement: #000;
+    --decorative-base: #000;
+    --decorative-subdued: #1abc54;
+}
+
 
 /*
 :root {

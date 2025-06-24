@@ -287,6 +287,7 @@ section li.sidebar-preview {
       transition-property: color, transform;
       transition-duration: var(--shortest-3);
       transition-timing-function: var(--productive);
+      color: #fff;
 
       &:hover {
         transform: scale(1.04);

@@ -85,7 +85,7 @@ export function SidebarPreview({
             {getImgContent()}
             {/* TODO - put PlayBtn functionality */}
             {/* <PlayIcon /> */}
-            {!isCollapsed && isHovered && <SidebarPlayBtn station={station} />}
+            {!isCollapsed && isHovered && <SidebarPlayBtn station={station} isLargePlayIcon={true} />}
           </div>
 
           {!isCollapsed && (

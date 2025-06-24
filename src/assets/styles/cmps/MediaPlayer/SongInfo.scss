@@ -48,13 +48,5 @@
     }
   }
 
-  .song-like-btn {
-    .song-like-img {
-      filter: brightness(0) invert(0.7);
 
-      &:hover {
-        filter: brightness(0) invert(1);
-      }
-    }
-  }
 }

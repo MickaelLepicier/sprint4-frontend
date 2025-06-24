@@ -56,7 +56,6 @@
       // -webkit-line-clamp: 2;
       // overflow: hidden;
 
-
       text-wrap: balance;
       white-space: normal;
 
@@ -89,7 +88,7 @@
       span.dot {
         margin-inline: 4px;
       }
-      
+
       span.comma {
         margin-inline-end: 1px;
       }
@@ -112,7 +111,7 @@
     width: 524px;
     padding: 0;
     border: 0;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, .3);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
     color: #fff;
     background-color: #282828;
     border-radius: 8px;
@@ -149,11 +148,11 @@
         margin-top: -8px;
 
         &:hover {
-          background-color: hsla(0, 0%, 100%, .1);
+          background-color: hsla(0, 0%, 100%, 0.1);
         }
 
         &:active {
-          background-color: hsla(0, 0%, 100%, .2);
+          background-color: hsla(0, 0%, 100%, 0.2);
         }
       }
     }
@@ -163,11 +162,11 @@
       display: grid;
       grid-template-columns: 180px 1fr;
       grid-template-rows: 32px 132px 32px auto;
-      grid-template-areas: 
-        "album-image title"
-        "album-image description"
-        ". save-button"
-        "disclaimer disclaimer";
+      grid-template-areas:
+        'album-image title'
+        'album-image description'
+        '. save-button'
+        'disclaimer disclaimer';
       gap: 16px;
       padding: 0 24px 24px;
 
@@ -227,7 +226,7 @@
               object-position: center;
               border-radius: inherit;
             }
-            
+
             // Used for grainy effect on img hover
             &::after {
               content: '';
@@ -285,7 +284,8 @@
       }
 
       // General input title/textarea description styling
-      input, textarea {
+      input,
+      textarea {
         width: 100%;
         color: #fff;
         background: hsla(0, 0%, 100%, 0.1);
@@ -353,7 +353,7 @@
         }
       }
 
-      // Save station edit modal button 
+      // Save station edit modal button
       .save-btn {
         align-self: center;
         justify-self: flex-end;
@@ -397,8 +397,6 @@
       }
     }
   }
- 
-
 
   .edit-details-dialog {
     background: transparent;
@@ -406,12 +404,10 @@
     padding: 0;
   }
 
-  
   .edit-details-dialog::backdrop {
-  background-color: #12121281;
+    background-color: #12121281;
   }
 
-  
   .edit-modal {
     background: #181818;
     border-radius: 12px;
@@ -469,9 +465,11 @@
     height: 200px;
     background: #232323;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include flex;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+
     overflow: hidden;
     margin-bottom: 0;
   }
@@ -607,85 +605,101 @@
 
   .songlist-play-actions {
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
+    // justify-content: space-between;
+    // gap: 12px;
     padding: var(--content-spacing);
+    container-type: inline-size; // Container queries on this element
+    container-name: play-btn-size;
+    // add height
 
     .media-player-container {
       display: flex;
       align-items: center;
       // gap: 16px;
-      
+
       button {
         z-index: 0;
       }
-      
-      button.songlist-play-btn {
-        margin: 0;
-        margin-right: var(--content-spacing);
-        height: 56px;
-        width: 56px;
-        background-color:#1ed760;
-        transition: background-color 150ms cubic-bezier(0.3, 0, 0, 1);
-        &:hover {
-          background-color: #3be477;
-        }
-      }
+
+      // button.songlist-play-btn {
+      //   margin: 0;
+      //   margin-right: var(--content-spacing);
+
+      //   background-color: #1ed760;
+      //   transition: background-color 150ms cubic-bezier(0.3, 0, 0, 1);
+      //   &:hover {
+      //     background-color: #3be477;
+      //   }
+      // }
     }
-
-    // .btn-compact {
-    //   background-color: #1db954;
-    //   border: none;
-    //   color: white;
-    //   padding: 12px 28px;
-    //   border-radius: 32px;
-    //   font-size: 14px;
-    //   font-weight: bold;
-    //   cursor: pointer;
-    //   transition: background-color 0.3s;
-
-    //   &:hover {
-    //     background-color: #1ed760;
-    //   }
-
-    //   &:nth-child(2) {
-    //     background-color: transparent;
-    //     color: #b3b3b3;
-    //     border: 1px solid #b3b3b3;
-
-    //     &:hover {
-    //       background-color: #2a2a2a;
-    //     }
-    //   }
-    // }
   }
 
   .song-list-container {
     padding-inline: var(--content-spacing);
-
+    // padding-inline: 16px;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
+    // border-collapse: separate;
 
     thead {
-      padding-inline: 16px;
+      // padding-inline: 16px;
+    }
+
+    .t-header {
+      // padding-inline: 16px;
+
+      th {
+        height: 35.2px;
+        text-align: left;
+      }
+
+      // th:first-child {
+      //   // padding-inline: 16px 0;
+      //   // padding-inline: 16px;
+      // }
     }
 
     th,
     td {
-      padding: 16px;
-      text-align: left;
+      color: #b3b3b3;
+
+      padding-right: 16px;
       font-size: 14px;
     }
 
+    td {
+      height: 54.4px;
+    }
+
     th {
-      color: #b3b3b3;
-      // text-transform: uppercase;
-      font-size: 12px;
+      font-size: 14px;
       letter-spacing: 1px;
       border-bottom: 1px solid #282828;
+    }
+
+    th:first-child,
+    td:first-child {
+      // padding-left: 16px;
+
+      padding-inline: 16px;
+      text-align: center;
+    }
+
+    td:nth-child(2) {
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    th:last-child,
+    td:last-child {
+      // padding-right: 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: end;
     }
 
     .song-row {
@@ -700,7 +714,8 @@
             pointer-events: none;
           }
 
-          .song-preview-play-icon, .song-preview-pause-icon {
+          .song-preview-play-icon,
+          .song-preview-pause-icon {
             opacity: 1;
             pointer-events: auto;
           }
@@ -709,9 +724,13 @@
         .add-to-liked,
         .more-options {
           opacity: 1;
-          pointer-events: auto;
-          background-color: #2a2a2a;
-          color: white;
+          // pointer-events: auto;
+          // background-color: #2a2a2a;
+          // color: white;
+        }
+
+        td:nth-child(3) {
+          color: #ffffff;
         }
       }
 
@@ -734,7 +753,8 @@
             pointer-events: none;
           }
 
-          .song-preview-play-icon, .song-preview-pause-icon {
+          .song-preview-play-icon,
+          .song-preview-pause-icon {
             opacity: 1;
             pointer-events: auto;
           }
@@ -754,9 +774,10 @@
           left: 0;
           width: 100%;
           height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          @include flex;
+          // display: flex;
+          // align-items: center;
+          // justify-content: center;
           transition: opacity 0.2s ease;
         }
 
@@ -765,7 +786,8 @@
           pointer-events: auto;
         }
 
-        .song-preview-play-icon, .song-preview-pause-icon {
+        .song-preview-play-icon,
+        .song-preview-pause-icon {
           opacity: 0;
           pointer-events: none;
         }
@@ -791,8 +813,8 @@
       .add-to-liked,
       .more-options {
         opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
+        // pointer-events: none;
+        // transition: opacity 0.2s ease;
       }
     }
   }

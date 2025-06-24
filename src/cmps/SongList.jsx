@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
-// import { ColorThief } from '../cmps/ColorThief' 
+// import { ColorThief } from '../cmps/ColorThief'
 
 import { debounce, cleanTitle, calcStationDuration } from '../services/util.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -27,7 +27,13 @@ import { StationEditModal } from './StationEditModal'
 import { DominantColorExtractor } from './DominantColorExtractor'
 import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
-import { AddIcon } from './svg/AddIcon'
+import { LikeIcon } from './svg/LikeIcon'
+import { LikeToggleBtn } from './LikeToggleBtn'
+
+// TODOs:
+// [] create list btn
+// [] songListPage and SongList will be the list
+// []
 
 export function SongList() {
   const { stationId } = useParams()
@@ -45,7 +51,7 @@ export function SongList() {
   const [songs, setSongs] = useState([])
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
-  const [dominantColor, setDominantColor] = useState('#121212') 
+  const [dominantColor, setDominantColor] = useState('#121212')
 
   // Refs
   const modalRef = useRef()
@@ -71,6 +77,9 @@ export function SongList() {
   const stationDuration = useMemo(() => {
     return calcStationDuration(station?.songs || [])
   }, [station?.songs])
+
+  // check if station is LikedSongs
+  const isLikedSongs = station?.name === 'Liked Songs'
 
   // UseEffects
   useEffect(() => {
@@ -195,14 +204,15 @@ export function SongList() {
   return (
     <section className="station-songlist">
       <DominantColorExtractor imgUrl={station.imgUrl} onSetColor={setDominantColor} />
-      <div 
+      <div
         className="station-header-container"
-        style={{ backgroundColor: `${dominantColor}`,
+        style={{
+          backgroundColor: `${dominantColor}`,
           backgroundImage: `linear-gradient(transparent 0%, rgba(0, 0, 0, 0.5) 100%)`,
           backgroundRepeat: 'repeat',
           backgroundSize: 'auto',
           boxShadow: `0 1px 232px 0 ${dominantColor}`
-        }}  
+        }}
       >
         <header className="station-header">
           <img
@@ -219,15 +229,16 @@ export function SongList() {
 
             <span>{station.description}</span>
           </div> */}
-          
+
           {/* Station Info */}
           <div>
-            <span className="playlist-label">
-              {isLikedStation ? 'Playlist' : 'Public Playlist'}
+            <span className="playlist-label">{isLikedStation ? 'Playlist' : 'Public Playlist'}</span>
 
-            </span>
-
-            <h1 style={{ headerFontSize }} className="station-header-name" onClick={() => modalRef.current?.openModal()}> 
+            <h1
+              style={{ headerFontSize }}
+              className="station-header-name"
+              onClick={() => modalRef.current?.openModal()}
+            >
               {cleanTitle(station.name)}
             </h1>
 
@@ -237,7 +248,7 @@ export function SongList() {
               {station?.songs?.length > 0 && (
                 <p>
                   <span>
-                      {station.songs.length} {station.songs.length === 1 ? 'song' : 'songs'}
+                    {station.songs.length} {station.songs.length === 1 ? 'song' : 'songs'}
                   </span>
 
                   {!isLikedStation && stationDuration && (
@@ -263,31 +274,40 @@ export function SongList() {
       <div className="songlist-play-actions">
         <div className="media-player-container">
           <PlayBtn onToggle={handleSongPlay} isPlaying={isPlaying} className={isPlay} />
-          <button
-            className='save-playlist add-song'
+        
+        {/* add-to-liked */}
+
+        <LikeToggleBtn song={currSong} size='32' />
+
+          {/* <button
+            className="save-playlist add-song"
             title="Save to Your Library"
             onClick={() => {
               onAddToLibrary(station)
             }}
           >
-            <AddIcon />
-          </button>
+            <LikeIcon />
+          </button> */}
+
         </div>
 
         {/* TODO: Will put it back after finishing the layout */}
         {/* <button className="btn-compact">Compact</button> */}
       </div>
+      {/*
 
+
+*/}
       <div className="song-list-container">
         <table>
           <thead>
-            <tr>
+            <tr className="t-header">
               <th>#</th>
               <th>Title</th>
               <th>Album</th>
-              <th>Date Added</th>
+              {isLikedSongs && <th>Date Added</th>}
               <th>
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
                   <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
                   <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
                   <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
@@ -295,15 +315,18 @@ export function SongList() {
               </th>
               {/* <th>Duration</th> */}
             </tr>
+            <tr className="thead-spacer-row">
+              <td colSpan="5" style={{ height: '1rem' }}></td>
+            </tr>
           </thead>
           {/* DND: Wrap tbody in DragDropContext and Droppable */}
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="songs-droppable" direction="vertical">
-              {provided => (
+              {(provided) => (
                 <tbody ref={provided.innerRef} {...provided.droppableProps}>
                   {songs.map((song, idx) => (
                     <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
-                      {provided => (
+                      {(provided) => (
                         <SongPreview
                           song={song}
                           idx={idx}
@@ -312,6 +335,7 @@ export function SongList() {
                           draggableProps={provided.draggableProps} // DND: pass drag props
                           dragHandleProps={provided.dragHandleProps} // DND: pass handle props
                           innerRef={provided.innerRef} // DND: pass ref
+                          isLikedSongs={isLikedSongs}
                         />
                       )}
                     </Draggable>

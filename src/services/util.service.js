@@ -230,3 +230,17 @@ function _formatAsAboutDuration(totalSec) {
 
   return `${min} min ${sec} sec`
 }
+
+
+function getRandomFormattedDate(start = new Date(2020, 0, 1), end = new Date()) {
+  const startTime = start.getTime();
+  const endTime = end.getTime();
+  const randomTime = startTime + Math.random() * (endTime - startTime);
+  const date = new Date(randomTime);
+
+  const month = date.getMonth() + 1; // months are 0-based
+  const day = date.getDate();
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}

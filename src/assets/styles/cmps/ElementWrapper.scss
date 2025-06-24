@@ -1,4 +1,3 @@
-
 .icon-wrapper {
   display: flex;
   flex-shrink: 0;
@@ -16,7 +15,6 @@
 
     background: #282828;
     z-index: 1;
-
   }
 
   &:has(svg.empty-playlist-icon) {
@@ -59,9 +57,8 @@
   background: none;
   border: none;
   border-radius: 4px;
-  
-  cursor: pointer;
 
+  cursor: pointer;
 }
 
 /* track control icons */
@@ -140,7 +137,6 @@ svg.track-control-pause-icon {
   }
 }
 
-
 .track-btn.active-green::after {
   content: '';
   position: absolute;
@@ -150,7 +146,7 @@ svg.track-control-pause-icon {
 
   width: 4px;
   height: 4px;
-  background-color: #1db954; 
+  background-color: #1db954;
   border-radius: 50%;
 }
 
@@ -170,6 +166,8 @@ svg.track-icon {
 .songlist-pause-btn {
   width: 48px;
   height: 48px;
+  margin-right: var(--content-spacing);
+
   background-color: #1ed760;
   border-radius: 50%;
 
@@ -191,6 +189,15 @@ svg.songlist-pause-icon {
   height: 24px;
 
   transform-origin: center;
+}
+
+@container play-btn-size (min-width: 600px) {
+  // @media (min-width: 1000px) {
+  .songlist-play-btn,
+  .songlist-pause-btn {
+    width: 56px;
+    height: 56px;
+  }
 }
 
 /* songPreview buttons */

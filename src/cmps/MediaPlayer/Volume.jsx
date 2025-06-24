@@ -9,6 +9,7 @@ export function Volume({ volume, toggleMute, handleVolumeChange }) {
   const vol = currentValue(volume)
   const barStyle = { width: `${vol}%` }
   const thumbStyle = { left: `calc(${vol}% - 6px)` }
+  const title = vol === 0 ? 'Unmute' : 'Mute'
 
   function getVolumeClassName() {
     if (vol === 0) return 'volume-mute'
@@ -19,7 +20,7 @@ export function Volume({ volume, toggleMute, handleVolumeChange }) {
 
   return (
     <section className="track-options flex-center">
-      <SetTrackBtn className={getVolumeClassName()} onClick={toggleMute} />
+      <SetTrackBtn className={getVolumeClassName()} onClick={toggleMute} title={title} />
 
       <div className="track-bar-container" ref={containerRef} onClick={handleClick}>
         <div className="track-bar-bg">

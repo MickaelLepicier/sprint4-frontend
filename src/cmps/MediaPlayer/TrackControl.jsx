@@ -188,14 +188,14 @@ export function TrackControl({ currSong, volume }) {
   return (
     <section className="track-controls-container">
       <div className="track-actions">
-        <SetTrackBtn className={`shuffle ${isNotAllowedCN} ${shuffleActive}`} onClick={onShuffle} />
+        <SetTrackBtn className={`shuffle ${isNotAllowedCN} ${shuffleActive}`} onClick={onShuffle} title="Shuffle"/>
 
-        <SetTrackBtn className={`prev-song ${isNotAllowedCN}`} onClick={onPrevSong} dis={!song} />
+        <SetTrackBtn className={`prev-song ${isNotAllowedCN}`} onClick={onPrevSong} dis={!song} title="Preview song"/>
 
         <PlayBtn onToggle={onTogglePlay} isPlaying={isPlaying} className={`${isPlay} ${isNotAllowedCN}`} />
 
-        <SetTrackBtn className={`next-song ${isNotAllowedCN}`} onClick={onNextSong} dis={!song} />
-        <SetTrackBtn className={`repeat ${isNotAllowedCN} ${repeatActive}`} onClick={onRepeat} dis={!song} />
+        <SetTrackBtn className={`next-song ${isNotAllowedCN}`} onClick={onNextSong} title="Next song" dis={!song} />
+        <SetTrackBtn className={`repeat ${isNotAllowedCN} ${repeatActive}`} onClick={onRepeat} title="Repeat" dis={!song} />
       </div>
 
       <TrackSeek

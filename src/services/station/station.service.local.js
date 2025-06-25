@@ -41,8 +41,9 @@ window.cs = stationService
 
 async function query(filterBy = { txt: '' }) {
   var stations = await storageService.query(STORAGE_KEY)
-
+  
   const { txt, tag, sortField = 'asc', sortDir, onlyLiked } = filterBy
+  console.log('filterBy:',filterBy)
 
   if (txt) {
     const regex = new RegExp(txt, 'i')

@@ -1,7 +1,7 @@
 import { useSliderDrag } from '../../hooks/useSliderDrag'
 import { SetTrackBtn } from '../SetTrackBtn'
 
-export function Volume({ volume, toggleMute, handleVolumeChange }) {
+export function Volume({ volume, toggleMute, handleVolumeChange, isDisabled }) {
   const { containerRef, currentValue, handleMouseDown, handleClick } = useSliderDrag({
     max: 100,
     onChange: (val) => handleVolumeChange({ target: { value: Math.round(val) } })
@@ -11,6 +11,7 @@ export function Volume({ volume, toggleMute, handleVolumeChange }) {
   const thumbStyle = { left: `calc(${vol}% - 6px)` }
   const title = vol === 0 ? 'Unmute' : 'Mute'
 
+  
   function getVolumeClassName() {
     if (vol === 0) return 'volume-mute'
     if (vol <= 40) return 'volume-low'
@@ -19,7 +20,7 @@ export function Volume({ volume, toggleMute, handleVolumeChange }) {
   }
 
   return (
-    <section className="track-options flex-center">
+    <section className="track-options flex-center" style={isDisabled}>
       <SetTrackBtn className={getVolumeClassName()} onClick={toggleMute} title={title} />
 
       <div className="track-bar-container" ref={containerRef} onClick={handleClick}>

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { LyricsBtn } from './LyricsBtn'
 import { Volume } from './Volume'
 
-export function TrackExtras({ volume, setVolume }) {
+export function TrackExtras({ volume, setVolume, isDisabled }) {
   const [prevVolume, setPrevVolume] = useState(50)
 
   function handleVolumeChange(ev) {
@@ -27,12 +27,13 @@ export function TrackExtras({ volume, setVolume }) {
 
   return (
     <section className="other-options flex align-center">
-      <LyricsBtn />
+      <LyricsBtn isDisabled={isDisabled}/>
 
       <Volume
         volume={volume}
         toggleMute={toggleMute}
         handleVolumeChange={handleVolumeChange}
+        isDisabled={isDisabled}
       />
     </section>
   )

@@ -12,13 +12,28 @@ export function MediaPlayer() {
 
   const [volume, setVolume] = useState(50)
 
+  const isDisabled = currSong
+    ? {}
+    : {
+        opacity: 0.5,
+        pointerEvents: 'none',
+        cursor: 'not-allowed',
+        userSelect: 'none'
+      }
+
+  // const isDisable = song ? {} : { userSelect: 'none' };
+
   return (
     <section className="media-player-container flex align-center">
-      <TrackInfo song={currSong} />
+      <TrackInfo song={currSong} isDisabled={isDisabled} />
 
       <TrackControl currSong={currSong} volume={volume} />
 
-      <TrackExtras volume={volume} setVolume={setVolume} />
+      <TrackExtras
+        volume={volume}
+        setVolume={setVolume}
+        isDisabled={isDisabled}
+      />
     </section>
   )
 }

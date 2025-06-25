@@ -28,6 +28,8 @@ import { DominantColorExtractor } from './DominantColorExtractor'
 import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
 import { LikeIcon } from './svg/LikeIcon'
+import { LikeLargeIcon } from './svg/LikeLargeIcon'
+import { RemoveFromLikedLargeIcon } from './svg/RemoveFromLikedLargeIcon'
 import { LikeToggleBtn } from './LikeToggleBtn'
 
 // TODOs:
@@ -72,6 +74,10 @@ export function SongList() {
   const isOwnedByUser = isLikedStation || station?.createdBy?._id === user?._id
   const isPlay = isPlaying ? 'songlist-pause-icon' : 'songlist-play-icon'
   const headerFontSize = useHeadingFontSize(headingRef, [station?.name])
+  const isLikedPlaylist = useSelector(state =>
+    state.userModule.user?.likedStationIds?.includes(station?._id)
+  )
+
 
   // Memoized values
   const stationDuration = useMemo(() => {
@@ -159,35 +165,66 @@ export function SongList() {
   // Event Handlers - User actions (mutations)
   async function onAddToLibrary(station) {
     try {
-      const existingLikedStation = stations.find((s) => s.origId === station._id || s._id === station._id)
-
       const state = store.getState()
       const stationOrder = state.stationModule.stationOrder
-      let newOrder = []
-      let updatedStationIds
+      let updatedStationIds, newOrder, addedStation
 
-      if (existingLikedStation) {
-        updatedStationIds = user.likedStationIds.filter((id) => id !== existingLikedStation._id)
-        await removeStation(existingLikedStation._id)
-        newOrder = stationOrder.filter((id) => id !== existingLikedStation._id)
+      if (user.likedStationIds.includes(station._id)) {
+        // Remove
+        updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
+        newOrder = stationOrder.filter(id => id !== station._id)
       } else {
-        let stationToAdd = { ...station, origId: station._id }
-        delete stationToAdd._id
-        const addedStation = await addStation(stationToAdd)
+        // Add
+        addedStation = stations.find(s => s._id === station._id)
+        if (!addedStation) {
+          let stationToAdd = { ...station, origId: station._id }
+          delete stationToAdd._id
+          addedStation = await addStation(stationToAdd)
+        }
         updatedStationIds = [...user.likedStationIds, addedStation._id]
-
         newOrder = [...stationOrder, addedStation._id]
       }
 
       setStationOrder(newOrder)
-
       const updatedUser = { ...user, likedStationIds: updatedStationIds }
-      const updated = await updateUser(updatedUser)
+      await updateUser(updatedUser)
     } catch (error) {
       console.log('error:', error)
       showErrorMsg(`Couldn't add to library`)
     }
   }
+
+  // async function onAddToLibrary(station) {
+  //   try {
+  //     const existingLikedStation = stations.find((s) => s.origId === station._id || s._id === station._id)
+
+  //     const state = store.getState()
+  //     const stationOrder = state.stationModule.stationOrder
+  //     let newOrder = []
+  //     let updatedStationIds
+
+  //     if (existingLikedStation) {
+  //       updatedStationIds = user.likedStationIds.filter((id) => id !== existingLikedStation._id)
+  //       await removeStation(existingLikedStation._id)
+  //       newOrder = stationOrder.filter((id) => id !== existingLikedStation._id)
+  //     } else {
+  //       let stationToAdd = { ...station, origId: station._id }
+  //       delete stationToAdd._id
+  //       const addedStation = await addStation(stationToAdd)
+  //       updatedStationIds = [...user.likedStationIds, addedStation._id]
+
+  //       newOrder = [...stationOrder, addedStation._id]
+  //     }
+
+  //     setStationOrder(newOrder)
+
+  //     const updatedUser = { ...user, likedStationIds: updatedStationIds }
+  //     const updated = await updateUser(updatedUser)
+  //   } catch (error) {
+  //     console.log('error:', error)
+  //     showErrorMsg(`Couldn't add to library`)
+  //   }
+  // }
 
   // async function onAddStationMsg(stationId) {
   //     try {
@@ -277,7 +314,17 @@ export function SongList() {
         
         {/* add-to-liked */}
 
-        <LikeToggleBtn song={currSong} size='32' />
+        {/* <LikeToggleBtn song={currSong} size='32' /> */}
+
+        {!isLikedStation && (
+          <button
+            className="add-remove-playlist"
+            title={isLikedPlaylist ? "Remove from Your Library" : "Save to Your Library"}
+            onClick={() => onAddToLibrary(station)}
+          >
+            {isLikedPlaylist ? <RemoveFromLikedLargeIcon color={'var(--text-bright-accent)'}/> : <LikeLargeIcon color={'#b3b3b3'}/>}
+          </button>
+        )}
 
           {/* <button
             className="save-playlist add-song"

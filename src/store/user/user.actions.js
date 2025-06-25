@@ -19,7 +19,6 @@ export async function loadUsers() {
 }
 
 export async function updateUser(newUser) {
-    
     try {
         store.dispatch({ type: LOADING_START })
         const user = await userService.update(newUser)

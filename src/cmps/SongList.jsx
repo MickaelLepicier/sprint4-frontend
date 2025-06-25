@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
-// import { ColorThief } from '../cmps/ColorThief' 
+// import { ColorThief } from '../cmps/ColorThief'
 
 import { debounce, cleanTitle, calcStationDuration } from '../services/util.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { useHeadingFontSize } from '../customHooks/useHeadingFontSize'
+import { useHeadingFontSize } from '../hooks/useHeadingFontSize'
 
 import {
   loadStation,
@@ -16,7 +16,7 @@ import {
   setIsPlaying,
   addStation,
   removeStation,
-  setStationOrder,
+  setStationOrder
 } from '../store/station/station.actions'
 import { updateUser } from '../store/user/user.actions'
 import { loadSearchResults } from '../store/search/search.actions'
@@ -27,30 +27,38 @@ import { StationEditModal } from './StationEditModal'
 import { DominantColorExtractor } from './DominantColorExtractor'
 import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
-import { AddIcon } from './svg/AddIcon'
+import { LikeIcon } from './svg/LikeIcon'
+import { LikeToggleBtn } from './LikeToggleBtn'
+
+// TODOs:
+// [] create list btn
+// [] songListPage and SongList will be the list
+// []
 
 export function SongList() {
   const { stationId } = useParams()
 
   // Redux selectors
-  const station = useSelector(storeState => storeState.stationModule.station)
-  const user = useSelector(storeState => storeState.userModule.user)
-  const stations = useSelector(storeState => storeState.stationModule.stations)
-  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
-  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
+  const user = useSelector((storeState) => storeState.userModule.user)
+  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
+  const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
+
+  const stations = useSelector((storeState) => storeState.stationModule.stations)
+  const station = useSelector((storeState) => storeState.stationModule.station)
+  const currentStation = useSelector((storeState) => storeState.stationModule.currentStation)
 
   // Local state
   const [songs, setSongs] = useState([])
   const [searchSong, setSearchSong] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
-  const [dominantColor, setDominantColor] = useState('#121212') 
+  const [dominantColor, setDominantColor] = useState('#121212')
 
   // Refs
   const modalRef = useRef()
   const headingRef = useRef()
 
   const debouncedSearch = useRef(
-    debounce(async txt => {
+    debounce(async (txt) => {
       try {
         await performSearch(txt)
       } catch (error) {
@@ -70,6 +78,9 @@ export function SongList() {
     return calcStationDuration(station?.songs || [])
   }, [station?.songs])
 
+  // check if station is LikedSongs
+  const isLikedSongs = station?.name === 'Liked Songs'
+
   // UseEffects
   useEffect(() => {
     if (!station || station._id !== stationId) loadStation(stationId)
@@ -78,7 +89,7 @@ export function SongList() {
   useEffect(() => {
     if (station?.songs) setSongs(station.songs)
   }, [station])
-  
+
   // Event Handlers - Search
   async function performSearch(txt) {
     if (!txt.trim()) return
@@ -93,7 +104,7 @@ export function SongList() {
     ev.preventDefault()
     performSearch(searchSong)
   }
-  
+
   function handleChange({ target }) {
     const { value } = target
     setSearchSong(value)
@@ -102,7 +113,6 @@ export function SongList() {
 
   // Event Handlers - Play toggle
   function onTogglePlay(song) {
-    console.log('onTogglePlay - SongList')
     if (!song || !song.id) {
       console.log('Invalid song passed to onTogglePlay: ', song)
       return
@@ -130,6 +140,13 @@ export function SongList() {
     }
   }
 
+  function handleSongPlay() {
+    let song = currSong || station.songs[0]
+    if (station._id !== currentStation?._id) song = station.songs[0]
+
+    onTogglePlay(song)
+  }
+
   // Event Handlers - Drag and Drop
   function handleDragEnd(result) {
     if (!result.destination) return
@@ -142,7 +159,7 @@ export function SongList() {
   // Event Handlers - User actions (mutations)
   async function onAddToLibrary(station) {
     try {
-      const existingLikedStation = stations.find(s => s.origId === station._id || s._id === station._id)
+      const existingLikedStation = stations.find((s) => s.origId === station._id || s._id === station._id)
 
       const state = store.getState()
       const stationOrder = state.stationModule.stationOrder
@@ -150,9 +167,9 @@ export function SongList() {
       let updatedStationIds
 
       if (existingLikedStation) {
-        updatedStationIds = user.likedStationIds.filter(id => id !== existingLikedStation._id)
+        updatedStationIds = user.likedStationIds.filter((id) => id !== existingLikedStation._id)
         await removeStation(existingLikedStation._id)
-        newOrder = stationOrder.filter(id => id !== existingLikedStation._id)
+        newOrder = stationOrder.filter((id) => id !== existingLikedStation._id)
       } else {
         let stationToAdd = { ...station, origId: station._id }
         delete stationToAdd._id
@@ -187,14 +204,15 @@ export function SongList() {
   return (
     <section className="station-songlist">
       <DominantColorExtractor imgUrl={station.imgUrl} onSetColor={setDominantColor} />
-      <div 
+      <div
         className="station-header-container"
-        style={{ backgroundColor: `${dominantColor}`,
+        style={{
+          backgroundColor: `${dominantColor}`,
           backgroundImage: `linear-gradient(transparent 0%, rgba(0, 0, 0, 0.5) 100%)`,
           backgroundRepeat: 'repeat',
           backgroundSize: 'auto',
           boxShadow: `0 1px 232px 0 ${dominantColor}`
-        }}  
+        }}
       >
         <header className="station-header">
           <img
@@ -204,13 +222,48 @@ export function SongList() {
             }
             alt=""
           />
-          <div>
+          {/* <div>
             <h1 style={{ headerFontSize }} className="station-header-name" onClick={() => modalRef.current?.openModal()}> 
               {cleanTitle(station.name)}
             </h1>
 
             <span>{station.description}</span>
+          </div> */}
+
+          {/* Station Info */}
+          <div>
+            <span className="playlist-label">{isLikedStation ? 'Playlist' : 'Public Playlist'}</span>
+
+            <h1
+              style={{ headerFontSize }}
+              className="station-header-name"
+              onClick={() => modalRef.current?.openModal()}
+            >
+              {cleanTitle(station.name)}
+            </h1>
+
+            <div className="station-meta flex align-center">
+              <span className="created-by">{isOwnedByUser ? user.fullname : 'MisterBeat'}</span>
+              <span className="dot">•</span>
+              {station?.songs?.length > 0 && (
+                <p>
+                  <span>
+                    {station.songs.length} {station.songs.length === 1 ? 'song' : 'songs'}
+                  </span>
+
+                  {!isLikedStation && stationDuration && (
+                    <>
+                      <span className="comma">,&nbsp;</span>
+                      <span>{stationDuration}</span>
+                    </>
+                  )}
+                </p>
+              )}
+            </div>
+
+            <span>{station.description}</span>
           </div>
+          {/* Station Info */}
 
           {/* DIALOOOOOOOOOGGGGGGGGG */}
           <StationEditModal ref={modalRef} />
@@ -220,36 +273,41 @@ export function SongList() {
 
       <div className="songlist-play-actions">
         <div className="media-player-container">
-          <PlayBtn
-            onToggle={() => currSong && onTogglePlay(currSong)}
-            isPlaying={isPlaying}
-            className={isPlay}
-          />
-          <button
-          className='add-song'
+          <PlayBtn onToggle={handleSongPlay} isPlaying={isPlaying} className={isPlay} />
+        
+        {/* add-to-liked */}
+
+        <LikeToggleBtn song={currSong} size='32' />
+
+          {/* <button
+            className="save-playlist add-song"
             title="Save to Your Library"
             onClick={() => {
               onAddToLibrary(station)
             }}
           >
-            <AddIcon />
-          </button>
+            <LikeIcon />
+          </button> */}
+
         </div>
 
         {/* TODO: Will put it back after finishing the layout */}
         {/* <button className="btn-compact">Compact</button> */}
       </div>
+      {/*
 
+
+*/}
       <div className="song-list-container">
         <table>
           <thead>
-            <tr>
+            <tr className="t-header">
               <th>#</th>
               <th>Title</th>
               <th>Album</th>
-              <th>Date Added</th>
+              {isLikedSongs && <th>Date Added</th>}
               <th>
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
                   <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
                   <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
                   <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
@@ -257,15 +315,18 @@ export function SongList() {
               </th>
               {/* <th>Duration</th> */}
             </tr>
+            <tr className="thead-spacer-row">
+              <td colSpan="5" style={{ height: '1rem' }}></td>
+            </tr>
           </thead>
           {/* DND: Wrap tbody in DragDropContext and Droppable */}
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="songs-droppable" direction="vertical">
-              {provided => (
+              {(provided) => (
                 <tbody ref={provided.innerRef} {...provided.droppableProps}>
                   {songs.map((song, idx) => (
                     <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
-                      {provided => (
+                      {(provided) => (
                         <SongPreview
                           song={song}
                           idx={idx}
@@ -274,6 +335,7 @@ export function SongList() {
                           draggableProps={provided.draggableProps} // DND: pass drag props
                           dragHandleProps={provided.dragHandleProps} // DND: pass handle props
                           innerRef={provided.innerRef} // DND: pass ref
+                          isLikedSongs={isLikedSongs}
                         />
                       )}
                     </Draggable>

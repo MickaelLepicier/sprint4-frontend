@@ -1,11 +1,11 @@
 .wide-station-preview {
   position: relative;
+
   background: #413f3f94;
   border-radius: 4px;
   color: #fff;
   font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
     sans-serif;
-  cursor: pointer;
   display: flex;
   align-items: center;
   transition: background-color .3s ease;
@@ -17,37 +17,44 @@
   min-width: 170px;
   // min-height: 3em; // ~2 lines of text
   
+  container-type: inline-size;
+  container-name: wideStationPreview;
+
   &:hover {
     background-color: hsla(0, 0%, 100%, .2);
-  }
 
-  .play-btn {
-    position: absolute;
-    top: 7px;
-    right: 4px;
-    width: 50px;
-    height: 50px;
-    background-color: #1ed760;
-    border: none;
-    border-radius: 9999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: all 0.2s ease-out;
-
-    svg {
-      width: 25px;
-      height: 25px;
-      fill: black;
-    }
-
-    &:hover {
-      background-color: #3be477;
-      scale: 1.1;
+    .info .play-btn-container {
+      opacity: 1;
     }
   }
+
+  // .play-btn {
+  //   position: absolute;
+  //   top: 7px;
+  //   right: 4px;
+  //   width: 50px;
+  //   height: 50px;
+  //   background-color: #1ed760;
+  //   border: none;
+  //   border-radius: 9999px;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   opacity: 0;
+  //   transform: translateY(6px);
+  //   transition: all 0.2s ease-out;
+
+  //   svg {
+  //     width: 25px;
+  //     height: 25px;
+  //     fill: black;
+  //   }
+
+  //   &:hover {
+  //     background-color: #3be477;
+  //     scale: 1.1;
+  //   }
+  // }
 
   .img-container {
     width: var(--item-height);
@@ -66,51 +73,145 @@
     }
   }
 
-  &:hover .play-btn {
-    opacity: 1;
-    transform: translateY(0);
-    cursor: pointer;
-  }
+  // &:hover .play-btn {
+  //   opacity: 1;
+  //   transform: translateY(0);
+  //   cursor: pointer;
+  // }
 
   .info {
-    flex-grow: 1;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    cursor: pointer;
+    
+    .station-name-wrapper {
+      margin-block: 0;
+      margin-inline: 8px;
+    }
 
     .station-name {
       padding: 0;
-      margin-block: 0;
-      margin-inline: 8px;
+      margin: 0;
       font-family: 'SpotifyMixUI';
       font-weight: 700;
       font-size: var(--encore-text-size-smaller);
+      // overflow: hidden;
+      // text-overflow: ellipsis;  
+      // white-space: normal; 
+      // word-break: break-word;
+      // display: -webkit-box;
+      // -webkit-line-clamp: 2;
+      // -webkit-box-orient: vertical;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-wrap: balance;
+        white-space: normal;
+        word-break: break-word;
+      }
 
-      overflow: hidden;
-      text-overflow: ellipsis;  
-      white-space: normal; 
-      word-break: break-word;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+    // .station-artist {
+    //   font-size: 14px;
+    //   color: #b3b3b3;
+    //   white-space: nowrap;
+    //   overflow: hidden;
+    //   text-overflow: ellipsis;
+    // }
+
+
+    .play-btn-container {
+      --play-btn-size: 32px;
+      --btn-container-width: 48px;
+      
+      position: absolute;
+      opacity: 0;
+      @include flex;
+      inset-inline-end: 0;
+      width: var(--btn-container-width);
+      height: 32px;
+      background-color: inherit;
+
+      transition: all .3s ease;
+
+      .box-shadow-wrapper {
+        height: var(--play-btn-size);
+        width: var(--play-btn-size);
+        box-shadow: 0 8px 8px rgba(0,0,0,.3);
+      }
+
+      button {
+        background-color: #1ed760;
+        border-radius: 50%;
+        border: none;
+        padding :0;
+        @include flex;
+        height: var(--play-btn-size);
+        width: var(--play-btn-size);
+
+        transition-property: background-color, transform;
+        transition-duration: var(--shortest-3);
+        transition-timing-function: var(--productive);
+
+        &:hover {
+          transform: scale(1.04);
+          background-color: var(--background-highlight);
+        }
+
+        &:active {
+          scale: 1;
+          background-color: var(--background-press);
+        }
+      }
     }
 
-    .station-artist {
-      font-size: 14px;
-      color: #b3b3b3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .gif-container {
+      // @include flex;
+      height: 14px;
+      // width: var(--btn-container-width) !important;
+
+      -webkit-box-flex: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        justify-content: center;
+        flex: 0 0 48px;
+
+        img {
+          width: 14px;
+          height: 14px;
+        }
     }
   }
 }
 
-@container (min-width: 1220px) {
-  .home-header-stations .wide-station-preview 
-      
+@container headerStations (min-width: 1141px) {
+  .home-header-stations .wide-station-preview {
+    
+    .station-name-wrapper {
+      margin-inline: 16px;
+    }
 
     .station-name {
       font-size: var(--encore-text-size-base); 
     }
+
+  .play-btn-container {
+      height: 48px;
+      --btn-container-width: 64px;
+      --play-btn-size: 48px;
+    }
+
+    .gif-container {
+      flex: 0 0 64px;
+    }
+  }
 }

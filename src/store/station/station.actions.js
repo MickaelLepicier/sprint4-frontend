@@ -10,9 +10,11 @@ import {
   SET_IS_PLAYING,
   SET_NEXT_SONG,
   SET_PREV_SONG,
+  SET_SHUFFLED_ORDER,
+  SET_IS_SHUFFLE,
   SET_SONG,
   SET_CURRENT_STATION,
-  SET_STATION_ORDER
+  SET_STATION_ORDER,
 } from './station.reducer'
 
 export async function loadStations(filterBy) {
@@ -77,13 +79,13 @@ export async function createStationForUser() {
 
   const stations = store.getState().stationModule.stations
   const stationOrder = state.stationModule.stationOrder
-  const userStations = stations.filter(station => station.createdBy?._id === user._id)
+  const userStations = stations.filter((station) => station.createdBy?._id === user._id)
   const nextNum = userStations.length + 1
   const newStation = stationService.buildNewStationForUser(user, nextNum)
 
   const savedStation = await stationService.save(newStation)
   store.dispatch(getCmdAddStation(savedStation))
-  
+
   const newOrder = [...stationOrder, savedStation._id]
   store.dispatch({ type: SET_STATION_ORDER, stationOrder: newOrder })
   console.log(savedStation)
@@ -116,15 +118,6 @@ export function setSong(song, station) {
     console.error('Failed to set song:', err)
   }
 }
-// Previous setSong -> missing currStation
-// export async function setSong(song) {
-//   try {
-//     store.dispatch({ type: SET_SONG, song })
-//   } catch (err) {
-//     console.log('Cannot set song ', err)
-//     throw err
-//   }
-// }
 
 export function setIsPlaying(isPlaying) {
   try {
@@ -134,17 +127,11 @@ export function setIsPlaying(isPlaying) {
     throw err
   }
 }
-// export async function setIsPlaying() {
-//   try {
-//     store.dispatch({ type: SET_IS_PLAYING })
-//   } catch (err) {
-//     console.log('Cannot set isPlaying ', err)
-//     throw err
-//   }
-// }
 
 export async function togglePlay(isPlaying) {
   const ref = window.playerRef
+  if (!ref) console.error('Cannot togglePlay')
+
   if (isPlaying) {
     ref.current.pauseVideo()
   } else {
@@ -152,75 +139,67 @@ export async function togglePlay(isPlaying) {
   }
 }
 
-export function nextSong() {
-  const state = store.getState().stationModule
-  const { currentStation, currentSong } = state
-
-  if (!currentStation || !currentStation.songs?.length) return
-
-  const currIdx = currentStation.songs.findIndex(song => song.id === currentSong?.id)
-  const nextIdx = (currIdx + 1) % currentStation.songs.length
-  const nextSong = currentStation.songs[nextIdx]
-
-  store.dispatch({ type: SET_NEXT_SONG, song: nextSong })
+export function nextSong(nextTrack) {
+  try {
+    store.dispatch({ type: SET_NEXT_SONG, song: nextTrack })
+  } catch (err) {
+    console.log('Cannot go to the next song ', err)
+    throw err
+  }
 }
-// export async function nextSong() {
-//   store.dispatch({ type: SET_NEXT_SONG })
-// }
 
-export function prevSong() {
-  const state = store.getState().stationModule
-  const { currentStation, currentSong } = state
-
-  if (!currentStation?.songs?.length) return
-
-  const currIdx = currentStation.songs.findIndex(song => song.id === currentSong?.id)
-  if (currIdx === -1) return
-
-  const prevIdx = (currIdx - 1 + currentStation.songs.length) % currentStation.songs.length
-  const prevSong = currentStation.songs[prevIdx]
-
-  store.dispatch({ type: SET_PREV_SONG, song: prevSong })
+export function prevSong(prevTrack) {
+  try {
+    store.dispatch({ type: SET_PREV_SONG, song: prevTrack })
+  } catch (err) {
+    console.log('Cannot go to the preview song ', err)
+    throw err
+  }
 }
-// export async function prevSong() {
-//   store.dispatch({ type: SET_PREV_SONG })
-// }
+
+export function setIsShuffle(isShuffle) {
+  return store.dispatch({ type: SET_IS_SHUFFLE, isShuffle })
+}
+
+export function setShuffledOrder(shuffledOrder) {
+  return store.dispatch({ type: SET_SHUFFLED_ORDER, shuffledOrder })
+}
 
 // Command Creators:
 function getCmdSetStations(stations) {
   return {
     type: SET_STATIONS,
-    stations,
+    stations
   }
 }
 function getCmdSetStation(station) {
   return {
     type: SET_STATION,
-    station,
+    station
   }
 }
 function getCmdRemoveStation(stationId) {
   return {
     type: REMOVE_STATION,
-    stationId,
+    stationId
   }
 }
 function getCmdAddStation(station) {
   return {
     type: ADD_STATION,
-    station,
+    station
   }
 }
 function getCmdUpdateStation(station) {
   return {
     type: UPDATE_STATION,
-    station,
+    station
   }
 }
 function getCmdAddStationMsg(msg) {
   return {
     type: ADD_STATION_MSG,
-    msg,
+    msg
   }
 }
 
@@ -230,8 +209,9 @@ async function unitTestActions() {
   await addStation(stationService.getEmptyStation())
   await updateStation({
     _id: 'm1oC7',
-    title: 'Station-Good',
+    title: 'Station-Good'
   })
   await removeStation('m1oC7')
   // TODO unit test addStationMsg
 }
+

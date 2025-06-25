@@ -9,8 +9,9 @@ export function PlayBtn({ isPlaying, onToggle, className = '' }) {
   const viewBox = getViewBox(className)
   const path = getPath(className)
   const currIcon = getIcon(isPlaying, className, viewBox, path)
+  const title = isPlaying ? 'Pause' : 'Play'
 
-  return <SetActionBtn currIcon={currIcon} addClassName={btnSize} onClick={onToggle} />
+  return <SetActionBtn currIcon={currIcon} addClassName={btnSize} onClick={onToggle} title={title} />
 }
 
 function getViewBox(cn) {

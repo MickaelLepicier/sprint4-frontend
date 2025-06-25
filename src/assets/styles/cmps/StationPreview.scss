@@ -1,6 +1,6 @@
 .station-preview {
   background-color: #121212;
-  border-radius: 6px;
+  border-radius: var(--encore-corner-radius-larger);
   padding: 12px;
   color: #fff;
   font-family: SpotifyMixUI, CircularSp-Arab, CircularSp-Hebr, CircularSp-Cyrl, CircularSp-Grek, CircularSp-Deva,
@@ -21,7 +21,7 @@
     position: relative;
     width: 100%;
     aspect-ratio: 1 / 1;
-    border-radius: 6px;
+    border-radius: var(--encore-corner-radius-larger);
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
     background-color: var(--card-color, #333);

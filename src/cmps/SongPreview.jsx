@@ -1,68 +1,54 @@
 import { useSelector } from 'react-redux'
 import { PlayBtn } from './PlayBtn'
-import { AddIcon } from './svg/AddIcon'
+import { LikeIcon } from './svg/LikeIcon'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStation, updateStation } from '../store/station/station.actions'
 import { stationService } from '../services/station'
 import { cleanTitle } from '../services/util.service'
+import { LikeToggleBtn } from './LikeToggleBtn'
 
 // Added DND props to the signature
-export function SongPreview({ song, idx, station, togglePlay, draggableProps, dragHandleProps, innerRef }) {
-  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
+export function SongPreview({
+  song,
+  idx,
+  station,
+  togglePlay,
+  draggableProps,
+  dragHandleProps,
+  innerRef,
+  isLikedSongs
+}) {
+  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
 
-  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
-  const user = useSelector(storeState => storeState.userModule.user)
+  const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
+  const user = useSelector((storeState) => storeState.userModule.user)
   const likedStationId = user?.likedSongsStationId || ''
 
   const addClassName = currSong?.id === song?.id ? 'active' : ''
 
-  const likedStation = useSelector(storeState =>
-    storeState.stationModule.stations.find(station => station._id === likedStationId)
-  )
-  const isLiked = likedStation?.songs?.some(s => s.id === song.id)
+  // const likedStation = useSelector((storeState) =>
+  //   storeState.stationModule.stations.find((station) => station._id === likedStationId)
+  // )
+  // const isLiked = likedStation?.songs?.some((s) => s.id === song.id)
 
   // TODOs:
-  // [] add Album of the track
-  // [] add Date added of the track
-  // [] add Duration of the track
-  // [] add Duration watch icon in the SongList
-  // [] add AddLiked of the track
+  // [] add AddLiked btn
 
-  const duration = window.playerRef?.current?.getDuration?.() ?? null
-  // console.log('DDDD duration: ',duration)
+  // [] add Album of the track:
+  //  put in song data album and put the data at the Album section (song.album)
 
-  const isPlay = isPlaying ? 'song-preview-pause-icon' : 'song-preview-play-icon'
+  // [] If there is no room for the txt inside the td put ... instead
+
+  // const duration = window.playerRef?.current?.getDuration?.() ?? null
+
+  const isCurrSong = song?.id === currSong?.id
+  const isPlay = isPlaying && isCurrSong ? 'song-preview-pause-icon' : 'song-preview-play-icon'
 
 
-  async function onAddSongToLiked(song) {
-    try {
-      if (!user || !likedStationId) {
-        showErrorMsg('You must be logged in to like songs.')
-        return
-      }
-
-      const stationToUpdate = await stationService.getById(likedStationId)
-
-      let updatedSongs
-      if (isLiked) {
-        updatedSongs = stationToUpdate.songs.filter(s => s.id !== song.id)
-        showSuccessMsg('Song Removed')
-      } else {
-        updatedSongs = [song, ...stationToUpdate.songs]
-        showSuccessMsg('Song Added')
-      }
-
-      const updatedStation = { ...stationToUpdate, songs: updatedSongs }
-      console.log('updatedStation:', updatedStation)
-
-      await updateStation(updatedStation)
-    } catch (error) {
-      console.log('error:', error)
-      showErrorMsg(`Couldn't add Song`)
-    }
-  }
 
   function formatDuration(dur) {
+    if (!dur) return '00:00'
+
     const duration = +dur
     const mins = Math.floor(duration / 60)
     const secs = duration % 60
@@ -71,6 +57,13 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     return `${mins}:${formatDuration}`
   }
 
+  function setAddedDate() {
+    const date = new Date(song.addedAt).toLocaleDateString()
+    if (!date) {
+      return getRandomFormattedDate()
+    }
+    return date
+  }
 
   return (
     <tr
@@ -83,12 +76,7 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
     >
       <td className="song-play-idx">
         <span className="song-idx">{idx + 1}</span>
-        <PlayBtn
-          isPlaying={isPlaying && addClassName}
-          // onToggle={() => togglePlay(song)}
-          onToggle={togglePlay}
-          className={isPlay}
-        />
+        <PlayBtn onToggle={togglePlay} className={isPlay} />
       </td>
       <td>
         <div className="song-img-title">
@@ -97,10 +85,16 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
         </div>
       </td>
       <td>{cleanTitle(station.name)}</td>
-      <td>{new Date(song.addedAt).toLocaleDateString()}</td>
+      {/* <td>{cleanTitle(song.album)}</td> */}
+
+      {isLikedSongs && <td>{setAddedDate()}</td>}
 
       <td>
-        <button
+        {/* add-to-liked */}
+
+        <LikeToggleBtn song={song} />
+
+        {/* <button
           className={`add-to-liked ${isLiked ? 'liked' : ''}`}
           title="Add to Liked Songs"
           onClick={() => {
@@ -108,8 +102,9 @@ export function SongPreview({ song, idx, station, togglePlay, draggableProps, dr
           }}
         >
           <AddIcon />
-        </button>
-        {/* <span className="song-duration">⏱️ </span> */}
+        </button> */}
+
+
         <span className="song-duration">{formatDuration(song.duration)} </span>
         {/* <button className="more-options">...</button> */}
       </td>

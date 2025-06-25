@@ -94,6 +94,13 @@
     align-items: $align;
 }
 
+@mixin flex-dir($justify: center, $align: center, $dir: row) {
+    display: flex;
+    flex-direction: $dir;
+    justify-content: $justify;
+    align-items: $align;
+}
+
 @mixin flex-align-center {
     display: flex;
     align-items: center;

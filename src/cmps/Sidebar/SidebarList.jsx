@@ -1,14 +1,19 @@
-import { useState, useEffect, useMemo} from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate,useLocation} from 'react-router-dom'
-import { DndProvider, useDrag, useDrop } from 'react-dnd'
-import { HTML5Backend, getEmptyImage } from 'react-dnd-html5-backend'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { SidebarPreview } from './SidebarPreview'
 import { SidebarDragLabel } from './SidebarDragLabel'
+import { ContextMenu } from '../ContextMenu'
+import { useStationDnD } from '../../hooks/useStationDnD'
+import { getContextMenuOptions } from './ContextMenuOpts'
 import { removeStation, setStationOrder} from '../../store/station/station.actions'
+import { updateUser } from '../../store/user/user.actions'
 import { showErrorMsg } from '../../services/event-bus.service'
 import { swapItems } from '../../services/util.service'
+import { DeleteIcon } from '../svg/DeleteIcon'
 
 const ItemType = 'STATION'
 
@@ -17,15 +22,9 @@ export function SidebarList({
   user,
   isCollapsed,
 }) {
-    const initialContextMenu = {
-      show: false,
-      x: 0,
-      y: 0,
-      itemId: null,
-    }
     const stationOrder = useSelector(state => state.stationModule.stationOrder)
-    const [contextMenu, setContextMenu] = useState(initialContextMenu)
-    
+    const [contextMenu, setContextMenu] = useState(null)
+
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -54,6 +53,21 @@ export function SidebarList({
       setStationOrder(newOrder)
     }
 
+    function onClickSonglist(stationId) {
+      navigate(`/playlist/${stationId}`)
+    }
+    
+    function getOptionsForContextMenu() {
+      if (!contextMenu?.station) return []
+
+      return getContextMenuOptions({
+        user,
+        station: contextMenu.station,
+        onDelete: onDeleteStation,
+        onRemoveFromLibrary,
+      })
+    }
+   
     async function onDeleteStation(stationId) {
         try {
             await removeStation(stationId)
@@ -62,11 +76,65 @@ export function SidebarList({
         }
     }
 
-    function onClickSonglist(stationId) {
-        navigate(`/playlist/${stationId}`)
+    async function onRemoveFromLibrary(stationId) {
+      try {
+        const updatedLikedStationIds = user.likedStationIds.filter(id => id !== stationId)
+
+        const updatedUser = {
+          ...user,
+          likedStationIds: updatedLikedStationIds
+        }
+
+        await updateUser(updatedUser)
+
+        const newOrder = stationOrder.filter(id => id !== stationId)
+        setStationOrder(newOrder)
+      } catch (err) {
+        showErrorMsg('Could not remove station from your library')
+      }
     }
 
+    function handleContextMenu(ev, station) {
+        ev.preventDefault()
+        ev.stopPropagation()
+
+        if (contextMenu?.station?._id === station._id) {
+            setContextMenu(null)
+            return
+        }
+
+        setContextMenu({ x: ev.clientX, y: ev.clientY, station })
+    }
+
+    function handleCloseContextMenu() {
+      setContextMenu(null)
+    }
+
+    useEffect(() => {
+      function handleClickOutside(ev) {
+        if (ev.button === 0) {
+          setContextMenu(null)
+        }
+      }
+
+      function handleContextMenuOutside(ev) {
+          ev.preventDefault()
+          setContextMenu(null)
+        }
+
+      if (contextMenu) {
+        window.addEventListener('click', handleClickOutside)
+        window.addEventListener('contextmenu', handleContextMenuOutside)
+      }
+
+      return () => {
+        window.removeEventListener('click', handleClickOutside)
+        window.removeEventListener('contextmenu', handleContextMenuOutside)
+      }
+    }, [contextMenu])
+
     return (
+      <>
         <DndProvider backend={HTML5Backend}>
             <SidebarDragLabel />
             <section className="sidebar-list">
@@ -82,71 +150,36 @@ export function SidebarList({
                           isCollapsed={isCollapsed}
                           isLikedSongs={station._id === user.likedSongsStationId}
                           isSelected={String(stationId) === String(station._id)}
-                          contextMenu={contextMenu}
-                          setContextMenu={setContextMenu}
-                          initialContextMenu={initialContextMenu}
-                          onDeleteStation={onDeleteStation}
+                          onContextMenu={handleContextMenu}
                         />
                     ))}
                 </ul>
             </section>
         </DndProvider>
+
+       {contextMenu?.station && (
+          <ContextMenu
+            x={contextMenu.x}
+            y={contextMenu.y}
+            onClose={handleCloseContextMenu}
+            options={getOptionsForContextMenu()}
+        />
+        )}
+      </>
     )
 }
 
-function DraggableStation({
-  station,
-  index,
-  moveStation,
-  onClickSonglist,
-  user,
-  isLikedSongs,
-  isSelected,
-  isCollapsed,
-  contextMenu,
-  setContextMenu,
-  initialContextMenu,
-  onDeleteStation,
-}) {
-    const [, dragRef, preview] = useDrag({
-        type: ItemType,
-        item: { index, name: station.name }
-    })
-
-    const [{ isOver }, dropRef] = useDrop({
-        accept: ItemType,
-        drop(item) {
-            if (item.index !== index) {
-                moveStation(item.index, index)
-                item.index = index
-            }
-        },
-        collect: monitor => ({
-            isOver: monitor.isOver()
-        })
-    })
-
-    useEffect(() => {
-        preview(getEmptyImage(), { captureDraggingState: true })
-    }, [preview])
-
-    const setDragRef = node => dragRef(dropRef(node))
+function DraggableStation({ station, index, moveStation, onContextMenu, ...rest }) {
+    const { setDragRef, isOver } = useStationDnD(index, moveStation)
 
     return (
         <SidebarPreview
-          station={station}
-          isLikedSongs={isLikedSongs}          
-          isSelected={isSelected}
-          isCollapsed={isCollapsed}
-          userId={user._id}
-          userFirstName={user?.fullname?.split(' ')[0]}
-          onClickSonglist={onClickSonglist}
-          setDragRef={setDragRef}
-          isOver={isOver}
-          contextMenu={contextMenu}
-          setContextMenu={setContextMenu}
-          initialContextMenu={initialContextMenu}
-          onDeleteStation={onDeleteStation}
+            station={station}
+            setDragRef={setDragRef}
+            isOver={isOver}
+            onContextMenu={onContextMenu}
+            {...rest}
         />
     )
 }
+

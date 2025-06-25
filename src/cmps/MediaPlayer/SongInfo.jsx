@@ -3,11 +3,12 @@ import { ImageWithFallback } from '../util/ImageWithFallBack'
 import { EmptyPlaylistIcon } from '../svg/EmptyPlaylistIcon'
 import { useSelector } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router'
+import { LikeToggleBtn } from '../LikeToggleBtn'
 
 export function SongInfo({ song }) {
   
   /*
-  // If I want that always there will be a song I will put this line:
+  // If I want that always there will be a song I will put this lines:
 
   const stations = useSelector(
     (storeState) => storeState.stationModule.stations
@@ -43,10 +44,11 @@ export function SongInfo({ song }) {
         </NavLink>
       </div>
 
-      <button className="add-song song-like-btn">
+      {/* <button className="add-song song-like-btn">
         <img src={like} className="song-like-img" />
-      </button>
+      </button> */}
 
+        <LikeToggleBtn song={song} />
     </section>
   )
 }

@@ -5,6 +5,9 @@ aside.sidebar {
     background-color: #121212;
     font-family: SpotifyMixUI, 'Helvetica Neue', helvetica, arial, sans-serif;
 
+    container-type: inline-size;
+    container-name: sidebar;
+
     // width: clamp(280px, 24vw, 400px);
     flex-shrink: 0;
 
@@ -118,10 +121,21 @@ aside.sidebar {
             background-color: #1F1F1F;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             cursor: pointer;
             line-height: normal;
+            min-block-size: 35px;
+            min-inline-size: 35px;
             transition: background-color .2s ease-out;
+
+            &.compact {
+                padding: 0;
+
+                span.label {
+                    display: none;
+                }
+            }
 
             &:hover {
                 background-color: var(--background-elevated-highlight);
@@ -135,8 +149,8 @@ aside.sidebar {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 14px;
-                height: 14px;
+                // width: 14px;
+                // height: 14px;
             }
 
             .label {
@@ -279,6 +293,8 @@ aside.sidebar {
     //         background: hsla(0, 0%, 100%, .45);
     //     }
     // }
+
+    
 }
 
 .sidebar-view-filter {

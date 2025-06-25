@@ -51,7 +51,7 @@
     }
   }
 
-  &:hover {
+  &:hover:not(.collapsed) {
     background-color: #1f1f1f;
 
         .icon-wrapper  {
@@ -72,6 +72,18 @@
 
   &:is(.active, .selected) {
     background-color: #2a2a2a;
+  }
+
+  .volume-icon-container {
+    flex-shrink: 0;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+
+    span {
+      display: block;
+      padding: 8px;
+    }
   }
 
   .details {
@@ -140,6 +152,8 @@
       }
     }
   }
+
+
 }
 
 li.sidebar-preview.selected:hover {
@@ -207,4 +221,77 @@ li.sidebar-preview:hover {
             opacity: 0.6;
         }
     }
+}
+
+aside.sidebar .preview-hover-label {
+    position: absolute;
+    transform: translateY(-56px);
+    left: 84px;
+    z-index: 99999999999999999999999999;
+    pointer-events: none;
+
+    background-color: var(--generic-tooltip-background-color, #282828);
+    border-radius: 4px;
+    box-shadow: 0 16px 24px rgba(0, 0, 0, 0.3), 0 6px 8px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 14px !important;
+    max-width: 50ch;
+    height: 48px;
+    padding: 4px 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .preview-info {
+        display: flex;
+        flex-direction: column;
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        &.playing {
+          p.title {
+              color: #1ed760;
+          }
+        }
+
+        p.title &.playing {
+            font-size: 1rem;
+            display: block;
+            .playing &{
+              color: green;
+            }
+        }
+
+        p.songs {
+            color: var(--text-subdued);
+            font-size: var(--$encore-text-size-smaller);
+            display: block;
+        }
+    }
+}
+
+section li.sidebar-preview {
+  div.icon-wrapper {
+    button.sidebar-play-btn {
+      background-color: transparent;
+      position: absolute;
+      z-index: 3;
+      background: none;
+      padding: 12px;
+      transition-property: color, transform;
+      transition-duration: var(--shortest-3);
+      transition-timing-function: var(--productive);
+      color: #fff;
+
+      &:hover {
+        transform: scale(1.04);
+      }
+    }
+  }
 }

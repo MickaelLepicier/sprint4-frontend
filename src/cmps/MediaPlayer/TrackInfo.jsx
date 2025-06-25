@@ -5,8 +5,7 @@ import { useSelector } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router'
 import { LikeToggleBtn } from '../LikeToggleBtn'
 
-export function SongInfo({ song }) {
-  
+export function TrackInfo({ song }) {
   /*
   // If I want that always there will be a song I will put this lines:
 
@@ -29,7 +28,9 @@ export function SongInfo({ song }) {
   // song-title -> SongPage
   // song-artist -> StationPreview
 
-  const station = useSelector((storeState) => storeState.stationModule.currentStation)
+  const station = useSelector(
+    (storeState) => storeState.stationModule.currentStation
+  )
 
   return (
     <section className="song-info flex align-center">
@@ -48,7 +49,7 @@ export function SongInfo({ song }) {
         <img src={like} className="song-like-img" />
       </button> */}
 
-        <LikeToggleBtn song={song} />
+      <LikeToggleBtn song={song} />
     </section>
   )
 }
@@ -61,7 +62,7 @@ function Img({ song }) {
       <ImageWithFallback
         src={song?.imgUrl}
         alt={song?.title}
-        className = {addClassName}
+        className={addClassName}
         fallback={<EmptyPlaylistIcon />}
       />
     </div>

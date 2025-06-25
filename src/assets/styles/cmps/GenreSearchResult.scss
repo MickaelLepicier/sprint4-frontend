@@ -4,6 +4,7 @@
 
   .station-list {
     width: 100%;
+    margin-inline: -12px;
     .grid-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
@@ -15,12 +16,69 @@
     font-family: SpotifyMixUI;
   }
 
+  .genre-content-container {
+    padding-top: 32px;
+    padding-inline: var(--content-spacing);
+  }
+
+  .infinite-scroll-list {
+    display: grid;
+    grid-gap: 24px;
+
+    &:first-child {
+      padding-top: 16px;
+    }
+  }
+
+  .title-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: end;
+    // justify-content: space-between !important;
+    min-block-size: 56px;
+    margin-bottom: 8px;
+    // padding-top: 16px;
+    user-select: none;
+
+
+    h2 {
+      margin: 0;
+      z-index: 0;
+      align-self: end;
+      color: #fff;
+
+      &.row-title {
+        font-family: SpotifyMixUITitle;
+        font-size: var(--encore-text-size-larger);
+        font-weight: 700;
+        color: #fff;
+        text-wrap: balance;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+
+    span {
+      color: var(--text-subdued);
+      font-size: var(--encore-text-size-smaller);
+      font-weight: 700;
+      margin-top: 2px;
+      margin-right: 8px;
+
+      &:hover {
+        text-decoration: underline;
+        text-decoration-color: #fff; /* Your custom underline color */
+      }
+    }
+  }
+
   .songlist-section {
     background: #121212;
     color: #fff;
-    padding: 32px 24px 0 24px;
     font-family: SpotifyMixUI;
-    padding-left: 0;
 
     .songlist-section-header {
       display: flex;
@@ -31,20 +89,12 @@
         font-size: 14px;
       }
     }
-
-    h2 {
-      margin-left: 10px;
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 0;
-      //margin-bottom: 24px;
-      //letter-spacing: -1px;
-    }
   }
 
   .new-releases-section {
     // Add animation for song-list expand/collapse
     .song-list {
+      margin-inline: -12px;
       overflow: hidden;
       max-height: 600px;
       transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -56,39 +106,33 @@
     }
 
     background: #121212;
-    color: #fff;
-    padding: 32px 24px 0 24px;
+    // color: #fff;
     font-family: SpotifyMixUI;
-    padding-left: 0;
 
-    h2 {
-      margin-left: 10px;
-      font-size: 1.6rem;
-      font-weight: 700;
-      //margin-bottom: 24px;
-      //letter-spacing: -1px;
-    }
+    // h2 {
+    //   margin-left: 10px;
+    //   font-size: 1.6rem;
+    //   font-weight: 700;
+    //   margin-bottom: 24px;
+    //   letter-spacing: -1px;
+    // }
 
     .new-releases-header {
       display: flex;
       justify-content: space-between;
       font-family: SpotifyMixUI;
 
-      h2 {
-        margin-bottom: 0;
-      }
+      // span {
+      //   margin-right: 3em;
+      //   cursor: pointer;
+      //   align-self: center;
+      //   font-family: SpotifyMixUI;
+      //   font-size: 14px;
 
-      span {
-        margin-right: 3em;
-        cursor: pointer;
-        align-self: center;
-        font-family: SpotifyMixUI;
-        font-size: 14px;
-
-        &:hover{
-          text-decoration: underline;
-        }
-      }
+      //   &:hover{
+      //     text-decoration: underline;
+      //   }
+      // }
     }
 
     > div {
@@ -100,7 +144,7 @@
       border-radius: 8px;
       width: 100%;
       min-width: 0;
-      padding: 16px;
+      padding: 12px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
@@ -108,6 +152,8 @@
       position: relative;
       transition: background 0.2s;
       cursor: pointer;
+
+      user-select: none;
 
       &:hover {
         background: #282828;
@@ -183,24 +229,35 @@
 
   .genre-header {
     width: 100%;
-    min-height: 280px;
-    background: radial-gradient(ellipse at 50% 0, #a32c49 10%, #1a1517 120%);
-    border-radius: 24px 24px 0 0;
+    // min-height: 280px;
+    // background: radial-gradient(ellipse at 50% 0, #a32c49 10%, #1a1517 120%);
+    // border-radius: 24px 24px 0 0;
     display: flex;
     align-items: flex-end;
-    padding: 0 0 40px 48px;
+    // padding: 0 0 40px 48px;
     box-sizing: border-box;
     position: relative;
-    margin-bottom: 50px;
-    padding-left: 10px;
+    // margin-bottom: 50px;
+    // padding-left: 10px;
+    user-select: none;
+
+
+    --fluid-height: clamp(186px,186px + (100cqw - 600px)/424*150,336px);    
+    max-height: 336px;
+    min-height: 186px;
+    height:  min(30vh, var(--fluid-height));
+    padding-bottom: var(--content-spacing);
+    padding-inline: var(--content-spacing);
+
     .genre-title {
-      font-size: 4rem;
+      font-family: SpotifyMixUITitle;
+      font-size: 6rem;
       font-weight: 800;
       color: #fff;
       margin: 0;
-      letter-spacing: -2px;
-      line-height: 1;
-      text-shadow: 0 2px 24px rgba(0, 0, 0, 0.2);
+      // letter-spacing: -2px;
+      // line-height: 1;
+      // text-shadow: 0 2px 24px rgba(0, 0, 0, 0.2);
     }
   }
 

@@ -104,7 +104,7 @@ async function _createDemoUsers() {
 
     const demoUsers = [
       {
-        _id: 'u101',
+        _id: 'u123',
         username: 'puki',
         password: '123',
         fullname: 'Puki Ben David',

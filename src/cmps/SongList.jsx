@@ -238,9 +238,16 @@ export function SongList() {
 
   if (!station) return <div>Loading songs list...</div>
 
+  let imgUrl
+  if (station?.createdBy?._id !== user?._id) {
+    imgUrl = station?.imgUrl ? station?.imgUrl : `https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/${station?.createdBy.imgUrl}`
+  }
+
   return (
     <section className="station-songlist">
-      <DominantColorExtractor imgUrl={station.imgUrl} onSetColor={setDominantColor} />
+      {/* <DominantColorExtractor imgUrl={station.imgUrl} onSetColor={setDominantColor} /> */}
+      <DominantColorExtractor imgUrl={imgUrl} onSetColor={setDominantColor} />
+      
       <div
         className="station-header-container"
         style={{
@@ -254,7 +261,7 @@ export function SongList() {
         <header className="station-header">
           <img
             src={
-              station.imgUrl ||
+              imgUrl ||
               'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'
             }
             alt=""

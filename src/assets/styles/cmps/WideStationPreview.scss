@@ -19,6 +19,7 @@
   
   container-type: inline-size;
   container-name: wideStationPreview;
+  user-select: none;
 
   &:hover {
     background-color: hsla(0, 0%, 100%, .2);

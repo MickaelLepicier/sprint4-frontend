@@ -3,7 +3,11 @@
     background-color: #121212;
     // padding-block-start: 44px;
     padding-inline: var(--content-spacing);
-    container-type: inline-size;
+
+    .genre-index-container {
+        container-type: inline-size;
+        container-name: genreIndex;
+    }
 
     .genre-title-wrapper {
         display: flex; 

@@ -1,25 +1,18 @@
-export function GenrePreview({ genreName, color, imgUrl = '',onClickGenre }) {
+export function GenrePreview({ genreName, color, imgUrl = '', onClickGenre }) {
     return (
         <div className="genre-preview" role="listitem" onClick={onClickGenre}>
-            <a className="genre-link" href="#">
-                <div
-                    className="genre-title"
-                    style={{ backgroundColor: color }}
-                >
-                    {/* Uncomment when imgUrl is used */}
+            <a className="genre-link" href="#" onClick={(ev) => {ev.preventDefault()}}>
+                <div className="genre-box" style={{ backgroundColor: color }}>
                     <img
+                        className="genre-img"
+                        src={imgUrl}
+                        alt={`${genreName} cover`}
                         aria-hidden="true"
                         draggable="false"
                         loading="lazy"
-                        src={imgUrl}
-                        alt={`${genreName} cover`}
-                        className="genre-img"
                     />
-                    <span
-                        className="genre-name"
-                        title={genreName}
-                    >
-                        {genreName}
+                    <span className="genre-name" title={genreName}>
+                        <span>{genreName}<wbr /></span>
                     </span>
                 </div>
             </a>

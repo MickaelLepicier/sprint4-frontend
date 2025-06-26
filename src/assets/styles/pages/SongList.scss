@@ -618,7 +618,40 @@
       // gap: 16px;
 
       button {
-        z-index: 0;
+        z-index: 1;
+        padding: 0;
+        margin-right: var(--content-spacing);
+
+        transition-duration: var(--shortest-3) !important;
+        transition-timing-function: var(--productive) !important;
+        transition-property: background-color, color, fill, transform !important;
+
+        &:hover {
+          transform: scale(1.04);
+        }
+
+        &:active {
+          transform: scale(1);
+        }
+
+        &.add-remove-playlist {
+          background-color: inherit;
+          border: none;
+
+          &:hover {
+            svg.like-large-icon {
+              fill: #fff;
+            }
+          }
+
+          &:active {
+            opacity: 0.7;
+            
+            svg.like-large-icon {
+              fill: #b3b3b3;
+            }
+          }
+        }
       }
 
       // button.songlist-play-btn {
@@ -743,7 +776,7 @@
 
         // img {
         //   // change this to green
-        //   transform: scale(1.05);
+        //   transform: scale(1.04);
         //   filter: sepia(1) hue-rotate(85deg) saturate(5);
         // }
 

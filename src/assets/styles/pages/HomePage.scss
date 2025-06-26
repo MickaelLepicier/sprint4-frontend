@@ -1,15 +1,34 @@
 .home-page {
-  padding-inline: 40px;
+
   position: relative; 
 
+  .home-page-container {
+    padding-top: 4px;
+    container-name: homepage;
+    container-type: inline-size;
+
+    .content-spacing {
+      padding-inline: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      @container homepage (width < 1024px) {
+        gap: 16px;
+      }
+    }
+  }
+
   .home-filter {
-    
+    padding-top: 8px;
+    width: 100%;
 
     .group-filter-btns {
       position: relative;
       display: flex;
       gap: var(--encore-spacing-tighter-2);
       height: 56px;
+      padding-inline: 40px;
       
       button.group-filter-btn {
         padding: 0;
@@ -22,6 +41,7 @@
 
         font-size: var(--encore-text-size-smaller);
         font-family: SpotifyMixUI;
+        user-select: none;
 
         &.active > span {
           background-color: #ffffff;
@@ -66,68 +86,20 @@
       width: 100%;
       height: 256px;
       z-index: 0;
-      // background-image:
-      //   linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, var(--background-base) 100%),
-      //   var(--background-noise);
-      // background-color: red;
+
       background-color: rgb(83, 83, 83);
       background-image:
         linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, var(--background-base) 100%),
         var(--background-noise);
 
-      // background-color: hotpink;
-
       transition: background 1s ease;
   }
-
-  // .home-filter {
-  //   margin-block-start: 10px;
-  //   display: grid;
-  //   width: 100px;
-  //   grid-auto-flow: column;
-  //   gap: 10px;
-  //   padding-inline-start: 4px;
-
-  //   span {
-  //     font-weight: 700;
-  //     font-size: 0.8em;
-  //     background: #242322e6;
-  //     color: #fff;
-  //     border-radius: 100vw;
-  //     width: max-content;
-  //     min-width: 64px;
-  //     padding: 7px 22px 7px 22px;
-  //     text-align: center;
-  //     cursor: pointer;
-  //     transition: background 0.15s, color 0.15s;
-  //     font-family: SpotifyMixUI;
-
-  //     &:hover {
-  //       background: #ffffff73;
-  //     }
-
-  //     &.active,
-  //     &:focus {
-  //       background: #fff;
-  //       color: #302e2d;
-  //       outline: none;
-  //     }
-  //   }
-  // }
 
   .home-header-stations {
      container-type: inline-size;
      container-name: headerStations;  
-
      --item-height: 48px;
-    // --item-height: 64px;
-    // --min-col-width: 270px;
-
-    // margin-block-start: 35px;
-    // display: grid;
-    // place-items: center;
-    // padding: 5px;
-    // margin-block-end: 35px;
+     margin-bottom: 16px;
 
     .header-station-list {
       justify-self: start;
@@ -141,15 +113,7 @@
 
     @container (min-width: 700px) {
       .header-station-list {
-        // --item-height: 64px;
-        // grid-template-columns: repeat(3, 1fr);
         grid-template-columns: repeat(4, minmax(170px, 1fr)); 
-      }
-    }
-
-    @container (min-width: 790px) {
-      .header-station-list {
-          // grid-template-columns: repeat(4, minmax(170px, 1fr)); 
       }
     }
 
@@ -157,7 +121,6 @@
       .header-station-list {
         --item-height: 64px;
         gap: 12px;
-        // grid-template-columns: repeat(4, 1fr);
       }
     }
 
@@ -174,70 +137,65 @@
     }
   }
 
-  .home-top-mixes {
-    margin-block-end: 40px;
-    .top-mixes-header {
+  .playlist-container {
+    .playlist-header {
       display: flex;
+      width: 100%;
       justify-content: space-between;
-      font-family: SpotifyMixUI;
-      align-items: center;
+      align-items: end;
+      min-block-size: 56px;
+      margin-bottom: 8px;
+      user-select: none;
 
-      span {
-        cursor: pointer;
-        font-size: 14px;
-        align-self: center;
-        &:hover {
-          text-decoration: underline;
+      h1 {
+        margin: 0;
+        z-index: 0;
+        align-self: end;
+        color: #fff;
+        z-index: 0;
+        background-color: inherit;
+
+        &.row-title {
+          font-family: SpotifyMixUITitle;
+          font-size: var(--encore-text-size-larger);
+          font-weight: 700;
+          color: #fff;
+          text-wrap: balance;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       }
-    }
-
-    .top-mixes-h1 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-block-end: 0;
-      text-align: left;
-      padding-inline-start: 4px;
-      color: white;
-    }
-    .home-mixes-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
-    }
-  }
-
-  .home-recommended {
-    font-family: SpotifyMixUI;
-
-    .top-recommended-header {
-      display: flex;
-      justify-content: space-between;
-      font-family: SpotifyMixUI;
-      align-items: center;
       
       span {
-        cursor: pointer;
-        font-size: 14px;
-        align-self: center;
+        color: var(--text-subdued);
+        font-size: var(--encore-text-size-smaller);
+        font-weight: 700;
+        margin-top: 2px;
+        margin-right: 8px;
+        z-index: 0;
+        background-color: inherit;
+
         &:hover {
           text-decoration: underline;
+          text-decoration-color: #fff; /* Your custom underline color */
         }
       }
     }
-    .top-recommended-h1 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-block-end: 0;
-      text-align: left;
-      padding-inline-start: 4px;
-      color: white;
-    }
-    .recommended-station-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
-      // gap: 1rem;
+    
+    .playlist-list {
+      margin-inline: -12px;
+      display: flex;
+    flex-wrap: wrap;
+      //  display: grid;
+    // grid-auto-flow: column;
+    // grid-auto-columns: max-content;
+      // display: grid;
+      // grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
     }
   }
+
 }
 
 @media (max-width: 900px) {

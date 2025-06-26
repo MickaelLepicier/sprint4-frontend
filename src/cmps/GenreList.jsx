@@ -6,8 +6,10 @@ export function GenreList({ genres }) {
   const navigate = useNavigate()
 
   function onClickGenre(genre) {
-    loadSearchResults(genre, 'genre')
-    navigate(`/genre/${genre}`)
+    loadSearchResults(genre.name, 'genre')
+    navigate(`/genre/${genre.name}`, {
+        state: { color: genre.color }
+    })
   }
 
   return (
@@ -18,7 +20,7 @@ export function GenreList({ genres }) {
           genreName={genre.name}
           color={genre.color}
           imgUrl={genre.imgUrl}
-          onClickGenre={() => onClickGenre(genre.name)}
+          onClickGenre={() => onClickGenre(genre)}
         />
       ))}
     </section>

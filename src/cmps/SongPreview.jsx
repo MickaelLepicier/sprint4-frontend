@@ -24,7 +24,8 @@ export function SongPreview({
   const user = useSelector((storeState) => storeState.userModule.user)
   const likedStationId = user?.likedSongsStationId || ''
 
-  const addClassName = currSong?.id === song?.id ? 'active' : ''
+  const isActiveCN = currSong?.id === song?.id ? 'active' : ''
+  // CN = className
 
   // const likedStation = useSelector((storeState) =>
   //   storeState.stationModule.stations.find((station) => station._id === likedStationId)
@@ -67,7 +68,7 @@ export function SongPreview({
 
   return (
     <tr
-      className={`song-row ${addClassName}`}
+      className={`song-row ${isActiveCN}`}
       // onDoubleClick={() => togglePlay(song)}
       onDoubleClick={togglePlay}
       ref={innerRef} // DND: attach ref
@@ -92,7 +93,7 @@ export function SongPreview({
       <td>
         {/* add-to-liked */}
 
-        <LikeToggleBtn song={song} />
+        <LikeToggleBtn song={song}/>
 
         {/* <button
           className={`add-to-liked ${isLiked ? 'liked' : ''}`}

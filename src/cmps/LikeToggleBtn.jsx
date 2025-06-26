@@ -13,7 +13,9 @@ export function LikeToggleBtn({ song, ...props }) {
     storeState.stationModule.stations.find((station) => station._id === likedStationId)
   )
   const isLiked = likedStation?.songs?.some((s) => s.id === song?.id)
-
+  const isLikedCN = isLiked ? 'liked' : ''
+  // CN = className
+  
   async function onAddSongToLiked(song) {
     try {
       if (!user || !likedStationId) {
@@ -44,7 +46,7 @@ export function LikeToggleBtn({ song, ...props }) {
 
   return (
     <button
-      className={`add-to-liked ${isLiked ? 'liked' : ''}`}
+      className={`add-to-liked ${isLikedCN}`}
       title="Add to Liked Songs"
       onClick={() => {
         onAddSongToLiked(song)

@@ -48,9 +48,11 @@ async function login(userCred) {
 }
 
 async function signup(userCred) {
+  console.log('userCred:',userCred)
   try {
     if (!userCred.imgUrl) userCred.imgUrl = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
     const user = await httpService.post(BASE_URL + 'signup', userCred)
+    console.log('user-after-api:',user)
     return _saveLocalUser(user)
   } catch (error) {
     console.log('Could not signup')

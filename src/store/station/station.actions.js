@@ -60,6 +60,7 @@ export async function addStation(station) {
 }
 
 export async function updateStation(station) {
+  console.log('stationUPDATEDDD:', station)
   try {
     const savedStation = await stationService.save(station)
     store.dispatch(getCmdUpdateStation(savedStation))
@@ -79,7 +80,7 @@ export async function createStationForUser() {
 
   const stations = store.getState().stationModule.stations
   const stationOrder = state.stationModule.stationOrder
-  const userStations = stations.filter((station) => station.createdBy?._id === user._id)
+  const userStations = stations.filter(station => station.createdBy?._id === user._id)
   const nextNum = userStations.length + 1
   const newStation = stationService.buildNewStationForUser(user, nextNum)
 
@@ -88,7 +89,6 @@ export async function createStationForUser() {
 
   const newOrder = [...stationOrder, savedStation._id]
   store.dispatch({ type: SET_STATION_ORDER, stationOrder: newOrder })
-  console.log(savedStation)
   return savedStation
 }
 
@@ -169,37 +169,37 @@ export function setShuffledOrder(shuffledOrder) {
 function getCmdSetStations(stations) {
   return {
     type: SET_STATIONS,
-    stations
+    stations,
   }
 }
 function getCmdSetStation(station) {
   return {
     type: SET_STATION,
-    station
+    station,
   }
 }
 function getCmdRemoveStation(stationId) {
   return {
     type: REMOVE_STATION,
-    stationId
+    stationId,
   }
 }
 function getCmdAddStation(station) {
   return {
     type: ADD_STATION,
-    station
+    station,
   }
 }
 function getCmdUpdateStation(station) {
   return {
     type: UPDATE_STATION,
-    station
+    station,
   }
 }
 function getCmdAddStationMsg(msg) {
   return {
     type: ADD_STATION_MSG,
-    msg
+    msg,
   }
 }
 
@@ -209,9 +209,8 @@ async function unitTestActions() {
   await addStation(stationService.getEmptyStation())
   await updateStation({
     _id: 'm1oC7',
-    title: 'Station-Good'
+    title: 'Station-Good',
   })
   await removeStation('m1oC7')
   // TODO unit test addStationMsg
 }
-

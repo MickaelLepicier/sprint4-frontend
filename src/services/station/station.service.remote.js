@@ -4,7 +4,7 @@ import { loadFromStorage, makeId, saveToStorage, cleanTitle } from '../util.serv
 import axios from 'axios'
 import { parse, toSeconds } from 'iso8601-duration'
 
-const BASE_URL = 'toy/'
+const BASE_URL = 'station/'
 
 const SIDEBAR_CACHE_KEY = 'sideBarCacheDB'
 const sideBarCache = loadFromStorage(SIDEBAR_CACHE_KEY) || {}
@@ -45,9 +45,35 @@ async function remove(stationId) {
   return httpService.delete(BASE_URL + stationId)
 }
 
+// async function save(station) {
+//   const isUpdate = !!station._id
+//   const BASE_URL = isUpdate ? `station/${station._id}` : 'station/'
+//   const method = isUpdate ? 'put' : 'post'
+
+//   let stationToSave = {
+//     ...station,
+//     name: station.name || '',
+//     tags: station.tags || [],
+//     songs: station.songs || [],
+//     msgs: station.msgs || [],
+//     likedByUsers: station.likedByUsers || [],
+//     createdAt: station.createdAt || Date.now(),
+//     createdBy: station.createdBy,
+//     imgUrl: station.imgUrl,
+//     origId: station.origId || '',
+//   }
+
+//   if (isUpdate) {
+//     delete stationToSave._id
+//   }
+
+//   return httpService[method](BASE_URL, stationToSave)
+// }
+
 async function save(station) {
-  const BASE_URL = station._id ? `station/${station._id}` : 'station/'
-  const method = station._id ? 'put' : 'post'
+  
+  const isValidObjectId = (id) =>
+    typeof id === 'string' && id.length === 24 && /^[a-f\d]{24}$/i.test(id);
 
   let stationToSave = {
     ...station,
@@ -57,15 +83,14 @@ async function save(station) {
     msgs: station.msgs || [],
     likedByUsers: station.likedByUsers || [],
     createdAt: station.createdAt || Date.now(),
+  };
+
+  if (isValidObjectId(station._id)) {
+    return await httpService.put(`station/${station._id}`, stationToSave);
+  } else {
+    delete stationToSave._id; // <--- Only here!
+    return await httpService.post('station', stationToSave);
   }
-
-  return httpService[method](BASE_URL, stationToSave)
-
-  //   if (station._id) {
-  //     return await httpService.put(`station/${station._id}`, stationToSave)
-  //   } else {
-  //     return await httpService.post('station', stationToSave)
-  //   }
 }
 
 async function sideBarSearch(query) {

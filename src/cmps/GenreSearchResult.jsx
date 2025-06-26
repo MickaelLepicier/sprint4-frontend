@@ -28,12 +28,9 @@ export function GenreSearchResult() {
     dispatch({ type: SET_SONG, song })
     dispatch({ type: SET_IS_PLAYING, isPlaying: true })
   }
-
   async function onGoToStation(station) {
-    // dispatch({ type: SET_STATION, station })
-    console.log('station:', station)
-    await addStation(station)
-    navigate(`/playlist/${station._id}`)
+    const savedStation = await addStation(station)
+    navigate(`/playlist/${savedStation._id}`)
   }
 
   return (

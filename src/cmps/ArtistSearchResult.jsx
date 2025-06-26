@@ -24,9 +24,8 @@ export function ArtistSearchResult() {
   // }
 
   async function onGoToStation(station) {
-    await addStation(station)
-    // dispatch({ type: SET_STATION, station })
-    navigate(`/playlist/${station._id}`)
+    const savedStation = await addStation(station)
+    navigate(`/playlist/${savedStation._id}`)
   }
 
   function onSetSong(song) {

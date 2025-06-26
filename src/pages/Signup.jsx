@@ -34,17 +34,19 @@ export function Signup() {
     if (!credentials.username || !credentials.password || !credentials.fullname) return
     let stationToAdd
     try {
+
       stationToAdd = await addStation(userStation)
       const updatedCredentials = { ...credentials, likedSongsStationId: stationToAdd._id }
 
       const user = await signup(updatedCredentials)
+      console.log('user-signupssssss:',user)
 
       stationToAdd.createdBy = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl }
       stationToAdd.name = 'Liked Songs'
       stationToAdd.imgUrl = 'https://misc.scdn.co/liked-songs/liked-songs-300.png'
-
-      await updateStation(stationToAdd)
-
+      
+     const updatedStation =  await updateStation(stationToAdd)
+      console.log('updatedStation:',updatedStation)
       clearState()
       navigate('/')
       showSuccessMsg('Signed up succesfully')

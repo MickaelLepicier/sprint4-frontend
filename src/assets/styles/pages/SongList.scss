@@ -646,7 +646,7 @@
 
           &:active {
             opacity: 0.7;
-            
+
             svg.like-large-icon {
               fill: #b3b3b3;
             }
@@ -672,195 +672,240 @@
     // padding-inline: 16px;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    // border-collapse: separate;
-    // table-layout: fixed;
+  // table {
+  //   width: 100%;
+  //   border-collapse: collapse;
+  //   // border-collapse: separate;
+  //   // table-layout: fixed;
 
-    thead {
-      // padding-inline: 16px;
-    }
+  //   thead {
+  //     // padding-inline: 16px;
+  //   }
 
-    .t-header {
-      // padding-inline: 16px;
+  //   .t-header {
+  //     // padding-inline: 16px;
 
-      th {
-        height: 35.2px;
-        text-align: left;
-      }
+  //     th {
+  //       height: 35.2px;
+  //       text-align: left;
+  //     }
 
-      // th:first-child {
-      //   // padding-inline: 16px 0;
-      //   // padding-inline: 16px;
-      // }
-    }
+  //     // th:first-child {
+  //     //   // padding-inline: 16px 0;
+  //     //   // padding-inline: 16px;
+  //     // }
+  //   }
 
-    th,
-    td {
-      color: #b3b3b3;
+  //   th,
+  //   td {
+  //     color: #b3b3b3;
 
-      padding-right: 16px;
-      font-size: 14px;
-    }
+  //     padding-right: 16px;
+  //     font-size: 14px;
+  //   }
 
-    td {
-      height: 54.4px;
-    }
+  //   td {
+  //     height: 54.4px;
+  //   }
 
-    th {
-      font-size: 14px;
-      letter-spacing: 1px;
-      border-bottom: 1px solid #282828;
-    }
+  //   th {
+  //     font-size: 14px;
+  //     letter-spacing: 1px;
+  //     border-bottom: 1px solid #282828;
+  //   }
 
-    th:first-child,
-    td:first-child {
-      // padding-left: 16px;
+  //   th:first-child,
+  //   td:first-child {
+  //     // padding-left: 16px;
 
-      padding-inline: 16px;
-      text-align: center;
-    }
+  //     padding-inline: 16px;
+  //     text-align: center;
+  //   }
 
-    td:nth-child(2) {
-      font-size: 16px;
-      color: #ffffff;
-    }
+  //   td:nth-child(2) {
+  //     font-size: 16px;
+  //     color: #ffffff;
+  //   }
 
-    td:nth-child(3) {
-      // font-size: 16px;
-      // color: #ffffff;
-      min-width: 120px;
-    }
+  //   td:nth-child(3) {
+  //     // font-size: 16px;
+  //     // color: #ffffff;
+  //     min-width: 120px;
+  //   }
 
-    th:last-child,
-    td:last-child {
-      // padding-right: 16px;
+  //   th:last-child,
+  //   td:last-child {
+  //     // padding-right: 16px;
 
-      display: flex;
-      align-items: center;
-      justify-content: end;
-    }
+  //     display: flex;
+  //     align-items: center;
+  //     justify-content: end;
+  //   }
 
-    // .song-row {
-    //   transition: background-color 0.2s ease;
+  //  ________________________________________________
 
-    //   &:hover {
-    //     background-color: #2a2a2a;
+  // .song-row {
+  //   transition: background-color 0.2s ease;
 
-    //     .song-play-idx {
-    //       .song-idx {
-    //         opacity: 0;
-    //         pointer-events: none;
-    //       }
+  //   &:hover {
+  //     background-color: #2a2a2a;
 
-    //       .song-preview-play-icon,
-    //       .song-preview-pause-icon {
-    //         opacity: 1;
-    //         pointer-events: auto;
-    //       }
-    //     }
+  //     .song-play-idx {
+  //       .song-idx {
+  //         opacity: 0;
+  //         pointer-events: none;
+  //       }
 
-    //     .add-to-liked,
-    //     .more-options {
-    //       opacity: 1;
-    //       // pointer-events: auto;
-    //       // background-color: #2a2a2a;
-    //       // color: white;
-    //     }
+  //       .song-preview-play-icon,
+  //       .song-preview-pause-icon {
+  //         opacity: 1;
+  //         pointer-events: auto;
+  //       }
+  //     }
 
-    //     td:nth-child(3) {
-    //       color: #ffffff;
-    //     }
-    //   }
+  //     .add-to-liked,
+  //     .more-options {
+  //       opacity: 1;
+  //       // pointer-events: auto;
+  //       // background-color: #2a2a2a;
+  //       // color: white;
+  //     }
 
-    //   &.active {
-    //     background-color: #ffffff4d;
+  //     td:nth-child(3) {
+  //       color: #ffffff;
+  //     }
+  //   }
 
-    //     // TODO
-    //     // [] add animation when the song is playing
-    //     // [] put some of the code here in a SongPreview.scss
+  //   &.active {
+  //     background-color: #ffffff4d;
 
-    //     // img {
-    //     //   // change this to green
-    //     //   transform: scale(1.04);
-    //     //   filter: sepia(1) hue-rotate(85deg) saturate(5);
-    //     // }
+  //     // TODO
+  //     // [] add animation when the song is playing
+  //     // [] put some of the code here in a SongPreview.scss
 
-    //     .song-play-idx {
-    //       .song-idx {
-    //         opacity: 0;
-    //         pointer-events: none;
-    //       }
+  //     // img {
+  //     //   // change this to green
+  //     //   transform: scale(1.04);
+  //     //   filter: sepia(1) hue-rotate(85deg) saturate(5);
+  //     // }
 
-    //       .song-preview-play-icon,
-    //       .song-preview-pause-icon {
-    //         opacity: 1;
-    //         pointer-events: auto;
-    //       }
-    //     }
+  //     .song-play-idx {
+  //       .song-idx {
+  //         opacity: 0;
+  //         pointer-events: none;
+  //       }
 
-    //     .add-to-liked{
-    //       opacity: 1;
-    //     }
+  //       .song-preview-play-icon,
+  //       .song-preview-pause-icon {
+  //         opacity: 1;
+  //         pointer-events: auto;
+  //       }
+  //     }
 
-    //   }
+  //     .add-to-liked{
+  //       opacity: 1;
+  //     }
 
-    //   .song-play-idx {
-    //     position: relative;
-    //     width: 24px;
-    //     height: 24px;
+  //   }
 
-    //     color: #b3b3b3;
+  //   .song-play-idx {
+  //     position: relative;
+  //     width: 24px;
+  //     height: 24px;
 
-    //     .song-idx {
-    //       position: absolute;
-    //       top: 0;
-    //       left: 0;
-    //       width: 100%;
-    //       height: 100%;
-    //       @include flex;
-    //       // display: flex;
-    //       // align-items: center;
-    //       // justify-content: center;
-    //       transition: opacity 0.2s ease;
-    //     }
+  //     color: #b3b3b3;
 
-    //     .song-idx {
-    //       opacity: 1;
-    //       pointer-events: auto;
-    //     }
+  //     .song-idx {
+  //       position: absolute;
+  //       top: 0;
+  //       left: 0;
+  //       width: 100%;
+  //       height: 100%;
+  //       @include flex;
+  //       // display: flex;
+  //       // align-items: center;
+  //       // justify-content: center;
+  //       transition: opacity 0.2s ease;
+  //     }
 
-    //     .song-preview-play-icon,
-    //     .song-preview-pause-icon {
-    //       opacity: 0;
-    //       pointer-events: none;
-    //     }
-    //   }
+  //     .song-idx {
+  //       opacity: 1;
+  //       pointer-events: auto;
+  //     }
 
-    //   .song-img-title {
-    //     display: flex;
-    //     align-items: center;
-    //     gap: 12px;
+  //     .song-preview-play-icon,
+  //     .song-preview-pause-icon {
+  //       opacity: 0;
+  //       pointer-events: none;
+  //     }
+  //   }
 
-    //     img {
-    //       width: 40px;
-    //       height: 40px;
-    //       border-radius: 4px;
-    //       object-fit: cover;
-    //     }
+  //   .song-img-title {
+  //     display: flex;
+  //     align-items: center;
+  //     gap: 12px;
 
-    //     p {
-    //       margin: 0;
-    //     }
-    //   }
+  //     img {
+  //       width: 40px;
+  //       height: 40px;
+  //       border-radius: 4px;
+  //       object-fit: cover;
+  //     }
 
-    //   .add-to-liked,
-    //   .more-options {
-    //     opacity: 0;
-    //     // pointer-events: none;
-    //     // transition: opacity 0.2s ease;
-    //   }
-    // }
-  }
+  //     p {
+  //       margin: 0;
+  //     }
+  //   }
+
+  //   .add-to-liked,
+  //   .more-options {
+  //     opacity: 0;
+  //     // pointer-events: none;
+  //     // transition: opacity 0.2s ease;
+  //   }
+  // }
 }
+
+.song-list-header,
+.song-list-row {
+  display: grid;
+  grid-template-columns: 10px 1fr 1fr 120px 50px;
+
+  grid-template-columns:
+    16px minmax(120px, 6fr) minmax(120px, 4fr)
+    minmax(120px, 3fr) minmax(120px, 1fr);
+
+    // TODO in the app the full width is  1014 and here its 984 check why
+  
+    grid-gap: 16px;
+
+  align-items: center;
+  padding: 0px 16px;
+  color: #b3b3b3;
+}
+
+.song-list-header {
+  border-bottom: 1px solid #282828;
+  height: 36px;
+
+  font-size: 14px;
+  font-weight: 500;
+  // text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.song-list-body > div {
+  transition: background 0.2s;
+}
+
+.song-list-body > div:hover {
+  background-color: #2a2a2a;
+}
+
+.col {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// }

@@ -39,59 +39,94 @@ export function ArtistSearchResult() {
   const topSongs = topArtist.songs.slice(0, 4)
   return (
     <section className="header-search-stations">
-      <div className="top-result-grid">
-        <div className="heading-col1">
-          <h1>Top Result</h1>
-        </div>
-        <div className="heading-col2">
-          <h3>Songs</h3>
-        </div>
+      <div className="content-spacing">
+        <div className="grid-container">
+          <div className="grid-inner">
 
-        <div className="artist-preview" onClick={() => onSetSong(topArtist.songs[0])}>
-          <img src={topArtist.imgUrl} alt={topArtist.name} />
-          <div className="artist-info">
-            <span className="artist-title">{topArtist.name}</span>
-            <span className="artist-meta">Song · {topArtist.createdBy.fullname}</span>
-            {/* If needed, you can add <span className="artist-sub">...</span> here */}
-          </div>
-        </div>
-        <div className="first-artist-songs-preview">
-          <ul>
-            {topSongs.map(song => (
-              <li key={song.id} className="song-preview flex align-center" onClick={() => onSetSong(song)}>
-                <img src={song.imgUrl} alt={song.title} />
-                <div className="song-info">
-                  <span className="song-name">{cleanTitle(song.title)}</span>
-                  <span className="artist-name">{topArtist.createdBy.fullname}</span>
+            <div className="top-result">
+              <div className="title-wrapper row-title">
+                <h1>Top Result</h1>
+              </div>
+              <div className="artist-preview" onClick={() => onSetSong(topArtist.songs[0])}>
+                <div className="img-container">
+                  <img src={topArtist.imgUrl} alt={topArtist.name} />
                 </div>
-                <span className="song-dur">{formatTime(song.duration)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      <div className="artists-section">
-        <h2>Artists</h2>
-        <section className="artists-list">
-          {artistStations.map(station => (
-            <div
-              className="artist-card"
-              key={station._id}
-              onClick={() => {
-                onGoToStation(station)
-              }}
-            >
-              <img src={station.imgUrl} alt={station.name} />
-              <div className="flex column artist-info-container">
-                <span className="artist-title" title={station.name}>
-                  {cleanTitle(station.name)}
-                </span>
-                <span className="artist-meta">Artist</span>
+                <div className="artist-info">
+                  <span className="artist-title">{topArtist.name}</span>
+                  <div className="artist-meta">
+                    <span className="prefix">Song </span> 
+                    <span className="artist-name">{topArtist.createdBy.fullname}</span>
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </section>
+                        
+            <div className="songs-results">
+              <div className="title-wrapper">
+                <h2 className="row-title">Songs</h2>
+              </div>
+
+                <div className="ul-wrapper">
+                  <ul>
+                    {topSongs.map(song => (
+                      <li
+                        key={song.id}
+                        className=""
+                        onClick={() => onSetSong(song)}
+                      >
+                        <div className="main-details flex">
+                          <div className="img-container">
+                            <img src={song.imgUrl} />
+                            
+                          </div>
+
+                          <div className="song-details">
+                            <span className="title">{cleanTitle(song.title)}</span>
+                            <span className="artist">{topArtist.createdBy.fullname}</span>
+                          </div>
+                        </div>
+
+                        <div className="song-meta-actions">
+                          <div className="duration">{formatTime(song.duration)}</div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+            </div>
+
+            <div className="artists-section">
+              <div className="title-wrapper row-title">
+                <h1>Artists</h1>
+              </div>
+              <section className="artists-list">
+                {artistStations.map(station => (
+                  <div
+                    className="artist-card"
+                    key={station._id}
+                    onClick={() => {
+                      onGoToStation(station)
+                    }}
+                  >
+                    <div className="img-container">
+                      <div className="image-wrapper">
+                        <img src={station.imgUrl} alt={station.name} />
+                      </div>
+                    
+                    </div>
+                    <div className="flex column artist-info-container">
+                      <span className="artist-title" title={station.name}>
+                        {cleanTitle(station.name)}
+                      </span>
+                      <span className="artist-meta">Artist</span>
+                    </div>
+                  </div>
+                ))}
+              </section>
+            </div>
+            
+          </div>
+        </div>
       </div>
     </section>
   )

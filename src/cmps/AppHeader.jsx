@@ -32,7 +32,7 @@ export function AppHeader() {
   async function performSearch(txt) {
     if (!txt.trim()) return
     try {
-      await loadSearchResults(txt, 'stations')
+      await loadSearchResults(txt, 'stations', 4)
 
       navigate(`/search/${txt}`)
     } catch (err) {

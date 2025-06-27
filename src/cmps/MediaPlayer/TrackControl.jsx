@@ -31,8 +31,8 @@ export function TrackControl({ currSong, volume }) {
   const isNotAllowedCN = isNotAllowed ? 'not-allowed' : ''
   const isPlay = isPlaying ? 'track-control-pause-icon' : 'track-control-play-icon'
 
-  const repeatActive = isRepeat ? 'active' : ''
-  const shuffleActive = isShuffle ? 'active' : ''
+  const repeatActive = isRepeat ? 'active-green' : ''
+  const shuffleActive = isShuffle ? 'active-green' : ''
   const song = { ...currSong }
 
   useEffect(() => {

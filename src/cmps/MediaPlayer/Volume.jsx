@@ -15,7 +15,7 @@ export function Volume({ volume, toggleMute, handleVolumeChange, isDisabled }) {
   function getVolumeClassName() {
     if (vol === 0) return 'volume-mute'
     if (vol <= 40) return 'volume-low'
-    if (vol <= 80) return 'volume-meduim'
+    if (vol <= 80) return 'volume-medium'
     return 'volume-high'
   }
 

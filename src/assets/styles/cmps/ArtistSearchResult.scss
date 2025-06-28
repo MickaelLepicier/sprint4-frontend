@@ -268,9 +268,34 @@
           grid-template-columns: [first] minmax(120px, var(--col0, 4fr)) [last] minmax(120px, var(--col1, 1fr));
           border-radius: 4px;
 
+          &:is(.active, .active:hover) {
+            background-color: hsla(0, 0%, 100%, .3);
+          }
+
+          &:is(.active, :hover) {
+            .main-details .song-details span.artist {
+              color: #fff;
+            }
+          }
+
+          &.playing 
+            .title {
+              color: #1ed760;
+            .artist {
+              color: #fff;
+            }
+          }
+
           &:hover {
             background-color: hsla(0, 0%, 100%, .1);
+
+            .main-details {
+              .img-container button {
+                opacity: 1;
+              }
+            }
           }
+
           // grid-template-rows: min-content;
           // display: flex;
 
@@ -303,6 +328,15 @@
                 width: 40px;
                 height: 40px;
               }
+
+              button {
+                position: absolute;
+                opacity: 0;
+                background: rgba(0, 0, 0, .5);
+                inset: 0;
+                @include flex;
+                color: #fff;
+              }
             }
 
             .song-details {
@@ -329,6 +363,7 @@
                 &.artist {
                   color: var(--text-subdued);
                   font-size: var(--encore-text-size-smaller);
+                  width: fit-content;
 
                   &:hover {
                     color: #fff;

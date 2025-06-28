@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
@@ -9,6 +10,9 @@ export function ArtistSearchResult() {
   const artistStations = useSelector(storeState => storeState.searchModule.searchResults)
   const currSong = useSelector(state => state.stationModule.currentSong)
   const isPlaying = useSelector(state => state.stationModule.isPlaying)
+
+  const [selectedSongId, setSelectedSongId] = useState(null)
+  const listRef = useRef()
   
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -21,7 +25,7 @@ export function ArtistSearchResult() {
       .padStart(2, '0')
     return `${minutes}:${seconds}`
   }
-  
+
   async function onGoToStation(station) {
     const savedStation = await addStation(station)
     navigate(`/playlist/${savedStation._id}`)
@@ -32,6 +36,16 @@ export function ArtistSearchResult() {
     dispatch({ type: SET_SONG, song })
     dispatch({ type: SET_IS_PLAYING, isPlaying: true })
   }
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (listRef.current && !listRef.current.contains(event.target)) {
+        setSelectedSongId(null)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const topArtist = artistStations[0]
   console.log('topArtist:', topArtist)
@@ -70,17 +84,20 @@ export function ArtistSearchResult() {
               </div>
 
                 <div className="ul-wrapper">
-                  <ul>
+                  <ul ref={listRef}>
                     {topSongs.map(song => (
                       <li
                         key={song.id}
-                        className=""
-                        onClick={() => onSetSong(song)}
+                        className={`
+                          ${selectedSongId === song.id ? 'active' : ''}
+                          ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
+                        `}
+                        onClick={() => setSelectedSongId(song?.id)}
                       >
                         <div className="main-details flex">
                           <div className="img-container">
                             <img src={song.imgUrl} />
-                            
+                            <SidebarPlayBtn song={song} isLargePlayIcon={true} />
                           </div>
 
                           <div className="song-details">
@@ -115,7 +132,6 @@ export function ArtistSearchResult() {
                       <div className="image-wrapper">
                         <img src={station.imgUrl} alt={station.name} />
                       </div>
-                    
                     </div>
                     <div className="flex column artist-info-container">
                       <span className="artist-title" title={station.name}>

@@ -5,6 +5,7 @@ import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.
 import { addStation } from '../store/station/station.actions'
 import { cleanTitle } from '../services/util.service'
 import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
+import { LikeToggleBtn } from './LikeToggleBtn'
 
 export function ArtistSearchResult() {
   const artistStations = useSelector(storeState => storeState.searchModule.searchResults)
@@ -12,6 +13,7 @@ export function ArtistSearchResult() {
   const isPlaying = useSelector(state => state.stationModule.isPlaying)
 
   const [selectedSongId, setSelectedSongId] = useState(null)
+  const [justLikedSongId, setJustLikedSongId] = useState(null)
   const listRef = useRef()
   
   const dispatch = useDispatch()
@@ -41,6 +43,7 @@ export function ArtistSearchResult() {
     function handleClickOutside(event) {
       if (listRef.current && !listRef.current.contains(event.target)) {
         setSelectedSongId(null)
+        setJustLikedSongId(null)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -90,6 +93,7 @@ export function ArtistSearchResult() {
                         key={song.id}
                         className={`
                           ${selectedSongId === song.id ? 'active' : ''}
+                          ${justLikedSongId === song.id ? 'just-liked' : ''}
                           ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
                         `}
                         onClick={() => setSelectedSongId(song?.id)}
@@ -107,6 +111,19 @@ export function ArtistSearchResult() {
                         </div>
 
                         <div className="song-meta-actions">
+                          <div className="btn-container" onClick={e => e.stopPropagation()}>
+                            <LikeToggleBtn
+                              song={song}
+                              onLike={() => {
+                                setJustLikedSongId(song.id)
+                                setSelectedSongId(null)
+                              }}
+                              onUnlike={() => {
+                                setSelectedSongId(song.id)
+                                setJustLikedSongId(null)
+                              }}
+                            />
+                          </div>
                           <div className="duration">{formatTime(song.duration)}</div>
                         </div>
                       </li>

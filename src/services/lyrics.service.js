@@ -1,33 +1,13 @@
+import { loadFromStorage, saveToStorage } from './util.service'
+
 const BASE_LYRICS_API = 'https://api.lyrics.ovh/v1'
 
 // Enable or disable CORS proxy for local dev only
 const USE_CORS_PROXY = true // set to false for production
 const CORS_PROXY = 'https://corsproxy.io/?'
 
-// export async function fetchLyrics(song, timeoutMs = 8000) {
-//     const artist = song.artist
-//     const title = song.title
-//     if (!artist || !title) return null
-
-//     const url = `https://api.lyrics.ovh/v1/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`
-//     const fetchUrl = 'https://corsproxy.io/?' + encodeURIComponent(url)
-
-//     try {
-//         const controller = new AbortController()
-//         const id = setTimeout(() => controller.abort(), timeoutMs)
-//         const res = await fetch(fetchUrl, { signal: controller.signal })
-//         clearTimeout(id)
-//         const data = await res.json()
-//         return data.lyrics || null
-//     } catch (err) {
-//         if (err.name === 'AbortError') {
-//             console.error('Lyrics fetch timed out!')
-//             return null 
-//         }
-//         console.error('Lyrics fetch error:', err)
-//         return null
-//     }
-// }
+const LYRICS_CACHE_KEY = 'lyricsCacheDB'
+const lyricsCache = loadFromStorage(LYRICS_CACHE_KEY) || {}
 
 export async function fetchLyrics(song) {
     const artist = song.artist
@@ -38,6 +18,11 @@ export async function fetchLyrics(song) {
 
     if (!artist || !title) return null
 
+    const cacheKey = song.id || `${title}|${artist}`
+    if (lyricsCache[cacheKey]) {
+        return lyricsCache[cacheKey]
+    }
+
     const url = `${BASE_LYRICS_API}/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`
     const fetchUrl = USE_CORS_PROXY ? CORS_PROXY + encodeURIComponent(url) : url
 
@@ -45,6 +30,12 @@ export async function fetchLyrics(song) {
         const res = await fetch(fetchUrl)
         console.log(res)
         const data = await res.json()
+        const lyrics = data.lyrics || null
+
+        if (lyrics) {
+            lyricsCache[cacheKey] = lyrics
+            saveToStorage(LYRICS_CACHE_KEY, lyricsCache)
+        }
         // console.log(data.lyrics)
         return data.lyrics || null
     } catch (err) {

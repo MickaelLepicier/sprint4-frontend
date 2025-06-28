@@ -23,7 +23,6 @@ const initialState = {
   currentSong: null, // curr playing song
   currentStation: null, // curr playing station
   isPlaying: false,
-  lyricsCache: {}, // store lyrics for played songs
   stationOrder: [],
   isShuffle: false,
   shuffledOrder: [],

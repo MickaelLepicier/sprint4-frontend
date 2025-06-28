@@ -38,7 +38,7 @@ export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedS
         <div className="col col-idx">#</div>
         <div className="col col-title">Title</div>
         <div className="col col-album">Album</div>
-        {isLikedSongs && <div className="col col-date">Date Added</div>}
+        {isLikedSongs && <div className="col col-date">Date added</div>}
 
         <div className="col col-actions">
           <svg width="18" height="18" viewBox="0 0 22 22" fill="none">

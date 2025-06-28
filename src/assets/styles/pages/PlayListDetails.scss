@@ -667,10 +667,10 @@
     }
   }
 
-  .song-list-container {
-    padding-inline: var(--content-spacing);
-    // padding-inline: 16px;
-  }
+  // .song-list-container {
+  //   padding-inline: var(--content-spacing);
+  //   // padding-inline: 16px;
+  // }
 
   // table {
   //   width: 100%;
@@ -866,93 +866,93 @@
   // }
 }
 
-.song-list-header,
-.song-list-row {
-  display: grid;
-  // grid-template-columns: 10px 1fr 1fr 120px 50px;
+// .song-list-header,
+// .song-list-row {
+//   display: grid;
+//   // grid-template-columns: 10px 1fr 1fr 120px 50px;
 
-  grid-template-columns:
-    16px minmax(120px, 6fr) minmax(120px, 4fr)
-    minmax(120px, 3fr) minmax(120px, 1fr);
+//   grid-template-columns:
+//     16px minmax(120px, 6fr) minmax(120px, 4fr)
+//     minmax(120px, 3fr) minmax(120px, 1fr);
 
-  grid-gap: 16px;
+//   grid-gap: 16px;
 
-  align-items: center;
-  padding: 0px 16px;
-  color: #b3b3b3;
-}
+//   align-items: center;
+//   padding: 0px 16px;
+//   color: #b3b3b3;
+// }
 
-.song-list-header {
-  height: 36px;
+// .song-list-header {
+//   height: 36px;
 
-  font-size: 14px;
-  font-weight: 500;
-  // letter-spacing: 0.05em;
-  // letter-spacing: 1px;
+//   font-size: 14px;
+//   font-weight: 500;
+//   // letter-spacing: 0.05em;
+//   // letter-spacing: 1px;
 
-  // Default state
-  background: transparent;
-  margin-block-end: 16px;
-  border-bottom: 1px solid #282828;
+//   // Default state
+//   background: transparent;
+//   margin-block-end: 16px;
+//   border-bottom: 1px solid #282828;
 
-  position: sticky;
-  top: 0;
-  z-index: 2;
+//   position: sticky;
+//   top: 0;
+//   z-index: 2;
 
-  // TODO - add hover and sticky
+//   // TODO - add hover and sticky
 
-  // when sticky:
-  //{
-  // background: #1f1f1f;
-  // border-bottom: 1px solid hsla(0, 0%, 100%, .1);
-  // -webkit-box-shadow: 0 -1px 0 0 #181818;
-  // box-shadow: 0 -1px 0 0 #181818;
-  //}
+//   // when sticky:
+//   //{
+//   // background: #1f1f1f;
+//   // border-bottom: 1px solid hsla(0, 0%, 100%, .1);
+//   // -webkit-box-shadow: 0 -1px 0 0 #181818;
+//   // box-shadow: 0 -1px 0 0 #181818;
+//   //}
 
-  // vertical-align: baseline;
+//   // vertical-align: baseline;
 
-  &:hover {
-    .col-title,
-    .col-album,
-    .col-date {
-      border-right: 1px solid rgb(179, 179, 179, 0.5);
-    }
-  }
+//   &:hover {
+//     .col-title,
+//     .col-album,
+//     .col-date {
+//       border-right: 1px solid rgb(179, 179, 179, 0.5);
+//     }
+//   }
   
-  &.is-sticky {
-    background: #1f1f1f;
-    border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
-    -webkit-box-shadow: 0 -1px 0 0 #181818;
-    box-shadow: 0 -1px 0 0 #181818;
-  }
+//   &.is-sticky {
+//     background: #1f1f1f;
+//     border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+//     -webkit-box-shadow: 0 -1px 0 0 #181818;
+//     box-shadow: 0 -1px 0 0 #181818;
+//   }
 
-  .col-idx {
-    text-align: right;
-  }
-}
+//   .col-idx {
+//     text-align: right;
+//   }
+// }
 
-.song-list-body > div {
-  transition: background 0.2s;
-}
+// .song-list-body > div {
+//   transition: background 0.2s;
+// }
 
-.song-list-body > div:hover {
-  background-color: #2a2a2a;
-}
+// .song-list-body > div:hover {
+//   background-color: #2a2a2a;
+// }
 
-.col {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+// .col {
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+// }
 
-.col-actions {
-  // text-align: right;
-  display: flex;
-  justify-content: end;
+// .col-actions {
+//   // text-align: right;
+//   display: flex;
+//   justify-content: end;
 
-  svg {
-    margin-right: 32px;
-  }
-}
+//   svg {
+//     margin-right: 32px;
+//   }
+// }
 
 // }

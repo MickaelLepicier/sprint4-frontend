@@ -286,6 +286,10 @@
             }
           }
 
+          &.just-liked {
+            background-color: hsla(0, 0%, 100%, .1) !important;
+          } 
+
           &:hover {
             background-color: hsla(0, 0%, 100%, .1);
 
@@ -293,6 +297,10 @@
               .img-container button {
                 opacity: 1;
               }
+            }
+
+            .song-meta-actions button.add-to-liked {
+              opacity: 1;
             }
           }
 
@@ -353,11 +361,7 @@
                 text-overflow: ellipsis;
                 &.title {
                   font-size: var(--encore-text-size-base);
-    //                white-space: nowrap;
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    // max-width: 100%; // or something like 250px if needed
-
+  
                 }
 
                 &.artist {
@@ -384,6 +388,20 @@
             display: flex;
             justify-content: flex-end;
             align-items: center;
+
+            button.add-to-liked {
+              opacity: 0;
+
+              padding-inline: 0;
+              padding-block: 8px;
+              margin-right: 12px;
+              min-inline-size: 0;
+              min-block-size: 32px;
+
+              &.liked {
+                opacity: 1;
+              }
+            }
 
             .duration {
               display: flex;

@@ -6,27 +6,43 @@ import { PlayLargeIcon } from '../svg/PlayLargeIcon'
 import { PauseLargeIcon } from '../svg/PauseLargeIcon'
 import { SetActionBtn } from '../util/SetActionBtn'
 
-export function SidebarPlayBtn({ station, isLargePlayIcon = false }) {
+export function SidebarPlayBtn({ station, song = null, isLargePlayIcon = false }) {
     const isPlaying = useSelector(store => store.stationModule.isPlaying)
     const isShuffle = useSelector(store => store.stationModule.isShuffle)
     const currentStation = useSelector(store => store.stationModule.currentStation)
+    const currentSong = useSelector(store => store.stationModule.currentSong)
 
-    const isCurrStationPlaying = currentStation?._id === station._id && isPlaying
+    // Decide what is currently playing (song or station)
+    const isCurrStationPlaying = song
+        ? currentSong?.id === song.id && isPlaying
+        : currentStation?._id === station._id && isPlaying
 
-    console.log('islarge', isLargePlayIcon)
-
-    let iconCmp
-    if (isCurrStationPlaying) {
-        iconCmp = isLargePlayIcon ? <PauseLargeIcon /> : <PauseStandardIcon />
-    } else {
-        iconCmp = isLargePlayIcon ? <PlayLargeIcon /> : <PlayStandardIcon />
-    }
+    const iconCmp = isCurrStationPlaying
+        ? isLargePlayIcon ? <PauseLargeIcon /> : <PauseStandardIcon />
+        : isLargePlayIcon ? <PlayLargeIcon /> : <PlayStandardIcon />
 
     function handleTogglePlay(ev) {
         ev.stopPropagation()
         const playerRef = window.playerRef?.current
         if (!playerRef) return
 
+        // PLAY INDIVIDUAL SONG
+        if (song) {
+            // Already playing this song?
+            if (currentSong?.id === song.id && isPlaying) {
+                playerRef.pauseVideo()
+                setIsPlaying(false)
+            } else if (currentSong?.id === song.id && !isPlaying) {
+                playerRef.playVideo()
+                setIsPlaying(true)
+            } else {
+                setSong(song, station)
+                setIsPlaying(true)
+            }
+            return
+        }
+
+        // PLAY STATION (playlist)
         if (currentStation?._id === station._id) {
             if (isPlaying) {
                 playerRef.pauseVideo()
@@ -56,8 +72,8 @@ export function SidebarPlayBtn({ station, isLargePlayIcon = false }) {
             currIcon={iconCmp}
             addClassName="sidebar-play-btn"
             onClick={handleTogglePlay}
-            ariaLabel="Play station"
-            title="Play station"
+            ariaLabel={song ? "Play song" : "Play station"}
+            title={song ? "Play song" : "Play station"}
         />
     )
 }

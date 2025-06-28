@@ -263,10 +263,12 @@
           display: grid;
           grid-column: 1 / -1;
           min-height: 56px;
-          padding: 0 16px;
           align-items: center;
           grid-template-columns: [first] minmax(120px, var(--col0, 4fr)) [last] minmax(120px, var(--col1, 1fr));
+          grid-gap: 16px;
+          padding: 0 16px;
           border-radius: 4px;
+          border: 0.909px solid transparent;
 
           &:is(.active, .active:hover) {
             background-color: hsla(0, 0%, 100%, .3);

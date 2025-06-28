@@ -99,6 +99,10 @@ export function SongList() {
     if (station?.songs) setSongs(station.songs)
   }, [station])
 
+  useEffect(() => {
+    setSearchSongTxt('')
+  }, [stationId])
+
   // Event Handlers - Search
   async function performSearch(txt) {
     if (!txt.trim()) return
@@ -350,117 +354,99 @@ export function SongList() {
         {/* TODO: Will put it back after finishing the layout */}
         {/* <button className="btn-compact">Compact</button> */}
       </div>
-      {/*
 
-
-*/} 
-    <div className="content-spacing">
-      <div className="song-list-container">
-        <table>
-          <thead>
-            <tr className="t-header">
-              <th>#</th>
-              <th>Title</th>
-              <th>Album</th>
-              {isLikedSongs && <th>Date Added</th>}
-              <th>
-                <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
-                  <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
-                  <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
-                  <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
-                </svg>
-              </th>
-              {/* <th>Duration</th> */}
-            </tr>
-            <tr className="thead-spacer-row">
-              <td colSpan="5" style={{ height: '1rem' }}></td>
-            </tr>
-          </thead>
-          {/* DND: Wrap tbody in DragDropContext and Droppable */}
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="songs-droppable" direction="vertical">
-              {(provided) => (
-                <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                  {songs.map((song, idx) => (
-                    <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
-                      {(provided) => (
-                        <SongPreview
-                          song={song}
-                          idx={idx}
-                          station={station}
-                          togglePlay={() => onTogglePlay(song)}
-                          draggableProps={provided.draggableProps} // DND: pass drag props
-                          dragHandleProps={provided.dragHandleProps} // DND: pass handle props
-                          innerRef={provided.innerRef} // DND: pass ref
-                          isLikedSongs={isLikedSongs}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </tbody>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </table>
-      </div>
-
-      {!showSearchBar &&
-        <button 
-          className="open-find-more-btn"
-          onClick={() => setShowSearchBar(!showSearchBar)}
-        >
-            Find more
-        </button>
-      }
-
-      {showSearchBar && (
-        <section className="song-search-section">
-          <section className="song-search-header">
-            <div className="song-search-header-inner">
-              <h4>Let's find something for your playlist</h4>
-              <form className="" action="" onSubmit={onSubmitSearch}>
-                <input
-                  value={searchSongTxt}
-                  onChange={handleChange}
-                  type="search"
-                  placeholder="Search for songs of episodes"
-                  id="name"
-                  name="name"
-                  autocomplete="off"
-                />
-                <SearchIcon />
-                
-                {searchSongTxt.length > 0 && (
-                  <ClearIcon onClick={() => setSearchSongTxt('')} />
+      <div className="content-spacing">
+        <div className="song-list-container">
+          <table>
+            <thead>
+              <tr className="t-header">
+                <th>#</th>
+                <th>Title</th>
+                <th>Album</th>
+                {isLikedSongs && <th>Date Added</th>}
+                <th>
+                  <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
+                    <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
+                    <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
+                    <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
+                  </svg>
+                </th>
+                {/* <th>Duration</th> */}
+              </tr>
+              <tr className="thead-spacer-row">
+                <td colSpan="5" style={{ height: '1rem' }}></td>
+              </tr>
+            </thead>
+            {/* DND: Wrap tbody in DragDropContext and Droppable */}
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="songs-droppable" direction="vertical">
+                {(provided) => (
+                  <tbody ref={provided.innerRef} {...provided.droppableProps}>
+                    {songs.map((song, idx) => (
+                      <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
+                        {(provided) => (
+                          <SongPreview
+                            song={song}
+                            idx={idx}
+                            station={station}
+                            togglePlay={() => onTogglePlay(song)}
+                            draggableProps={provided.draggableProps} // DND: pass drag props
+                            dragHandleProps={provided.dragHandleProps} // DND: pass handle props
+                            innerRef={provided.innerRef} // DND: pass ref
+                            isLikedSongs={isLikedSongs}
+                          />
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </tbody>
                 )}
-                {/* <label htmlFor="name"></label> */}
-              </form>
-            </div>
+              </Droppable>
+            </DragDropContext>
+          </table>
+        </div>
 
-            <button className="close-find-more-btn" onClick={() => setShowSearchBar(!showSearchBar)}>
-              <ClearIconLarge />
-              {/* <svg
-                className="find-more-svg"
-                width="32"
-                height="32"
-                viewBox="0 0 22 22"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ verticalAlign: 'middle' }}
-                aria-label="Close"
-              >
-                <line x1="6" y1="6" x2="16" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-                <line x1="16" y1="6" x2="6" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-              </svg> */}
-            </button>
+        {!showSearchBar &&
+          <button 
+            className="open-find-more-btn"
+            onClick={() => setShowSearchBar(!showSearchBar)}
+          >
+              Find more
+          </button>
+        }
+
+        {showSearchBar && (
+          <section className="song-search-section">
+            <section className="song-search-header">
+              <div className="song-search-header-inner">
+                <h4>Let's find something for your playlist</h4>
+                <form className="" action="" onSubmit={onSubmitSearch}>
+                  <input
+                    value={searchSongTxt}
+                    onChange={handleChange}
+                    type="search"
+                    placeholder="Search for songs of episodes"
+                    id="name"
+                    name="name"
+                    autocomplete="off"
+                  />
+                  <SearchIcon />
+                  
+                  {searchSongTxt.length > 0 && (
+                    <ClearIcon onClick={() => setSearchSongTxt('')} />
+                  )}
+                </form>
+              </div>
+
+              <button className="close-find-more-btn" onClick={() => setShowSearchBar(!showSearchBar)}>
+                <ClearIconLarge />
+              </button>
+            </section>
+              
+            {searchSongTxt.length > 0 && <SongSearchResult />}
           </section>
-            
-          <SongSearchResult />
-        </section>
-      )}
-      {/* <button onClick={() => { onAddStationMsg(station._id) }}>Add station msg</button> */}
-    </div>
+        )}
+      </div>
     </section>
   )
 }

@@ -23,7 +23,8 @@
 @import 'pages/TaskDetails';
 @import 'pages/LoginSignup';
 // @import "pages/Chat";
-@import 'pages/SongList';
+@import 'pages/PlayListDetails';
+
 @import 'pages/GenreIndex';
 
 @import 'pages/Login';
@@ -45,6 +46,7 @@
 @import 'cmps/GenrePreview';
 @import 'cmps/ArtistSearchResult';
 @import 'cmps/SongSearchResult';
+@import 'cmps/PlayListDetails';
 @import 'cmps/SongList';
 @import 'cmps/SpotifyLoader.scss';
 

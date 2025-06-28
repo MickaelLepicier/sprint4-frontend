@@ -869,15 +869,13 @@
 .song-list-header,
 .song-list-row {
   display: grid;
-  grid-template-columns: 10px 1fr 1fr 120px 50px;
+  // grid-template-columns: 10px 1fr 1fr 120px 50px;
 
   grid-template-columns:
     16px minmax(120px, 6fr) minmax(120px, 4fr)
     minmax(120px, 3fr) minmax(120px, 1fr);
 
-    // TODO in the app the full width is  1014 and here its 984 check why
-  
-    grid-gap: 16px;
+  grid-gap: 16px;
 
   align-items: center;
   padding: 0px 16px;
@@ -885,13 +883,52 @@
 }
 
 .song-list-header {
-  border-bottom: 1px solid #282828;
   height: 36px;
 
   font-size: 14px;
   font-weight: 500;
-  // text-transform: uppercase;
-  letter-spacing: 0.05em;
+  // letter-spacing: 0.05em;
+  // letter-spacing: 1px;
+
+  // Default state
+  background: transparent;
+  margin-block-end: 16px;
+  border-bottom: 1px solid #282828;
+
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  // TODO - add hover and sticky
+
+  // when sticky:
+  //{
+  // background: #1f1f1f;
+  // border-bottom: 1px solid hsla(0, 0%, 100%, .1);
+  // -webkit-box-shadow: 0 -1px 0 0 #181818;
+  // box-shadow: 0 -1px 0 0 #181818;
+  //}
+
+  // vertical-align: baseline;
+
+  &:hover {
+    .col-title,
+    .col-album,
+    .col-date {
+      border-right: 1px solid rgb(179, 179, 179, 0.5);
+    }
+  }
+  
+  &.is-sticky {
+    background: #1f1f1f;
+    border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+    -webkit-box-shadow: 0 -1px 0 0 #181818;
+    box-shadow: 0 -1px 0 0 #181818;
+  }
+
+  .col-idx {
+    text-align: right;
+  }
 }
 
 .song-list-body > div {
@@ -906,6 +943,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.col-actions {
+  // text-align: right;
+  display: flex;
+  justify-content: end;
+
+  svg {
+    margin-right: 32px;
+  }
 }
 
 // }

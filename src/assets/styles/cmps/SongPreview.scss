@@ -1,139 +1,139 @@
 .song-row {
-    transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease;
 
-    &:hover {
-      background-color: #2a2a2a;
-
-      .song-play-idx {
-        .song-idx {
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        .song-preview-play-icon,
-        .song-preview-pause-icon {
-          opacity: 1;
-          pointer-events: auto;
-        }
-      }
-
-      .add-to-liked,
-      .more-options {
-        opacity: 1;
-        transform: translateX(-20px);
-
-        // pointer-events: auto;
-        // background-color: #2a2a2a;
-        // color: white;
-      }
-
-      td:nth-child(3) {
-        color: #ffffff;
-      }
-    }
-
-    &.active {
-      background-color: #ffffff4d;
-
-      // TODO
-      // [] add animation when the song is playing
-      // [] put some of the code here in a SongPreview.scss
-
-      // img {
-      //   // change this to green
-      //   transform: scale(1.04);
-      //   filter: sepia(1) hue-rotate(85deg) saturate(5);
-      // }
-
-      .song-play-idx {
-        .song-idx {
-          opacity: 0;
-          pointer-events: none;
-        }
-
-        .song-preview-play-icon,
-        .song-preview-pause-icon {
-          opacity: 1;
-          pointer-events: auto;
-        }
-      }
-
-      .add-to-liked{
-        opacity: 1;
-      }
-
-    }
+  &:hover {
+    background-color: #2a2a2a;
 
     .song-play-idx {
-      position: relative;
-      width: 24px;
-      height: 24px;
-
-      color: #b3b3b3;
-
       .song-idx {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        @include flex;
-        // display: flex;
-        // align-items: center;
-        // justify-content: center;
-        transition: opacity 0.2s ease;
-      }
-
-      .song-idx {
-        opacity: 1;
-        pointer-events: auto;
+        opacity: 0;
+        pointer-events: none;
       }
 
       .song-preview-play-icon,
       .song-preview-pause-icon {
-        opacity: 0;
-        pointer-events: none;
-      }
-    }
-
-    .song-img-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      img {
-        width: 40px;
-        height: 40px;
-        border-radius: 4px;
-        object-fit: cover;
-      }
-
-      p {
-        margin: 0;
+        opacity: 1;
+        pointer-events: auto;
       }
     }
 
     .add-to-liked,
     .more-options {
-      opacity: 0;
+      opacity: 1;
       transform: translateX(-20px);
-      // pointer-events: none;
-      // transition: opacity 0.2s ease;
+
+      // pointer-events: auto;
+      // background-color: #2a2a2a;
+      // color: white;
     }
 
-    .song-duration {
-
+    td:nth-child(3) {
+      color: #ffffff;
     }
   }
 
-  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  &.active {
+    background-color: #ffffff4d;
 
-  .song-row {
+    // TODO
+    // [] add animation when the song is playing
+    // [] put some of the code here in a SongPreview.scss
+
+    // img {
+    //   // change this to green
+    //   transform: scale(1.04);
+    //   filter: sepia(1) hue-rotate(85deg) saturate(5);
+    // }
+
+    .song-play-idx {
+      .song-idx {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .song-preview-play-icon,
+      .song-preview-pause-icon {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    .add-to-liked {
+      opacity: 1;
+    }
+  }
+
+  .song-play-idx {
+    position: relative;
+    width: 24px;
+    height: 24px;
+
+    color: #b3b3b3;
+
+    .song-idx {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      @include flex;
+      // display: flex;
+      // align-items: center;
+      // justify-content: center;
+      transition: opacity 0.2s ease;
+    }
+
+    .song-idx {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .song-preview-play-icon,
+    .song-preview-pause-icon {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  .song-img-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      object-fit: cover;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .add-to-liked,
+  .more-options {
+    opacity: 0;
+    transform: translateX(-20px);
+    // pointer-events: none;
+    // transition: opacity 0.2s ease;
+  }
+
+  .song-duration {
+  }
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.song-row {
   display: grid;
   grid-template-columns: 40px 1fr 1fr 120px 60px;
   align-items: center;
   padding: 8px 16px;
   transition: background-color 0.2s ease;
+
+  z-index: 1;
 
   &:hover {
     background-color: #2a2a2a;

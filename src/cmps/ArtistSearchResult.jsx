@@ -3,9 +3,13 @@ import { useNavigate } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
 import { addStation } from '../store/station/station.actions'
 import { cleanTitle } from '../services/util.service'
+import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
 
 export function ArtistSearchResult() {
   const artistStations = useSelector(storeState => storeState.searchModule.searchResults)
+  const currSong = useSelector(state => state.stationModule.currentSong)
+  const isPlaying = useSelector(state => state.stationModule.isPlaying)
+  
   const dispatch = useDispatch()
   const navigate = useNavigate()
   if (!artistStations?.length) return <div>Loading...</div>
@@ -17,12 +21,7 @@ export function ArtistSearchResult() {
       .padStart(2, '0')
     return `${minutes}:${seconds}`
   }
-
-  // function onGoToStation(station) {
-  //   dispatch({ type: SET_STATION, station })
-  //   navigate(`/playlist/${station._id}`)
-  // }
-
+  
   async function onGoToStation(station) {
     const savedStation = await addStation(station)
     navigate(`/playlist/${savedStation._id}`)
@@ -47,7 +46,7 @@ export function ArtistSearchResult() {
               <div className="title-wrapper row-title">
                 <h1>Top Result</h1>
               </div>
-              <div className="artist-preview" onClick={() => onSetSong(topArtist.songs[0])}>
+              <div className={`artist-preview${isPlaying && currSong?.id === topArtist.songs[0]?.id ? ' playing' : ''}`}>
                 <div className="img-container">
                   <img src={topArtist.imgUrl} alt={topArtist.name} />
                 </div>
@@ -57,6 +56,10 @@ export function ArtistSearchResult() {
                     <span className="prefix">Song </span> 
                     <span className="artist-name">{topArtist.createdBy.fullname}</span>
                   </div>
+                </div>
+                {/* <div className={`btn-container encore-bright-accent-set${isStationPlaying ? ' playing' : ''}`}> */}
+                <div className={`btn-container encore-bright-accent-set`}>
+                  <SidebarPlayBtn song={topArtist.songs[0]} isLargePlayIcon={true} />
                 </div>
               </div>
             </div>

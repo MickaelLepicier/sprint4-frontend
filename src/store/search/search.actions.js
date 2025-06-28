@@ -41,7 +41,7 @@ function getCmdSetSearchResults(results) {
 //   }
 // }
 
-export async function loadSearchResults(txt, searchType = 'songs', numResults = 5) {
+export async function loadSearchResults(txt, searchType = 'songs', numResults) {
   try {
     store.dispatch(getCmdSetSearchText(txt))
     store.dispatch(getCmdSetSearchType(searchType))
@@ -49,7 +49,7 @@ export async function loadSearchResults(txt, searchType = 'songs', numResults = 
     let results
 
     if (searchType === 'songs') {
-      results = await stationService.sideBarSearch(txt, numResults)
+      results = await stationService.sideBarSearch(txt)
     } else if (searchType === 'stations') {
       results = await stationService.headerSearch(txt, numResults)
     } else if (searchType === 'genre') {

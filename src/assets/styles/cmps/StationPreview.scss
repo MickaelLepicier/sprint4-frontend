@@ -104,12 +104,6 @@
       }
   }
 
-  &:hover .play-btn {
-    opacity: 1;
-    transform: translateY(0);
-    cursor: pointer;
-  }
-
   .info-container {
     display: flex;
     column-gap: 12px !important;

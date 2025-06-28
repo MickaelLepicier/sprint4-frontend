@@ -80,6 +80,7 @@
      grid-column: 1 / 3;
 
     .artist-preview {
+      position: relative;
       background: #181818;
       border-radius: 12px;
       padding: 20px;
@@ -96,6 +97,60 @@
 
       &:hover {
         background: #282828;
+
+        .btn-container {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      &.playing .btn-container {
+          opacity: 1;
+          transform: translateY(0);
+      }
+
+      .btn-container {
+        position: absolute;
+        opacity: 0;
+        z-index: 2;
+
+        --play-btn-size: 48px;
+        right: 20px;
+        bottom: 20px;
+        border-radius: 500px;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, .3);
+        
+        transition: all .2s ease-out;
+        transform: translateY(8px);
+
+        &.playing {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        button {
+          background-color: #1ed760;
+          border-radius: 50%;
+          border: none;
+          padding :0;
+          @include flex;
+          height: var(--play-btn-size);
+          width: var(--play-btn-size);
+
+          transition-property: background-color, transform;
+          transition-duration: var(--shortest-3);
+          transition-timing-function: var(--productive);
+
+          &:hover {
+            transform: scale(1.04);
+            background-color: var(--background-highlight);
+          }
+
+          &:active {
+            scale: 1;
+            background-color: var(--background-press);
+          }
+        }
       }
 
       .img-container {
@@ -124,6 +179,7 @@
         flex-direction: column;
         justify-content: center;
         width: 100%;
+        min-height: 62px;;
         
         .artist-title {
           color: #fff;

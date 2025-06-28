@@ -28,6 +28,9 @@ import { DominantColorExtractor } from './DominantColorExtractor'
 import { PlayBtn } from './PlayBtn'
 import { SongPreview } from './SongPreview'
 import { LikeIcon } from './svg/LikeIcon'
+import { SearchIcon } from './svg/SearchIcon'
+import { ClearIcon } from './svg/ClearIcon'
+import { ClearIconLarge } from './svg/ClearIconLarge'
 import { LikeLargeIcon } from './svg/LikeLargeIcon'
 import { RemoveFromLikedLargeIcon } from './svg/RemoveFromLikedLargeIcon'
 import { LikeToggleBtn } from './LikeToggleBtn'
@@ -51,7 +54,7 @@ export function SongList() {
 
   // Local state
   const [songs, setSongs] = useState([])
-  const [searchSong, setSearchSong] = useState('')
+  const [searchSongTxt, setSearchSongTxt] = useState('')
   const [showSearchBar, setShowSearchBar] = useState(false)
   const [dominantColor, setDominantColor] = useState('#121212')
 
@@ -108,12 +111,12 @@ export function SongList() {
 
   function onSubmitSearch(ev) {
     ev.preventDefault()
-    performSearch(searchSong)
+    performSearch(searchSongTxt)
   }
 
   function handleChange({ target }) {
     const { value } = target
-    setSearchSong(value)
+    setSearchSongTxt(value)
     debouncedSearch.current(value)
   }
 
@@ -350,7 +353,8 @@ export function SongList() {
       {/*
 
 
-*/}
+*/} 
+    <div className="content-spacing">
       <div className="song-list-container">
         <table>
           <thead>
@@ -401,43 +405,62 @@ export function SongList() {
         </table>
       </div>
 
-      <button className="find-more-btn" onClick={() => setShowSearchBar(!showSearchBar)}>
-        {showSearchBar ? (
-          <svg
-            className="find-more-svg"
-            width="32"
-            height="32"
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            style={{ verticalAlign: 'middle' }}
-            aria-label="Close"
-          >
-            <line x1="6" y1="6" x2="16" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-            <line x1="16" y1="6" x2="6" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-          </svg>
-        ) : (
-          'Find more'
-        )}
-      </button>
+      {!showSearchBar &&
+        <button 
+          className="open-find-more-btn"
+          onClick={() => setShowSearchBar(!showSearchBar)}
+        >
+            Find more
+        </button>
+      }
+
       {showSearchBar && (
         <section className="song-search-section">
-          <h4>Let's find something for your playlist</h4>
-          <form className="" action="" onSubmit={onSubmitSearch}>
-            <input
-              value={searchSong}
-              onChange={handleChange}
-              type="search"
-              placeholder="Enter song name"
-              id="name"
-              name="name"
-            />
-            <label htmlFor="name"></label>
-          </form>
+          <section className="song-search-header">
+            <div className="song-search-header-inner">
+              <h4>Let's find something for your playlist</h4>
+              <form className="" action="" onSubmit={onSubmitSearch}>
+                <input
+                  value={searchSongTxt}
+                  onChange={handleChange}
+                  type="search"
+                  placeholder="Search for songs of episodes"
+                  id="name"
+                  name="name"
+                  autocomplete="off"
+                />
+                <SearchIcon />
+                
+                {searchSongTxt.length > 0 && (
+                  <ClearIcon onClick={() => setSearchSongTxt('')} />
+                )}
+                {/* <label htmlFor="name"></label> */}
+              </form>
+            </div>
+
+            <button className="close-find-more-btn" onClick={() => setShowSearchBar(!showSearchBar)}>
+              <ClearIconLarge />
+              {/* <svg
+                className="find-more-svg"
+                width="32"
+                height="32"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ verticalAlign: 'middle' }}
+                aria-label="Close"
+              >
+                <line x1="6" y1="6" x2="16" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+                <line x1="16" y1="6" x2="6" y2="16" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+              </svg> */}
+            </button>
+          </section>
+            
           <SongSearchResult />
         </section>
       )}
       {/* <button onClick={() => { onAddStationMsg(station._id) }}>Add station msg</button> */}
+    </div>
     </section>
   )
 }

@@ -73,7 +73,12 @@
     
     transition: all .2s ease-out;
     transform: translateY(8px);
-    
+
+      &.playing {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
       button {
         background-color: #1ed760;
         border-radius: 50%;

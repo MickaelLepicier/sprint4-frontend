@@ -1,7 +1,12 @@
+import { useSelector } from "react-redux"
 import { cleanTitle } from "../services/util.service"
 import { SidebarPlayBtn } from "./Sidebar/SidebarPlayBtn"
 
 export function StationPreview({ station,goToStation }) {
+    const currentStationId = useSelector(state => state.stationModule.currentStation?._id)
+    const currentSong = useSelector(state => state.stationModule.currentSong)
+    const isPlaying = useSelector(state => state.stationModule.isPlaying)
+    const isStationPlaying = station?._id === currentStationId && !!currentSong && isPlaying
     
     const imgUrl = station?.imgUrl ? station?.imgUrl : `https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/${station?.createdBy.imgUrl}`
 
@@ -15,7 +20,7 @@ export function StationPreview({ station,goToStation }) {
                         draggable="false"
                         loading="lazy"
                     />
-                    <div className="btn-container encore-bright-accent-set">
+                    <div className={`btn-container encore-bright-accent-set${isStationPlaying ? ' playing' : ''}`}>
                         <SidebarPlayBtn station={station} />
                     </div>
                 </div>

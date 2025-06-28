@@ -236,11 +236,15 @@ export function SongList() {
 
   // }
 
+  function getStationImg() {
+    return station?.imgUrl ? station?.imgUrl : `https://res.cloudinary.com/dpoa9lual/image/upload/v1724570942/Spotify_playlist_photo_yjeurq.png`
+  }
+
   if (!station) return <div>Loading songs list...</div>
 
   return (
     <section className="station-songlist">
-      <DominantColorExtractor imgUrl={station.imgUrl} onSetColor={setDominantColor} />
+      <DominantColorExtractor imgUrl={getStationImg()} onSetColor={setDominantColor} />
       
       <div
         className="station-header-container"
@@ -254,10 +258,11 @@ export function SongList() {
       >
         <header className="station-header">
           <img
-            src={
-              station.imgUrl ||
-              'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'
-            }
+            src={getStationImg()}
+            // src={
+            //   station.imgUrl ||
+            //   'https://img.freepik.com/premium-photo/single-white-musical-note-black-background_14117-574607.jpg'
+            // }
             alt=""
           />
           {/* <div>

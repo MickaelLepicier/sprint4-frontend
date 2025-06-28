@@ -1,5 +1,5 @@
 import { FacebookIcon } from './svg/FacebookIcon'
-import { InstagramIcon } from '../assets/styles/cmps/InstagramIcon'
+import { InstagramIcon } from './svg/InstagramIcon'
 import { TwitterIcon } from './svg/TwitterIcon'
 
 export function MainFooter() {

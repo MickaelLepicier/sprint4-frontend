@@ -1,4 +1,4 @@
-.station-preview-container {
+.home-page .station-preview-container {
   --carousel-shelf-element-width: calc(1955px / 10);
   width: var(--carousel-shelf-element-width);
 
@@ -8,7 +8,6 @@
 }
 
 .station-preview {
-  background-color: #121212;
   border-radius: var(--encore-corner-radius-larger);
   padding: 12px;
   color: #fff;
@@ -106,10 +105,15 @@
     cursor: pointer;
   }
 
+  .info-container {
+    display: flex;
+    column-gap: 12px !important;
+  }
+
   .info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    row-gap: 4px;
 
     .station-name {
       font-size: var(--encore-text-size-smaller);

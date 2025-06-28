@@ -20,12 +20,15 @@ export function StationPreview({ station,goToStation }) {
                     </div>
                 </div>
 
-                <div className="info">
+                <div className="info-container">
+                    <div className="info">
+                        <div></div>
+                        <p className="station-name">{cleanTitle(station.name)}</p>
+                        {station.artist && (
+                        <p className="station-artist">{station.artist}</p>
+                        )}
+                    </div>
                     <div></div>
-                    <p className="station-name">{cleanTitle(station.name)}</p>
-                    {station.artist && (
-                    <p className="station-artist">{station.artist}</p>
-                    )}
                 </div>
             </div>
         </div>

@@ -8,6 +8,8 @@ import { StationPreview } from './StationPreview'
 import { addStation } from '../store/station/station.actions'
 import { stationService } from '../services/station/station.service.local.js'
 import { cleanTitle } from '../services/util.service'
+import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn.jsx'
+import { SongCard } from './SongCard.jsx'
 
 export function GenreSearchResult() {
   const stations = useSelector(storeState => storeState.searchModule.searchResults)
@@ -30,19 +32,17 @@ export function GenreSearchResult() {
 
   if (!stations?.length) return <section>Loading...</section>
 
-  function onSetSong(song) {
-    dispatch({ type: SET_SONG, song })
-    dispatch({ type: SET_IS_PLAYING, isPlaying: true })
-  }
   async function onGoToStation(station) {
     const savedStation = await addStation(station)
     navigate(`/playlist/${savedStation._id}`)
   }
 
     const visibleSongs = stations
-    .flatMap(station => station.songs || [])
-    .filter(song => song && song.imgUrl)
-    .slice(0, showMoreSongs ? 12 : 6)
+      .flatMap(station => station.songs || [])
+      .filter(song => song && song.imgUrl)
+      .slice(0, showMoreSongs ? 12 : 6)
+
+      console.log(visibleSongs)
 
   return (
     <section className="genre-search-result">
@@ -85,34 +85,27 @@ export function GenreSearchResult() {
             
           <section className="new-releases-section">
             <div className="new-releases-header">
-                <div className="title-wrapper">
-                  <h2 className="row-title">{genre} New Releases</h2>
-                
-                  <span
-                    onClick={() => {
-                      setShowMoreSongs(!showMoreSongs)
-                    }}
-                  >
-                    {showMoreSongs ? 'Show less' : 'Show More'}
-                  </span>
-                </div>
+              <div className="title-wrapper">
+                <h2 className="row-title">{genre} New Releases</h2>
+                <span onClick={() => {setShowMoreSongs(!showMoreSongs)}}>
+                  {showMoreSongs ? 'Show less' : 'Show More'}
+                </span>
+              </div>
             </div>
+
             <div ref={songListRef} className={`song-list${showMoreSongs ? ' expanded' : ''}`}>
-              {visibleSongs
-                .map((song, idx) => (
-                  <div key={song.id + '-' + idx} className="song-card" onClick={() => onSetSong(song)}>
-                    <img src={song.imgUrl} alt={song.title} />
-                    <button className="play-btn">
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M7.05 3.606l13.49 7.788a.7.7 0 0 1 0 1.212L7.05 20.394A.7.7 0 0 1 6 19.788V4.212a.7.7 0 0 1 1.05-.606z" />
-                      </svg>
-                    </button>
-                    <h4>{cleanTitle(song.title)}</h4>
-                  </div>
-              ))}
+              <div className="grid-container">
+                {visibleSongs.map((song, idx) => (
+                  <SongCard
+                    key={song.id + '-' + idx}
+                    song={song}
+                    idx={idx}
+                  />
+                ))}
+              </div>
             </div>
           </section>
-          </div>
+        </div>
       </div>
     </section>
   )

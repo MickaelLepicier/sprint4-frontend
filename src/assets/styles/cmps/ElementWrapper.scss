@@ -224,3 +224,14 @@ svg.song-preview-pause-icon {
 button.btn-wrapper.flex-center.track-btn.volume-medium {
   min-inline-size: 32px;
 }
+
+/* add/remove to/form liked songs button */
+button.add-to-liked {
+  transition-duration: var(--shortest-3);
+  transition-timing-function: var(--productive);
+  transition-property: color, transform;
+
+  svg.remove-from-library-icon {
+    color: #1ed760;
+  }
+}

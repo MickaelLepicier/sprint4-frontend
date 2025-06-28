@@ -3,6 +3,10 @@ import { SidebarPlayBtn } from "./Sidebar/SidebarPlayBtn"
 
 export function SongCard({ song }) {
     
+    function removeParentheses(str) {
+        return str.replace(/\s*\([^)]*\)/g, '').trim()  
+    }
+
     return (
         <div className="song-card-container">
             <div className="song-card">
@@ -20,11 +24,11 @@ export function SongCard({ song }) {
 
                 <div className="info-container">
                     <div className="info">
-                        <div></div>
-                        <p className="song-name">{cleanTitle(song.title)}</p>
-                        {/* {station.artist && (
-                            <p className="station-artist">{station.artist}</p>
-                        )} */}
+                        {song.artist
+                            ? <p className="song-artist">{song.artist}</p>
+                            : <div></div>
+                        }
+                        <p className="song-name">{removeParentheses(song.title)}</p>
                     </div>
                     <div></div>
                 </div>

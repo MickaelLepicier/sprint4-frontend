@@ -14,14 +14,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca7f",
     "type": "playlist",
     "name": "Jazz & Chill",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/jazzNchill_okhsih",
     "tags": [
       "Jazz",
       "Relax"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "jazzNchill_okhsih"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -201,14 +202,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca80",
     "type": "playlist",
     "name": "Rock Classics",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/rockclassics_wt0e6h",
     "tags": [
       "Rock",
       "Legends"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "rockclassics_wt0e6h"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -217,7 +219,7 @@ export const demoStations =
     "songs": [
       {
         "id": "GVcY--XzeIc",
-        "title": "Stupify",
+        "title": "MiserBeat",
         "url": "GVcY--XzeIc",
         "imgUrl": "https://i.ytimg.com/vi/GVcY--XzeIc/mqdefault.jpg",
         "addedBy": "{minimal-user}",
@@ -410,14 +412,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca81",
     "type": "playlist",
     "name": "Workout Boost",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/workoutboosy_gstrn6",
     "tags": [
       "Workout",
       "Energy"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "workoutboosy_gstrn6"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -605,14 +608,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca82",
     "type": "playlist",
     "name": "Lofi Moods",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Lofi_Moods_cqwysk",
     "tags": [
       "Lofi",
       "Study"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Lofi_Moods_cqwysk"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -792,14 +796,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca83",
     "type": "playlist",
     "name": "Classical Calm",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/classicalcalm_v0uct2",
     "tags": [
       "Classical",
       "Piano"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "classicalcalm_v0uct2"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -1011,14 +1016,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca84",
     "type": "playlist",
     "name": "Reggae Vibes",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/ReggaeVibes_o7clhl",
     "tags": [
       "Reggae",
       "Chill"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "ReggaeVibes_o7clhl"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -1214,14 +1220,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca85",
     "type": "playlist",
     "name": "Electronic Pulse",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/ElectronicPulse_kcqv36",
     "tags": [
       "EDM",
       "Party"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "ElectronicPulse_kcqv36"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -1417,14 +1424,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca86",
     "type": "playlist",
     "name": "Pop Hits",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/PopHits_xi3nbd",
     "tags": [
       "Pop",
       "Top 40"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "PopHits_xi3nbd"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -1636,14 +1644,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca87",
     "type": "playlist",
     "name": "Soulful Sundays",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/SoulfulSundays_syks3t",
     "tags": [
       "Soul",
       "Smooth"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "SoulfulSundays_syks3t"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -1855,6 +1864,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca88",
     "type": "playlist",
     "name": " הנבחרים של ישראל",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/israeli_uj9ezq",
     "tags": [
       "Israeli",
       "Hebrew",
@@ -1864,8 +1874,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "israeli_uj9ezq"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -2013,6 +2023,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca89",
     "type": "album",
     "name": "Led Zeppelin Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/ledzeppelin_ugkqoa",
     "tags": [
       "Rock",
       "Essential",
@@ -2020,8 +2031,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "ledzeppelin_ugkqoa"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -2249,6 +2260,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca8a",
     "type": "album",
     "name": "Pink Floyd Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/pink_floyd_bbjyas",
     "tags": [
       "Rock",
       "Essential",
@@ -2256,8 +2268,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "pink_floyd_bbjyas"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -2485,6 +2497,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca8b",
     "type": "album",
     "name": "Muse Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/muse_ygjmw3",
     "tags": [
       "Rock",
       "Essential",
@@ -2492,8 +2505,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "muse_ygjmw3"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -2705,6 +2718,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca8c",
     "type": "album",
     "name": "Queens of the Stone Age Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/qotsa_fqnowt",
     "tags": [
       "Rock",
       "Essential",
@@ -2712,8 +2726,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "qotsa_fqnowt"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -2831,6 +2845,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca8d",
     "type": "album",
     "name": "Rihanna Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/rihanah_smfacv",
     "tags": [
       "Pop",
       "Essential",
@@ -2839,8 +2854,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "rihanah_smfacv"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -2940,6 +2955,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca8e",
     "type": "album",
     "name": "Justin Timberlake Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/justin_jzufds",
     "tags": [
       "Pop",
       "Essential",
@@ -2947,8 +2963,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "justin_jzufds"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -3048,6 +3064,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca8f",
     "type": "album",
     "name": "Michael Jackson Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/jackson_pzqdgu",
     "tags": [
       "Pop",
       "Essential",
@@ -3056,8 +3073,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "jackson_pzqdgu"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -3157,6 +3174,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca90",
     "type": "album",
     "name": "Beyoncé Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/beyonce_kxezil",
     "tags": [
       "Pop",
       "Essential",
@@ -3166,8 +3184,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "beyonce_kxezil"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -3257,6 +3275,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca91",
     "type": "album",
     "name": "Ed Sheeran Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/sheeran_kmm8sm",
     "tags": [
       "Pop",
       "Essential",
@@ -3264,8 +3283,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "sheeran_kmm8sm"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}",
@@ -3365,6 +3384,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca92",
     "type": "album",
     "name": "Tupac Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/tupac_pvqrmh",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -3373,8 +3393,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "tupac_pvqrmh"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -3473,6 +3493,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca93",
     "type": "album",
     "name": "Snoop Dogg Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/snoop_arddlj",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -3481,8 +3502,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "snoop_arddlj"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -3581,6 +3602,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca94",
     "type": "album",
     "name": "Eminem Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/eminem_dphl6o",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -3589,8 +3611,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "eminem_dphl6o"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -3689,6 +3711,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca95",
     "type": "album",
     "name": "Kendrick Lamar Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/lamar_uvdyh2",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -3697,8 +3720,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "lamar_uvdyh2"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -3797,6 +3820,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca96",
     "type": "album",
     "name": "Nicki Minaj Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/ab67616d0000b2733a59af488fad9f093891b1ab_is2mvz",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -3805,8 +3829,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "ab67616d0000b2733a59af488fad9f093891b1ab_is2mvz"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -3905,6 +3929,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca97",
     "type": "album",
     "name": "Gorillaz Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/gorillaz_fka6je",
     "tags": [
       "Alternative",
       "Electronic",
@@ -3912,8 +3937,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "gorillaz_fka6je"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4012,6 +4037,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca98",
     "type": "album",
     "name": "Radiohead Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/radiohead_trhikg",
     "tags": [
       "Alternative",
       "Rock",
@@ -4022,8 +4048,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "radiohead_trhikg"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4140,6 +4166,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca99",
     "type": "album",
     "name": "Tame Impala Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Tame_Impala_lfszsb",
     "tags": [
       "Alternative",
       "Psychedelic",
@@ -4149,8 +4176,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Tame_Impala_lfszsb"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4249,14 +4276,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca9a",
     "type": "album",
     "name": "ODESZA Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/ODESZA_drzysf",
     "tags": [
       "Electronic",
       "Chillwave"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "ODESZA_drzysf"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4323,6 +4351,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca9b",
     "type": "album",
     "name": "Alt-J Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Alt-J_js6vzh",
     "tags": [
       "Alternative",
       "Indie Rock",
@@ -4332,8 +4361,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Alt-J_js6vzh"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4448,14 +4477,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca9c",
     "type": "album",
     "name": "Massive Attack Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Massive_Attack_cnnnal",
     "tags": [
       "Electronic",
       "Trip Hop"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Massive_Attack_cnnnal"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4602,14 +4632,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca9d",
     "type": "album",
     "name": "Flume Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Flume_ezgmet",
     "tags": [
       "Electronic",
       "Future Bass"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Flume_ezgmet"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4676,14 +4707,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca9e",
     "type": "album",
     "name": "Queen Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Queen_eytyfv",
     "tags": [
       "Rock",
       "Classic Rock"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Queen_eytyfv"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -4862,14 +4894,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063ca9f",
     "type": "album",
     "name": "Nirvana Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Nirvana_d5dchf",
     "tags": [
       "Rock",
       "Grunge"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Nirvana_d5dchf"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -5016,14 +5049,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa0",
     "type": "album",
     "name": "Arctic Monkeys Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Arctic_Monkeys_gaszpj",
     "tags": [
       "Rock",
       "Indie Rock"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Arctic_Monkeys_gaszpj"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -5170,14 +5204,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa1",
     "type": "album",
     "name": "Foo Fighters Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Foo_Fighters_rov2wn",
     "tags": [
       "Rock",
       "Alternative Rock"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Foo_Fighters_rov2wn"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -5340,14 +5375,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa2",
     "type": "album",
     "name": "The Rolling Stones Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/The_Rolling_Stones_uji1ju",
     "tags": [
       "Rock",
       "Classic Rock"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "The_Rolling_Stones_uji1ju"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -5478,6 +5514,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa3",
     "type": "album",
     "name": "Dua Lipa Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Dua_Lipa_xqhxyh",
     "tags": [
       "Pop",
       "Pary",
@@ -5485,8 +5522,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Dua_Lipa_xqhxyh"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -5585,6 +5622,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa4",
     "type": "album",
     "name": "Harry Styles Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Harry_Styles_l2jzrv",
     "tags": [
       "Pop",
       "Indie Pop",
@@ -5592,8 +5630,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Harry_Styles_l2jzrv"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -5765,6 +5803,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa5",
     "type": "album",
     "name": "Ariana Grande Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Ariana_Grande_gojgom",
     "tags": [
       "Pop",
       "Workout",
@@ -5772,8 +5811,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Ariana_Grande_gojgom"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -5952,6 +5991,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa6",
     "type": "album",
     "name": "Bruno Mars Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Bruno_Mars_tyvkmb",
     "tags": [
       "Pop",
       "Workout",
@@ -5960,8 +6000,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Bruno_Mars_tyvkmb"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -6140,6 +6180,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa7",
     "type": "album",
     "name": "Lady Gaga Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Lady_Gaga_fhxhmw",
     "tags": [
       "Pop",
       "Dance",
@@ -6148,8 +6189,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Lady_Gaga_fhxhmw"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -6328,6 +6369,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa8",
     "type": "album",
     "name": "Jennifer Lopez Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Jennifer_Lopez_rco8wq",
     "tags": [
       "Pop",
       "Workout",
@@ -6336,8 +6378,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Jennifer_Lopez_rco8wq"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -6516,6 +6558,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caa9",
     "type": "album",
     "name": "Christina Aguilera Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Christina_Aguilera_mlnyze",
     "tags": [
       "Pop",
       "Soul",
@@ -6524,8 +6567,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Christina_Aguilera_mlnyze"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -6656,6 +6699,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caaa",
     "type": "album",
     "name": "The Pussycat Dolls Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/The_Pussycat_Dolls_l1umyu",
     "tags": [
       "Pop",
       "Dance",
@@ -6663,8 +6707,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "The_Pussycat_Dolls_l1umyu"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -6843,6 +6887,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caab",
     "type": "album",
     "name": "Destiny's Child Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Destiny_s_Child_g7cwa8",
     "tags": [
       "Pop",
       "R&B",
@@ -6850,8 +6895,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Destiny_s_Child_g7cwa8"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -7030,6 +7075,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caac",
     "type": "album",
     "name": "Jay-Z Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Jay-Z_ylhhmi",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -7037,8 +7083,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Jay-Z_ylhhmi"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -7217,6 +7263,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caad",
     "type": "album",
     "name": "Drake Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Drake_uklgjp",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -7224,8 +7271,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Drake_uklgjp"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -7404,6 +7451,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caae",
     "type": "album",
     "name": "Missy Elliott Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Missy_Elliott_iigl3p",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -7411,8 +7459,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Missy_Elliott_iigl3p"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -7591,6 +7639,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063caaf",
     "type": "album",
     "name": "J. Cole Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/J._Cole_jtkpg6",
     "tags": [
       "Hip Hop",
       "Rap",
@@ -7598,8 +7647,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "J._Cole_jtkpg6"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -7778,6 +7827,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab0",
     "type": "album",
     "name": "Bad Bunny Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Bad_Bunny_xlk4rd",
     "tags": [
       "Latin",
       "Party",
@@ -7785,8 +7835,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Bad_Bunny_xlk4rd"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -7965,6 +8015,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab1",
     "type": "album",
     "name": "Shakira Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Shakira_vkuplg",
     "tags": [
       "Latin",
       "Pop",
@@ -7972,8 +8023,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Shakira_vkuplg"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -8152,6 +8203,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab2",
     "type": "album",
     "name": "J Balvin Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/J_Balvin_marbvk",
     "tags": [
       "Latin",
       "Reggaeton",
@@ -8159,8 +8211,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "J_Balvin_marbvk"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -8339,14 +8391,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab3",
     "type": "album",
     "name": "Karol G Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Karol_G_kvzljd",
     "tags": [
       "Latin",
       "Party"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Karol_G_kvzljd"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -8525,14 +8578,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab4",
     "type": "album",
     "name": "Maluma Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Maluma_qksqzq",
     "tags": [
       "Latin",
       "Party"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Maluma_qksqzq"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -8711,6 +8765,7 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab5",
     "type": "album",
     "name": "Daddy Yankee Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Daddy_Yankee_h6b57u",
     "tags": [
       "Latin",
       "Party",
@@ -8718,8 +8773,8 @@ export const demoStations =
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Daddy_Yankee_h6b57u"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -8898,14 +8953,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab6",
     "type": "album",
     "name": "Rosalía Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Rosalía_xc8nwc",
     "tags": [
       "Latin",
       "Party"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Rosalía_xc8nwc"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -9084,14 +9140,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab7",
     "type": "album",
     "name": "Luis Fonsi Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Luis_Fonsi_cinxww",
     "tags": [
       "Latin",
       "Love"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Luis_Fonsi_cinxww"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -9270,14 +9327,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab8",
     "type": "album",
     "name": "Ozuna Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Ozuna_qqoa2n",
     "tags": [
       "Latin",
       "Reggaeton"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Ozuna_qqoa2n"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"
@@ -9456,14 +9514,15 @@ export const demoStations =
     "_id": "682dc2355fd55002f063cab9",
     "type": "album",
     "name": "Selena Essentials",
+    "imgUrl": "https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/Selena_vmdg0r",
     "tags": [
       "Latin",
       "Legends"
     ],
     "createdBy": {
       "_id": "u101",
-      "fullname": "Stupify",
-      "imgUrl": "Selena_vmdg0r"
+      "fullname": "MiserBeat",
+      "imgUrl": ""
     },
     "likedByUsers": [
       "{minimal-user}"

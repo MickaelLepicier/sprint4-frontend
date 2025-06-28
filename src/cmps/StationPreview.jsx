@@ -8,8 +8,6 @@ export function StationPreview({ station,goToStation }) {
     const isPlaying = useSelector(state => state.stationModule.isPlaying)
     const isStationPlaying = station?._id === currentStationId && !!currentSong && isPlaying
     
-    const imgUrl = station?.imgUrl ? station?.imgUrl : `https://res.cloudinary.com/dirlnkakz/image/upload/v1747039279/${station?.createdBy.imgUrl}`
-
     return (
         <div className="station-preview-container">
             <div className="station-preview" role="listitem" onClick={()=>{goToStation(station)}}>

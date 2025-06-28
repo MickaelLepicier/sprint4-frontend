@@ -170,7 +170,7 @@ export function SidebarList({
 }
 
 function DraggableStation({ station, index, moveStation, onContextMenu, ...rest }) {
-    const { setDragRef, isOver } = useStationDnD(index, moveStation)
+    const { setDragRef, isOver } = useStationDnD(index, moveStation, station)
 
     return (
         <SidebarPreview

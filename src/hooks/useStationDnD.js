@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 
-export function useStationDnD(index, moveStation) {
+export function useStationDnD(index, moveStation, station) {
     const [, dragRef, preview] = useDrag({
         type: 'STATION',
-        item: { index },
+        item: { index, name: station.name },
     })
 
     const [{ isOver }, dropRef] = useDrop({

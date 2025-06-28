@@ -14,7 +14,7 @@ export function SongCard({ song }) {
                         loading="lazy"
                     />
                     <div className="btn-container encore-bright-accent-set">
-                        <SidebarPlayBtn song={song} />
+                        <SidebarPlayBtn song={song} isLargePlayIcon={true} />
                     </div>
                 </div>
 

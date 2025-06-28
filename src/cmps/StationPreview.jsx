@@ -19,7 +19,7 @@ export function StationPreview({ station,goToStation }) {
                         loading="lazy"
                     />
                     <div className={`btn-container encore-bright-accent-set${isStationPlaying ? ' playing' : ''}`}>
-                        <SidebarPlayBtn station={station} />
+                        <SidebarPlayBtn station={station} isLargePlayIcon={true} />
                     </div>
                 </div>
 

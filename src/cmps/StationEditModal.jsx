@@ -125,7 +125,7 @@ export const StationEditModal = forwardRef((props, ref) => {
                 <h1 className="">Edit details</h1>
                 
                 <button className="modal-close-btn" onClick={onCloseModal}>
-                    <ClearIcon size={'1rem'} />
+                    <ClearIcon />
                 </button>
             </div>
 

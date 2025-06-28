@@ -461,7 +461,7 @@ async function headerSearch(query, numResults = 5) {
                         part: 'snippet',
                         q: artist,
                         type: 'video',
-                        maxResults: 3,
+                        maxResults: numResults,
                         key: YT_API_KEY,
                     },
                 })

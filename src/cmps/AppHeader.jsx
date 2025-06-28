@@ -9,8 +9,8 @@ import { loadSearchResults } from '../store/search/search.actions'
 import { AppLogo } from './svg/AppLogo'
 import { HomeIcon } from './svg/HomeIcon'
 import { HomeIconFilled } from './svg/HomeIconFilled'
-import { SearchIcon } from './svg/SearchIcon'
-import { ClearIcon } from './svg/ClearIcon'
+import { SearchIconLarge } from './svg/SearchIconLarge'
+import { ClearIconLarge } from './svg/ClearIconLarge'
 import { BrowseIcon } from './svg/BrowseIcon'
 import { BrowseIconFilled } from './svg/BrowseIconFilled'
 import { debounce } from '../services/util.service'
@@ -102,7 +102,7 @@ export function AppHeader() {
         <div className="search-form-container">
           <form className="search-form" role="search" onSubmit={onSubmitSearch}>
             <button className="search-btn" aria-label="Search">
-              <SearchIcon />
+              <SearchIconLarge />
             </button>
 
             <input
@@ -122,7 +122,7 @@ export function AppHeader() {
                     aria-label="Clear"
                     onClick={() => setSearchTxt('')}
                 >
-                    <ClearIcon />
+                    <ClearIconLarge />
                 </button>
               )}
 

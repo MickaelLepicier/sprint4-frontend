@@ -5,8 +5,6 @@ import { fetchLyrics } from '../services/lyrics.service'
 
 export function LyricsPanel() {
   const currentSong = useSelector(state => state.stationModule.currentSong)
-  const lyricsCache = useSelector(state => state.stationModule.lyricsCache)
-  const dispatch = useDispatch()
 
   const imgUrl = currentSong?.imgUrl
   const { background, text: color } = useLyricsColors(imgUrl)
@@ -28,23 +26,15 @@ export function LyricsPanel() {
     }
 
     setStatus('loading')
-    const cacheKey = currentSong.id || `${currentSong.title}|${currentSong.artist}`
+    fetchLyricsFromApi(currentSong)
+  }, [currentSong])
 
-    if (lyricsCache[cacheKey]) {
-      setLyrics(lyricsCache[cacheKey])
-      setStatus('success')
-    } else {
-      fetchLyricsFromApi(currentSong, cacheKey)
-    }
-  }, [currentSong, lyricsCache])
-
-  async function fetchLyricsFromApi(song, cacheKey) {
+  async function fetchLyricsFromApi(song) {
     try {
       const fetchedLyrics = await fetchLyrics(song)
       if (fetchedLyrics) {
         setLyrics(fetchedLyrics)
         setStatus('success')
-        dispatch({ type: 'SET_LYRICS_CACHE', cacheKey, lyrics: fetchedLyrics })
       } else {
         setStatus('error')
       }

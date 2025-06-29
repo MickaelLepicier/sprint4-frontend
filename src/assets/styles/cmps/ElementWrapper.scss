@@ -119,14 +119,16 @@ svg.track-control-pause-icon {
   }
 
   &.active-green {
-    transform: scale(1.04);
+    transform: scale(1);
+    // transform: scale(1.04);
 
     path {
       fill: #1db954;
     }
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.04);
+      // transform: scale(1.1);
       filter: brightness(1.1);
     }
   }
@@ -216,4 +218,20 @@ svg.song-preview-pause-icon {
 
   fill: #fff;
   transition: opacity 0.2s ease;
+}
+
+/* volume button - temporary solution */
+button.btn-wrapper.flex-center.track-btn.volume-medium {
+  min-inline-size: 32px;
+}
+
+/* add/remove to/form liked songs button */
+button.add-to-liked {
+  transition-duration: var(--shortest-3);
+  transition-timing-function: var(--productive);
+  transition-property: color, transform;
+
+  svg.remove-from-library-icon {
+    color: #1ed760;
+  }
 }

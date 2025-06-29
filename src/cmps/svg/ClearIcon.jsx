@@ -1,20 +1,17 @@
-export function ClearIcon({ size = 24, color = 'currentColor', ...props }) {
+export function ClearIcon({ size = 16, color = 'currentColor', ...props }) {
     return (
         <svg
             className="clear-icon"
             data-encore-id="icon"
             role="img"
             aria-hidden="true"
-            viewBox="0 0 24 24"
+            viewBox="0 0 16 16"
             width={size}
             height={size}
-            fill="none"
+            fill={color}
             {...props}
         >
-            <path
-                d="M3.293 3.293a1 1 0 0 1 1.414 0L12 10.586l7.293-7.293a1 1 0 1 1 1.414 1.414L13.414 12l7.293 7.293a1 1 0 0 1-1.414 1.414L12 13.414l-7.293 7.293a1 1 0 0 1-1.414-1.414L10.586 12 3.293 4.707a1 1 0 0 1 0-1.414z"
-                fill={color}
-            />
+            <path d="M2.47 2.47a.75.75 0 0 1 1.06 0L8 6.94l4.47-4.47a.75.75 0 1 1 1.06 1.06L9.06 8l4.47 4.47a.75.75 0 1 1-1.06 1.06L8 9.06l-4.47 4.47a.75.75 0 0 1-1.06-1.06L6.94 8 2.47 3.53a.75.75 0 0 1 0-1.06"></path>
         </svg>
     )
 }

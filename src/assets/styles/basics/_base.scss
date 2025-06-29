@@ -62,4 +62,6 @@ pre {
 
 button {
     cursor: pointer;
+    border: none;
+    will-change: transform;
 }

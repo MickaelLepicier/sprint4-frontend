@@ -50,7 +50,7 @@ export function Signup() {
       const station = await addStation(userStation)
 
       // 4. Update user with station id
-      await updateUser({ ...user, likedSongsStationId: station._id })
+      await updateUser({ ...user, username: credentials.username, likedSongsStationId: station._id })
 
       clearState()
       navigate('/')

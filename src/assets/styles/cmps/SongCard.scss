@@ -1,13 +1,13 @@
-.home-page .station-preview-container {
-  --carousel-shelf-element-width: calc(1955px / 10);
-  width: var(--carousel-shelf-element-width);
+.song-card-container {
+//   --carousel-shelf-element-width: calc(1955px / 10);
+//   width: var(--carousel-shelf-element-width);
 
-  @container homepage (width < 1024px) {
-    --carousel-shelf-element-width: calc(1955px / 11);
-  }
+//   @container homepage (width < 1024px) {
+//     --carousel-shelf-element-width: calc(1955px / 11);
+//   }
 }
 
-.station-preview {
+.song-card {
   border-radius: var(--encore-corner-radius-larger);
   padding: 12px;
   color: #fff;
@@ -73,12 +73,7 @@
     
     transition: all .2s ease-out;
     transform: translateY(8px);
-
-      &.playing {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
+    
       button {
         background-color: #1ed760;
         border-radius: 50%;
@@ -104,17 +99,28 @@
       }
   }
 
+  &:hover .play-btn {
+    opacity: 1;
+    transform: translateY(0);
+    cursor: pointer;
+  }
+
   .info-container {
     display: flex;
-    column-gap: 12px !important;
+    column-gap: 12px;
+    width: 100%;
   }
 
   .info {
     display: flex;
     flex-direction: column;
     row-gap: 4px;
+    width: 100%;
+    p {
+      margin: 0;
+    }
 
-    .station-name {
+    .song-name {
       font-size: var(--encore-text-size-smaller);
       font-family: SpotifyMixUI;
       color:var(--text-subdued);
@@ -125,15 +131,23 @@
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      margin: 0;
     }
 
-    .station-artist {
-      font-size: 14px;
-      color: #b3b3b3;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .song-artist {
+      display: -webkit-box !important;
+      -webkit-line-clamp: 1 !important;        /* LIMIT TO 2 LINES, LIKE SPOTIFY */
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      overflow-wrap: anywhere !important;      /* ALLOWS BREAKS ANYWHERE */
+      white-space: normal !important;          
     }
+
+    // .song-artist {
+    //   font-size: 14px;
+    //   color: #b3b3b3;
+    //   overflow: hidden;
+    //   text-overflow: ellipsis;
+    //   white-space: nowrap;
+    // }
   }
 }

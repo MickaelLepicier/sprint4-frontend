@@ -31,7 +31,7 @@ export function TrackInfo({ song, isDisabled }) {
   const station = useSelector(
     (storeState) => storeState.stationModule.currentStation
   )
-if(!song) return <h1>no song</h1>
+// if(!song) return null
   return (
     <section className="track-info flex align-center" style={isDisabled}>
       <Img song={song} />

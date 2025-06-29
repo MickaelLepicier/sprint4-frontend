@@ -15,9 +15,8 @@ export function MediaPlayer() {
   const isDisabled = currSong
     ? {}
     : {
-        opacity: 0.5,
+        opacity: 0,
         pointerEvents: 'none',
-        cursor: 'not-allowed',
         userSelect: 'none'
       }
 
@@ -32,7 +31,6 @@ export function MediaPlayer() {
       <TrackExtras
         volume={volume}
         setVolume={setVolume}
-        isDisabled={isDisabled}
       />
     </section>
   )

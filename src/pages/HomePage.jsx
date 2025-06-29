@@ -39,7 +39,7 @@ export function HomePage() {
   useEffect(() => {
     if (!apiStations.length) return
 
-    const firstImgUrl = stations.slice(0, 8).find(station => station.imgUrl)?.imgUrl
+    const firstImgUrl = apiStations.slice(0, 8).find(apiStation => apiStation.imgUrl)?.imgUrl
     if (!firstImgUrl) return
 
     fac

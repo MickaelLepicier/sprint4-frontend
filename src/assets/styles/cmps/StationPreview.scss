@@ -1,10 +1,5 @@
 .home-page .station-preview-container {
-  --carousel-shelf-element-width: calc(1955px / 10);
   width: var(--carousel-shelf-element-width);
-
-  @container homepage (width < 1024px) {
-    --carousel-shelf-element-width: calc(1955px / 11);
-  }
 }
 
 .station-preview {
@@ -26,7 +21,7 @@
   transition-duration: 150ms;
   transition-property: background-color, inset;
   transition-timing-function: cubic-bezier(0.3,0,0,1);
-
+  
   &:hover {
     background-color: #1f1f1f;
 

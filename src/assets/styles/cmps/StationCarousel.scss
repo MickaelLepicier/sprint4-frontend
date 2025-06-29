@@ -1,0 +1,185 @@
+.home-page {
+    .carousel-section {
+        --encore-cards-margin: -12px;
+        --shelf-carousel-margin-start-mul: -1;
+        --shelf-carousel-margin-end-mul: -1;
+        --carousel-shelf-min-items: 1.5;
+        --carousel-start-chevron-gradient: hsla(0,0%,7%,.7);
+        --carousel-end-chevron-gradient: hsla(0,0%,7%,.7);
+
+        --margin: calc(40px + -12px + max(0px, (100cqi - 1955px) * 0.5));
+        --margin-start: calc(-12px + -1* calc(40px + -12px + max(0px, (100cqi - 1955px) * 0.5)));
+        --margin-end: calc(-12px + -1* calc(40px + -12px + max(0px, (100cqi - 1955px) * 0.5)));
+        --carousel-shelf-element-width: calc(var(--content-max-width) / var(--regular-shelf-max-count));
+        --carousel-end-chevron-gradient: hsla(0,0%,7%,.7);
+        
+        position: relative;
+        display: block;
+        margin-inline: var(--margin-start) var(--margin-end);
+        overflow: hidden;
+        timeline-scope: --carousel-scroller;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 120px;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .15s ease-out;
+            z-index: 2;
+
+            animation-name: carouselChevronFade;
+            animation-fill-mode: both;
+            animation-timeline: --carousel-scroller;
+            transition: opacity .15s ease-out;
+        }
+
+        &::before {
+            inset-inline-start: 0;
+            animation-range: 10px 60px;
+            background: linear-gradient(90deg, var(--carousel-start-chevron-gradient, #121212) 0, transparent 100%);
+        }
+
+        &::after {
+            inset-inline-end: 0;
+            background: linear-gradient(-90deg, var(--carousel-end-chevron-gradient, #121212) 0, transparent 100%);
+
+            animation-direction: reverse;
+            animation-range: calc(100% - 60px) calc(100% - 10px);
+        }
+
+        &.can-scroll-left::before,
+        &.can-scroll-right::after {
+            opacity: 1;
+
+        }
+
+        &:hover {
+            .carousel-controls {
+                opacity: 1;
+
+                //  .carousel-btn { transform: translateX(0) ;}
+                .carousel-btn.carousel-btn-left { transform: translateX(8px); };
+                .carousel-btn.carousel-btn-right { transform: translateX(-8px); };
+            }
+        }
+
+        .carousel-scroll-area {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            min-width: 100%;
+            white-space: nowrap;
+
+            /* Hide scrollbar cross-browser */
+            overflow-x: auto;
+            scrollbar-width: none;         /* Firefox */
+            -ms-overflow-style: none;      /* IE/Edge */
+
+            /* Scrollbar hidden for webkit browsers */
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Scroll snapping */
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            overscroll-behavior-x: contain;
+
+            /* Animation/performance */
+            will-change: transform;
+
+            /* Scroll padding for margins */
+            scroll-padding: 0px var(--margin, 0px);
+
+            .carousel-track {
+                // display: grid;
+                // grid-auto-flow: column;
+                // grid-template-rows: repeat(var(--carousel-shelf-row-count, 1), auto);
+                padding-inline-start: calc((var(--margin-start) - var(--encore-cards-margin)) * -1);
+                display: flex;
+
+                .carousel-item {
+                    scroll-snap-align: start;
+                    flex: 0 0 195px; // or whatever your card width is
+                    max-width: 220px;
+                    min-width: 160px;
+                    width: 100%;
+                    display: flex;
+                }
+            }
+        } 
+    }
+
+    .carousel-controls {
+        position: absolute;
+        top: 0;
+        right: 8px;
+        bottom: 0;
+        left: 8px;
+
+        display: flex;
+        justify-content: space-between;
+        // align-items: center;
+
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .15s ease-out;
+
+        > * {
+            top: 50%;
+            margin-top: -16px;   /* Negative half the button height, for true vertical centering */
+        }
+
+        .carousel-btn {
+            @include flex;
+            position: relative;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            padding: 0;
+            // transform: translateX(0);
+            opacity: 0;
+            z-index: 3;
+                 .carousel-btn { transform: translateX(0) ;}
+
+            background-color: #1f1f1f;
+            color: #fff;
+            cursor: pointer;
+            pointer-events: none;
+            transition: color .15s ease-out, opacity .15s ease-out, background-color .15s ease-out, transform 0.15s ease-out;
+
+            > * {
+                opacity: 0.7;
+                z-index: 2;
+            }
+
+            &:hover {
+                background-color: #2a2a2a;
+
+                > * {
+                    opacity: 1;
+                }
+            }
+
+            // &.carousel-btn-left { transform: translateX(8px); };
+            // &.carousel-btn-right { transform: translateX(-8px); };
+
+            &.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
+    }
+}
+
+@keyframes carouselChevronFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

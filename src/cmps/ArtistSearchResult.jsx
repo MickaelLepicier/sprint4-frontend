@@ -27,7 +27,6 @@ export function ArtistSearchResult() {
     const savedStation = await addStation(station)
     navigate(`/playlist/${savedStation._id}`)
   }
-
   function onSetSong(song) {
     console.log('song:', song)
     dispatch({ type: SET_SONG, song })

@@ -23,14 +23,14 @@ async function getById(userId) {
   return user
 }
 
-async function update({ _id, score }) {
-  const user = await httpService.put(`user/${_id}`, { _id, score })
+async function update(user) {
+  const updatedUser = await httpService.put(`user/${user._id}`, user)
 
   // When admin updates other user's details, do not update loggedinUser
   const loggedinUser = getLoggedinUser() // Might not work because its defined in the main service???
-  if (loggedinUser._id === user._id) _saveLocalUser(user)
+  if (loggedinUser._id === updatedUser._id) _saveLocalUser(updatedUser)
 
-  return user
+  return updatedUser
 }
 
 function remove(userId) {

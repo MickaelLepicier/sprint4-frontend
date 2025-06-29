@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 
-import { signup } from '../store/user/user.actions'
+import { signup, updateUser } from '../store/user/user.actions'
 
 import { ImgUploader } from '../cmps/ImgUploader'
 import { userService } from '../services/user'
@@ -11,8 +11,6 @@ import { addStation, removeStation, updateStation } from '../store/station/stati
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 
 export function Signup() {
-
-
   const [credentials, setCredentials] = useState(userService.getEmptyUser())
   const [userStation, setUserStation] = useState(stationService.getEmptyStation())
 
@@ -30,37 +28,36 @@ export function Signup() {
 
   async function onSignup(ev = null) {
     if (ev) ev.preventDefault()
-
     if (!credentials.username || !credentials.password || !credentials.fullname) return
-    let stationToAdd
+
     try {
+      // 1. Signup user
+      const user = await signup(credentials)
+      console.log('user:', user)
 
-      stationToAdd = await addStation(userStation)
-      const updatedCredentials = { ...credentials, likedSongsStationId: stationToAdd._id }
+      // 2. Prepare station for user
+      const userStation = {
+        ...stationService.getEmptyStation(),
+        name: 'Liked Songs',
+        createdBy: {
+          _id: user._id,
+          fullname: user.fullname,
+          imgUrl: user.imgUrl,
+        },
+        imgUrl: 'https://misc.scdn.co/liked-songs/liked-songs-300.png',
+      }
 
-      const user = await signup(updatedCredentials)
-      console.log('user-signupssssss:',user)
+      const station = await addStation(userStation)
 
-      stationToAdd.createdBy = { _id: user._id, fullname: user.fullname, imgUrl: user.imgUrl }
-      stationToAdd.name = 'Liked Songs'
-      stationToAdd.imgUrl = 'https://misc.scdn.co/liked-songs/liked-songs-300.png'
-      
-     const updatedStation =  await updateStation(stationToAdd)
-      console.log('updatedStation:',updatedStation)
+      // 4. Update user with station id
+      await updateUser({ ...user, likedSongsStationId: station._id })
+
       clearState()
       navigate('/')
-      showSuccessMsg('Signed up succesfully')
+      showSuccessMsg('Signed up successfully')
     } catch (error) {
-      console.error('signnup failed:', error)
-
       showErrorMsg('Signup failed')
-      if (stationToAdd?._id) {
-        try {
-          await removeStation(stationToAdd._id)
-        } catch (error) {
-          console.log('Failed to Remove station')
-        }
-      }
+      // handle cleanup if needed
     }
   }
 

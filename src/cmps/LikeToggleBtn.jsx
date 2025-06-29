@@ -12,7 +12,7 @@ export function LikeToggleBtn({ song, ...props }) {
   const likedStation = useSelector((storeState) =>
     storeState.stationModule.stations.find((station) => station._id === likedStationId)
   )
-  const isLiked = likedStation?.songs?.some((s) => s.id === song?.id)
+  const isLiked = likedStation?.songs?.some((s) => s?.id === song?.id)
 
   async function onAddSongToLiked(song) {
     try {
@@ -41,7 +41,6 @@ export function LikeToggleBtn({ song, ...props }) {
       showErrorMsg(`Couldn't add Song`)
     }
   }
-
   return (
     <button
       className={`add-to-liked ${isLiked ? 'liked' : ''}`}

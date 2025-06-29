@@ -13,7 +13,6 @@ export function SidebarPlayBtn({ station, isLargePlayIcon = false }) {
 
     const isCurrStationPlaying = currentStation?._id === station._id && isPlaying
 
-    console.log('islarge', isLargePlayIcon)
 
     let iconCmp
     if (isCurrStationPlaying) {

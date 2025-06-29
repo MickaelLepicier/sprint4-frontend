@@ -49,6 +49,7 @@ export async function removeStation(stationId) {
 }
 
 export async function addStation(station) {
+  console.log('station:',station)
   try {
     const savedStation = await stationService.save(station)
     store.dispatch(getCmdAddStation(savedStation))

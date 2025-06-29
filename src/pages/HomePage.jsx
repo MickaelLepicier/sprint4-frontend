@@ -8,8 +8,8 @@ import { SET_STATION } from '../store/station/station.reducer'
 import { WideStationPreview } from '../cmps/WideStationPreview'
 import { addStation, loadStations } from '../store/station/station.actions'
 import { FastAverageColor } from 'fast-average-color'
-// import { enhanceColor } from '../services/util.service' 
-import { getApproximateSpotifyColor } from '../services/util.service' 
+// import { enhanceColor } from '../services/util.service'
+import { getApproximateSpotifyColor } from '../services/util.service'
 
 export function HomePage() {
   const [apiStations, setApiStations] = useState([])
@@ -25,7 +25,6 @@ export function HomePage() {
   const firstStationColor = useRef(null)
   const filters = ['All', 'Music', 'Podcasts']
   const fac = new FastAverageColor()
-
 
   const [active, setActive] = useState('All')
 
@@ -43,27 +42,28 @@ export function HomePage() {
     const firstImgUrl = stations.slice(0, 8).find(station => station.imgUrl)?.imgUrl
     if (!firstImgUrl) return
 
-    fac.getColorAsync(firstImgUrl)
-        .then(color => firstStationColor.current = getApproximateSpotifyColor(color.hex))
-        .catch(err => console.error('Error getting first station color', err))
+    fac
+      .getColorAsync(firstImgUrl)
+      .then(color => (firstStationColor.current = getApproximateSpotifyColor(color.hex)))
+      .catch(err => console.error('Error getting first station color', err))
   }, [stations])
 
   useEffect(() => {
     if (!imgHover) {
-        if (firstStationColor.current) {
-            setGradientStyle({ backgroundColor: firstStationColor.current })
-        }
-        return
+      if (firstStationColor.current) {
+        setGradientStyle({ backgroundColor: firstStationColor.current })
+      }
+      return
     }
 
-    fac.getColorAsync(imgHover)
-        .then(color => {
-            const spotifyRGB = getApproximateSpotifyColor(color.hex)
-            setGradientStyle({ backgroundColor: spotifyRGB })
-        })
-        .catch(err => console.error('Error getting color from image', err))
+    fac
+      .getColorAsync(imgHover)
+      .then(color => {
+        const spotifyRGB = getApproximateSpotifyColor(color.hex)
+        setGradientStyle({ backgroundColor: spotifyRGB })
+      })
+      .catch(err => console.error('Error getting color from image', err))
   }, [imgHover])
-
 
   // useEffect(() => {
   //   if (!imgHover) return
@@ -90,28 +90,23 @@ export function HomePage() {
   }
 
   async function onGoToStation(station) {
-    await addStation(station)
-    navigate(`/playlist/${station._id}`)
+    const returnedStation = await addStation(station)
+    dispatch({ type: SET_STATION, returnedStation })
+    navigate(`/playlist/${returnedStation._id}`)
   }
 
   function renderGenreSection(title, genre) {
-    const genreStations = stations.filter(station =>
-      station.tags?.includes(genre)
-    )
+    const genreStations = stations.filter(station => station.tags?.includes(genre))
     if (!genreStations.length) return null
 
     return (
       <section className={`playlist-container home-genre-${genre.toLowerCase().replace(/\s+/g, '-')}`}>
         <div className="playlist-header">
-            <h1 className="row-title">{title}</h1>
+          <h1 className="row-title">{title}</h1>
         </div>
         <div className="playlist-list">
           {genreStations.map(station => (
-            <StationPreview
-              key={station._id}
-              station={station}
-              goToStation={onGoToStation}
-            />
+            <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
           ))}
         </div>
       </section>
@@ -124,12 +119,10 @@ export function HomePage() {
   const topMixes = remainingStations.slice(0, mid)
   const recommended = remainingStations.slice(mid)
 
-  console.log('aa')
-
   return (
     <section className="home-page">
       <div className="home-gradient" style={gradientStyle}></div>
-      
+
       <div className="home-filter">
         {/* <div className="home-gradient" style={gradientStyle}></div> */}
         <div className="group-filter-btns">
@@ -144,17 +137,16 @@ export function HomePage() {
           ))}
         </div>
       </div>
-      
+
       <div className="home-page-container">
         <div className="content-spacing">
-          
           <section className="home-header-stations">
             <div className="header-station-list">
               {headerStations.map(station => (
-                <WideStationPreview 
-                  key={station._id} 
-                  station={station} 
-                  goToStation={onGoToStation} 
+                <WideStationPreview
+                  key={station._id}
+                  station={station}
+                  goToStation={onGoToStation}
                   setImgHover={setImgHover}
                 />
               ))}
@@ -165,14 +157,18 @@ export function HomePage() {
             <section className="playlist-container home-top-mixes">
               <div className="playlist-header">
                 <h1 className="top-mixes-h1 row-title">Top Mixes</h1>
-                <span onClick={() => {setShowMoreTopMixes(!showMoreTopMixes)}}>
+                <span
+                  onClick={() => {
+                    setShowMoreTopMixes(!showMoreTopMixes)
+                  }}
+                >
                   {showMoreTopMixes ? 'Show All' : 'Show Less'}
                 </span>
               </div>
               <div className="playlist-list">
                 {(showMoreTopMixes ? topMixes.slice(0, 7) : topMixes).map(station => (
-                    <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
-                  ))}
+                  <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
+                ))}
               </div>
             </section>
           )}
@@ -192,7 +188,7 @@ export function HomePage() {
               </div>
             </section>
           )}
-          
+
           {renderGenreSection(`Rock 'n fuckin' Roll`, 'Rock')}
           {renderGenreSection('Pop Pop Skibidi', 'Pop')}
           {renderGenreSection('Hip Hop aka Wanna be White music', 'Hip Hop')}

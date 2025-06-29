@@ -71,9 +71,7 @@ async function remove(stationId) {
 // }
 
 async function save(station) {
-  
-  const isValidObjectId = (id) =>
-    typeof id === 'string' && id.length === 24 && /^[a-f\d]{24}$/i.test(id);
+  const isValidObjectId = id => typeof id === 'string' && id.length === 24 && /^[a-f\d]{24}$/i.test(id)
 
   let stationToSave = {
     ...station,
@@ -83,13 +81,14 @@ async function save(station) {
     msgs: station.msgs || [],
     likedByUsers: station.likedByUsers || [],
     createdAt: station.createdAt || Date.now(),
-  };
+    origId: station._id || '',
+  }
 
   if (isValidObjectId(station._id)) {
-    return await httpService.put(`station/${station._id}`, stationToSave);
+    return await httpService.put(`station/${station._id}`, stationToSave)
   } else {
-    delete stationToSave._id; // <--- Only here!
-    return await httpService.post('station', stationToSave);
+    delete stationToSave._id
+    return await httpService.post('station', stationToSave)
   }
 }
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
-import { addStation } from '../store/station/station.actions'
+import { addStation, setSong } from '../store/station/station.actions'
 import { cleanTitle } from '../services/util.service'
 import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
 import { LikeToggleBtn } from './LikeToggleBtn'
@@ -96,6 +96,7 @@ export function ArtistSearchResult() {
                           ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
                         `}
                         onClick={() => setSelectedSongId(song?.id)}
+
                       >
                         <div className="main-details flex">
                           <div className="img-container">
@@ -123,6 +124,7 @@ export function ArtistSearchResult() {
                               }}
                             />
                           </div>
+
                           <div className="duration">{formatTime(song.duration)}</div>
                         </div>
                       </li>

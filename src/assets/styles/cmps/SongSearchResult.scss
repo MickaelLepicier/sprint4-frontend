@@ -18,6 +18,9 @@ section.search-song-results {
       padding: 0 16px;
       align-items: center;
       grid-template-columns: [first] minmax(120px, var(--col0, 4fr)) [last] minmax(120px, var(--col1, 1fr));
+
+      // not using this grid we don't have song.album 
+      // grid-template-columns: [first] minmax(120px, var(--col0, 4fr)) [var1] minmax(120px, var(--col1, 2fr)) [last] minmax(120px, var(--col2, 1fr));
       border: 0.909px solid transparent;
       grid-gap: 16px;
       border-radius: 4px;
@@ -115,6 +118,17 @@ section.search-song-results {
           }
         }
       }  
+
+      .album-container {
+        @include flex;
+
+
+        span.album {
+          color: var(--text-subdued);
+          @include standalone-ellipsis-one-line;
+          font-family: SpotifyMixUI;
+        }
+      }
 
       .song-meta-actions {
         width: 100%;

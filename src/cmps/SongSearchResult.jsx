@@ -81,6 +81,12 @@ export function SongSearchResult() {
                   <span className="artist">{song.artist || ''}</span>
                 </div>
               </div>
+              
+              {song.album &&
+                  <div className="album-container">
+                    <span className="album"></span>
+                  </div>
+              }
 
               <div className="song-meta-actions">
                 <button className="add-btn" onClick={() => onAddSong(song)}>
@@ -91,8 +97,6 @@ export function SongSearchResult() {
           ))}
         </ul>
       </div>
-
-
 
       {/* <ul>
         {songs.map(song =>

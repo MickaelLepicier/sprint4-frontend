@@ -8,8 +8,10 @@ import { SET_STATION } from '../store/station/station.reducer'
 import { WideStationPreview } from '../cmps/WideStationPreview'
 import { addStation, loadStations } from '../store/station/station.actions'
 import { FastAverageColor } from 'fast-average-color'
-// import { enhanceColor } from '../services/util.service'
-import { getApproximateSpotifyColor } from '../services/util.service'
+// import { enhanceColor } from '../services/util.service' 
+import { getApproximateSpotifyColor } from '../services/util.service' 
+import { StationCarousel } from '../cmps/StationCarousel'
+import { StationShelf } from '../cmps/StationShelf'
 
 export function HomePage() {
   const [apiStations, setApiStations] = useState([])
@@ -95,23 +97,29 @@ export function HomePage() {
     navigate(`/playlist/${returnedStation._id}`)
   }
 
-  function renderGenreSection(title, genre) {
-    const genreStations = stations.filter(station => station.tags?.includes(genre))
-    if (!genreStations.length) return null
-
-    return (
-      <section className={`playlist-container home-genre-${genre.toLowerCase().replace(/\s+/g, '-')}`}>
-        <div className="playlist-header">
-          <h1 className="row-title">{title}</h1>
-        </div>
-        <div className="playlist-list">
-          {genreStations.map(station => (
-            <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
-          ))}
-        </div>
-      </section>
-    )
+  function genreStations(tag) {
+    return stations.filter(station => station.tags?.includes(tag))
   }
+
+  // function renderGenreSection(title, genre) {
+  // const genreStations = stations.filter(station =>
+  //   station.tags?.includes(genre)
+  // )
+  //   if (!genreStations.length) return null
+
+  //   return (
+  //     <section className={`playlist-container home-genre-${genre.toLowerCase().replace(/\s+/g, '-')}`}>
+  //       <div className="playlist-header">
+  //         <h1 className="row-title">{title}</h1>
+  //       </div>
+  //       <div className="playlist-list">
+  //         {genreStations.map(station => (
+  //           <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
+  //         ))}
+  //       </div>
+  //     </section>
+  //   )
+  // }
 
   const headerStations = apiStations.slice(0, 8)
   const remainingStations = apiStations.slice(8)
@@ -124,7 +132,6 @@ export function HomePage() {
       <div className="home-gradient" style={gradientStyle}></div>
 
       <div className="home-filter">
-        {/* <div className="home-gradient" style={gradientStyle}></div> */}
         <div className="group-filter-btns">
           {filters.map(filter => (
             <button
@@ -153,48 +160,19 @@ export function HomePage() {
             </div>
           </section>
 
-          {topMixes.length > 0 && (
-            <section className="playlist-container home-top-mixes">
-              <div className="playlist-header">
-                <h1 className="top-mixes-h1 row-title">Top Mixes</h1>
-                <span
-                  onClick={() => {
-                    setShowMoreTopMixes(!showMoreTopMixes)
-                  }}
-                >
-                  {showMoreTopMixes ? 'Show All' : 'Show Less'}
-                </span>
-              </div>
-              <div className="playlist-list">
-                {(showMoreTopMixes ? topMixes.slice(0, 7) : topMixes).map(station => (
-                  <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
-                ))}
-              </div>
-            </section>
-          )}
+          {/* Top Mixes */}
+          <StationShelf title="Top Mixes" stations={topMixes} goToStation={onGoToStation} />
 
-          {recommended.length > 0 && (
-            <section className="playlist-container home-recommended">
-              <div className="playlist-header">
-                <h1 className="top-recommended-h1 row-title">Recommended Stations</h1>
-                <span onClick={() => setShowMoreRecommended(!showMoreRecommended)}>
-                  {showMoreRecommended ? 'Show All' : 'Show Less'}
-                </span>
-              </div>
-              <div className="playlist-list">
-                {(showMoreRecommended ? recommended.slice(0, 7) : recommended).map(station => (
-                  <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
-                ))}
-              </div>
-            </section>
-          )}
+          {/* Recommended */}
+          <StationShelf title="Recommended Stations" stations={recommended} goToStation={onGoToStation} />
 
-          {renderGenreSection(`Rock 'n fuckin' Roll`, 'Rock')}
-          {renderGenreSection('Pop Pop Skibidi', 'Pop')}
-          {renderGenreSection('Hip Hop aka Wanna be White music', 'Hip Hop')}
-          {renderGenreSection('Electroniczzzzzzzzzz', 'Electronic')}
-          {renderGenreSection('Alternative yawnayawn', 'Alternative')}
-          {renderGenreSection('Latin - WtF nobdy listn dis', 'Latin')}
+          {/* Genres */}
+          <StationShelf title={`Rock 'n fuckin' Roll`} stations={genreStations('Rock')} goToStation={onGoToStation} />
+          <StationShelf title="Pop Pop Skibidi" stations={genreStations('Pop')} goToStation={onGoToStation} />
+          <StationShelf title="Hip Hop aka Wanna be White music" stations={genreStations('Hip Hop')} goToStation={onGoToStation} />
+          <StationShelf title="Latin - WtF nobdy listn dis" stations={genreStations('Latin')} goToStation={onGoToStation} />
+          <StationShelf title="Electroniczzzzzzzzzz" stations={genreStations('Electronic')} goToStation={onGoToStation} />
+          <StationShelf title="Alternative yawnayawn" stations={genreStations('Alternative')} goToStation={onGoToStation} />
         </div>
       </div>
     </section>

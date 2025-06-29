@@ -1,6 +1,10 @@
 .home-page {
-
   position: relative; 
+  --carousel-shelf-min-items: 1.5;
+  --carousel-shelf-element-width: calc(1955px / 10);
+  --shelf-collapsable-min-width: calc(var(--carousel-shelf-element-width) * var(--carousel-shelf-min-items, 1));
+  --content-max-width: 1955px;
+  --regular-shelf-max-count: 9;
 
   .home-page-container {
     padding-top: 4px;
@@ -16,6 +20,17 @@
       @container homepage (width < 1024px) {
         gap: 16px;
       }
+    }
+
+    @container (width < 1024px) {
+      --carousel-shelf-element-width: calc(1955px / 11);
+
+      --regular-shelf-max-count: 11;
+      --shelf-gap-vertical: 16px;
+    }
+
+    @container (width < 2304px) {
+      regular-shelf-max-count: 10;
     }
   }
 
@@ -138,6 +153,11 @@
   }
 
   .playlist-container {
+    display: flex;
+    flex-direction: column;
+    flex: 0 1 auto;
+    min-width: 100%;
+
     .playlist-header {
       display: flex;
       width: 100%;
@@ -186,8 +206,9 @@
     
     .playlist-list {
       margin-inline: -12px;
+      // background-color: red !important;
       display: flex;
-    flex-wrap: wrap;
+      flex-wrap: wrap;
       //  display: grid;
     // grid-auto-flow: column;
     // grid-auto-columns: max-content;

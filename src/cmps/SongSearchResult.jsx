@@ -44,6 +44,15 @@ export function SongSearchResult() {
     }
   }
 
+  function onSetSong(song, forceSeek = false) {
+    dispatch({ type: SET_SONG, song })
+    dispatch({ type: SET_IS_PLAYING, isPlaying: true })
+
+    if (forceSeek && window.playerRef?.current) {
+        window.playerRef.current.seekTo(0)
+    }
+  }
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (listRef.current && !listRef.current.contains(event.target)) {
@@ -69,6 +78,7 @@ export function SongSearchResult() {
                 ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
               `}
               onClick={() => setSelectedSongId(song?.id)}
+              onDoubleClick={() => onSetSong(song, true)}
             >
               <div className="main-details flex">
                 <div className="img-container">

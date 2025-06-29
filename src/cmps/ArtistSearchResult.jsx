@@ -32,11 +32,6 @@ export function ArtistSearchResult() {
     const savedStation = await addStation(station)
     navigate(`/playlist/${savedStation._id}`)
   }
-  function onSetSong(song) {
-    console.log('song:', song)
-    dispatch({ type: SET_SONG, song })
-    dispatch({ type: SET_IS_PLAYING, isPlaying: true })
-  }
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -48,6 +43,15 @@ export function ArtistSearchResult() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  function onSetSong(song, forceSeek = false) {
+    dispatch({ type: SET_SONG, song })
+    dispatch({ type: SET_IS_PLAYING, isPlaying: true })
+
+    if (forceSeek && window.playerRef?.current) {
+        window.playerRef.current.seekTo(0)
+    }
+  }
 
   const topArtist = artistStations[0]
   console.log('topArtist:', topArtist)
@@ -96,7 +100,7 @@ export function ArtistSearchResult() {
                           ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
                         `}
                         onClick={() => setSelectedSongId(song?.id)}
-
+                        onDoubleClick={() => onSetSong(song, true)}
                       >
                         <div className="main-details flex">
                           <div className="img-container">

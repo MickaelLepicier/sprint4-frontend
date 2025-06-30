@@ -11,7 +11,7 @@ export default defineConfig({
     },
     assetsInclude: ['**/*.ttf', '**/*.woff', '**/*.woff2'],
     build: {
-        outDir: '../backend/public',
+        outDir: '../sprint4-backend/public',
         emptyOutDir: true
     }
 })

@@ -17,6 +17,7 @@
   text-wrap: pretty;
   // height:230px ;
   position: relative;
+  min-height: 100%;
 
   transition-duration: 150ms;
   transition-property: background-color, inset;

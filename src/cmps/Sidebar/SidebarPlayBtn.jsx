@@ -71,6 +71,7 @@ export function SidebarPlayBtn({ station, song = null, isLargePlayIcon = false }
         <SetActionBtn
             currIcon={iconCmp}
             addClassName="sidebar-play-btn"
+            id="play-pause-btn"
             onClick={handleTogglePlay}
             ariaLabel={song ? "Play song" : "Play station"}
             title={song ? "Play song" : "Play station"}

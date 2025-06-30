@@ -48,7 +48,7 @@ export function HomePage() {
       .getColorAsync(firstImgUrl)
       .then(color => (firstStationColor.current = getApproximateSpotifyColor(color.hex)))
       .catch(err => console.error('Error getting first station color', err))
-  }, [stations])
+  }, [apiStations])
 
   useEffect(() => {
     if (!imgHover) {

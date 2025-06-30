@@ -10,9 +10,11 @@
     bottom: 0;
     left: 0;
     right: 0;
+    width: 100%;
+    user-select: none;
 
     background-color: black;
-    
+
     > section {
         // display: flex;
         // align-items: center;

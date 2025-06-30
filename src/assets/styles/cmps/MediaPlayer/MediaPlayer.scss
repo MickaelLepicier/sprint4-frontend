@@ -1,5 +1,6 @@
 .media-player-container {
   justify-content: space-between;
+  min-width: 620px;
 
   // add like btn
   img {
@@ -8,7 +9,8 @@
 
   .track-controls-container {
     max-width: 722px;
-    flex: 1;
+    // flex: 1;
+    width: 40%;
 
     .track-actions {
       display: flex;
@@ -77,8 +79,10 @@
   }
 
   .other-options {
-    min-width: 230px;
+    // min-width: 230px;
     // flex: 1;
-    justify-content: right;
+    min-width: 180px;
+    width: 30%;
+    justify-content: flex-end;
   }
 }

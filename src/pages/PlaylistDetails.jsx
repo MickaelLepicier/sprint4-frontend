@@ -52,6 +52,7 @@ export function PlaylistDetails() {
   const stations = useSelector((storeState) => storeState.stationModule.stations)
   const station = useSelector((storeState) => storeState.stationModule.station)
   const currentStation = useSelector((storeState) => storeState.stationModule.currentStation)
+  const stationOrder = useSelector(state => state.stationModule.stationOrder)
 
   // Local state
   const [songs, setSongs] = useState([])
@@ -173,36 +174,64 @@ export function PlaylistDetails() {
   // Event Handlers - User actions (mutations)
   async function onAddToLibrary(station) {
     try {
-      const state = store.getState()
-      const stationOrder = state.stationModule.stationOrder
-      let updatedStationIds, newOrder, addedStation
+        // Check if this station is already in likedStationIds
+        const alreadyLiked = user.likedStationIds.includes(station._id)
 
-      if (user.likedStationIds.includes(station._id)) {
-        // Remove
-        updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
-        newOrder = stationOrder.filter(id => id !== station._id)
-        showSuccessMsg('Removed from Your Library')
-      } else {
-        // Add
-        addedStation = stations.find(s => s._id === station._id)
-        if (!addedStation) {
-          let stationToAdd = { ...station, origId: station._id }
-          delete stationToAdd._id
-          addedStation = await addStation(stationToAdd)
+        let updatedStationIds, newOrder
+
+        if (alreadyLiked) {
+            // Remove from liked stations
+            updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
+            newOrder = stationOrder.filter(id => id !== station._id)
+            showSuccessMsg('Removed from Your Library')
+        } else {
+            // Add the existing station._id, do NOT create a duplicate
+            updatedStationIds = [...user.likedStationIds, station._id]
+            newOrder = [...stationOrder, station._id]
+            showSuccessMsg('Added to Your Library')
         }
-        updatedStationIds = [...user.likedStationIds, addedStation._id]
-        newOrder = [...stationOrder, addedStation._id]
-        showSuccessMsg('Added to Your Library')
-      }
-      
-      setStationOrder(newOrder)
-      const updatedUser = { ...user, likedStationIds: updatedStationIds }
-      await updateUser(updatedUser)
+
+        setStationOrder(newOrder)
+        const updatedUser = { ...user, likedStationIds: updatedStationIds }
+        await updateUser(updatedUser)
     } catch (error) {
-      console.log('error:', error)
-      showErrorMsg(`Couldn't add to library`)
+        showErrorMsg(`Couldn't add to library`)
+        console.log('error:', error)
     }
   }
+
+  // async function onAddToLibrary(station) {
+  //   try {
+  //     const state = store.getState()
+  //     const stationOrder = state.stationModule.stationOrder
+  //     let updatedStationIds, newOrder, addedStation
+
+  //     if (user.likedStationIds.includes(station._id)) {
+  //       // Remove
+  //       updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
+  //       newOrder = stationOrder.filter(id => id !== station._id)
+  //       showSuccessMsg('Removed from Your Library')
+  //     } else {
+  //       // Add
+  //       addedStation = stations.find(s => s._id === station._id)
+  //       if (!addedStation) {
+  //         let stationToAdd = { ...station, origId: station._id }
+  //         delete stationToAdd._id
+  //         addedStation = await addStation(stationToAdd)
+  //       }
+  //       updatedStationIds = [...user.likedStationIds, addedStation._id]
+  //       newOrder = [...stationOrder, addedStation._id]
+  //       showSuccessMsg('Added to Your Library')
+  //     }
+      
+  //     setStationOrder(newOrder)
+  //     const updatedUser = { ...user, likedStationIds: updatedStationIds }
+  //     await updateUser(updatedUser)
+  //   } catch (error) {
+  //     console.log('error:', error)
+  //     showErrorMsg(`Couldn't add to library`)
+  //   }
+  // }
 
   // async function onAddToLibrary(station) {
   //   try {

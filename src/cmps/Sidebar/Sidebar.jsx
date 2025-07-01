@@ -29,7 +29,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
   const filteredStations = useMemo(() => {
     if (!user) return []
 
-    const regex = new RegExp(searchTerm, 'i')
+    const searchWords = searchTerm.trim().toLowerCase().split(/\s+/).filter(Boolean)
     const userId = user._id
     const likedStationIds = new Set(user.likedStationIds)
 
@@ -40,7 +40,9 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
     }
 
     for (const station of stations) {
-      if (!regex.test(station.name)) continue
+      const name = (station.name || '').toLowerCase()
+      const matches = searchWords.every(word => name.includes(word))
+      if (!matches) continue
 
       const isLikedSongsStation = station._id === user.likedSongsStationId
 
@@ -54,7 +56,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
     }
 
     return [...result.likedSongs, ...result.created, ...result.liked]
-  }, [stations, user, searchTerm])
+  } , [stations, user, searchTerm])
 
   async function onCreateStation() {
     if (!user) {

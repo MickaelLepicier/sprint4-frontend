@@ -31,10 +31,14 @@ export function SongSearchResult() {
         duration: song.duration,
       }
 
+      const hasSongs = !!currStation.songs.length
+
       const stationToSave = {
         ...currStation,
         songs: [...currStation.songs, normalizedSong],
+        imgUrl: hasSongs ? currStation.imgUrl : normalizedSong.imgUrl,
       }
+
       const msgImg = stationToSave.imgUrl
         ? stationToSave.imgUrl
         : `https://res.cloudinary.com/dpoa9lual/image/upload/v1724570942/Spotify_playlist_photo_yjeurq.png`

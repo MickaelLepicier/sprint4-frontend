@@ -37,8 +37,8 @@
 
       img.equalizer-gif { display: block; }
     }
-
-    &:hover {
+ 
+    &:hover, &.active {
       div.col .idx-and-play-container {
         img.equalizer-gif { display: none; }
       }

@@ -5,6 +5,7 @@ import { LikeIcon } from './svg/LikeIcon'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { loadStation, updateStation } from '../store/station/station.actions'
 import { stationService } from '../services/station'
+import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
 import { cleanTitle } from '../services/util.service'
 import { LikeToggleBtn } from './LikeToggleBtn'
 import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
@@ -27,6 +28,7 @@ export function SongPreview({
   const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
   const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
   const user = useSelector((storeState) => storeState.userModule.user)
+  const dispatch = useDispatch()
 
   const isActiveCN = currSong?.id === song?.id ? 'active' : ''
   const isCurrSong = song?.id === currSong?.id

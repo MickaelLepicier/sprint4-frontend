@@ -87,7 +87,7 @@ export function SongPreview({
       <div className="col col-idx">
         <div className="idx-and-play-container">
           <span className="song-idx" id="song-idx">{idx + 1}</span>
-          <SidebarPlayBtn song={song} isLargePlayIcon={true} />
+          <SidebarPlayBtn station={station} song={song} isLargePlayIcon={true} />
           <img className="equalizer-gif" src={equalizerGif} />
         </div>
       </div>

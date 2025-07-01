@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { SongList } from '../cmps/SongList'
 
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 // import { ColorThief } from '../cmps/ColorThief'
@@ -180,6 +181,7 @@ export function PlaylistDetails() {
         // Remove
         updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
         newOrder = stationOrder.filter(id => id !== station._id)
+        showSuccessMsg('Removed from Your Library')
       } else {
         // Add
         addedStation = stations.find(s => s._id === station._id)
@@ -190,8 +192,9 @@ export function PlaylistDetails() {
         }
         updatedStationIds = [...user.likedStationIds, addedStation._id]
         newOrder = [...stationOrder, addedStation._id]
+        showSuccessMsg('Added to Your Library')
       }
-
+      
       setStationOrder(newOrder)
       const updatedUser = { ...user, likedStationIds: updatedStationIds }
       await updateUser(updatedUser)
@@ -356,55 +359,13 @@ export function PlaylistDetails() {
       </div>
 
       <div className="content-spacing">
-        <div className="song-list-container">
-          <table>
-            <thead>
-              <tr className="t-header">
-                <th>#</th>
-                <th>Title</th>
-                <th>Album</th>
-                {isLikedSongs && <th>Date Added</th>}
-                <th>
-                  <svg width="18" height="18" viewBox="0 0 22 22" fill="none">
-                    <circle cx="11" cy="11" r="8.5" stroke="#b3b3b3" stroke-width="1.5" />
-                    <line x1="11" y1="7" x2="11" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
-                    <line x1="11" y1="11" x2="14" y2="11" stroke="#b3b3b3" stroke-width="1.5" stroke-linecap="round" />
-                  </svg>
-                </th>
-                {/* <th>Duration</th> */}
-              </tr>
-              <tr className="thead-spacer-row">
-                <td colSpan="5" style={{ height: '1rem' }}></td>
-              </tr>
-            </thead>
-            {/* DND: Wrap tbody in DragDropContext and Droppable */}
-            <DragDropContext onDragEnd={handleDragEnd}>
-              <Droppable droppableId="songs-droppable" direction="vertical">
-                {(provided) => (
-                  <tbody ref={provided.innerRef} {...provided.droppableProps}>
-                    {songs.map((song, idx) => (
-                      <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
-                        {(provided) => (
-                          <SongPreview
-                            song={song}
-                            idx={idx}
-                            station={station}
-                            togglePlay={() => onTogglePlay(song)}
-                            draggableProps={provided.draggableProps} // DND: pass drag props
-                            dragHandleProps={provided.dragHandleProps} // DND: pass handle props
-                            innerRef={provided.innerRef} // DND: pass ref
-                            isLikedSongs={isLikedSongs}
-                          />
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </tbody>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </table>
-        </div>
+        <SongList
+          songs={songs}
+          station={station}
+          onTogglePlay={onTogglePlay}
+          handleDragEnd={handleDragEnd}
+          isLikedSongs={isLikedSongs}
+        />
 
         {!showSearchBar &&
           <button 

@@ -115,7 +115,10 @@ export const StationEditModal = forwardRef((props, ref) => {
         
         setPreviewImg(station.imgUrl || '')
         
-        if (modalRef.current) modalRef.current.showModal()
+        if (modalRef.current) {
+            modalRef.current.showModal()
+            modalInputRef.current?.select()
+        }
     }
 
     return (

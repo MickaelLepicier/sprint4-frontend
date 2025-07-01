@@ -24,6 +24,7 @@ export function SongSearchResult() {
         id: song.id,
         url: `https://www.youtube.com/watch?v=${song.id}`,
         title: song.title,
+        artist: song.artist || '',
         imgUrl: song.imgUrl.replace('default.jpg', 'mqdefault.jpg'),
         addedAt: Date.now(),
         addedBy: 'u999',

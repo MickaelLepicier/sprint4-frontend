@@ -30,14 +30,16 @@
   // }
 
   &.playing {
-    div.col .idx-and-play-container {
-      .col.col-title span { color: #1ed760 !important; }
-    
-      span.song-idx { display: none;}
+    div.col {
+      .idx-and-play-container {
+        span.song-idx { display: none;}
 
-      img.equalizer-gif { display: block; }
+        img.equalizer-gif { display: block; }
+      }
+
+      &.col-title span { color: #1ed760 !important; }
     }
- 
+    
     &:hover, &.active {
       div.col .idx-and-play-container {
         img.equalizer-gif { display: none; }

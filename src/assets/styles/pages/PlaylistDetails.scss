@@ -728,6 +728,16 @@
     padding: 0px 16px;
   }
 
+  // ~~~ List view grid (No album column) ~~~
+  .song-list-header.no-album,
+  .song-row.no-album {
+    grid-template-columns:
+      [index] var(--tracklist-index-column-width, 16px)
+      [first] minmax(120px, var(--col1, 8fr)) // Give more to title
+      [var1] minmax(120px, var(--col2, 3fr))  // Date added or whatever
+      [last] minmax(120px, var(--col3, 1fr)); // Actions
+  }
+
   .song-list-header {
     height: 36px;
     border-bottom: 1px solid hsla(0, 0%, 100%, .1);

@@ -24,6 +24,7 @@ export function SongPreview({
   setSelectedSongId,
   justLikedSongId,
   setJustLikedSongId,
+  showAlbum
 }) {
   const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
   const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
@@ -74,6 +75,7 @@ export function SongPreview({
         ${selectedSongId === song.id ? 'active' : ''}
         ${justLikedSongId === song.id ? 'just-liked' : ''}
         ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
+        ${showAlbum ? '' : ' no-album'}
       `}
       onClick={() => setSelectedSongId(song?.id)}
       onDoubleClick={() => onSetSong(song, true)}
@@ -109,9 +111,11 @@ export function SongPreview({
         <span>{cleanTitle(song.artist, 100)}</span>
       </div> */}
       
-      <div className="col col-album">
-        <span>{cleanTitle(station.name, 100)}</span>
-      </div>
+      {showAlbum && 
+        <div className="col col-album">
+          <span>{cleanTitle(station.name, 100)}</span>
+        </div>
+      }
       
       <div className="col col-date">
         <span>{formatDate(song.addedAt)}</span>

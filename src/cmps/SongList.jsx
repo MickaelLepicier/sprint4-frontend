@@ -4,13 +4,15 @@ import { SongPreview } from './SongPreview.jsx'
 import { ClockIcon } from './svg/ClockIcon.jsx'
 
 export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedSongs }) {
-  const sentinelRef = useRef(null)
   const [isSticky, setIsSticky] = useState(false)
-  const isStickyCN = isSticky ? 'is-sticky' : ''
-
   const [selectedSongId, setSelectedSongId] = useState(null)
   const [justLikedSongId, setJustLikedSongId] = useState(null)
+  
+  const sentinelRef = useRef(null)
   const listRef = useRef()
+  
+  const isStickyCN = isSticky ? 'is-sticky' : ''
+  const showAlbum = !!station?.songs?.some(song => song.album)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -52,11 +54,11 @@ export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedS
       {/* <div ref={sentinelRef} style={{ height: '1px' }}></div> for sticky effect */}
       
       <div className={`song-list-header-container ${isStickyCN}`}>
-        <div className="song-list-header">
+        <div className={`song-list-header${showAlbum ? '' : ' no-album'}`}>
           <div className="col col-idx">#</div>
           <div className="col col-title">Title</div>
           {/* <div className="col col-artist">Artist</div> */}
-          <div className="col col-album">Album</div>
+          {showAlbum && <div className="col col-album">Album</div>}
           <div className="col col-date">Date Added</div>
           {/* {isLikedSongs && <div className="col col-date">Date Added</div>} */}
 
@@ -84,6 +86,7 @@ export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedS
                         setSelectedSongId={setSelectedSongId}
                         justLikedSongId={justLikedSongId}
                         setJustLikedSongId={setJustLikedSongId}
+                        showAlbum={showAlbum}
                       />
                     </div>
                   )}

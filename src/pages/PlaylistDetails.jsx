@@ -323,49 +323,37 @@ export function PlaylistDetails() {
           {/* DIALOOOOOOOOOGGGGGGGGG */}
         </header>
       </div>
-
-      <div className="songlist-play-actions">
-        <div className="media-player-container">
-          <PlayBtn onToggle={handleSongPlay} isPlaying={isPlaying} className={isPlay} />
-        
-        {/* add-to-liked */}
-
-        {/* <LikeToggleBtn song={currSong} size='32' /> */}
-
-        {!isLikedStation && (
-          <button
-            className="add-remove-playlist"
-            title={isLikedPlaylist ? "Remove from Your Library" : "Save to Your Library"}
-            onClick={() => onAddToLibrary(station)}
-          >
-            {isLikedPlaylist ? <RemoveFromLikedLargeIcon color={'var(--text-bright-accent)'}/> : <LikeLargeIcon color={'#b3b3b3'}/>}
-          </button>
-        )}
-
-          {/* <button
-            className="save-playlist add-song"
-            title="Save to Your Library"
-            onClick={() => {
-              onAddToLibrary(station)
-            }}
-          >
-            <LikeIcon />
-          </button> */}
-
+    
+      {station?.songs?.length > 0 && (
+        <div className="songlist-play-actions">
+          <div className="media-player-container">
+            <PlayBtn onToggle={handleSongPlay} isPlaying={isPlaying} className={isPlay} />
+          
+            {!isLikedStation && (
+              <button
+                className="add-remove-playlist"
+                title={isLikedPlaylist ? "Remove from Your Library" : "Save to Your Library"}
+                onClick={() => onAddToLibrary(station)}
+              >
+                {isLikedPlaylist ? <RemoveFromLikedLargeIcon color={'var(--text-bright-accent)'}/> : <LikeLargeIcon color={'#b3b3b3'}/>}
+              </button>
+            )}
+          </div>
+          {/* TODO: Will put it back after finishing the layout */}
+          {/* <button className="btn-compact">Compact</button> */}
         </div>
-
-        {/* TODO: Will put it back after finishing the layout */}
-        {/* <button className="btn-compact">Compact</button> */}
-      </div>
+      )}
 
       <div className="content-spacing">
-        <SongList
-          songs={songs}
-          station={station}
-          onTogglePlay={onTogglePlay}
-          handleDragEnd={handleDragEnd}
-          isLikedSongs={isLikedSongs}
-        />
+        {station?.songs?.length > 0 && (
+          <SongList
+            songs={songs}
+            station={station}
+            onTogglePlay={onTogglePlay}
+            handleDragEnd={handleDragEnd}
+            isLikedSongs={isLikedSongs}
+          />
+        )}
 
         {!showSearchBar &&
           <button 

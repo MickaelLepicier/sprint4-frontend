@@ -38,7 +38,8 @@ export function SongPreview({
   // const duration = window.playerRef?.current?.getDuration?.() ?? null
 
   function formatDuration(dur) {
-    if (!dur) return '00:00'
+    // if (!dur) return '00:00'
+    if (!dur) return ''
 
     const duration = +dur
     const mins = Math.floor(duration / 60)

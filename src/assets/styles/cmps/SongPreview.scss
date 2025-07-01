@@ -1,21 +1,21 @@
 .song-list-container .song-row {
-  display: grid;
-  grid-template-columns:
-    [index] var(--tracklist-index-column-width, 16px)
-    [first] minmax(120px, var(--col1, 6fr))
-    [var1] minmax(120px, var(--col2, 4fr))
-    [var2] minmax(120px, var(--col3, 3fr))
-    [var3] minmax(120px, var(--col4, 2fr))
-    [last] minmax(120px, var(--col5, 1fr));
-  grid-gap: 16px;
-  align-items: center;
+  // display: grid;
+  // grid-template-columns:
+  //   [index] var(--tracklist-index-column-width, 16px)
+  //   [first] minmax(120px, var(--col1, 6fr))
+  //   [var1] minmax(120px, var(--col2, 4fr))
+  //   [var2] minmax(120px, var(--col3, 3fr))
+  //   [var3] minmax(120px, var(--col4, 2fr))
+  //   [last] minmax(120px, var(--col5, 1fr));
+  // grid-gap: 16px;
+  // align-items: center;
+  // padding: 0 16px;
   height: 32px;
+  border: 1px solid transparent;
   // width: 100%;
   border-radius: 4px;
 
   z-index: 1;
-  padding: 0 16px;
-  border: 1px solid transparent;
   transition: background-color 0.2s ease;
 
 

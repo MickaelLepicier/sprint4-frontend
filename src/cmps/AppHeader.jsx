@@ -36,7 +36,7 @@ export function AppHeader() {
 
       navigate(`/search/${txt}`)
     } catch (err) {
-      showErrorMsg('Search failed')
+      // showErrorMsg('Search failed')
     }
   }
 
@@ -45,7 +45,7 @@ export function AppHeader() {
       try {
         await performSearch(txt)
       } catch (err) {
-        showErrorMsg('Search failed')
+        // showErrorMsg('Search failed')
       }
     }, 500)
   ).current

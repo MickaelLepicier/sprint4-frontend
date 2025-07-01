@@ -22,8 +22,11 @@ export function showUserMsg(msg) {
     eventBus.emit(SHOW_MSG, msg)
 }
 
-export function showSuccessMsg(txt) {
-    showUserMsg({txt, type: 'success'})
+// export function showSuccessMsg(txt,imgUrl='') {
+//     showUserMsg({txt, type: 'success',imgUrl})
+// }
+export function showSuccessMsg(txt,imgUrl='') {
+    showUserMsg({txt, type: 'success',imgUrl})
 }
 export function showErrorMsg(txt) {
     showUserMsg({txt, type: 'error'})

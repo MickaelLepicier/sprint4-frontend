@@ -1,41 +1,59 @@
-.user-msg {
-    position: fixed;
-    top: 60px;
-    right: .2em;
+// Define optional color variables if you want more control
+$gray1: #e0e0e0; // Replace with your actual color
+$gray4: #666666; // Replace with your actual color
 
+.user-msg {
+  position: fixed;
+  left: 50%;
+  bottom: 110px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 12px 20px 12px 12px;
+  background-color: rgb(255, 255, 255);
+
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-family: 'SpotifyMixUI' !important;
+
+  opacity: 0;
+  transition: 600ms;
+  z-index: 10;
+  border-radius: 6px;
+  transform: translateX(-50%);
+
+  &.visible {
+    opacity: 1;
+    translate: 0;
+  }
+
+  &.success {
+    background-color: rgb(247, 247, 247);
+  }
+
+  &.error {
+    background-color: rgb(253, 253, 253);
+  }
+
+  button {
+    background-color: $gray1;
+    padding: 1px 6px;
+    color: $gray4;
+    // border: 0;
+    // border-radius: 50%;
+  }
+
+  .notification-msg {
     display: flex;
     align-items: center;
 
-    padding: .2em;
-    padding-inline-end: 20px;
-    background-color: grey;
+    img {
+      margin-right: 8px;
+      max-height: 25px;
 
-    color:white;
-    font-size: .9em;
-
-    opacity: 0;
-    translate: 150%;
-    transition: 600ms;
-
-    z-index: 10;
-}
-
-.user-msg.visible {
-    opacity: 1;
-    translate: 0;
-}
-
-.user-msg button {
-    background-color: $gray1;
-    padding: 1px 6px;
-    border:0;
-    border-radius: 50%;
-    color: $gray4;
-}
-
-.user-msg.success {
-    background-color: rgb(41, 189, 73);
-}
-.user-msg.error {
-    background-color: rgb(216, 59, 59);
+      width: 25px;
+      height: 25px;
+    }
+  }
 }

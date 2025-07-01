@@ -6,18 +6,18 @@ import { RemoveFromLibraryIcon } from './svg/RemoveFromLibraryIcon'
 import { updateStation } from '../store/station/station.actions'
 
 export function LikeToggleBtn({ song, ...props }) {
-  const user = useSelector((storeState) => storeState.userModule.user)
+  const user = useSelector(storeState => storeState.userModule.user)
   const likedStationId = user?.likedSongsStationId || ''
 
-  const likedStation = useSelector((storeState) =>
-    storeState.stationModule.stations.find((station) => station._id === likedStationId)
+  const likedStation = useSelector(storeState =>
+    storeState.stationModule.stations.find(station => station._id === likedStationId)
   )
-  const isLiked = likedStation?.songs?.some((s) => s?.id === song?.id)
+  const isLiked = likedStation?.songs?.some(s => s?.id === song?.id)
 
   async function onAddSongToLiked(song) {
     try {
       if (!user || !likedStationId) {
-        showErrorMsg('You must be logged in to like songs.')
+        showErrorMsg('You must log in ')
         return
       }
 
@@ -25,11 +25,11 @@ export function LikeToggleBtn({ song, ...props }) {
 
       let updatedSongs
       if (isLiked) {
-        updatedSongs = stationToUpdate.songs.filter((s) => s.id !== song.id)
-        showSuccessMsg('Removed from Liked Songs')
+        updatedSongs = stationToUpdate.songs.filter(s => s.id !== song.id)
+        showSuccessMsg('Removed from Liked Songs', stationToUpdate.imgUrl)
       } else {
         updatedSongs = [song, ...stationToUpdate.songs]
-        showSuccessMsg('Added to Liked Songs')
+        showSuccessMsg('Added to Liked Songs', stationToUpdate.imgUrl)
       }
 
       const updatedStation = { ...stationToUpdate, songs: updatedSongs }
@@ -44,7 +44,7 @@ export function LikeToggleBtn({ song, ...props }) {
       className={`add-to-liked ${isLiked ? 'liked' : ''}`}
       title={isLiked ? 'Remove from Liked Songs' : 'Add to Liked Songs'}
       aria-label={isLiked ? 'Remove from Liked Songs' : 'Add to Liked Songs'}
-      onClick={async (e) => {
+      onClick={async e => {
         e.stopPropagation()
 
         await onAddSongToLiked(song)

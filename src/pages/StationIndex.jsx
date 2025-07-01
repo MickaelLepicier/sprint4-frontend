@@ -26,7 +26,7 @@ export function StationIndex() {
   async function onRemoveStation(stationId) {
     try {
       await removeStation(stationId)
-      showSuccessMsg('Station removed')
+      showSuccessMsg('Removed from Your Library')
     } catch (err) {
       showErrorMsg('Cannot remove station')
     }

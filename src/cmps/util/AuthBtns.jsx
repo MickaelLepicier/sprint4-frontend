@@ -40,7 +40,7 @@ function HeaderAuthButs({ user }) {
     try {
       await logout()
       navigate('/')
-      showSuccessMsg(`Bye now`)
+      // showSuccessMsg(`Bye now`)
     } catch (err) {
       showErrorMsg('Cannot logout')
     }

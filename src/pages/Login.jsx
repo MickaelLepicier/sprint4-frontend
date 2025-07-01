@@ -19,10 +19,10 @@ export function Login() {
     try {
       await login(credentials)
       navigate('/')
-      showSuccessMsg('Logged Succesfully')
+      // showSuccessMsg('Logged Succesfully')
     } catch (err) {
       console.error('Login failed:', err)
-      showErrorMsg('Login failed')
+      // showErrorMsg('Login failed')
     }
   }
 

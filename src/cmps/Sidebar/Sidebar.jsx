@@ -64,7 +64,7 @@ export function Sidebar({ isCollapsed, setIsCollapsed }) {
 
     try {
       const savedStation = await createStationForUser(user)
-      showSuccessMsg('New songlist created!')
+      showSuccessMsg('Added to Your Library')
 
       await loadStations()
 

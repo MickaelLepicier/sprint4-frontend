@@ -54,7 +54,7 @@ export function Signup() {
 
       clearState()
       navigate('/')
-      showSuccessMsg('Signed up successfully')
+      // showSuccessMsg('Signed up successfully')
     } catch (error) {
       showErrorMsg('Signup failed')
       // handle cleanup if needed

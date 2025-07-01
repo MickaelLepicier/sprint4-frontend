@@ -67,7 +67,7 @@ export function SongList() {
       try {
         await performSearch(txt)
       } catch (error) {
-        showErrorMsg('Search failed')
+        // showErrorMsg('Search failed')
       }
     }, 500)
   )
@@ -109,7 +109,7 @@ export function SongList() {
     try {
       await loadSearchResults(txt, 'songs')
     } catch (error) {
-      showErrorMsg('Search failed')
+      // showErrorMsg('Search failed')
     }
   }
 
@@ -180,6 +180,7 @@ export function SongList() {
         // Remove
         updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
         newOrder = stationOrder.filter(id => id !== station._id)
+        showSuccessMsg('Removed from Your Library',station.imgUrl)
       } else {
         // Add
         addedStation = stations.find(s => s._id === station._id)
@@ -190,6 +191,7 @@ export function SongList() {
         }
         updatedStationIds = [...user.likedStationIds, addedStation._id]
         newOrder = [...stationOrder, addedStation._id]
+        showSuccessMsg('Added to Your Library',station.imgUrl)
       }
 
       setStationOrder(newOrder)

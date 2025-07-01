@@ -17,9 +17,8 @@ export function SongSearchResult() {
   const [selectedSongId, setSelectedSongId] = useState(null)
   const [justLikedSongId, setJustLikedSongId] = useState(null)
   const listRef = useRef()
-  
+
   async function onAddSong(song) {
-    console.log('song:', song)
     try {
       const normalizedSong = {
         id: song.id,
@@ -36,8 +35,11 @@ export function SongSearchResult() {
         ...currStation,
         songs: [...currStation.songs, normalizedSong],
       }
+      const msgImg = stationToSave.imgUrl
+        ? stationToSave.imgUrl
+        : `https://res.cloudinary.com/dpoa9lual/image/upload/v1724570942/Spotify_playlist_photo_yjeurq.png`
       await updateStation(stationToSave)
-      showSuccessMsg('Song added to songlist!')
+      showSuccessMsg('Song added to songlist!', msgImg)
     } catch (error) {
       console.log('error:', error)
       showErrorMsg('Error adding song')
@@ -49,7 +51,7 @@ export function SongSearchResult() {
     dispatch({ type: SET_IS_PLAYING, isPlaying: true })
 
     if (forceSeek && window.playerRef?.current) {
-        window.playerRef.current.seekTo(0)
+      window.playerRef.current.seekTo(0)
     }
   }
 
@@ -70,41 +72,44 @@ export function SongSearchResult() {
     <section className="search-song-results">
       <div className="ul-wrapper">
         <ul ref={listRef}>
-          {songs.map(song => song?.imgUrl && (
-            <li
-              key={song.id}
-              className={`
+          {songs.map(
+            song =>
+              song?.imgUrl && (
+                <li
+                  key={song.id}
+                  className={`
                 ${selectedSongId === song.id ? 'active' : ''}
                 ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
               `}
-              onClick={() => setSelectedSongId(song?.id)}
-              onDoubleClick={() => onSetSong(song, true)}
-            >
-              <div className="main-details flex">
-                <div className="img-container">
-                  <img src={song.imgUrl} alt={song.title || ''} />
-                  <SidebarPlayBtn song={song} isLargePlayIcon={true} />
-                </div>
+                  onClick={() => setSelectedSongId(song?.id)}
+                  onDoubleClick={() => onSetSong(song, true)}
+                >
+                  <div className="main-details flex">
+                    <div className="img-container">
+                      <img src={song.imgUrl} alt={song.title || ''} />
+                      <SidebarPlayBtn song={song} isLargePlayIcon={true} />
+                    </div>
 
-                <div className="song-details">
-                  <span className="title">{cleanTitle(song.title)}</span>
-                  <span className="artist">{song.artist || ''}</span>
-                </div>
-              </div>
-              
-              {song.album &&
-                  <div className="album-container">
-                    <span className="album"></span>
+                    <div className="song-details">
+                      <span className="title">{cleanTitle(song.title)}</span>
+                      <span className="artist">{song.artist || ''}</span>
+                    </div>
                   </div>
-              }
 
-              <div className="song-meta-actions">
-                <button className="add-btn" onClick={() => onAddSong(song)}>
-                  Add
-                </button>
-              </div>
-            </li>
-          ))}
+                  {song.album && (
+                    <div className="album-container">
+                      <span className="album"></span>
+                    </div>
+                  )}
+
+                  <div className="song-meta-actions">
+                    <button className="add-btn" onClick={() => onAddSong(song)}>
+                      Add
+                    </button>
+                  </div>
+                </li>
+              )
+          )}
         </ul>
       </div>
 

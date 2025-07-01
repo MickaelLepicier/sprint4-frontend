@@ -55,7 +55,7 @@ export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedS
         <div className="song-list-header">
           <div className="col col-idx">#</div>
           <div className="col col-title">Title</div>
-          <div className="col col-artist">Artist</div>
+          {/* <div className="col col-artist">Artist</div> */}
           <div className="col col-album">Album</div>
           <div className="col col-date">Date Added</div>
           {/* {isLikedSongs && <div className="col col-date">Date Added</div>} */}

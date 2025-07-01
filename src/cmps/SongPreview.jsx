@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { PlayBtn } from './PlayBtn'
 import { LikeIcon } from './svg/LikeIcon'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
@@ -6,45 +7,31 @@ import { loadStation, updateStation } from '../store/station/station.actions'
 import { stationService } from '../services/station'
 import { cleanTitle } from '../services/util.service'
 import { LikeToggleBtn } from './LikeToggleBtn'
+import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
 
 // Added DND props to the signature
 export function SongPreview({
   song,
   idx,
   station,
-  togglePlay,
   draggableProps,
   dragHandleProps,
   innerRef,
-  isLikedSongs
+  isLikedSongs,
+  selectedSongId,
+  setSelectedSongId,
+  justLikedSongId,
+  setJustLikedSongId,
 }) {
   const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
-
   const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
   const user = useSelector((storeState) => storeState.userModule.user)
-  const likedStationId = user?.likedSongsStationId || ''
 
-  const addClassName = currSong?.id === song?.id ? 'active' : ''
-
-  // const likedStation = useSelector((storeState) =>
-  //   storeState.stationModule.stations.find((station) => station._id === likedStationId)
-  // )
-  // const isLiked = likedStation?.songs?.some((s) => s.id === song.id)
-
-  // TODOs:
-  // [] add AddLiked btn
-
-  // [] add Album of the track:
-  //  put in song data album and put the data at the Album section (song.album)
-
-  // [] If there is no room for the txt inside the td put ... instead
-
-  // const duration = window.playerRef?.current?.getDuration?.() ?? null
-
+  const isActiveCN = currSong?.id === song?.id ? 'active' : ''
   const isCurrSong = song?.id === currSong?.id
   const isPlay = isPlaying && isCurrSong ? 'song-preview-pause-icon' : 'song-preview-play-icon'
 
-
+  // const duration = window.playerRef?.current?.getDuration?.() ?? null
 
   function formatDuration(dur) {
     if (!dur) return '00:00'
@@ -59,55 +46,73 @@ export function SongPreview({
 
   function setAddedDate() {
     const date = new Date(song.addedAt).toLocaleDateString()
-    if (!date) {
-      return getRandomFormattedDate()
+    return date || getRandomFormattedDate()
+  }
+
+  function onSetSong(song, forceSeek = false) {
+    dispatch({ type: SET_SONG, song })
+    dispatch({ type: SET_IS_PLAYING, isPlaying: true })
+
+    if (forceSeek && window.playerRef?.current) {
+        window.playerRef.current.seekTo(0)
     }
-    return date
   }
 
   return (
-    <tr
-      className={`song-row ${addClassName}`}
-      // onDoubleClick={() => togglePlay(song)}
-      onDoubleClick={togglePlay}
-      ref={innerRef} // DND: attach ref
-      {...draggableProps} // DND: attach drag props
-      {...dragHandleProps} // DND: attach drag handle props
+    <div
+      className={`song-row
+        ${selectedSongId === song.id ? 'active' : ''}
+        ${justLikedSongId === song.id ? 'just-liked' : ''}
+        ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
+      `}
+      onClick={() => setSelectedSongId(song?.id)}
+      onDoubleClick={() => onSetSong(song, true)}
+      ref={innerRef}
+      {...draggableProps}
+      {...dragHandleProps}
     >
-      <td className="song-play-idx">
-        <span className="song-idx">{idx + 1}</span>
-        <PlayBtn onToggle={togglePlay} className={isPlay} />
-      </td>
-      <td>
-        <div className="song-img-title">
-          <img src={song.imgUrl} alt="img" style={{ width: 40 + 'px', height: 40 + 'px' }} />
-          <p>{cleanTitle(song.title)}</p>
+      <div className="col col-idx">
+        <div className="idx-and-play-container">
+          <span className="song-idx" id="song-idx">{idx + 1}</span>
+          <SidebarPlayBtn song={song} isLargePlayIcon={true} />
         </div>
-      </td>
-      <td>{cleanTitle(station.name)}</td>
-      {/* <td>{cleanTitle(song.album)}</td> */}
+      </div>
+      
+      <div className="col col-title">
+        <p>{cleanTitle(song.title, 100)}</p>
+      </div>
+      
+      <div className="col col-artist">
+        <p>{cleanTitle(song.artist, 100)}</p>
+      </div>
+      
+      <div className="col col-album">
+        {cleanTitle(station.name, 100)}
+      </div>
+      
+      <div className="col col-date">
+        Oct 12, 2017
+      </div>
 
-      {isLikedSongs && <td>{setAddedDate()}</td>}
-
-      <td>
-        {/* add-to-liked */}
-
-        <LikeToggleBtn song={song} />
-
-        {/* <button
-          className={`add-to-liked ${isLiked ? 'liked' : ''}`}
-          title="Add to Liked Songs"
-          onClick={() => {
-            onAddSongToLiked(song)
+      <div className="col col-actions">
+        <LikeToggleBtn
+          song={song}
+          onLike={() => {
+            setJustLikedSongId(song.id)
+            setSelectedSongId(null)
           }}
-        >
-          <AddIcon />
-        </button> */}
+          onUnlike={() => {
+            setSelectedSongId(song.id)
+            setJustLikedSongId(null)
+          }}
+        />
+        <div className="song-duration-wrapper">
+          <span className="song-duration">{formatDuration(song.duration)}</span>
+        </div>
+        <div className="menu-placeholder" style={{ width: '16px' }}></div>
+      </div>
 
-
-        <span className="song-duration">{formatDuration(song.duration)} </span>
-        {/* <button className="more-options">...</button> */}
-      </td>
-    </tr>
+      {/* {isLikedSongs && <div className="col col-date">{setAddedDate()}</div>} */}
+    </div>
   )
 }

@@ -619,6 +619,7 @@
     .media-player-container {
       display: flex;
       align-items: center;
+      justify-content: start;
       // gap: 16px;
 
       button {
@@ -670,189 +671,85 @@
       // }
     }
   }
+}
 
-  .song-list-container {
-    // padding-inline: var(--content-spacing);
-    // padding-inline: 16px;
+.song-list-container {
+    padding-inline: var(--content-spacing);
+  
+  .song-list-header {
+    display: grid;
+    grid-template-columns:
+      [index] var(--tracklist-index-column-width, 16px)      /* Index/number column */
+      [first] minmax(120px, var(--col1, 6fr))                /* Title column */
+      [var1] minmax(120px, var(--col2, 4fr))                 /* Artist column */
+      [var2] minmax(120px, var(--col3, 3fr))                 /* Album column */
+      [var3] minmax(120px, var(--col4, 2fr))                 /* Date added column */
+      [last]  minmax(120px, var(--col5, 1fr));               /* Duration/actions column */
+
+    grid-gap: 16px;
+    align-items: center;
+    padding: 0px 16px;
+    color: #b3b3b3;
   }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    // border-collapse: separate;
+  .song-list-header {
+    height: 36px;
 
-    thead {
-      // padding-inline: 16px;
-    }
+    font-size: var(--encore-text-size-smaller);
+    background: transparent;
+    margin-block-end: 16px;
+    border-bottom: 1px solid #282828;
 
-    .t-header {
-      // padding-inline: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 
-      th {
-        height: 35.2px;
-        text-align: left;
+    // TODO - add hover and sticky
+
+    // when sticky:
+    //{
+    // background: #1f1f1f;
+    // border-bottom: 1px solid hsla(0, 0%, 100%, .1);
+    // -webkit-box-shadow: 0 -1px 0 0 #181818;
+    // box-shadow: 0 -1px 0 0 #181818;
+    //}
+
+    // vertical-align: baseline;
+
+    &:hover {
+      .col-title,
+      .col-album,
+      .col-date {
+        border-right: 1px solid rgb(179, 179, 179, 0.5);
       }
-
-      // th:first-child {
-      //   // padding-inline: 16px 0;
-      //   // padding-inline: 16px;
-      // }
+    }
+    
+    &.is-sticky {
+      background: #1f1f1f;
+      border-bottom: 1px solid hsla(0, 0%, 100%, 0.1);
+      -webkit-box-shadow: 0 -1px 0 0 #181818;
+      box-shadow: 0 -1px 0 0 #181818;
     }
 
-    th,
-    td {
-      color: #b3b3b3;
-
-      padding-right: 16px;
-      font-size: 14px;
+    .col-idx {
+      text-align: right;
+      font-size: 1rem;
     }
 
-    td {
-      height: 54.4px;
-    }
-
-    th {
-      font-size: 14px;
-      letter-spacing: 1px;
-      border-bottom: 1px solid #282828;
-    }
-
-    th:first-child,
-    td:first-child {
-      // padding-left: 16px;
-
-      padding-inline: 16px;
-      text-align: center;
-    }
-
-    td:nth-child(2) {
-      font-size: 16px;
-      color: #ffffff;
-    }
-
-    th:last-child,
-    td:last-child {
-      // padding-right: 16px;
-
+    .col-actions {
+      // text-align: right;
       display: flex;
-      align-items: center;
       justify-content: end;
-    }
 
-    .song-row {
-      transition: background-color 0.2s ease;
-
-      &:hover {
-        background-color: #2a2a2a;
-
-        .song-play-idx {
-          .song-idx {
-            opacity: 0;
-            pointer-events: none;
-          }
-
-          .song-preview-play-icon,
-          .song-preview-pause-icon {
-            opacity: 1;
-            pointer-events: auto;
-          }
-        }
-
-        .add-to-liked,
-        .more-options {
-          opacity: 1;
-          // pointer-events: auto;
-          // background-color: #2a2a2a;
-          // color: white;
-        }
-
-        td:nth-child(3) {
-          color: #ffffff;
-        }
-      }
-
-      &.active {
-        background-color: #ffffff4d;
-
-        // TODO
-        // [] add animation when the song is playing
-        // [] put some of the code here in a SongPreview.scss
-
-        // img {
-        //   // change this to green
-        //   transform: scale(1.04);
-        //   filter: sepia(1) hue-rotate(85deg) saturate(5);
-        // }
-
-        .song-play-idx {
-          .song-idx {
-            opacity: 0;
-            pointer-events: none;
-          }
-
-          .song-preview-play-icon,
-          .song-preview-pause-icon {
-            opacity: 1;
-            pointer-events: auto;
-          }
-        }
-      }
-
-      .song-play-idx {
-        position: relative;
-        width: 24px;
-        height: 24px;
-
-        color: #b3b3b3;
-
-        .song-idx {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          @include flex;
-          // display: flex;
-          // align-items: center;
-          // justify-content: center;
-          transition: opacity 0.2s ease;
-        }
-
-        .song-idx {
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        .song-preview-play-icon,
-        .song-preview-pause-icon {
-          opacity: 0;
-          pointer-events: none;
-        }
-      }
-
-      .song-img-title {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-
-        img {
-          width: 40px;
-          height: 40px;
-          border-radius: 4px;
-          object-fit: cover;
-        }
-
-        p {
-          margin: 0;
-        }
-      }
-
-      .add-to-liked,
-      .more-options {
-        opacity: 0;
-        // pointer-events: none;
-        // transition: opacity 0.2s ease;
+      svg {
+        margin-right: 32px;
       }
     }
+  }
+
+  .col {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

@@ -1,5 +1,5 @@
 import { httpService } from '../http.service'
-import { loadFromStorage, makeId, saveToStorage, cleanTitle, getRandomIntInclusive } from '../util.service'
+import { loadFromStorage, makeId, saveToStorage, cleanTitle } from '../util.service'
 
 import axios from 'axios'
 import { parse, toSeconds } from 'iso8601-duration'
@@ -105,7 +105,7 @@ async function sideBarSearch(query) {
         part: 'snippet',
         q: query,
         type: 'video',
-        maxResults: getRandomIntInclusive(7,15),
+        maxResults: 10,
         key: YT_API_KEY,
       },
     })
@@ -170,7 +170,7 @@ async function headerSearch(query, numResults = 5) {
             part: 'snippet',
             q: artist,
             type: 'video',
-            maxResults: getRandomIntInclusive(7,15),
+            maxResults: 10,
             key: YT_API_KEY,
           },
         })
@@ -261,7 +261,7 @@ async function genreSonglistSearch(genre, numResults = 5) {
           params: {
             part: 'snippet',
             playlistId: songlistId,
-            maxResults: getRandomIntInclusive(7,15),
+            maxResults: 10,
             key: YT_API_KEY,
           },
         })

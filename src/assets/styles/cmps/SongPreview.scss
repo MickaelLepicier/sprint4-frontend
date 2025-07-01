@@ -10,7 +10,11 @@
   // grid-gap: 16px;
   // align-items: center;
   // padding: 0 16px;
-  height: 32px;
+
+  // --row-height: 32px;;
+  --row-height: 56px;
+  
+  height: var(--row-height);
   border: 1px solid transparent;
   // width: 100%;
   border-radius: 4px;
@@ -25,9 +29,20 @@
   //   }
   // }
 
-  &.playing 
-    .col.col-title p {
-      color: #1ed760;
+  &.playing {
+    div.col .idx-and-play-container {
+      .col.col-title span { color: #1ed760 !important; }
+    
+      span.song-idx { display: none;}
+
+      img.equalizer-gif { display: block; }
+    }
+
+    &:hover {
+      div.col .idx-and-play-container {
+        img.equalizer-gif { display: none; }
+      }
+    }
   }
 
   &:is(.active, .active:hover) {
@@ -89,12 +104,16 @@
       font-size: var(--encore-text-size-base);
     }
 
+    &:is(.col-idx, .col-title, .col-artist, .col-album) {
+        @include standalone-ellipsis-one-line;
+    }
+
     &.col-idx {
       all: unset;
       display: flex;
       align-items: center;
       justify-self: end;
-      height: 32px;
+      height: --row-height;
 
       .idx-and-play-container {
         all: unset;
@@ -116,6 +135,13 @@
           top: -4px;
         }
 
+        img {
+          position: absolute;
+          display: none;
+          width: 14px;
+          height: 14px;
+        }
+
         button {
           position: absolute;
           @include flex;
@@ -133,12 +159,46 @@
       }
     }
 
-    &.col-artist, &.col-title {
-      display: flex;
-      align-items: center;
-      p {
-        margin: 0;
+    &.col-details {
+      container-name: tracklist-row-start;
+      container-type: inline-size;
+      
+      img {
+        margin-inline-end: 12px;
+        border-radius: 4px;
+        background-color: #282828;
+        flex-shrink: 0;
+        object-fit: cover;
+        object-position: center center;
+        height: 40px;
+        width: 40px;
       }
+
+      .song-info {
+        column-gap: 4px;
+        display: grid;
+        grid-template:
+          "title title"
+          "badges subtitle" / auto 1fr;
+        align-items: center;
+        padding-inline-end: 8px;
+
+        .col-title {
+          grid-area: title;
+          justify-self: start;
+        }
+        .col-artist {
+          grid-area: subtitle;
+          grid-column-start: badges;
+        }
+      }
+
+    }
+
+    &.col-artist:not(:has(span)), 
+    &.col-title:not(:has(span)) {
+        display: flex;
+        align-items: center;
     }
 
     &.col-title {

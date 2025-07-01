@@ -8,6 +8,7 @@ import { stationService } from '../services/station'
 import { cleanTitle } from '../services/util.service'
 import { LikeToggleBtn } from './LikeToggleBtn'
 import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
+import equalizerGif from '/src/assets/img/equalizer.gif'
 
 // Added DND props to the signature
 export function SongPreview({
@@ -58,6 +59,13 @@ export function SongPreview({
     }
   }
 
+  function formatDate(date) {
+      if (!date) return ''
+      let ts = typeof date === 'object' ? date.$numberLong : date
+      if (!ts) return ''
+      return new Date(Number(ts)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+  }
+
   return (
     <div
       className={`song-row
@@ -75,23 +83,36 @@ export function SongPreview({
         <div className="idx-and-play-container">
           <span className="song-idx" id="song-idx">{idx + 1}</span>
           <SidebarPlayBtn song={song} isLargePlayIcon={true} />
+          <img className="equalizer-gif" src={equalizerGif} />
         </div>
       </div>
       
-      <div className="col col-title">
-        <p>{cleanTitle(song.title, 100)}</p>
+      <div className="col col-details flex align-center">
+        <img src={song.imgUrl} />
+        <div className="song-info">
+          <div className="col col-title">
+            <span>{cleanTitle(song.title, 100)}</span>
+          </div>
+          <div className="col col-artist">
+            <span>{cleanTitle(song.artist, 100)}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="col col-title">
+        <span>{cleanTitle(song.title, 100)}</span>
       </div>
       
       <div className="col col-artist">
-        <p>{cleanTitle(song.artist, 100)}</p>
-      </div>
+        <span>{cleanTitle(song.artist, 100)}</span>
+      </div> */}
       
       <div className="col col-album">
-        {cleanTitle(station.name, 100)}
+        <span>{cleanTitle(station.name, 100)}</span>
       </div>
       
       <div className="col col-date">
-        Oct 12, 2017
+        <span>{formatDate(song.addedAt)}</span>
       </div>
 
       <div className="col col-actions">

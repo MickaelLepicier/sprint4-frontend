@@ -13,7 +13,7 @@ import { getApproximateSpotifyColor } from '../services/util.service'
 import { StationCarousel } from '../cmps/StationCarousel'
 import { StationShelf } from '../cmps/StationShelf'
 
- import equalizerGif from '/src/assets/img/equalizer.gif'
+import equalizerGif from '/src/assets/img/equalizer.gif'
 
 export function HomePage() {
   const [apiStations, setApiStations] = useState([])

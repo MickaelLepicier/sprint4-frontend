@@ -23,6 +23,7 @@ export function GenreSearchResult() {
   const [showMoreGenre, setShowMoreGenre] = useState(false)
   const [showMoreSongs, setShowMoreSongs] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const user = useSelector(storeState => storeState.userModule.user)
 
   const songListRef = useRef()
 
@@ -36,7 +37,7 @@ export function GenreSearchResult() {
     setIsLoading(true)
   }, [genre])
 
-    useEffect(() => {
+  useEffect(() => {
     if (stations?.length) {
       setIsLoading(false)
     }
@@ -45,8 +46,14 @@ export function GenreSearchResult() {
   // if (!stations?.length) return <section>Loading...</section>
 
   async function onGoToStation(station) {
-    const savedStation = await addStation(station)
-    navigate(`/playlist/${savedStation._id}`)
+    if (!user) {
+      dispatch({ type: SET_STATION, station })
+      navigate(`/playlist/${station._id}`)
+    } else {
+      const savedStation = await addStation(station)
+      dispatch({ type: SET_STATION, savedStation })
+      navigate(`/playlist/${savedStation._id}`)
+    }
   }
 
   const visibleSongs = stations

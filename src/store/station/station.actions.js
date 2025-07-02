@@ -82,7 +82,7 @@ export async function createStationForUser() {
   const stations = store.getState().stationModule.stations
   const stationOrder = state.stationModule.stationOrder
   const userStations = stations.filter(station => station.createdBy?._id === user._id)
-  const nextNum = userStations.length + 1
+  const nextNum = stationService.getNextAvailablePlaylistNumber(userStations, user._id)
   const newStation = stationService.buildNewStationForUser(user, nextNum)
 
   const savedStation = await stationService.save(newStation)

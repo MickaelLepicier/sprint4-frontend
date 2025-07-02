@@ -9,6 +9,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 import { debounce, cleanTitle, calcStationDuration } from '../services/util.service'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { useHeadingFontSize } from '../hooks/useHeadingFontSize'
+import equalizerGif from '/src/assets/img/equalizer.gif'
 
 import {
   loadStation,
@@ -17,7 +18,7 @@ import {
   setIsPlaying,
   addStation,
   removeStation,
-  setStationOrder
+  setStationOrder,
 } from '../store/station/station.actions'
 import { updateUser } from '../store/user/user.actions'
 import { loadSearchResults } from '../store/search/search.actions'
@@ -45,13 +46,13 @@ export function PlaylistDetails() {
   const { stationId } = useParams()
 
   // Redux selectors
-  const user = useSelector((storeState) => storeState.userModule.user)
-  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
-  const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
+  const user = useSelector(storeState => storeState.userModule.user)
+  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
+  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
 
-  const stations = useSelector((storeState) => storeState.stationModule.stations)
-  const station = useSelector((storeState) => storeState.stationModule.station)
-  const currentStation = useSelector((storeState) => storeState.stationModule.currentStation)
+  const stations = useSelector(storeState => storeState.stationModule.stations)
+  const station = useSelector(storeState => storeState.stationModule.station)
+  const currentStation = useSelector(storeState => storeState.stationModule.currentStation)
   const stationOrder = useSelector(state => state.stationModule.stationOrder)
 
   // Local state
@@ -65,7 +66,7 @@ export function PlaylistDetails() {
   const headingRef = useRef()
 
   const debouncedSearch = useRef(
-    debounce(async (txt) => {
+    debounce(async txt => {
       try {
         await performSearch(txt)
       } catch (error) {
@@ -79,10 +80,7 @@ export function PlaylistDetails() {
   const isOwnedByUser = isLikedStation || station?.createdBy?._id === user?._id
   const isPlay = isPlaying ? 'songlist-pause-icon' : 'songlist-play-icon'
   const headerFontSize = useHeadingFontSize(headingRef, [station?.name])
-  const isLikedPlaylist = useSelector(state =>
-    state.userModule.user?.likedStationIds?.includes(station?._id)
-  )
-
+  const isLikedPlaylist = useSelector(state => state.userModule.user?.likedStationIds?.includes(station?._id))
 
   // Memoized values
   const stationDuration = useMemo(() => {
@@ -174,29 +172,29 @@ export function PlaylistDetails() {
   // Event Handlers - User actions (mutations)
   async function onAddToLibrary(station) {
     try {
-        // Check if this station is already in likedStationIds
-        const alreadyLiked = user.likedStationIds.includes(station._id)
+      // Check if this station is already in likedStationIds
+      const alreadyLiked = user.likedStationIds.includes(station._id)
 
-        let updatedStationIds, newOrder
+      let updatedStationIds, newOrder
 
-        if (alreadyLiked) {
-            // Remove from liked stations
-            updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
-            newOrder = stationOrder.filter(id => id !== station._id)
-            showSuccessMsg('Removed from Your Library')
-        } else {
-            // Add the existing station._id, do NOT create a duplicate
-            updatedStationIds = [...user.likedStationIds, station._id]
-            newOrder = [...stationOrder, station._id]
-            showSuccessMsg('Added to Your Library')
-        }
+      if (alreadyLiked) {
+        // Remove from liked stations
+        updatedStationIds = user.likedStationIds.filter(id => id !== station._id)
+        newOrder = stationOrder.filter(id => id !== station._id)
+        showSuccessMsg('Removed from Your Library')
+      } else {
+        // Add the existing station._id, do NOT create a duplicate
+        updatedStationIds = [...user.likedStationIds, station._id]
+        newOrder = [...stationOrder, station._id]
+        showSuccessMsg('Added to Your Library')
+      }
 
-        setStationOrder(newOrder)
-        const updatedUser = { ...user, likedStationIds: updatedStationIds }
-        await updateUser(updatedUser)
+      setStationOrder(newOrder)
+      const updatedUser = { ...user, likedStationIds: updatedStationIds }
+      await updateUser(updatedUser)
     } catch (error) {
-        showErrorMsg(`Couldn't add to library`)
-        console.log('error:', error)
+      showErrorMsg(`Couldn't add to library`)
+      console.log('error:', error)
     }
   }
 
@@ -223,7 +221,7 @@ export function PlaylistDetails() {
   //       newOrder = [...stationOrder, addedStation._id]
   //       showSuccessMsg('Added to Your Library')
   //     }
-      
+
   //     setStationOrder(newOrder)
   //     const updatedUser = { ...user, likedStationIds: updatedStationIds }
   //     await updateUser(updatedUser)
@@ -276,15 +274,25 @@ export function PlaylistDetails() {
   // }
 
   function getStationImg() {
-    return station?.imgUrl ? station?.imgUrl : `https://res.cloudinary.com/dpoa9lual/image/upload/v1724570942/Spotify_playlist_photo_yjeurq.png`
+    return station?.imgUrl
+      ? station?.imgUrl
+      : `https://res.cloudinary.com/dpoa9lual/image/upload/v1724570942/Spotify_playlist_photo_yjeurq.png`
   }
 
-  if (!station) return <div>Loading songs list...</div>
+  // if (!station) return <div>Loading songs list...</div>
+
+  if (!station) {
+    return (
+      <div className="loader-overlay">
+        <img className="loader-gif" src={equalizerGif} alt="Loading..." />
+      </div>
+    )
+  }
 
   return (
     <section className="station-songlist">
       <DominantColorExtractor imgUrl={getStationImg()} onSetColor={setDominantColor} />
-      
+
       <div
         className="station-header-container"
         style={{
@@ -292,7 +300,7 @@ export function PlaylistDetails() {
           backgroundImage: `linear-gradient(transparent 0%, rgba(0, 0, 0, 0.5) 100%)`,
           backgroundRepeat: 'repeat',
           backgroundSize: 'auto',
-          boxShadow: `0 1px 232px 0 ${dominantColor}`
+          boxShadow: `0 1px 232px 0 ${dominantColor}`,
         }}
       >
         <header className="station-header">
@@ -352,19 +360,23 @@ export function PlaylistDetails() {
           {/* DIALOOOOOOOOOGGGGGGGGG */}
         </header>
       </div>
-    
+
       {station?.songs?.length > 0 && (
         <div className="songlist-play-actions">
           <div className="media-player-container">
             <PlayBtn onToggle={handleSongPlay} isPlaying={isPlaying} className={isPlay} />
-          
+
             {!isLikedStation && (
               <button
                 className="add-remove-playlist"
-                title={isLikedPlaylist ? "Remove from Your Library" : "Save to Your Library"}
+                title={isLikedPlaylist ? 'Remove from Your Library' : 'Save to Your Library'}
                 onClick={() => onAddToLibrary(station)}
               >
-                {isLikedPlaylist ? <RemoveFromLikedLargeIcon color={'var(--text-bright-accent)'}/> : <LikeLargeIcon color={'#b3b3b3'}/>}
+                {isLikedPlaylist ? (
+                  <RemoveFromLikedLargeIcon color={'var(--text-bright-accent)'} />
+                ) : (
+                  <LikeLargeIcon color={'#b3b3b3'} />
+                )}
               </button>
             )}
           </div>
@@ -384,14 +396,11 @@ export function PlaylistDetails() {
           />
         )}
 
-        {!showSearchBar &&
-          <button 
-            className="open-find-more-btn"
-            onClick={() => setShowSearchBar(!showSearchBar)}
-          >
-              Find more
+        {!showSearchBar && (
+          <button className="open-find-more-btn" onClick={() => setShowSearchBar(!showSearchBar)}>
+            Find more
           </button>
-        }
+        )}
 
         {showSearchBar && (
           <section className="song-search-section">
@@ -409,10 +418,8 @@ export function PlaylistDetails() {
                     autocomplete="off"
                   />
                   <SearchIcon />
-                  
-                  {searchSongTxt.length > 0 && (
-                    <ClearIcon onClick={() => setSearchSongTxt('')} />
-                  )}
+
+                  {searchSongTxt.length > 0 && <ClearIcon onClick={() => setSearchSongTxt('')} />}
                 </form>
               </div>
 
@@ -420,7 +427,7 @@ export function PlaylistDetails() {
                 <ClearIconLarge />
               </button>
             </section>
-              
+
             {searchSongTxt.length > 0 && <SongSearchResult />}
           </section>
         )}

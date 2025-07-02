@@ -117,7 +117,9 @@ export const StationEditModal = forwardRef((props, ref) => {
         
         if (modalRef.current) {
             modalRef.current.showModal()
-            modalInputRef.current?.select()
+            setTimeout(() => {
+                modalInputRef.current?.select()
+            }, 0)
         }
     }
 

@@ -51,11 +51,11 @@ export function SidebarPreview({
   function getSubtitle() {
     const playlistPrefix = 'Playlist •'
 
-    if (createdById === userId) {
-      return `${playlistPrefix} ${userFirstName}`
-    } else {
-      return `${playlistPrefix} ${songCount} ${songCount === 1 ? 'song' : 'songs'}`
+    if (isLikedSongs || createdById !== userId) {
+        return `${playlistPrefix} ${songCount} ${songCount === 1 ? 'song' : 'songs'}`
     }
+
+    return `${playlistPrefix} ${userFirstName}`
   }
 
   function getImgContent() {

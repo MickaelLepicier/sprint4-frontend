@@ -17,6 +17,7 @@ export function ArtistSearchResult() {
   const [justLikedSongId, setJustLikedSongId] = useState(null)
   const listRef = useRef()
   const [isLoading, setIsLoading] = useState(true)
+  const user = useSelector(storeState => storeState.userModule.user)
 
   useEffect(() => {
     // Show loader initially or when artistStations change
@@ -43,8 +44,14 @@ export function ArtistSearchResult() {
   }
 
   async function onGoToStation(station) {
-    const savedStation = await addStation(station)
-    navigate(`/playlist/${savedStation._id}`)
+    if (!user) {
+      dispatch({ type: SET_STATION, station })
+      navigate(`/playlist/${station._id}`)
+    } else {
+      const savedStation = await addStation(station)
+      dispatch({ type: SET_STATION, savedStation })
+      navigate(`/playlist/${savedStation._id}`)
+    }
   }
 
   useEffect(() => {

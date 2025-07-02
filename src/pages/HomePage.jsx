@@ -8,10 +8,12 @@ import { SET_STATION } from '../store/station/station.reducer'
 import { WideStationPreview } from '../cmps/WideStationPreview'
 import { addStation, loadStations } from '../store/station/station.actions'
 import { FastAverageColor } from 'fast-average-color'
-// import { enhanceColor } from '../services/util.service' 
-import { getApproximateSpotifyColor } from '../services/util.service' 
+// import { enhanceColor } from '../services/util.service'
+import { getApproximateSpotifyColor } from '../services/util.service'
 import { StationCarousel } from '../cmps/StationCarousel'
 import { StationShelf } from '../cmps/StationShelf'
+
+ import equalizerGif from '/src/assets/img/equalizer.gif'
 
 export function HomePage() {
   const [apiStations, setApiStations] = useState([])
@@ -127,6 +129,14 @@ export function HomePage() {
   const topMixes = remainingStations.slice(0, mid)
   const recommended = remainingStations.slice(mid)
 
+  if (!apiStations.length) {
+    return (
+      <div className="loader-overlay">
+        <img className="loader-gif" src={equalizerGif} alt="Loading..." />
+      </div>
+    )
+  }
+
   return (
     <section className="home-page">
       <div className="home-gradient" style={gradientStyle}></div>
@@ -169,10 +179,26 @@ export function HomePage() {
           {/* Genres */}
           <StationShelf title={`Rock 'n fuckin' Roll`} stations={genreStations('Rock')} goToStation={onGoToStation} />
           <StationShelf title="Pop Pop Skibidi" stations={genreStations('Pop')} goToStation={onGoToStation} />
-          <StationShelf title="Hip Hop aka Wanna be White music" stations={genreStations('Hip Hop')} goToStation={onGoToStation} />
-          <StationShelf title="Latin - WtF nobdy listn dis" stations={genreStations('Latin')} goToStation={onGoToStation} />
-          <StationShelf title="Electroniczzzzzzzzzz" stations={genreStations('Electronic')} goToStation={onGoToStation} />
-          <StationShelf title="Alternative yawnayawn" stations={genreStations('Alternative')} goToStation={onGoToStation} />
+          <StationShelf
+            title="Hip Hop aka Wanna be White music"
+            stations={genreStations('Hip Hop')}
+            goToStation={onGoToStation}
+          />
+          <StationShelf
+            title="Latin - WtF nobdy listn dis"
+            stations={genreStations('Latin')}
+            goToStation={onGoToStation}
+          />
+          <StationShelf
+            title="Electroniczzzzzzzzzz"
+            stations={genreStations('Electronic')}
+            goToStation={onGoToStation}
+          />
+          <StationShelf
+            title="Alternative yawnayawn"
+            stations={genreStations('Alternative')}
+            goToStation={onGoToStation}
+          />
         </div>
       </div>
     </section>

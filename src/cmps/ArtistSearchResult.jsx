@@ -6,6 +6,7 @@ import { addStation, setSong } from '../store/station/station.actions'
 import { cleanTitle } from '../services/util.service'
 import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
 import { LikeToggleBtn } from './LikeToggleBtn'
+import equalizerGif from '/src/assets/img/equalizer.gif'
 
 export function ArtistSearchResult() {
   const artistStations = useSelector(storeState => storeState.searchModule.searchResults)
@@ -15,10 +16,23 @@ export function ArtistSearchResult() {
   const [selectedSongId, setSelectedSongId] = useState(null)
   const [justLikedSongId, setJustLikedSongId] = useState(null)
   const listRef = useRef()
-  
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Show loader initially or when artistStations change
+    setIsLoading(true)
+  }, [artistStations])
+
+  useEffect(() => {
+    // Hide loader once data is ready
+    if (artistStations?.length) {
+      setIsLoading(false)
+    }
+  }, [artistStations])
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  if (!artistStations?.length) return <div>Loading...</div>
+  // if (!artistStations?.length) return <div>Loading...</div>
 
   function formatTime(sec) {
     const minutes = Math.floor(sec / 60)
@@ -49,8 +63,16 @@ export function ArtistSearchResult() {
     dispatch({ type: SET_IS_PLAYING, isPlaying: true })
 
     if (forceSeek && window.playerRef?.current) {
-        window.playerRef.current.seekTo(0)
+      window.playerRef.current.seekTo(0)
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="loader-overlay">
+        <img className="loader-gif" src={equalizerGif} alt="Loading..." />
+      </div>
+    )
   }
 
   const topArtist = artistStations[0]
@@ -61,19 +83,20 @@ export function ArtistSearchResult() {
       <div className="content-spacing">
         <div className="grid-container">
           <div className="grid-inner">
-
             <div className="top-result">
               <div className="title-wrapper row-title">
                 <h1>Top Result</h1>
               </div>
-              <div className={`artist-preview${isPlaying && currSong?.id === topArtist.songs[0]?.id ? ' playing' : ''}`}>
+              <div
+                className={`artist-preview${isPlaying && currSong?.id === topArtist.songs[0]?.id ? ' playing' : ''}`}
+              >
                 <div className="img-container">
                   <img src={topArtist.imgUrl} alt={topArtist.name} />
                 </div>
                 <div className="artist-info">
                   <span className="artist-title">{topArtist.name}</span>
                   <div className="artist-meta">
-                    <span className="prefix">Song </span> 
+                    <span className="prefix">Song </span>
                     <span className="artist-name">{topArtist.createdBy.fullname}</span>
                   </div>
                 </div>
@@ -83,58 +106,58 @@ export function ArtistSearchResult() {
                 </div>
               </div>
             </div>
-                        
+
             <div className="songs-results">
               <div className="title-wrapper">
                 <h2 className="row-title">Songs</h2>
               </div>
 
-                <div className="ul-wrapper">
-                  <ul ref={listRef}>
-                    {topSongs.map(song => (
-                      <li
-                        key={song.id}
-                        className={`
+              <div className="ul-wrapper">
+                <ul ref={listRef}>
+                  {topSongs.map(song => (
+                    <li
+                      key={song.id}
+                      className={`
                           ${selectedSongId === song.id ? 'active' : ''}
                           ${justLikedSongId === song.id ? 'just-liked' : ''}
                           ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
                         `}
-                        onClick={() => setSelectedSongId(song?.id)}
-                        onDoubleClick={() => onSetSong(song, true)}
-                      >
-                        <div className="main-details flex">
-                          <div className="img-container">
-                            <img src={song.imgUrl} />
-                            <SidebarPlayBtn song={song} isLargePlayIcon={true} />
-                          </div>
-
-                          <div className="song-details">
-                            <span className="title">{cleanTitle(song.title)}</span>
-                            <span className="artist">{topArtist.createdBy.fullname}</span>
-                          </div>
+                      onClick={() => setSelectedSongId(song?.id)}
+                      onDoubleClick={() => onSetSong(song, true)}
+                    >
+                      <div className="main-details flex">
+                        <div className="img-container">
+                          <img src={song.imgUrl} />
+                          <SidebarPlayBtn song={song} isLargePlayIcon={true} />
                         </div>
 
-                        <div className="song-meta-actions">
-                          <div className="btn-container" onClick={e => e.stopPropagation()}>
-                            <LikeToggleBtn
-                              song={song}
-                              onLike={() => {
-                                setJustLikedSongId(song.id)
-                                setSelectedSongId(null)
-                              }}
-                              onUnlike={() => {
-                                setSelectedSongId(song.id)
-                                setJustLikedSongId(null)
-                              }}
-                            />
-                          </div>
-
-                          <div className="duration">{formatTime(song.duration)}</div>
+                        <div className="song-details">
+                          <span className="title">{cleanTitle(song.title)}</span>
+                          <span className="artist">{topArtist.createdBy.fullname}</span>
                         </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                      </div>
+
+                      <div className="song-meta-actions">
+                        <div className="btn-container" onClick={e => e.stopPropagation()}>
+                          <LikeToggleBtn
+                            song={song}
+                            onLike={() => {
+                              setJustLikedSongId(song.id)
+                              setSelectedSongId(null)
+                            }}
+                            onUnlike={() => {
+                              setSelectedSongId(song.id)
+                              setJustLikedSongId(null)
+                            }}
+                          />
+                        </div>
+
+                        <div className="duration">{formatTime(song.duration)}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             <div className="artists-section">
@@ -165,7 +188,6 @@ export function ArtistSearchResult() {
                 ))}
               </section>
             </div>
-            
           </div>
         </div>
       </div>

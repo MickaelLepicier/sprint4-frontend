@@ -14,8 +14,44 @@ const headerCache = loadFromStorage(HEADER_SEARCH_KEY) || {}
 
 const GENRE_SEARCH_KEY = 'genreCacheDB'
 const genreCache = loadFromStorage(GENRE_SEARCH_KEY) || {}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// const YT_API_KEY = import.meta.env.VITE_YT_API_KEY
+const YT_API_KEYS = (import.meta.env.VITE_YT_API_KEYS || '')
+  .split(',')
+  .map(k => k.trim())
+  .filter(Boolean)
 
-const YT_API_KEY = import.meta.env.VITE_YT_API_KEY
+let apiKeyIdx = 0
+
+function getCurrentApiKey() {
+    return YT_API_KEYS[apiKeyIdx]
+}
+
+function advanceApiKey() {
+    apiKeyIdx = (apiKeyIdx + 1) % YT_API_KEYS.length
+    return getCurrentApiKey()
+}
+
+async function withApiKeyRetry(fn, maxTries = YT_API_KEYS.length) {
+  let tries = 0
+  let lastErr
+  while (tries < maxTries) {
+    try {
+      return await fn(getCurrentApiKey())
+    } catch (err) {
+      // Retry on 403 Forbidden (quota/dead key)
+      if (err.response && err.response.status === 403) {
+        advanceApiKey()
+        tries++
+        lastErr = err
+      } else {
+        throw err
+      }
+    }
+  }
+  throw lastErr
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 export const stationService = {
   query,
@@ -93,144 +129,138 @@ async function save(station) {
 }
 
 async function sideBarSearch(query) {
-  const searchWord = query.trim().toLowerCase()
+    const searchWord = query.trim().toLowerCase()
 
-  if (sideBarCache[searchWord]?.length) {
-    return Promise.resolve(sideBarCache[searchWord])
-  }
+    if (sideBarCache[searchWord]?.length) {
+        return Promise.resolve(sideBarCache[searchWord])
+    }
 
-  try {
-    const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-      params: {
-        part: 'snippet',
-        q: query,
-        type: 'video',
-        maxResults: 10,
-        key: YT_API_KEY,
-      },
+    return withApiKeyRetry(async (apiKey) => {
+        const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+                part: 'snippet',
+                q: query,
+                type: 'video',
+                maxResults: 10,
+                key: apiKey, 
+            },
+        })
+
+        const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
+        if (!videoIds) return []
+
+        const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+            params: {
+                part: 'snippet,contentDetails,statistics',
+                id: videoIds,
+                key: apiKey,
+            },
+        })
+
+        const finalResults = detailsRes.data.items.map(item => ({
+            id: item.id,
+            url: item.id,
+            title: item.snippet.title,
+            description: item.snippet.description,
+            artist: item.snippet.channelTitle,
+            addedAt: new Date(item.snippet.publishedAt).getTime(),
+            imgUrl: item.snippet.thumbnails.default.url,
+            duration: isoDurationToSeconds(item.contentDetails.duration),
+        }))
+        sideBarCache[searchWord] = finalResults
+        saveToStorage(SIDEBAR_CACHE_KEY, sideBarCache)
+        console.log('finalResults:', finalResults)
+        return finalResults
     })
-
-    const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
-    if (!videoIds) return []
-
-    const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
-      params: {
-        part: 'snippet,contentDetails,statistics',
-        id: videoIds,
-        key: YT_API_KEY,
-      },
-    })
-
-    const finalResults = detailsRes.data.items.map(item => ({
-      id: item.id,
-      url: item.id,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      artist: item.snippet.channelTitle,
-      addedAt: new Date(item.snippet.publishedAt).getTime(),
-      imgUrl: item.snippet.thumbnails.default.url,
-      duration: isoDurationToSeconds(item.contentDetails.duration),
-    }))
-    sideBarCache[searchWord] = finalResults
-    saveToStorage(SIDEBAR_CACHE_KEY, sideBarCache)
-    console.log('finalResults:', finalResults)
-    return finalResults
-  } catch (error) {
-    console.log('err:', error)
-    throw error
-  }
 }
 
 async function headerSearch(query, numResults = 5) {
-  const searchWord = query.trim().toLowerCase()
+    const searchWord = query.trim().toLowerCase()
 
-  if (headerCache[searchWord]?.length) {
-    return Promise.resolve(headerCache[searchWord])
-  }
+    if (headerCache[searchWord]?.length) {
+        return Promise.resolve(headerCache[searchWord])
+    }
 
-  try {
-    const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-      params: {
-        part: 'snippet',
-        q: query,
-        type: 'video',
-        maxResults: numResults,
-        key: YT_API_KEY,
-      },
-    })
-
-    const baseVideos = searchResults.data.items
-
-    const artistStations = await Promise.all(
-      baseVideos.map(async (video, idx) => {
-        const artist = video.snippet.channelTitle
-
-        const artistRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-          params: {
-            part: 'snippet',
-            q: artist,
-            type: 'video',
-            maxResults: 10,
-            key: YT_API_KEY,
-          },
+    return withApiKeyRetry(async (apiKey) => {
+        const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+                part: 'snippet',
+                q: query,
+                type: 'video',
+                maxResults: numResults,
+                key: apiKey, // swapped here
+            },
         })
 
-        const songs = artistRes.data.items
-          .filter(item => item.id?.videoId)
-          .map((item, i) => ({
-            id: item.id.videoId,
-            videoId: item.id.videoId,
-            title: item.snippet.title,
-            imgUrl: item.snippet.thumbnails?.medium?.url || '',
-            addedBy: `u10${i}`,
-            likedBy: [`u20${i}`],
-            addedAt: Date.now() - (i + 1) * 1000000,
-          }))
+        const baseVideos = searchResults.data.items
 
-        const videoIds = songs.map(song => song.videoId).join(',')
-        if (videoIds) {
-          const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
-            params: {
-              part: 'contentDetails',
-              id: videoIds,
-              key: YT_API_KEY,
-            },
-          })
+        const artistStations = await Promise.all(
+            baseVideos.map(async (video, idx) => {
+                const artist = video.snippet.channelTitle
 
-          const durationsMap = {}
-          detailsRes.data.items.forEach(item => {
-            durationsMap[item.id] = isoDurationToSeconds(item.contentDetails.duration)
-          })
+                const artistRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+                    params: {
+                        part: 'snippet',
+                        q: artist,
+                        type: 'video',
+                        maxResults: 10,
+                        key: apiKey, // swapped here
+                    },
+                })
 
-          songs.forEach(song => {
-            song.duration = durationsMap[song.videoId] || 0
-          })
-        }
+                const songs = artistRes.data.items
+                    .filter(item => item.id?.videoId)
+                    .map((item, i) => ({
+                        id: item.id.videoId,
+                        videoId: item.id.videoId,
+                        title: item.snippet.title,
+                        imgUrl: item.snippet.thumbnails?.medium?.url || '',
+                        addedBy: `u10${i}`,
+                        likedBy: [`u20${i}`],
+                        addedAt: Date.now() - (i + 1) * 1000000,
+                    }))
 
-        const station = _createEmptyStation()
-        station._id = video.id?.videoId || `fallback-${idx}`
-        station.name = artist
-        station.imgUrl = video.snippet.thumbnails?.medium?.url || ''
-        station.tags = [query]
-        station.createdBy.fullname = artist
-        station.songs = songs
-        station.msgs = [
-          { id: `m${idx}1`, from: 'u201', txt: 'Great vibes!' },
-          { id: `m${idx}2`, from: 'u202', txt: 'Love it!' },
-        ]
+                const videoIds = songs.map(song => song.videoId).join(',')
+                if (videoIds) {
+                    const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+                        params: {
+                            part: 'contentDetails',
+                            id: videoIds,
+                            key: apiKey, // swapped here
+                        },
+                    })
 
-        return station
-      })
-    )
+                    const durationsMap = {}
+                    detailsRes.data.items.forEach(item => {
+                        durationsMap[item.id] = isoDurationToSeconds(item.contentDetails.duration)
+                    })
 
-    headerCache[searchWord] = artistStations
-    saveToStorage(HEADER_SEARCH_KEY, headerCache)
+                    songs.forEach(song => {
+                        song.duration = durationsMap[song.videoId] || 0
+                    })
+                }
 
-    return artistStations
-  } catch (error) {
-    console.log('err:', error)
-    throw error
-  }
+                const station = _createEmptyStation()
+                station._id = video.id?.videoId || `fallback-${idx}`
+                station.name = artist
+                station.imgUrl = video.snippet.thumbnails?.medium?.url || ''
+                station.tags = [query]
+                station.createdBy.fullname = artist
+                station.songs = songs
+                station.msgs = [
+                    { id: `m${idx}1`, from: 'u201', txt: 'Great vibes!' },
+                    { id: `m${idx}2`, from: 'u202', txt: 'Love it!' },
+                ]
+
+                return station
+            })
+        )
+
+        headerCache[searchWord] = artistStations
+        saveToStorage(HEADER_SEARCH_KEY, headerCache)
+
+        return artistStations
+    })
 }
 
 async function genreSonglistSearch(genre, numResults = 5) {
@@ -240,14 +270,14 @@ async function genreSonglistSearch(genre, numResults = 5) {
     return Promise.resolve(genreCache[searchWord])
   }
 
-  try {
+  return withApiKeyRetry(async (apiKey) => {
     const songlistSearchRes = await axios.get('https://www.googleapis.com/youtube/v3/search', {
       params: {
         part: 'snippet',
         q: `${genre} music new playlist`,
         type: 'playlist',
         maxResults: numResults,
-        key: YT_API_KEY,
+        key: apiKey,
       },
     })
 
@@ -262,7 +292,7 @@ async function genreSonglistSearch(genre, numResults = 5) {
             part: 'snippet',
             playlistId: songlistId,
             maxResults: 10,
-            key: YT_API_KEY,
+            key: apiKey,
           },
         })
 
@@ -284,7 +314,7 @@ async function genreSonglistSearch(genre, numResults = 5) {
             params: {
               part: 'contentDetails',
               id: videoIds,
-              key: YT_API_KEY,
+              key: apiKey,
             },
           })
 
@@ -317,10 +347,7 @@ async function genreSonglistSearch(genre, numResults = 5) {
     genreCache[searchWord] = stations
     saveToStorage(GENRE_SEARCH_KEY, genreCache)
     return stations
-  } catch (err) {
-    console.log('genreSonglistSearch error:', err)
-    throw err
-  }
+  })
 }
 
 function buildNewStationForUser(user, nextNum) {

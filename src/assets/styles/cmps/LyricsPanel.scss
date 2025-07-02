@@ -68,10 +68,13 @@
         transition: background-color 0.4s ease, color 0.4s ease;
 
         overflow-y: hidden;
+          scrollbar-gutter: stable overlay;
         // min-height: 100%;
         // width: 100%;
         &:hover {
             overflow-y: auto;
+          scrollbar-gutter: stable overlay;
+
         }
 
         &::-webkit-scrollbar {

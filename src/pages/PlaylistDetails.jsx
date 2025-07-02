@@ -366,7 +366,7 @@ export function PlaylistDetails() {
           <div className="media-player-container">
             <PlayBtn onToggle={handleSongPlay} isPlaying={isPlaying} className={isPlay} />
 
-            {!isLikedStation && (
+            {!isLikedStation && user && (
               <button
                 className="add-remove-playlist"
                 title={isLikedPlaylist ? 'Remove from Your Library' : 'Save to Your Library'}

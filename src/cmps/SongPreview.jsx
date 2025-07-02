@@ -24,11 +24,11 @@ export function SongPreview({
   setSelectedSongId,
   justLikedSongId,
   setJustLikedSongId,
-  showAlbum
+  showAlbum,
 }) {
-  const isPlaying = useSelector((storeState) => storeState.stationModule.isPlaying)
-  const currSong = useSelector((storeState) => storeState.stationModule.currentSong)
-  const user = useSelector((storeState) => storeState.userModule.user)
+  const isPlaying = useSelector(storeState => storeState.stationModule.isPlaying)
+  const currSong = useSelector(storeState => storeState.stationModule.currentSong)
+  const user = useSelector(storeState => storeState.userModule.user)
   const dispatch = useDispatch()
 
   const isActiveCN = currSong?.id === song?.id ? 'active' : ''
@@ -59,15 +59,15 @@ export function SongPreview({
     dispatch({ type: SET_IS_PLAYING, isPlaying: true })
 
     if (forceSeek && window.playerRef?.current) {
-        window.playerRef.current.seekTo(0)
+      window.playerRef.current.seekTo(0)
     }
   }
 
   function formatDate(date) {
-      if (!date) return ''
-      let ts = typeof date === 'object' ? date.$numberLong : date
-      if (!ts) return ''
-      return new Date(Number(ts)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+    if (!date) return ''
+    let ts = typeof date === 'object' ? date.$numberLong : date
+    if (!ts) return ''
+    return new Date(Number(ts)).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
   }
 
   return (
@@ -86,12 +86,14 @@ export function SongPreview({
     >
       <div className="col col-idx">
         <div className="idx-and-play-container">
-          <span className="song-idx" id="song-idx">{idx + 1}</span>
+          <span className="song-idx" id="song-idx">
+            {idx + 1}
+          </span>
           <SidebarPlayBtn station={station} song={song} isLargePlayIcon={true} />
           <img className="equalizer-gif" src={equalizerGif} />
         </div>
       </div>
-      
+
       <div className="col col-details flex align-center">
         <img src={song.imgUrl} />
         <div className="song-info">
@@ -111,29 +113,31 @@ export function SongPreview({
       <div className="col col-artist">
         <span>{cleanTitle(song.artist, 100)}</span>
       </div> */}
-      
-      {showAlbum && 
+
+      {showAlbum && (
         <div className="col col-album">
           <span>{cleanTitle(station.name, 100)}</span>
         </div>
-      }
-      
+      )}
+
       <div className="col col-date">
         <span>{formatDate(song.addedAt)}</span>
       </div>
 
       <div className="col col-actions">
-        <LikeToggleBtn
-          song={song}
-          onLike={() => {
-            setJustLikedSongId(song.id)
-            setSelectedSongId(null)
-          }}
-          onUnlike={() => {
-            setSelectedSongId(song.id)
-            setJustLikedSongId(null)
-          }}
-        />
+        {user && (
+          <LikeToggleBtn
+            song={song}
+            onLike={() => {
+              setJustLikedSongId(song.id)
+              setSelectedSongId(null)
+            }}
+            onUnlike={() => {
+              setSelectedSongId(song.id)
+              setJustLikedSongId(null)
+            }}
+          />
+        )}
         <div className="song-duration-wrapper">
           <span className="song-duration">{formatDuration(song.duration)}</span>
         </div>

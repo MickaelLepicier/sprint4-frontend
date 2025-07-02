@@ -2,15 +2,17 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 import { useEffect, useRef, useState } from 'react'
 import { SongPreview } from './SongPreview.jsx'
 import { ClockIcon } from './svg/ClockIcon.jsx'
+import { useSelector } from 'react-redux'
 
 export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedSongs }) {
   const [isSticky, setIsSticky] = useState(false)
   const [selectedSongId, setSelectedSongId] = useState(null)
   const [justLikedSongId, setJustLikedSongId] = useState(null)
-  
+  const user = useSelector(storeState => storeState.userModule.user)
+
   const sentinelRef = useRef(null)
   const listRef = useRef()
-  
+
   const isStickyCN = isSticky ? 'is-sticky' : ''
   const showAlbum = !!station?.songs?.some(song => song.album)
 
@@ -38,7 +40,7 @@ export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedS
     }
 
     document.addEventListener('mousedown', handleClickOutside)
-    
+
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
@@ -52,7 +54,7 @@ export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedS
     <div className="song-list-container" ref={listRef}>
       <div ref={sentinelRef} style={{ height: '1px' }}></div>
       {/* <div ref={sentinelRef} style={{ height: '1px' }}></div> for sticky effect */}
-      
+
       <div className={`song-list-header-container ${isStickyCN}`}>
         <div className={`song-list-header${showAlbum ? '' : ' no-album'}`}>
           <div className="col col-idx">#</div>
@@ -70,11 +72,11 @@ export function SongList({ songs, station, onTogglePlay, handleDragEnd, isLikedS
 
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="songs-droppable" direction="vertical">
-          {(provided) => (
+          {provided => (
             <div className="song-list-body" ref={provided.innerRef} {...provided.droppableProps}>
               {songs.map((song, idx) => (
                 <Draggable key={song.id + idx} draggableId={song.id} index={idx}>
-                  {(provided) => (
+                  {provided => (
                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                       <SongPreview
                         song={song}

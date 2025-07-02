@@ -23,6 +23,7 @@ export function HomePage() {
   const [showMoreTopMixes, setShowMoreTopMixes] = useState(true)
   const [showMoreRecommended, setShowMoreRecommended] = useState(true)
   const [activeFilter, setActiveFilter] = useState('All')
+  const user = useSelector(state => state.userModule.user)
 
   const [gradientStyle, setGradientStyle] = useState({})
   const [imgHover, setImgHover] = useState(null)
@@ -94,9 +95,14 @@ export function HomePage() {
   }
 
   async function onGoToStation(station) {
-    const returnedStation = await addStation(station)
-    dispatch({ type: SET_STATION, returnedStation })
-    navigate(`/playlist/${returnedStation._id}`)
+    if (!user) {
+      dispatch({ type: SET_STATION, station })
+      navigate(`/playlist/${station._id}`)
+    } else {
+      const returnedStation = await addStation(station)
+      dispatch({ type: SET_STATION, returnedStation })
+      navigate(`/playlist/${returnedStation._id}`)
+    }
   }
 
   function genreStations(tag) {

@@ -1,4 +1,4 @@
-import { stationService } from '../../services/station/station.service.local.js'
+import { stationService } from '../../services/station/index.js'
 import { store } from '../store.js'
 import { SET_SEARCH_RESULTS, SET_SEARCH_TEXT, SET_SEARCH_TYPE } from './search.reducer.js'
 

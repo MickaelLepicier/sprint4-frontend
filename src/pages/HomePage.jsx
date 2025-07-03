@@ -41,7 +41,7 @@ export function HomePage() {
   }, [])
 
   useEffect(() => {
-    if (!stations.length) dispatch(loadStations())
+    if (!stations.length) loadStations()
     // eslint-disable-next-line
   }, [stations.length])
 

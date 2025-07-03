@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useNavigate, useLocation, Link, NavLink } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { logout } from '../store/user/user.actions'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
@@ -15,6 +15,7 @@ import { BrowseIcon } from './svg/BrowseIcon'
 import { BrowseIconFilled } from './svg/BrowseIconFilled'
 import { debounce } from '../services/util.service'
 import { AuthBtns } from './util/AuthBtns'
+import { LOADING_DONE, LOADING_START } from '../store/system/system.reducer'
 
 export function AppHeader() {
   const [filterBy, setFilterBy] = useState({ txt: '' })
@@ -23,25 +24,30 @@ export function AppHeader() {
   const user = useSelector(storeState => storeState.userModule.user)
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const locPath = {
     isHome: location.pathname === '/',
     isBrowse: location.pathname === '/search',
   }
-  
+
   async function performSearch(txt) {
     if (!txt.trim()) return
     try {
+      dispatch({ type: LOADING_START })
+
       await loadSearchResults(txt, 'stations', 4)
 
       navigate(`/search/${txt}`)
     } catch (err) {
-      // showErrorMsg('Search failed')
+      showErrorMsg('Search failed')
+    } finally {
+      dispatch({ type: LOADING_DONE })
     }
   }
 
   const debouncedSearch = useRef(
-    debounce(async (txt) => {
+    debounce(async txt => {
       try {
         await performSearch(txt)
       } catch (err) {
@@ -116,13 +122,8 @@ export function AppHeader() {
 
             <div className="browse-and-clean-wrapper">
               {searchTxt && (
-                <button
-                    className="clear-text-btn"
-                    type="button"
-                    aria-label="Clear"
-                    onClick={() => setSearchTxt('')}
-                >
-                    <ClearIconLarge />
+                <button className="clear-text-btn" type="button" aria-label="Clear" onClick={() => setSearchTxt('')}>
+                  <ClearIconLarge />
                 </button>
               )}
 

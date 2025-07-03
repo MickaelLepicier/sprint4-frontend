@@ -15,6 +15,7 @@ import equalizerGif from '/src/assets/img/equalizer.gif'
 export function GenreSearchResult() {
   const stations = useSelector(storeState => storeState.searchModule.searchResults)
   const genre = useSelector(storeState => storeState.searchModule.searchText)
+  const isLoading = useSelector(storeState => storeState.systemModule.isLoading)
 
   const genreColor = stationService.getGenreColorByName(genre)
 
@@ -22,7 +23,7 @@ export function GenreSearchResult() {
   const navigate = useNavigate()
   const [showMoreGenre, setShowMoreGenre] = useState(false)
   const [showMoreSongs, setShowMoreSongs] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  // const [isLoading, setIsLoading] = useState(false)
   const user = useSelector(storeState => storeState.userModule.user)
 
   const songListRef = useRef()
@@ -33,15 +34,15 @@ export function GenreSearchResult() {
     }
   }, [showMoreSongs])
 
-  useEffect(() => {
-    setIsLoading(true)
-  }, [genre])
+  // useEffect(() => {
+  //   setIsLoading(true)
+  // }, [genre])
 
-  useEffect(() => {
-    if (stations?.length) {
-      setIsLoading(false)
-    }
-  }, [stations])
+  // useEffect(() => {
+  //   if (stations?.length) {
+  //     setIsLoading(false)
+  //   }
+  // }, [stations])
 
   // if (!stations?.length) return <section>Loading...</section>
 
@@ -60,8 +61,6 @@ export function GenreSearchResult() {
     .flatMap(station => station.songs || [])
     .filter(song => song && song.imgUrl)
     .slice(0, showMoreSongs ? 12 : 6)
-
-  console.log(visibleSongs)
 
   if (isLoading) {
     return (

@@ -1,17 +1,3 @@
-
-
-// all the data about MediaPlayer is here: station, currentSong, currentStation, 
-// I have store, and I use setSelector to use the store, In MediaPlayer for example we use isPlaying
-// create a story with fue code parts that combine
-
-// TODOs:
-// [] look at the video of me speaking about the story
-// [] create written script
-// [] put a good song of beat that is good with the sound and with the UI (CHANGE API IF NEEDED)
-
-
-// part I
-
 export function MediaPlayer() {
     const currSong = useSelector(
       (storeState) => storeState.stationModule.currentSong
@@ -34,8 +20,6 @@ export function MediaPlayer() {
   }
   
 
-// part II
-
 // STORE
 const initialState = {
     stations: [],
@@ -48,9 +32,6 @@ const initialState = {
     shuffledOrder: [],
   }
   
-
-
-// part III
 
 export function setIsPlaying(isPlaying) {
   try {

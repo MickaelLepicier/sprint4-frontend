@@ -131,52 +131,52 @@ async function save(station) {
   }
 }
 
-async function sideBarSearch(query) {
-    const searchWord = query.trim().toLowerCase()
+// async function sideBarSearch(query) {
+//     const searchWord = query.trim().toLowerCase()
 
-    if (sideBarCache[searchWord]?.length) {
-        return Promise.resolve(sideBarCache[searchWord])
-    }
+//     if (sideBarCache[searchWord]?.length) {
+//         return Promise.resolve(sideBarCache[searchWord])
+//     }
 
-    return withApiKeyRetry(async (apiKey) => {
-        const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-            params: {
-                part: 'snippet',
-                q: query,
-                type: 'video',
-                maxResults: 10,
-                key: apiKey, 
-            },
-        })
+//     return withApiKeyRetry(async (apiKey) => {
+//         const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+//             params: {
+//                 part: 'snippet',
+//                 q: query,
+//                 type: 'video',
+//                 maxResults: 10,
+//                 key: apiKey, 
+//             },
+//         })
 
-        const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
-        if (!videoIds) return []
+//         const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
+//         if (!videoIds) return []
 
-        const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
-            params: {
-                part: 'snippet,contentDetails,statistics',
-                id: videoIds,
-                key: apiKey,
-            },
-        })
+//         const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+//             params: {
+//                 part: 'snippet,contentDetails,statistics',
+//                 id: videoIds,
+//                 key: apiKey,
+//             },
+//         })
 
-        const finalResults = detailsRes.data.items.map(item => ({
-            id: item.id,
-            url: item.id,
-            title: item.snippet.title,
-            artist: item.snippet.channelTitle,
-            description: item.snippet.description,
-            artist: item.snippet.channelTitle,
-            addedAt: new Date(item.snippet.publishedAt).getTime(),
-            imgUrl: item.snippet.thumbnails.default.url,
-            duration: isoDurationToSeconds(item.contentDetails.duration),
-        }))
-        sideBarCache[searchWord] = finalResults
-        saveToStorage(SIDEBAR_CACHE_KEY, sideBarCache)
-        console.log('finalResults:', finalResults)
-        return finalResults
-    })
-}
+//         const finalResults = detailsRes.data.items.map(item => ({
+//             id: item.id,
+//             url: item.id,
+//             title: item.snippet.title,
+//             artist: item.snippet.channelTitle,
+//             description: item.snippet.description,
+//             artist: item.snippet.channelTitle,
+//             addedAt: new Date(item.snippet.publishedAt).getTime(),
+//             imgUrl: item.snippet.thumbnails.default.url,
+//             duration: isoDurationToSeconds(item.contentDetails.duration),
+//         }))
+//         sideBarCache[searchWord] = finalResults
+//         saveToStorage(SIDEBAR_CACHE_KEY, sideBarCache)
+//         console.log('finalResults:', finalResults)
+//         return finalResults
+//     })
+// }
 
 // async function headerSearch(query, numResults = 5) {
 //     const searchWord = query.trim().toLowerCase()
@@ -661,3 +661,123 @@ function createRiggedLinkinParkStation(query = "linkin park") {
     ]
     return [station]
 }
+
+async function sideBarSearch(query) {
+    const searchWord = query.trim().toLowerCase()
+
+    if (RIGGED_MODE && /^babymetal$/.test(searchWord)) {
+        const riggedResults = createRiggedBabymetalSideBarResults()
+        sideBarCache[searchWord] = riggedResults
+        saveToStorage(SIDEBAR_CACHE_KEY, sideBarCache)
+        return Promise.resolve(riggedResults)
+    }
+
+    if (sideBarCache[searchWord]?.length) {
+        return Promise.resolve(sideBarCache[searchWord])
+    }
+
+    return withApiKeyRetry(async (apiKey) => {
+        const searchResults = await axios.get('https://www.googleapis.com/youtube/v3/search', {
+            params: {
+                part: 'snippet',
+                q: query,
+                type: 'video',
+                maxResults: 10,
+                key: apiKey, 
+            },
+        })
+
+        const videoIds = searchResults.data.items.map(item => item.id.videoId).join(',')
+        if (!videoIds) return []
+
+        const detailsRes = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+            params: {
+                part: 'snippet,contentDetails,statistics',
+                id: videoIds,
+                key: apiKey,
+            },
+        })
+
+        const finalResults = detailsRes.data.items.map(item => ({
+            id: item.id,
+            url: item.id,
+            title: item.snippet.title,
+            artist: item.snippet.channelTitle,
+            description: item.snippet.description,
+            addedAt: new Date(item.snippet.publishedAt).getTime(),
+            imgUrl: item.snippet.thumbnails.default.url,
+            duration: isoDurationToSeconds(item.contentDetails.duration),
+        }))
+
+        sideBarCache[searchWord] = finalResults
+        saveToStorage(SIDEBAR_CACHE_KEY, sideBarCache)
+        return finalResults
+    })
+}
+
+function createRiggedBabymetalSideBarResults() {
+    const now = Date.now()
+    return [
+        {
+            id: "WIKqgE4BwAY",
+            url: "WIKqgE4BwAY",
+            title: "Gimme Chocolate!!",
+            artist: "BABYMETAL",
+            description: "BABYMETAL 1st full album \"BABYMETAL\" available!!",
+            addedAt: now,
+            imgUrl: "https://i.ytimg.com/vi/WIKqgE4BwAY/default.jpg",
+            duration: 243
+        },
+        {
+            id: "oO7Y8NsnkRg",
+            url: "oO7Y8NsnkRg",
+            title: "PA PA YA!! (feat. F.HERO)",
+            artist: "BABYMETAL",
+            description: "Live performance featuring F.HERO",
+            addedAt: now,
+            imgUrl: "https://i.ytimg.com/vi/oO7Y8NsnkRg/default.jpg",
+            duration: 235
+        },
+        {
+            id: "2IzR_ClTE8Y",
+            url: "2IzR_ClTE8Y",
+            title: "Headbangeeeeerrrrr!!!!!!!",
+            artist: "BABYMETAL",
+            description: "Early BABYMETAL headbanging anthem",
+            addedAt: now,
+            imgUrl: "https://i.ytimg.com/vi/2IzR_ClTE8Y/default.jpg",
+            duration: 273
+        },
+        {
+            id: "EDnIEWyVIlE",
+            url: "EDnIEWyVIlE",
+            title: "RATATATA",
+            artist: "BABYMETAL x Electric Callboy",
+            description: "Collab with Electric Callboy, new wave power",
+            addedAt: now,
+            imgUrl: "https://i.ytimg.com/vi/EDnIEWyVIlE/default.jpg",
+            duration: 222
+        },
+        {
+            id: "ng8mh6JUIqY",
+            url: "ng8mh6JUIqY",
+            title: "BxMxC",
+            artist: "BABYMETAL",
+            description: "Experimental and rhythmic metal fusion",
+            addedAt: now,
+            imgUrl: "https://i.ytimg.com/vi/ng8mh6JUIqY/default.jpg",
+            duration: 182
+        },
+        {
+            id: "GvD3CHA48pA",
+            url: "GvD3CHA48pA",
+            title: "KARATE",
+            artist: "BABYMETAL",
+            description: "Powerful track from METAL RESISTANCE",
+            addedAt: now,
+            imgUrl: "https://i.ytimg.com/vi/GvD3CHA48pA/default.jpg",
+            duration: 292
+        }
+    ]
+}
+

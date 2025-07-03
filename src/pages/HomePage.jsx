@@ -177,25 +177,25 @@ export function HomePage() {
           <StationShelf title="Recommended Stations" stations={recommended} goToStation={onGoToStation} />
 
           {/* Genres */}
-          <StationShelf title={`Rock 'n fuckin' Roll`} stations={genreStations('Rock')} goToStation={onGoToStation} />
-          <StationShelf title="Pop Pop Skibidi" stations={genreStations('Pop')} goToStation={onGoToStation} />
+          <StationShelf title={`Rock 'n Roll`} stations={genreStations('Rock')} goToStation={onGoToStation} />
+          <StationShelf title="Pop" stations={genreStations('Pop')} goToStation={onGoToStation} />
           <StationShelf
-            title="Hip Hop aka Wanna be White music"
+            title="Hip Hop"
             stations={genreStations('Hip Hop')}
             goToStation={onGoToStation}
           />
           <StationShelf
-            title="Latin - WtF nobdy listn dis"
+            title="Latin"
             stations={genreStations('Latin')}
             goToStation={onGoToStation}
           />
           <StationShelf
-            title="Electroniczzzzzzzzzz"
+            title="Electronic"
             stations={genreStations('Electronic')}
             goToStation={onGoToStation}
           />
           <StationShelf
-            title="Alternative yawnayawn"
+            title="Alternative"
             stations={genreStations('Alternative')}
             goToStation={onGoToStation}
           />

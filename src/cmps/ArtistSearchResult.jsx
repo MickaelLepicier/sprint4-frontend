@@ -78,6 +78,7 @@ export function ArtistSearchResult() {
   const topArtist = artistStations[0]
   console.log('topArtist:', topArtist)
   const topSongs = topArtist.songs.slice(0, 4)
+
   return (
     <section className="header-search-stations">
       <div className="content-spacing">
@@ -94,9 +95,11 @@ export function ArtistSearchResult() {
                   <img src={topArtist.imgUrl} alt={topArtist.name} />
                 </div>
                 <div className="artist-info">
-                  <span className="artist-title">{topArtist.name}</span>
+                  {/* <span className="artist-title">{topArtist.name}</span> */}
+                  <span className="artist-title">{topArtist.songs[0]?.title}</span>
                   <div className="artist-meta">
                     <span className="prefix">Song </span>
+                    {/* <span className="artist-name">{topArtist.createdBy.fullname}</span> */}
                     <span className="artist-name">{topArtist.createdBy.fullname}</span>
                   </div>
                 </div>

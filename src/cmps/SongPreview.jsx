@@ -114,7 +114,8 @@ export function SongPreview({
       
       {showAlbum && 
         <div className="col col-album">
-          <span>{cleanTitle(station.name, 100)}</span>
+          <span>{song.album}</span>
+          {/* <span>{cleanTitle(station.name, 100)}</span> */}
         </div>
       }
       

@@ -93,7 +93,12 @@
   &.just-liked {
     background-color: hsla(0, 0%, 100%, .1) !important;
     // background-color: hsla(0, 0%, 100%, .1) ;
-  } 
+    div.col {
+      &.col-details .song-info {
+        .col-title, .col-artist, .col-album { color: #fff; }
+      }
+    }
+  }
 
   .col {
     overflow: hidden;

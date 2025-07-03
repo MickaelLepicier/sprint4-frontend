@@ -90,7 +90,7 @@ export function stationReducer(state = initialState, action) {
       }
       break
     case SET_STATION_ORDER:
-      newState = { ...state, stationOrder: action.stationOrder }
+        newState = { ...state, stationOrder: [...new Set(action.stationOrder)] }
       break
 
     default:

@@ -14,6 +14,7 @@ import { StationCarousel } from '../cmps/StationCarousel'
 import { StationShelf } from '../cmps/StationShelf'
 
 import equalizerGif from '/src/assets/img/equalizer.gif'
+import { LOADING_DONE, LOADING_START } from '../store/system/system.reducer'
 
 export function HomePage() {
   const [apiStations, setApiStations] = useState([])
@@ -24,6 +25,7 @@ export function HomePage() {
   const [showMoreRecommended, setShowMoreRecommended] = useState(true)
   const [activeFilter, setActiveFilter] = useState('All')
   const user = useSelector(state => state.userModule.user)
+  const isLoading = useSelector(state => state.systemModule.isLoading)
 
   const [gradientStyle, setGradientStyle] = useState({})
   const [imgHover, setImgHover] = useState(null)
@@ -86,11 +88,14 @@ export function HomePage() {
 
   async function loadHomeData() {
     try {
+      dispatch({ type: LOADING_START })
       const res = await stationService.getHomeSearchContent()
       setApiStations(res)
     } catch (error) {
       console.log('error:', error)
       showErrorMsg('Failed to bring data')
+    } finally {
+      dispatch({ type: LOADING_DONE })
     }
   }
 
@@ -135,7 +140,7 @@ export function HomePage() {
   const topMixes = remainingStations.slice(0, mid)
   const recommended = remainingStations.slice(mid)
 
-  if (!apiStations.length) {
+  if (isLoading) {
     return (
       <div className="loader-overlay">
         <img className="loader-gif" src={equalizerGif} alt="Loading..." />

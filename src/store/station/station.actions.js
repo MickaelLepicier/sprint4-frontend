@@ -1,5 +1,7 @@
 import { stationService } from '../../services/station'
 import { store } from '../store'
+import { LOADING_DONE, LOADING_START } from '../system/system.reducer'
+import { LOADING_DONE, LOADING_START } from '../system/system.reducer'
 import {
   ADD_STATION,
   REMOVE_STATION,
@@ -19,49 +21,84 @@ import {
 
 export async function loadStations(filterBy) {
   try {
+    store.dispatch({ type: LOADING_START })
+    store.dispatch({ type: LOADING_START })
     const stations = await stationService.query(filterBy)
     store.dispatch(getCmdSetStations(stations))
   } catch (err) {
     console.log('Cannot load stations', err)
     throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
 }
 
 export async function loadStation(stationId) {
   try {
+    store.dispatch({ type: LOADING_START })
+    store.dispatch({ type: LOADING_START })
     const station = await stationService.getById(stationId)
     store.dispatch(getCmdSetStation(station))
     return station
   } catch (err) {
     console.log('Cannot load station', err)
     throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
 }
 
 export async function removeStation(stationId) {
   try {
+    store.dispatch({ type: LOADING_START })
+    store.dispatch({ type: LOADING_START })
     await stationService.remove(stationId)
     store.dispatch(getCmdRemoveStation(stationId))
   } catch (err) {
     console.log('Cannot remove station', err)
     throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
 }
 
 export async function addStation(station) {
-  console.log('station:',station)
   try {
+    store.dispatch({ type: LOADING_START })
+    store.dispatch({ type: LOADING_START })
     const savedStation = await stationService.save(station)
     store.dispatch(getCmdAddStation(savedStation))
     return savedStation
   } catch (err) {
     console.log('Cannot add station', err)
     throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
 }
 
+// export async function updateStation(station) {
+//   store.dispatch({ type: LOADING_START })
+//   try {
+//     const savedStation = await stationService.save(station)
+//     store.dispatch(getCmdUpdateStation(savedStation))
+//     return savedStation
+//   } catch (err) {
+//     console.log('Cannot save station', err)
+//     throw err
+//   } finally {
+//     store.dispatch({ type: LOADING_DONE })
+//   }
+// }
 export async function updateStation(station) {
-  console.log('stationUPDATEDDD:', station)
   try {
     const savedStation = await stationService.save(station)
     store.dispatch(getCmdUpdateStation(savedStation))
@@ -69,28 +106,58 @@ export async function updateStation(station) {
   } catch (err) {
     console.log('Cannot save station', err)
     throw err
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
 }
 
 export async function createStationForUser() {
-  const state = store.getState()
-  const user = state.userModule.user
-  if (!user?._id) {
-    throw new Error('User must be logged in to create a station')
+  store.dispatch({ type: LOADING_START })
+  try {
+    const state = store.getState()
+    const user = state.userModule.user
+    if (!user?._id) {
+      throw new Error('User must be logged in to create a station')
+    }
+    const stations = store.getState().stationModule.stations
+    const stationOrder = state.stationModule.stationOrder
+    const userStations = stations.filter(station => station.createdBy?._id === user._id)
+    const nextNum = stationService.getNextAvailablePlaylistNumber(userStations, user._id)
+    const newStation = stationService.buildNewStationForUser(user, nextNum)
+  store.dispatch({ type: LOADING_START })
+  try {
+    const state = store.getState()
+    const user = state.userModule.user
+    if (!user?._id) {
+      throw new Error('User must be logged in to create a station')
+    }
+    const stations = store.getState().stationModule.stations
+    const stationOrder = state.stationModule.stationOrder
+    const userStations = stations.filter(station => station.createdBy?._id === user._id)
+    const nextNum = stationService.getNextAvailablePlaylistNumber(userStations, user._id)
+    const newStation = stationService.buildNewStationForUser(user, nextNum)
+
+    const savedStation = await stationService.save(newStation)
+    store.dispatch(getCmdAddStation(savedStation))
+    const savedStation = await stationService.save(newStation)
+    store.dispatch(getCmdAddStation(savedStation))
+
+    const newOrder = [...stationOrder, savedStation._id]
+    store.dispatch({ type: SET_STATION_ORDER, stationOrder: newOrder })
+    return savedStation
+  } catch (error) {
+    console.log('Cannot create station', error)
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
   }
-
-  const stations = store.getState().stationModule.stations
-  const stationOrder = state.stationModule.stationOrder
-  const userStations = stations.filter(station => station.createdBy?._id === user._id)
-  const nextNum = stationService.getNextAvailablePlaylistNumber(userStations, user._id)
-  const newStation = stationService.buildNewStationForUser(user, nextNum)
-
-  const savedStation = await stationService.save(newStation)
-  store.dispatch(getCmdAddStation(savedStation))
-
-  const newOrder = [...stationOrder, savedStation._id]
-  store.dispatch({ type: SET_STATION_ORDER, stationOrder: newOrder })
-  return savedStation
+    const newOrder = [...stationOrder, savedStation._id]
+    store.dispatch({ type: SET_STATION_ORDER, stationOrder: newOrder })
+    return savedStation
+  } catch (error) {
+    console.log('Cannot create station', error)
+  } finally {
+    store.dispatch({ type: LOADING_DONE })
+  }
 }
 
 export async function addStationMsg(stationId, txt) {

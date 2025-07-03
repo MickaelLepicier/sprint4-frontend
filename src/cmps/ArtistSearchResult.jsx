@@ -2,50 +2,25 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { SET_IS_PLAYING, SET_SONG, SET_STATION } from '../store/station/station.reducer'
-import { addStation, setSong } from '../store/station/station.actions'
+import { addStation } from '../store/station/station.actions'
 import { cleanTitle } from '../services/util.service'
 import { SidebarPlayBtn } from './Sidebar/SidebarPlayBtn'
 import { LikeToggleBtn } from './LikeToggleBtn'
 import equalizerGif from '/src/assets/img/equalizer.gif'
 
 export function ArtistSearchResult() {
-  const artistStations = useSelector(storeState => storeState.searchModule.searchResults)
+  const artistStations = useSelector(state => state.searchModule.searchResults)
   const currSong = useSelector(state => state.stationModule.currentSong)
   const isPlaying = useSelector(state => state.stationModule.isPlaying)
+  const isLoader = useSelector(state => state.systemModule.isLoading)
+  const user = useSelector(state => state.userModule.user)
 
   const [selectedSongId, setSelectedSongId] = useState(null)
   const [justLikedSongId, setJustLikedSongId] = useState(null)
+
   const listRef = useRef()
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    // Show loader initially or when artistStations change
-    setIsLoading(true)
-  }, [artistStations])
-
-  useEffect(() => {
-    // Hide loader once data is ready
-    if (artistStations?.length) {
-      setIsLoading(false)
-    }
-  }, [artistStations])
-
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  // if (!artistStations?.length) return <div>Loading...</div>
-
-  function formatTime(sec) {
-    const minutes = Math.floor(sec / 60)
-    const seconds = Math.floor(sec % 60)
-      .toString()
-      .padStart(2, '0')
-    return `${minutes}:${seconds}`
-  }
-
-  async function onGoToStation(station) {
-    const savedStation = await addStation(station)
-    navigate(`/playlist/${savedStation._id}`)
-  }
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -58,16 +33,34 @@ export function ArtistSearchResult() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  function formatTime(sec) {
+    const minutes = Math.floor(sec / 60)
+    const seconds = Math.floor(sec % 60)
+      .toString()
+      .padStart(2, '0')
+    return `${minutes}:${seconds}`
+  }
+
+  async function onGoToStation(station) {
+    if (!user) {
+      dispatch({ type: SET_STATION, station })
+      navigate(`/playlist/${station._id}`)
+    } else {
+      const savedStation = await addStation(station)
+      dispatch({ type: SET_STATION, station: savedStation })
+      navigate(`/playlist/${savedStation._id}`)
+    }
+  }
+
   function onSetSong(song, forceSeek = false) {
     dispatch({ type: SET_SONG, song })
     dispatch({ type: SET_IS_PLAYING, isPlaying: true })
-
     if (forceSeek && window.playerRef?.current) {
       window.playerRef.current.seekTo(0)
     }
   }
 
-  if (isLoading) {
+  if (isLoader || !artistStations?.length) {
     return (
       <div className="loader-overlay">
         <img className="loader-gif" src={equalizerGif} alt="Loading..." />
@@ -76,7 +69,6 @@ export function ArtistSearchResult() {
   }
 
   const topArtist = artistStations[0]
-  console.log('topArtist:', topArtist)
   const topSongs = topArtist.songs.slice(0, 4)
 
   return (
@@ -103,8 +95,7 @@ export function ArtistSearchResult() {
                     <span className="artist-name">{topArtist.createdBy.fullname}</span>
                   </div>
                 </div>
-                {/* <div className={`btn-container encore-bright-accent-set${isStationPlaying ? ' playing' : ''}`}> */}
-                <div className={`btn-container encore-bright-accent-set`}>
+                <div className="btn-container encore-bright-accent-set">
                   <SidebarPlayBtn song={topArtist.songs[0]} isLargePlayIcon={true} />
                 </div>
               </div>
@@ -114,18 +105,17 @@ export function ArtistSearchResult() {
               <div className="title-wrapper">
                 <h2 className="row-title">Songs</h2>
               </div>
-
               <div className="ul-wrapper">
                 <ul ref={listRef}>
                   {topSongs.map(song => (
                     <li
                       key={song.id}
                       className={`
-                          ${selectedSongId === song.id ? 'active' : ''}
-                          ${justLikedSongId === song.id ? 'just-liked' : ''}
-                          ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
-                        `}
-                      onClick={() => setSelectedSongId(song?.id)}
+                        ${selectedSongId === song.id ? 'active' : ''}
+                        ${justLikedSongId === song.id ? 'just-liked' : ''}
+                        ${currSong?.id === song.id && isPlaying ? 'playing' : ''}
+                      `}
+                      onClick={() => setSelectedSongId(song.id)}
                       onDoubleClick={() => onSetSong(song, true)}
                     >
                       <div className="main-details flex">
@@ -133,7 +123,6 @@ export function ArtistSearchResult() {
                           <img src={song.imgUrl} />
                           <SidebarPlayBtn song={song} isLargePlayIcon={true} />
                         </div>
-
                         <div className="song-details">
                           <span className="title">{cleanTitle(song.title)}</span>
                           <span className="artist">{topArtist.createdBy.fullname}</span>
@@ -154,7 +143,6 @@ export function ArtistSearchResult() {
                             }}
                           />
                         </div>
-
                         <div className="duration">{formatTime(song.duration)}</div>
                       </div>
                     </li>
@@ -169,13 +157,7 @@ export function ArtistSearchResult() {
               </div>
               <section className="artists-list">
                 {artistStations.map(station => (
-                  <div
-                    className="artist-card"
-                    key={station._id}
-                    onClick={() => {
-                      onGoToStation(station)
-                    }}
-                  >
+                  <div className="artist-card" key={station._id} onClick={() => onGoToStation(station)}>
                     <div className="img-container">
                       <div className="image-wrapper">
                         <img src={station.imgUrl} alt={station.name} />

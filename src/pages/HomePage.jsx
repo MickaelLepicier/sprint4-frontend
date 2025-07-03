@@ -12,6 +12,7 @@ import { getApproximateSpotifyColor } from '../services/util.service'
 import { StationShelf } from '../cmps/StationShelf'
 
 import equalizerGif from '/src/assets/img/equalizer.gif'
+import { LOADING_DONE, LOADING_START } from '../store/system/system.reducer'
 
 export function HomePage() {
   const [apiStations, setApiStations] = useState([])
@@ -22,6 +23,7 @@ export function HomePage() {
   const [showMoreRecommended, setShowMoreRecommended] = useState(true)
   const [activeFilter, setActiveFilter] = useState('All')
   const user = useSelector(state => state.userModule.user)
+  const isLoading = useSelector(state => state.systemModule.isLoading)
 
   const [gradientStyle, setGradientStyle] = useState({})
   const [imgHover, setImgHover] = useState(null)

@@ -35,7 +35,9 @@ export function ArtistSearchResult() {
 
   function formatTime(sec) {
     const minutes = Math.floor(sec / 60)
-    const seconds = Math.floor(sec % 60).toString().padStart(2, '0')
+    const seconds = Math.floor(sec % 60)
+      .toString()
+      .padStart(2, '0')
     return `${minutes}:${seconds}`
   }
 
@@ -45,7 +47,7 @@ export function ArtistSearchResult() {
       navigate(`/playlist/${station._id}`)
     } else {
       const savedStation = await addStation(station)
-      dispatch({ type: SET_STATION, station: savedStation }) // ✅ fixed payload
+      dispatch({ type: SET_STATION, station: savedStation })
       navigate(`/playlist/${savedStation._id}`)
     }
   }
@@ -153,11 +155,7 @@ export function ArtistSearchResult() {
               </div>
               <section className="artists-list">
                 {artistStations.map(station => (
-                  <div
-                    className="artist-card"
-                    key={station._id}
-                    onClick={() => onGoToStation(station)}
-                  >
+                  <div className="artist-card" key={station._id} onClick={() => onGoToStation(station)}>
                     <div className="img-container">
                       <div className="image-wrapper">
                         <img src={station.imgUrl} alt={station.name} />

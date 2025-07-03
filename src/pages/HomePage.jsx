@@ -8,9 +8,7 @@ import { SET_STATION } from '../store/station/station.reducer'
 import { WideStationPreview } from '../cmps/WideStationPreview'
 import { addStation, loadStations } from '../store/station/station.actions'
 import { FastAverageColor } from 'fast-average-color'
-// import { enhanceColor } from '../services/util.service'
 import { getApproximateSpotifyColor } from '../services/util.service'
-import { StationCarousel } from '../cmps/StationCarousel'
 import { StationShelf } from '../cmps/StationShelf'
 
 import equalizerGif from '/src/assets/img/equalizer.gif'
@@ -32,13 +30,17 @@ export function HomePage() {
   const fac = new FastAverageColor()
 
   const [active, setActive] = useState('All')
+  // Local loader state
+  const [isHomeLoading, setIsHomeLoading] = useState(true)
 
   useEffect(() => {
     loadHomeData()
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    if (!stations.length) loadStations()
+    if (!stations.length) dispatch(loadStations())
+    // eslint-disable-next-line
   }, [stations.length])
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export function HomePage() {
       .getColorAsync(firstImgUrl)
       .then(color => (firstStationColor.current = getApproximateSpotifyColor(color.hex)))
       .catch(err => console.error('Error getting first station color', err))
+    // eslint-disable-next-line
   }, [apiStations])
 
   useEffect(() => {
@@ -68,29 +71,18 @@ export function HomePage() {
         setGradientStyle({ backgroundColor: spotifyRGB })
       })
       .catch(err => console.error('Error getting color from image', err))
+    // eslint-disable-next-line
   }, [imgHover])
-
-  // useEffect(() => {
-  //   if (!imgHover) return
-
-  //   fac.getColorAsync(imgHover)
-  //     .then(color => {
-  //       const brightColor = enhanceColor(color.hex, 0.4, 1.8)
-  //       console.log('Bright color rgb:', brightColor)
-  //       setGradientStyle({
-  //         backgroundImage: `linear-gradient(to bottom, ${brightColor} 10%, #121212 100%)`
-  //       })
-  //     })
-  //     .catch(err => console.error('Error getting color from image', err))
-  // }, [imgHover])
 
   async function loadHomeData() {
     try {
+      setIsHomeLoading(true)
       const res = await stationService.getHomeSearchContent()
       setApiStations(res)
     } catch (error) {
-      console.log('error:', error)
       showErrorMsg('Failed to bring data')
+    } finally {
+      setIsHomeLoading(false)
     }
   }
 
@@ -109,33 +101,13 @@ export function HomePage() {
     return stations.filter(station => station.tags?.includes(tag))
   }
 
-  // function renderGenreSection(title, genre) {
-  // const genreStations = stations.filter(station =>
-  //   station.tags?.includes(genre)
-  // )
-  //   if (!genreStations.length) return null
-
-  //   return (
-  //     <section className={`playlist-container home-genre-${genre.toLowerCase().replace(/\s+/g, '-')}`}>
-  //       <div className="playlist-header">
-  //         <h1 className="row-title">{title}</h1>
-  //       </div>
-  //       <div className="playlist-list">
-  //         {genreStations.map(station => (
-  //           <StationPreview key={station._id} station={station} goToStation={onGoToStation} />
-  //         ))}
-  //       </div>
-  //     </section>
-  //   )
-  // }
-
   const headerStations = apiStations.slice(0, 8)
   const remainingStations = apiStations.slice(8)
   const mid = Math.ceil(remainingStations.length / 2)
   const topMixes = remainingStations.slice(0, mid)
   const recommended = remainingStations.slice(mid)
 
-  if (!apiStations.length) {
+  if (isHomeLoading) {
     return (
       <div className="loader-overlay">
         <img className="loader-gif" src={equalizerGif} alt="Loading..." />

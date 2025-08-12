@@ -39,8 +39,15 @@ We're still setting up the core — but soon, you'll be able to:
    ```
 
 3. Run the dev server:
+   
+   On windows:
    ```bash
-   npm run dev
+   npm run dev:local
+   ```
+
+    On Mac:
+   ```bash
+   npm run dev:local:mac
    ```
 
 ---

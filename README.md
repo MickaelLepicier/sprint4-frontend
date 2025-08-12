@@ -52,16 +52,6 @@ We're still setting up the core — but soon, you'll be able to:
 
 ---
 
-## 📦 Current Status
-
-We’re in **Phase 1**:  
-✅ Cleaning up the starter code  
-🧠 Planning features  
-⚙️ Setting up the base architecture  
-
-Next up: routing, styling, and initial data structures.
-
----
 
 ## 👥 Team
 
@@ -82,12 +72,5 @@ This project is being built by:
 
 ---
 
-## ⚠️ Disclaimer
 
-This app is in early development — features, design, and structure may change rapidly as we experiment and build.
 
----
-
-## 🔗 License
-
-This project is licensed under the MIT License.

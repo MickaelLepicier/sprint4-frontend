@@ -26,7 +26,9 @@ We’re creating a modern music web app that focuses on:
 
 ## 🚀 Getting Started
 
-We're still setting up the core — but soon, you'll be able to:
+Click this [link](https://misterbeat.onrender.com/)
+
+Or
 
 1. Clone the repo:
    ```bash
@@ -65,8 +67,6 @@ This project is being built by:
 
 ## 🎯 Future Goals
 
-- 🎨 Music playback UI with waveform display  
-- 🧠 Recommendation engine (based on listening history)  
 - 📱 PWA support for mobile  
 - 🪄 Real-time user presence & activity sync  
 

@@ -28,9 +28,8 @@ We’re creating a modern music web app that focuses on:
 
 Click this [link](https://misterbeat.onrender.com/)
 
-To Login wright:
-
-Username: mike
+To Login:
+Username: bobo
 password: 123
 
 Or
